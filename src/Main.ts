@@ -80,11 +80,12 @@ class Main extends eui.UILayer {
 
     private async loadResource() {
         try {
-            const loadingView = new LoadingUI();
-            this.stage.addChild(loadingView);
-            await RES.loadConfig("resource/default.res.json", "resource/");
+            await RES.loadConfig("resource/default.res.json", "resource/");//加载配置表
             await this.loadTheme();
-            await RES.loadGroup("preload", 0, loadingView);
+            await RES.loadGroup("loading");//加载loading组
+            const loadingView=new LoadingUI();//创建loadingUI实例
+            this.stage.addChild(loadingView);
+            await RES.loadGroup("preload", 0, loadingView);//加载默认preload组资源,并执行loadingView
             this.stage.removeChild(loadingView);
         }
         catch (e) {

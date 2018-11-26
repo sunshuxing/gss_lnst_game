@@ -27,7 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-class LoadingUI extends egret.Sprite implements RES.PromiseTaskReporter {
+class LoadingUI extends eui.Component {
 
     public constructor() {
         super();
@@ -35,17 +35,28 @@ class LoadingUI extends egret.Sprite implements RES.PromiseTaskReporter {
     }
 
     private textField: egret.TextField;
+    private logo:eui.Image;
 
     private createView(): void {
         this.textField = new egret.TextField();
+        this.logo = new eui.Image();
+        this.logo.texture = RES.getRes("logo_png");
+        this.logo.x = 375;
+        this.logo.y = 555;
+        this.logo.anchorOffsetX = 76;
+        this.logo.anchorOffsetY = 75.5;
+        this.addChild(this.logo);
         this.addChild(this.textField);
-        this.textField.y = 300;
-        this.textField.width = 480;
-        this.textField.height = 100;
+        this.textField.y = 1144;
+        this.textField.width = 200;
+        this.textField.x = 275;
         this.textField.textAlign = "center";
+        this.textField.textColor = 0x000000;
+        egret.Tween.get(this.logo,{loop:true})
+        .to({rotation:360},5000)
     }
 
     public onProgress(current: number, total: number): void {
-        this.textField.text = `Loading...${current}/${total}`;
+        this.textField.text = "正在进入..."+Math.floor((current / total) * 100) + "%";
     }
 }

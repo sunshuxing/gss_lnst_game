@@ -130,6 +130,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		console.log("onComplete");
 		this.addEventListener(PuticonEvent.PUTGRASS, this.putgrass, this);
 		this.addEventListener(PuticonEvent.PUTINSECT, this.putinsect, this);
+		this.addEventListener(PuticonEvent.TOFRIEND, this.toOther, this);
 		this.addEventListener(MaskEvent.REMOVEMASK, this.removemask, this);
 		this.addEventListener(PuticonEvent.USEHUAFEI, this.huafeiTwn, this);
 		this.bg_mask.addEventListener(egret.TouchEvent.TOUCH_TAP, this.mask_touch, this);
@@ -605,7 +606,11 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		this.gameTreedata = data;						//当前用户果树数据
 		this.getTreeProp(data.id);						//查询当前果园道具和显示
 		if (this.currentState == "havetree") {
-			this.progress_label.text = "还需要" + (Number(data.stageObj.energy) - Number(data.growthValue)) + "成长值才到一下阶段"
+			this.progress_label.textFlow = <Array<egret.ITextElement>>[
+				{text:"还需要"},
+				{text:(Number(data.stageObj.energy) - Number(data.growthValue)),style:{"textColor":0xd67214}},
+				{text:"成长值才到一下阶段"}
+			]
 		}
 	}
 
@@ -622,7 +627,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 					treeId:treedata.data.treeId
 				}; 
 				let _str = WeixinUtil.prototype.urlEncode(params,null,null,null);
-				window.location.href = Config.webHome+"/view/game-exchange.html"+_str;
+				window.location.href = Config.webHome+"/view/game-exchange.html?"+_str;
 			}else{
 				if(treedata.data.needTake == "false"){
 					this.noHarvest = false;
@@ -686,7 +691,10 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		var Data = data;
 		console.log(Data, "自己道具数据")
 		//显示自己道具数值
-		this.love_num.text = Help.getPropById(Data.data, 2) ? Help.getPropById(Data.data, 2).num : 0;				//爱心值数量
+		this.love_num.textFlow = <Array<egret.ITextElement>>[					//爱心值数量
+			{text:Help.getPropById(Data.data, 2) ? Help.getPropById(Data.data, 2).num : 0,style:{"size":22}}
+			,{text:"%",style:{"size":18}}
+		];				
 		this.kettle_num.text = Help.getPropById(Data.data, 1) ? Help.getPropById(Data.data, 1).num : 0;			//水滴数量
 		this.pick_num.text = Help.getPropById(Data.data, 3) ? Help.getPropById(Data.data, 3).num : 0;				//篮子数量
 	}
@@ -758,6 +766,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	//查询好友列表成功后处理
 	private Req_getFriends(data): void {
 		var Data = data;
+		Help.saveUserFriendData(Data.data);
 		this.friendlistUpdate(Data.data);
 		console.log(Data, "好友列表数据")
 	}
@@ -776,6 +785,14 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	}
 
 	//进入他人果园
+
+
+	private toOther(evt:PuticonEvent){
+		var id = evt.userid;
+		this.getTreeInfoByid(id);
+	}
+
+
 	private toOtherTree() {
 		//查询好友果树数据
 		if (this.friend_list.selectedItem.treeUserId != this.gameTreedata.id && this.friend_list.selectedItem.treeUserId) {
@@ -887,6 +904,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		}
 		else if(propId == 3){
 			Help.pickTwn(5);
+			Help.pickTwnupdata(this.getOwnTree);
 		}
 		else {
 			this.getOwnTree();
@@ -941,6 +959,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	//查询果树数据后处理
 
 	private Req_getTreeInfo(data): void {
+		this.setState("friendtree");
 		var Data = data;
 		Help.saveTreeUserData(Data.data);
 		this.progress.value = 0;

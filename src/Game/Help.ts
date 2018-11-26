@@ -1,7 +1,7 @@
 class Help{
    
     private static TreeUserData         //用户果树数据
-
+    private static UserFriendData
 
     //保存用户果树数据
     public static saveTreeUserData(data){
@@ -10,6 +10,27 @@ class Help{
     //获取用户果树数据
     public static getTreeUserData(){
         return this.TreeUserData;
+    }
+
+
+    public static saveUserFriendData(data){
+        this.UserFriendData = data;
+    }
+
+    public static getUserFriendData(){
+        return this.UserFriendData;
+    }
+
+    /**
+     * 通过用户获得果树id
+     */
+
+    public static getUserIdByUser(user,data){
+        for(let i=0;i<data.length;i++){
+            if(user == data[i].friendUser){
+                return data[i].treeUserId
+            }
+        }
     }
 
     //限制字符串长度
@@ -147,5 +168,10 @@ class Help{
         .to({x:324,y:1178,height:34,width:29},1400).call(()=>{SceneManager.sceneManager.mainScene.removeChild(fruit)},SceneManager.sceneManager.mainScene)
     }
 
+    public static pickTwnupdata(Func){
+        let timer:egret.Timer = new egret.Timer(2150,1);
+        timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE,Func,SceneManager.sceneManager.mainScene)
+        timer.start();
+    }
 }
 	
