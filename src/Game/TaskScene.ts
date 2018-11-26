@@ -12,6 +12,7 @@ class TaskScene extends eui.Component implements eui.UIComponent {
     private taskdata;                    //任务数据（经过修改的）
 
 
+
     protected childrenCreated(): void {
         super.childrenCreated()
     }
@@ -143,6 +144,7 @@ class taskList_item extends eui.ItemRenderer {
     private can_finish: eui.Image;           //任务按钮(去完成)
     private receive: eui.Image;               //任务按钮(去领取)
     private ban: eui.Image;                   //任务按钮(不可完成)
+    private can_look: eui.Image;             //任务按钮（再逛逛）
 
     public constructor() {
         super()
@@ -158,6 +160,9 @@ class taskList_item extends eui.ItemRenderer {
         }, this)
         this.ban.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
             this.banFinish()
+        }, this)
+        this.can_look.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
+            this.look(this.data.code)
         }, this)
     }
     private onComplete() {
@@ -208,17 +213,19 @@ class taskList_item extends eui.ItemRenderer {
         this.name_task.text = this.data.name;
         this.description_task.text = "赠送" + this.data.rewardRule.name + "," + this.getlimitTime(this.data.limitTime);
         // this.can_finish.texture = RES.getRes(this.getbtnBycode(this.data.code));
-        this.currentState = this.getItemBtnStatus(this.data.btnStatus)
+        this.currentState = this.getItemBtnStatus(this.data.btnStatus,this.data.code)
     }
 
     /**
      * （0可完成1可领取2无法完成）
      */
-    private getItemBtnStatus(btnStatus) {
+    private getItemBtnStatus(btnStatus,code) {
         if (btnStatus == 0) {
             return "can_finish"
         } else if (btnStatus == 1) {
             return "receive"
+        }else if(btnStatus == 2 &&  code == "browse_goods"){
+            return "can_look"
         } else if (btnStatus == 2) {
             return "ban"
         }
@@ -242,8 +249,7 @@ class taskList_item extends eui.ItemRenderer {
     private completetask(code) {
         switch (code) {
             case 'browse_goods': {
-                // let label: eui.Labe
-                console.log("浏览商品")
+                location.href = Config.webHome + "view/game-browse-goods.html?listType=1"
             }
                 break;
             case 'Invitation_friend': {
@@ -257,12 +263,22 @@ class taskList_item extends eui.ItemRenderer {
             }
                 break;
             case 'any_order': {
+                location.href = Config.webHome + "view/index.html"
                 console.log("任意下单")
-                // location.href ="192.168.3.10:8337/gsswe/wefruitmall/view/index.html"
             }
                 break;
             case 'specifiy_order': {
+                location.href = Config.webHome + "view/game-browse-goods.html?listType=1"
                 console.log("指定下单")
+            }
+                break;
+        }
+    }
+
+    private look(code){
+        switch (code) {
+            case 'browse_goods': {
+                location.href = Config.webHome + "view/game-browse-goods.html?listType=1"
             }
                 break;
         }
