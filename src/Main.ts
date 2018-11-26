@@ -64,6 +64,7 @@ class Main extends eui.UILayer {
         SceneManager.instance.weixinUtil._commWxInit(Config.wxhttpServer,"1",()=>{
            SceneManager.instance.mainScene.initData();
            SceneManager.instance.checkAddFriend()
+           SceneManager.instance.initWebSocket()
         },true,null)
         const result = await RES.getResAsync("description_json")
         await platform.login();

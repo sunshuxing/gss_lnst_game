@@ -30,6 +30,10 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private bg_mask: eui.Group;			//透明遮罩
 	private btn_signin: eui.Image;		//签到按钮
 	private btn_dynamic: eui.Image;		//动态按钮
+	private dynamic: eui.Group;			//动态组
+	private dynamic_bg: eui.Image;		//动态背景
+	private dynamic_image: eui.Image;	//动态头像
+	private dynamic_info: eui.Label;		//动态消息
 	private btn_task: eui.Image;			//任务按钮
 	private btn_fertilizer: eui.Image;	//化肥按钮
 	private btn_pick: eui.Image;			//采摘按钮
@@ -79,7 +83,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 	//好友果园
 	private toushui_btn: eui.Image;			//偷水按钮
-	private steal_hand:eui.Image;			//偷水的手
+	private steal_hand: eui.Image;			//偷水的手
 	private no_tou_btn: eui.Image;			//不能偷水按钮
 	private hudong_btn: eui.Image;			//互动按钮
 	private friendUser: string;				//好友
@@ -116,7 +120,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		console.log("childrenCreated");
 	}
 
-	public initData(){
+	public initData() {
 		this.getTreeLanguage();				//树语数据
 		this.getTopMsg();					//顶部消息
 		this.getFriends();					//好友数据
@@ -173,7 +177,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		egret.Tween.get(this.steal_hand)
 			.to({ y: 782, x: 498, alpha: 1 }, 500)
 			.wait(500)
-			.to({ y: 844, x: 622, alpha: 1 }).call(this.checkSteal.bind(this,this.nowTreeUserId))
+			.to({ y: 844, x: 622, alpha: 1 }).call(this.checkSteal.bind(this, this.nowTreeUserId))
 		this.stealWater(this.friendUser, this.nowTreeUserId);
 	}
 
@@ -188,7 +192,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		// }
 		if (Number(this.pick_num.text) > 0 && this.gameTreedata.needTake == "true") {
 			this.useProp(3);
-		}else if(this.gameTreedata.needTake == "false"){
+		} else if (this.gameTreedata.needTake == "false") {
 			let content = "您现在还不能使用篮子哦~"
 			let btn = "确定"
 			let ti = "(快让您的小树快快成长吧！)"
@@ -199,13 +203,13 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	//使用爱心值
 	private loveTouch() {
 		if (Number(this.love_num.text) >= 100) {
-			if(Help.getTreeUserData().needTake == "true"){
+			if (Help.getTreeUserData().needTake == "true") {
 				let content = "需要先摘果子才能使用爱心值哦~"
 				let btn = "确定"
 				let ti = "(多多帮助好友可使您的小树更快成长哦！)"
 				SceneManager.addPrompt(content, btn, ti);
 			}
-			else{
+			else {
 				this.useProp(2);
 			}
 		}
@@ -223,12 +227,12 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		canWater = this.gameTreedata.growthValue != this.gameTreedata.stageObj.energy && ((this.gameTreedata.needTake == null ? 'false' : this.gameTreedata.needTake) == 'false');
 		if (canWater && this.currentState == "havetree" && Number(this.kettle_num.text) >= 10) {
 			this.useProp(1);		//1:使用水滴
-		}  else if(this.gameTreedata.needTake == "true") {
+		} else if (this.gameTreedata.needTake == "true") {
 			let content = "您需要先把树上成熟果子摘完才可以浇水哦~"
 			let btn = "确定"
 			let ti = "(篮子可以完成任务获得哦！)"
 			SceneManager.addPrompt(content, btn, ti);
-		}else if(Number(this.kettle_num.text) < 10){
+		} else if (Number(this.kettle_num.text) < 10) {
 			let content = "您现在没有水滴可以浇哦~"
 			let btn = "确定"
 			let ti = "(可以通过完成任务和签到获取哦！)"
@@ -448,7 +452,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 	//移除弹幕容器
 	private removeBarrage() {
-		if (this.barragegroup&&this.barragegroup.parent) {
+		if (this.barragegroup && this.barragegroup.parent) {
 			this.barragegroup.parent.removeChildren();
 		}
 	}
@@ -503,9 +507,9 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private addfriend() {
 		SceneManager.addJump();
 		let url = SceneManager.instance.weixinUtil.shareData.shareUrl
-		let addFriend = MyRequest.geturlstr("addFriend",url)
-		if(!addFriend){
-			SceneManager.instance.weixinUtil.shareData.shareUrl = url+"&addFriend=true"
+		let addFriend = MyRequest.geturlstr("addFriend", url)
+		if (!addFriend) {
+			SceneManager.instance.weixinUtil.shareData.shareUrl = url + "&addFriend=true"
 		}
 		SceneManager.instance.weixinUtil._openShare();
 		// let baoxiang = new BaoxiangScene();
@@ -590,9 +594,9 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 	private init(data) {
 		console.log("数据", data);
-		if(this.currentState == "havetree"){
+		if (this.currentState == "havetree") {
 			this.gro_love.touchChildren = true;
-		}else{
+		} else {
 			this.gro_love.touchEnabled = false;
 			this.gro_love.touchChildren = false;
 		}
@@ -607,9 +611,9 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		this.getTreeProp(data.id);						//查询当前果园道具和显示
 		if (this.currentState == "havetree") {
 			this.progress_label.textFlow = <Array<egret.ITextElement>>[
-				{text:"还需要"},
-				{text:(Number(data.stageObj.energy) - Number(data.growthValue)),style:{"textColor":0xd67214}},
-				{text:"成长值才到一下阶段"}
+				{ text: "还需要" },
+				{ text: (Number(data.stageObj.energy) - Number(data.growthValue)), style: { "textColor": 0xd67214 } },
+				{ text: "成长值才到一下阶段" }
 			]
 		}
 	}
@@ -621,32 +625,32 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 
 		if (treedata.data) {
-			if(treedata.data.canReceive == "true"){
+			if (treedata.data.canReceive == "true") {
 				let params = {
-					treeUserId:treedata.data.id,
-					treeId:treedata.data.treeId
-				}; 
-				let _str = WeixinUtil.prototype.urlEncode(params,null,null,null);
-				window.location.href = Config.webHome+"/view/game-exchange.html?"+_str;
-			}else{
-				if(treedata.data.needTake == "false"){
+					treeUserId: treedata.data.id,
+					treeId: treedata.data.treeId
+				};
+				let _str = WeixinUtil.prototype.urlEncode(params, null, null, null);
+				window.location.href = Config.webHome + "/view/game-exchange.html?" + _str;
+			} else {
+				if (treedata.data.needTake == "false") {
 					this.noHarvest = false;
-				}else if(treedata.data.needTake == "true" && !this.noHarvest){
+				} else if (treedata.data.needTake == "true" && !this.noHarvest) {
 					this.noHarvest = true;
 					SceneManager.addtreePrompt("我的果实长好啦，快使用篮子将果子摘下来吧！")
 				}
 				this.setState("havetree");
 				Help.saveTreeUserData(treedata.data);				//保存果树数据
-				this.user_name.text = Help.getcharlength(treedata.data.userName,3);
-				HttpRequest.imageloader(treedata.data.userIcon,this.user_icon);
+				this.user_name.text = Help.getcharlength(treedata.data.userName, 3);
+				HttpRequest.imageloader(treedata.data.userIcon, this.user_icon);
 				this.progress.value = 0;
 				this.progress.slideDuration = 0;
-				if(treedata.data.stage >= 4){
-				this.progress1.maximum = treedata.data.exchangeNum;							//装箱需要的果子总数
-				this.progress1.minimum = 0;
-				// if(treedata.data.obtainFruitNum>treedata.data.exchangeNum){
-				// 	this.progress1.value = treedata.data.exchangeNum;
-				// }
+				if (treedata.data.stage >= 4) {
+					this.progress1.maximum = treedata.data.exchangeNum;							//装箱需要的果子总数
+					this.progress1.minimum = 0;
+					// if(treedata.data.obtainFruitNum>treedata.data.exchangeNum){
+					// 	this.progress1.value = treedata.data.exchangeNum;
+					// }
 					this.progress1.value = treedata.data.obtainFruitNum; 						//当前收获果子树
 					this.progress1.visible = true;
 				}
@@ -692,9 +696,9 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		console.log(Data, "自己道具数据")
 		//显示自己道具数值
 		this.love_num.textFlow = <Array<egret.ITextElement>>[					//爱心值数量
-			{text:Help.getPropById(Data.data, 2) ? Help.getPropById(Data.data, 2).num : 0,style:{"size":22}}
-			,{text:"%",style:{"size":18}}
-		];				
+			{ text: Help.getPropById(Data.data, 2) ? Help.getPropById(Data.data, 2).num : 0, style: { "size": 22 } }
+			, { text: "%", style: { "size": 18 } }
+		];
 		this.kettle_num.text = Help.getPropById(Data.data, 1) ? Help.getPropById(Data.data, 1).num : 0;			//水滴数量
 		this.pick_num.text = Help.getPropById(Data.data, 3) ? Help.getPropById(Data.data, 3).num : 0;				//篮子数量
 	}
@@ -787,7 +791,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	//进入他人果园
 
 
-	private toOther(evt:PuticonEvent){
+	private toOther(evt: PuticonEvent) {
 		var id = evt.userid;
 		this.getTreeInfoByid(id);
 	}
@@ -834,8 +838,8 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		if (data.canSteal == "true") {//可以偷水
 			this.steal_btn.visible = true;
 			egret.Tween.get(this.steal_btn, { loop: true })
-			.to({ y: 780 }, 1000)
-			.to({ y: 774 }, 1000)
+				.to({ y: 780 }, 1000)
+				.to({ y: 774 }, 1000)
 			this.steal_hand.visible = true;
 
 			this.no_tou_btn.visible = false;
@@ -864,10 +868,10 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		var Data = data;
 		this.gro_prop.removeChild(icon);
 		let content = ""
-		if(Data.data.loveCount>0){
-			content = "清除成功,获得爱心值x"+Data.data.loveCount+"！"
-			this.love_num.text = String(Number(this.love_num.text)+Number(Data.data.loveCount))
-		}else{
+		if (Data.data.loveCount > 0) {
+			content = "清除成功,获得爱心值x" + Data.data.loveCount + "！"
+			this.love_num.text = String(Number(this.love_num.text) + Number(Data.data.loveCount))
+		} else {
 			content = "清除成功！"
 		}
 		let btn = "确定"
@@ -895,14 +899,14 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		if (propId == 1) {
 			this.kettleTwn();			//使用水滴之后更新在动画中完成
 		}
-		else if(propId == 2){
+		else if (propId == 2) {
 			this.getOwnTree();
 			let content = "您的爱心值已兑换成长值！"
 			let btn = "确定"
 			let ti = "(多多帮助好友可使您的小树更快成长哦！)"
 			SceneManager.addPrompt(content, btn, ti);
 		}
-		else if(propId == 3){
+		else if (propId == 3) {
 			Help.pickTwn(5);
 			Help.pickTwnupdata(this.getOwnTree);
 		}
@@ -1003,7 +1007,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	//偷水请求之后的处理
 	private Req_stealWater(data): void {
 		var Data = data.data;
-		SceneManager.addNotice("偷到" + Data.stealNum + "g水滴",2000)
+		SceneManager.addNotice("偷到" + Data.stealNum + "g水滴", 2000)
 	}
 
 	//显示果园道具
@@ -1113,10 +1117,10 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 
 	private showtime(time) {
-		if(time>3){
+		if (time > 3) {
 			this.gro_lq.touchEnabled = true;
 		}
-		else{
+		else {
 			this.gro_lq.touchEnabled = false;
 			this.gro_lq.touchChildren = false;
 		}
@@ -1200,6 +1204,22 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			.to({ x: 355, y: 875, alpha: 0.2 }, 500)
 			.wait(200).call(() => { this.removeChild(icon), this }).call(() => { this.removeChild(icon1), this }).call(() => { this.getOwnTree(), this })
 
+	}
+
+	public showDynamicMsg(info: string, userName, userIcon) {
+		this.dynamic.visible = true
+		this.dynamic.alpha = 1;
+		this.dynamic_info.text = info;
+		if (info.length > 4) {
+			this.dynamic_bg.width = 230 + (info.length - 4) * 25
+		}
+		HttpRequest.imageloader(userIcon, this.dynamic_image);
+		var timer: egret.Timer = new egret.Timer(2000, 1);
+		timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, () => {
+			egret.Tween.get(this.dynamic)
+				.to({ alpha: 0 }, 1500)
+		}, this)
+		timer.start()
 	}
 
 }
