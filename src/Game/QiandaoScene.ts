@@ -8,6 +8,7 @@ class SigninScene extends eui.Component implements eui.UIComponent {
     private qiandao_btn: eui.Image;
     private qiandao_data;               //签到数据
     private qiandao_btn_signed: eui.Image;   //已签到按钮
+    private close_btn: eui.Image;       //关闭按钮
     private day1: eui.Image;
     private day2: eui.Image;
     private day3: eui.Image;
@@ -23,11 +24,11 @@ class SigninScene extends eui.Component implements eui.UIComponent {
         super.childrenCreated();
         this.qiandao_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.Signin, this)
         this.qiandao_btn_signed.addEventListener(egret.TouchEvent.TOUCH_TAP, this.closeScene, this)
+        this.close_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.closeScene, this)
         this.getSignInInfo();
     }
 
     private onComplete(): void {
-        console.log("onComplete");
     }
 
 
@@ -53,9 +54,9 @@ class SigninScene extends eui.Component implements eui.UIComponent {
             // this.init(true);
             this.currentState = "today-is-sign"; //更换已经签到
             this.getSignInInfo();
-            let Removemask: MaskEvent = new MaskEvent(MaskEvent.REMOVEMASK);
-            this.parent.dispatchEvent(Removemask);
-            SceneManager.toMainScene();
+            // let Removemask: MaskEvent = new MaskEvent(MaskEvent.REMOVEMASK);
+            // this.parent.dispatchEvent(Removemask);
+            // SceneManager.toMainScene();
 
             data = data.data;
             //0水滴1道具2爱心值3化肥 获取称呼

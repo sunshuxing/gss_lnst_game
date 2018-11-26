@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="InteractiveSkins" width="750" height="1344" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
 	<e:Group id="main_group" height="800" left="0" right="0" bottom="0">
-		<e:Image height="800" anchorOffsetY="0" left="0" right="0" bottom="0" x="0" y="0" scaleX="1" scaleY="1" source="gre-bg"/>
+		<e:Image height="800" anchorOffsetY="0" left="0" right="0" bottom="0" x="0" y="0" scaleX="1" scaleY="1" source="gre-bg" scale9Grid="6,6,38,38"/>
 		<e:Label text="互动" y="30" x="30" fontFamily="SimHei" textColor="0x333333" size="32" scaleX="1" scaleY="1"/>
 		<e:Image id="btn_close" y="30" width="40" height="40" right="30" x="680" scaleX="1" scaleY="1" source="close"/>
 		<e:Image width="750" height="512" bottom="0" x="0" y="288" scaleX="1" scaleY="1" source="barragelist-bg"/>

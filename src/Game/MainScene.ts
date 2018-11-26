@@ -94,6 +94,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private leaveMsgTemplateList: Array<LeaveMsgTemplate>;		//留言模板对象列表
 	private nowTreeUserId: string			//当前果树id
 	private ownTreeUserId: string;			//自己的果树id
+	private noHarvest: Boolean = null				//还未收获
 
 	protected childrenCreated(): void {
 		super.childrenCreated();
@@ -141,7 +142,11 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		this.self_tree.addEventListener(egret.TouchEvent.TOUCH_TAP, this.ToSelfTree, this);
 		this.btn_pick.addEventListener(egret.TouchEvent.TOUCH_TAP, this.PickFruit, this);
 		this.gro_lq.addEventListener(egret.TouchEvent.TOUCH_TAP, this.lqfast, this);
+		//偷水
 		this.steal_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.toushui, this);
+		this.toushui_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.toushui, this);
+		this.steal_hand.addEventListener(egret.TouchEvent.TOUCH_TAP, this.toushui, this);
+
 		this.btn_fertilizer.addEventListener(egret.TouchEvent.TOUCH_TAP, this.TohuafeiScene, this);
 		this.gro_tree.addEventListener(egret.TouchEvent.TOUCH_TAP, this.treeTouch, this);
 		this.gro_love.addEventListener(egret.TouchEvent.TOUCH_TAP, this.loveTouch, this);
@@ -167,7 +172,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		egret.Tween.get(this.steal_hand)
 			.to({ y: 782, x: 498, alpha: 1 }, 500)
 			.wait(500)
-			.to({ y: 1046.67, x: 468, alpha: 1 }).call(this.checkSteal.bind(this,this.nowTreeUserId))
+			.to({ y: 844, x: 622, alpha: 1 }).call(this.checkSteal.bind(this,this.nowTreeUserId))
 		this.stealWater(this.friendUser, this.nowTreeUserId);
 	}
 
@@ -317,12 +322,10 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 	// 推送滚动2			
 	public info2scr() {
-		if (this.infodata && this.infodata.length > 0) {
+		if (this.sysinfodata && this.sysinfodata.length > 0) {
 			if (this.m >= this.sysinfodata.length) {
 				this.m = 0;
 			}
-			var imgurl = "http://192.168.3.10:8080/gssmanage"
-			// HttpRequest.imageloader(imgurl+this.sysinfodata[this.m].icon,this.img2)
 			this.str2.text = this.sysinfodata[this.m].title;
 			this.m++;
 			var rect: egret.Rectangle = this.str2.scrollRect;
@@ -609,6 +612,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	//查询自己果树回调
 	private requestgetOwnTree(data): void {
 		var treedata = data;
+		let treeUser: TreeUserData = treedata.data;
 
 
 		if (treedata.data) {
@@ -620,6 +624,12 @@ class MainScene extends eui.Component implements eui.UIComponent {
 				let _str = WeixinUtil.prototype.urlEncode(params,null,null,null);
 				window.location.href = Config.webHome+"/view/game-exchange.html"+_str;
 			}else{
+				if(treedata.data.needTake == "false"){
+					this.noHarvest = false;
+				}else if(treedata.data.needTake == "true" && !this.noHarvest){
+					this.noHarvest = true;
+					SceneManager.addtreePrompt("我的果实长好啦，快使用篮子将果子摘下来吧！")
+				}
 				this.setState("havetree");
 				Help.saveTreeUserData(treedata.data);				//保存果树数据
 				this.user_name.text = Help.getcharlength(treedata.data.userName,3);
@@ -810,10 +820,12 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			.to({ y: 780 }, 1000)
 			.to({ y: 774 }, 1000)
 			this.steal_hand.visible = true;
+
 			this.no_tou_btn.visible = false;
 		} else {//不能偷水，隐藏水滴，并且把错误信息绑定//*** */
 			this.steal_btn.visible = false;	//隐藏水滴
-			this.steal_hand.visible = false;
+			this.steal_hand.visible = false;	//偷水的手
+			this.toushui_btn.visible = false;//偷水底部图片
 			this.no_tou_btn.visible = true;
 			this.no_tou_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
 				SceneManager.addNotice(data.msg)
@@ -957,7 +969,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private Req_getTreeLeaveMsg(data): void {
 		var Data: Array<LeaveMsgUser> = data.data.list;
 		this.addBarrage(Data)
-		console.log("果树留言数据:", Data);
 	}
 
 

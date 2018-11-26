@@ -10,7 +10,7 @@
 	<e:Image x="164" y="843.99" source="treename"/>
 	<e:Label id="tree_name" text="苹果树" bold="true" x="193.19" y="868.9" anchorOffsetX="0" anchorOffsetY="0" fontFamily="SimHei" textColor="0x7a6934" size="34" includeIn="havetree,friendtree"/>
 	<e:Image id="logo" x="80" y="282" anchorOffsetX="75" anchorOffsetY="75"  source="logo"/>
-	<e:Label id="garden_name" text="陈伟凡" rotation="353.59" size="24" textColor="0x7a6934" textAlign="right" fontFamily="Microsoft YaHei" includeIn="havetree,friendtree" bold="true" anchorOffsetX="0" anchorOffsetY="0" y="458.75" x="109.44" width="120" height="28.96"/>
+	<e:Label id="garden_name" text="陈伟凡" rotation="353.59" size="24" textColor="0x7a6934" textAlign="right" fontFamily="Microsoft YaHei" includeIn="havetree,friendtree" bold="true" anchorOffsetX="0" anchorOffsetY="0" y="458.75" x="109.44" width="120" height="28.96" text.havetree="我的"/>
 	<e:Group id="info1" width="372" height="50" x="175" y="249" y.havetree="249" anchorOffsetX.havetree="0" width.havetree="372" x.havetree="175" height.havetree="50" width.friendtree="327" height.friendtree="50" x.friendtree="175" y.friendtree="249" includeIn="havetree,friendtree">
 		<e:Label id="str1" text="" y="0" height="100%" verticalAlign="middle" anchorOffsetX="0" textAlign="left" x="65"/>
 		<e:Image id="img1" width="50" height="50" anchorOffsetX="0" anchorOffsetY="0" y="0" y.havetree="0" y.friendtree="0"/>
@@ -27,9 +27,9 @@
 	<e:Image id="btn_dynamic" width="126" height="126" x="14" y="738" includeIn="havetree" source="dynamic"/>
 	<e:Image id="btn_task" width="126" height="126" x="14" y="884" includeIn="havetree" source="task"/>
 	<e:Image id="btn_fertilizer" width="126" height="126" x="14" y="1030" includeIn="havetree" source="fertilizer"/>
-	<e:Image includeIn="havetree" x="603.33" y="687.33" source="lanzi_bg"/>
-	<e:Image id="btn_pick" width="106" height="121" y="660.83" right="19" includeIn="havetree" source="lanzi"/>
-	<e:Label id="pick_num" text="1" x="633.33" y="707" anchorOffsetX="0" width="85" textAlign="center" size="24" includeIn="havetree"/>
+	<e:Image includeIn="havetree" x="584.5" y="685" source="lanzi_bg"/>
+	<e:Image id="btn_pick" width="106" height="121" y="658.5" right="38" includeIn="havetree" source="lanzi"/>
+	<e:Label id="pick_num" text="1" x="620" y="707" anchorOffsetX="0" width="85" textAlign="center" size="24" includeIn="havetree"/>
 	<!--<e:Group id="BarGroup" top="0" bottom="0" left="0" right="0">
 		<e:Image width="60" height="60" x="326" y="980"/>
 	</e:Group>-->
@@ -38,7 +38,7 @@
 	<e:Group id="self_tree" width="96" height="144" anchorOffsetX="0" anchorOffsetY="0" x="32" y="1198" includeIn="havetree,friendtree">
 		<e:Image id="user_icon" mask="{icon_mask}" width="96" height="96" top="0" left="0" source="bg_png"/>
 		<e:Rect id="icon_mask" width="96" height="96" left="0" top="0" ellipseWidth="96" ellipseHeight="96"/>
-		<e:Label id="user_name" text="陈伟凡" y="104" size="28" fontFamily="Microsoft YaHei" verticalAlign="middle" textAlign="center" horizontalCenter="0" height="28"/>
+		<e:Label id="user_name" text="陈伟凡" y="104" size="28" fontFamily="Microsoft YaHei" verticalAlign="middle" textAlign="center" horizontalCenter="0" height="28" text.havetree=""/>
 	</e:Group>
 	<e:Scroller id="friend_scr" width="448" height="164" y="1180" anchorOffsetY="0" anchorOffsetX="0" right="138" includeIn="havetree,friendtree">
 		<e:List id="friend_list" y="-50" x="-2" anchorOffsetX="0" width="442" itemRendererSkinName="FriendListSkins">
@@ -72,7 +72,7 @@
 	<e:Group id="gro_prop" width="248" height="214" x="297" y="806.05" anchorOffsetY="0" anchorOffsetX="0" includeIn="havetree,friendtree"/>
 	<e:Group id="gro_love" width="103.03" height="81" x="205.09" y="756" includeIn="havetree,friendtree" anchorOffsetX="0" y.friendtree="1074" x.friendtree="5.09">
 		<e:Image id="img_love" x="0" y="-12" source="love"/>
-		<e:Label id="love_num" text="100" fontFamily="Microsoft YaHei" y="35.05" x="27.29" width="43.67" textAlign="right" textColor="0xffffff" size="22" anchorOffsetX="0" anchorOffsetY="0" height="20.67"/>
+		<e:Label id="love_num" text="100" fontFamily="Microsoft YaHei" y="35.05" x="27.29" width="43.67" textAlign="right" textColor="0xffffff" size="22" anchorOffsetX="0" anchorOffsetY="0" height="20.67" text.havetree="0"/>
 		<e:Label text="%" x="72.46" y="37.33" size="18"/>
 	</e:Group>
 	<e:ProgressBar id="progress" width="222" height="36" y="998" skinName="ProgressSkins" includeIn="havetree,friendtree" x="286"/>
@@ -80,11 +80,11 @@
 	<e:Label id="progress_label" text="" includeIn="havetree" x="234.66" y="1045.65" anchorOffsetX="0" width="340.66" size="24" textAlign="center" fontFamily="Microsoft YaHei"/>
 	<e:Image id="img_water" width="88" height="84" x="386" y="860" anchorOffsetX="0" anchorOffsetY="0" source="water" visible="false"/>
 	<e:Image id="bg_mask" width="750" height="1344" x="0" y="0" source="panel-bg" alpha="0.5" scale9Grid="4,4,24,24" visible="false"/>
-	<e:Image id="toushui_btn" includeIn="friendtree" x="449.98" y="1040" width="122" height="124" source="steal_plate_png"/>
-	<e:Image id="no_tou_btn" includeIn="friendtree" x="431" y="1020.92" width="155" height="158" source="notou" anchorOffsetX="-3.32" anchorOffsetY="-1.08" visible="false"/>
-	<e:Image id="hudong_btn" width="120" height="124" includeIn="friendtree" x="311" y="1042.69" source="hudong"/>
+	<e:Image id="toushui_btn" includeIn="friendtree" x="603.47" y="836.65" width="122" height="124" source="steal_plate_png"/>
+	<e:Image id="no_tou_btn" includeIn="friendtree" x="584.01" y="818.83" width="155" height="156.67" source="notou" anchorOffsetX="-3.32" anchorOffsetY="-1.07" visible="false"/>
+	<e:Image id="hudong_btn" width="120" height="124" includeIn="friendtree" x="598" y="650" source="hudong"/>
 	<e:Image id="steal_btn" width="110" height="126" includeIn="friendtree" x="443" y="774" source="ketou"/>
-	<e:Image id="steal_hand" includeIn="friendtree" x="468.5" y="1047.34" source="steal_hand_png"/>
+	<e:Image id="steal_hand" includeIn="friendtree" x="622" y="844" source="steal_hand_png"/>
 	<e:Image width="750" height="1344" x="0" y="0" alpha="0.5" includeIn="notree" source="panel-bg" scale9Grid="4,4,24,24"/>
 	<e:Image x="42.5" y="296" width="665" height="744" includeIn="notree" source="seed-main-bg"/>
 	<e:Group id="seedRadioBtnGroup" width="439" height="441" x="158" y="496" anchorOffsetX="0" anchorOffsetY="0" includeIn="notree">

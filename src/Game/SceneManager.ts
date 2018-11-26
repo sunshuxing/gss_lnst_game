@@ -166,12 +166,17 @@ class SceneManager {
 
     
     /**
-     * 添加弹窗
+     * 添加弹窗，如果文字过多，则调整高度
      */
-    static addtreePrompt(info){
+    static addtreePrompt(info:string){
         let treeprompt = new TreePrompt();
         treeprompt.y = 656;
         treeprompt.x = 208;
+        if(info.length > 14){
+            let a = info.length/14
+            treeprompt.height = 66 + a * 30
+            treeprompt.setBackHeight(a)
+        }
         let timer:egret.Timer = new egret.Timer(3000,1);
         timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE,()=>{
             this.instance.mainScene.removeChild(treeprompt)

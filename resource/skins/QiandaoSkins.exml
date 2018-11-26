@@ -24,4 +24,5 @@
     <e:Image id="day5" x="96" y="712" source="yiqiandao" visible="false"/>
     <e:Image id="day6" x="250" y="712" source="yiqiandao" visible="false"/>
     <e:Image id="day7" x="423" y="712" source="yiqiandao" visible="false"/>
+	<e:Image id="close_btn" x="614" y="474" source="close" width="30" height="30" rotation="1.47"/>
 </e:Skin>
