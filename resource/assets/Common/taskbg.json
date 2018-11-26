@@ -1,0 +1,6 @@
+{"file":"taskbg.png","frames":{
+"task-bg-blue":{"x":1,"y":649,"w":690,"h":160,"offX":0,"offY":0,"sourceW":690,"sourceH":160},
+"task-bg-fen":{"x":1,"y":487,"w":690,"h":160,"offX":0,"offY":0,"sourceW":690,"sourceH":160},
+"task-bg-green":{"x":1,"y":325,"w":690,"h":160,"offX":0,"offY":0,"sourceW":690,"sourceH":160},
+"task-bg-red":{"x":1,"y":163,"w":690,"h":160,"offX":0,"offY":0,"sourceW":690,"sourceH":160},
+"task-bg-zi":{"x":1,"y":1,"w":690,"h":160,"offX":0,"offY":0,"sourceW":690,"sourceH":160}}}

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="LingquSkins" width="750" height="1344" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+    <e:Image width="750" height="1344" x="0" y="0" alpha="0.5" source="panel-bg"/>
+	<e:Image x="0" y="368.67" source="libaobg_png"/>
+	<e:Image id="libao_btn" x="123.96" y="995.43" source="libaobtn"/>
+	
+</e:Skin>

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="TaskJumpSkins" width="750" height="1344" xmlns:e="http://ns.egret.com/eui">
+	<e:Image source="taskjump_png" anchorOffsetY="0" bottom="0"/>
+</e:Skin>

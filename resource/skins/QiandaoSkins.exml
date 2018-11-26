@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="QiandaoSkins" width="750" height="1344" currentState="today-un-sign" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" states="today-un-sign,today-is-sign" >
+	<e:Image horizontalCenter="0" verticalCenter="0" source="qiandao-bg_png"/>
+	<e:Image x="104" y="587" width="46" height="66" source="shuidi"/>
+    <e:Image x="254" y="587" width="46" height="66" source="shuidi"/>
+    <e:Image x="396" y="587" width="46" height="66" source="shuidi"/>
+    <e:Image x="526" y="587" width="46" height="66" source="shuidi"/>
+    <e:Image x="104" y="722" width="46" height="66" source="shuidi"/>
+    <e:Image x="254" y="722" width="46" height="66" source="shuidi"/>
+	<e:Image x="384" y="669" source="qiandao-hf"/>
+	<e:Label text="x5" x="150" y="610" anchorOffsetX="0" width="49" textAlign="center" textColor="0xd67214"/>
+	<e:Label text="x8" x="303" y="610" textAlign="center" anchorOffsetX="0" width="49" textColor="0xd67214"/>
+	<e:Label text="x15" x="445" y="610" textColor="0xd67214" width="49"/>
+	<e:Label text="x25" x="572" y="610" textColor="0xd67214" width="49"/>
+	<e:Label text="x38" x="150" y="747" textColor="0xd67214" width="49"/>
+	<e:Label text="x50" x="303" y="747" textColor="0xd67214" width="49"/>
+	<e:Label text="x1" x="527" y="747" textColor="0xd67214"/>
+	<e:Image id="qiandao_btn" x="152" y="769" source="qiandao-btn" height="216" visible.today-is-sign="false"/>
+	<e:Image id="qiandao_btn_signed" x="214" y="831" anchorOffsetX="0" width="326" anchorOffsetY="0" height="90" source="qiandao-is-sign_png" visible.today-un-sign="false" height.today-is-sign="95" y.today-is-sign="826" width.today-is-sign="330" x.today-is-sign="207" scaleX.today-is-sign="1.02"/>
+	<e:Image id="day1" x="96" y="577" source="yiqiandao" visible="false"/>
+    <e:Image id="day2" x="250" y="577" source="yiqiandao" visible="false"/>
+    <e:Image id="day3" x="399" y="577" source="yiqiandao" visible="false"/>
+    <e:Image id="day4" x="526" y="577" source="yiqiandao" visible="false"/>
+    <e:Image id="day5" x="96" y="712" source="yiqiandao" visible="false"/>
+    <e:Image id="day6" x="250" y="712" source="yiqiandao" visible="false"/>
+    <e:Image id="day7" x="423" y="712" source="yiqiandao" visible="false"/>
+</e:Skin>

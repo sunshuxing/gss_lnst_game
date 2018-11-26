@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="TaskSkins" width="750" height="1344" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image height="980" bottom="0" left="0" right="0" source="white-bg" scale9Grid="4,4,26,26"/>
+	<e:Label text="任务" x="30" y="398" size="36" fontFamily="SimHei" textColor="0x333333"/>
+    <e:Image id="btn_close" y="398" width="40" height="40" right="30" x="680" scaleX="1" scaleY="1" source="close"/>
+	<e:Scroller id="scr_task" height="866" anchorOffsetX="0" anchorOffsetY="0" bottom="0" left="0" right="0">
+		<e:List id="list_task" itemRendererSkinName="TaskListSkins">
+			<e:layout>
+				<e:TileLayout horizontalGap="6" paddingLeft="30" paddingRight="30" verticalGap="10"/>
+			</e:layout>
+		</e:List>
+	</e:Scroller>
+</e:Skin>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="QnSeedRadioButton" width="134" height="208" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" states="up,down,disabled,upAndSelected,downAndSelected,disabledAndSelected" >
+	<e:Image x="0" y="0" width="134" height="158" source="seed-bg"/>
+	<e:Image x="48" y="167" includeIn="upAndSelected,downAndSelected,disabledAndSelected" source="choose"/>
+	<e:Image width="38" height="38" x="48" y="166" source="choose2"/>
+	<e:Image id="icon" y="32" source="qingning_png" horizontalCenter="5"/>
+	<e:Label id="labelDisplay" text="苹果" y="107" fontFamily="Microsoft YaHei" textColor="0xa6652a" size="26" horizontalCenter="2"/>
+</e:Skin>

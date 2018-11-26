@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="BarrageListSkins" width="620" height="110" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image width="620" height="110" x="0" y="0" source="barragebg-white"/>
+	<e:Group id="barrage_touch" width="607" height="61" x="12" y="30" anchorOffsetY="0" anchorOffsetX="0">
+		<e:Label id="barrage_lable" text="空帮我杀杀虫啊~" x="94" y="11" anchorOffsetX="0" width="428" anchorOffsetY="0" height="40" size="24" fontFamily="SimHei" textColor="0x0f3b00" verticalAlign="middle" scaleX="1" scaleY="1"/>
+	</e:Group>
+</e:Skin>

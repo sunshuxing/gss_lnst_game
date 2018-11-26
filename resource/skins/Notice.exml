@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin  xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<w:Config id="1673b30f4e3"/>
+	<e:Label id="notice_background" size="25" scaleX="1" scaleY="1" anchorOffsetY="0" textAlign="left" verticalAlign="middle" border="false" maxWidth="500" maxHeight="80" verticalCenter="0" horizontalCenter="0" background="true" backgroundColor="0x3A3A3A" x="10" y="10" alpha="0.7"/>
+	<e:Label id="notice_label" size="25" scaleX="1" scaleY="1" anchorOffsetY="0" textAlign="center" verticalAlign="middle" border="false" maxWidth="500" maxHeight="80" text="text"/>
+</e:Skin>

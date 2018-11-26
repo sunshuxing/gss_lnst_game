@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="FriendListSkins" width="98" height="122.67" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image id="friend_icon" width="80" height="80" source="bg_png" mask="{icon_mask}" horizontalCenter="0"/>
+	<e:Rect id="icon_mask" width="80" height="80" y="0" ellipseWidth="80" ellipseHeight="80" horizontalCenter="0"/>
+	<e:Label id="friend_name" text="二毛..." y="88.2" anchorOffsetY="0" left="0" right="0" height="30.5" textAlign="center" verticalAlign="middle" fontFamily="Microsoft JhengHei" size="28"/>
+	<e:Image id="tree_icon" mask="{tree_mask}" width="30" height="30" x="68" y="55"/>
+	<e:Rect id="tree_mask" width="30" height="30" y="55" ellipseWidth="30" ellipseHeight="30" x="68"/>
+</e:Skin>
