@@ -48,8 +48,8 @@ class LoadingUI extends eui.Component {
         this.addChild(this.logo);
         this.addChild(this.textField);
         this.textField.y = 1144;
-        this.textField.width = 200;
-        this.textField.x = 275;
+        this.textField.width = 250;
+        this.textField.x = 250;
         this.textField.textAlign = "center";
         this.textField.textColor = 0x000000;
         egret.Tween.get(this.logo,{loop:true})
