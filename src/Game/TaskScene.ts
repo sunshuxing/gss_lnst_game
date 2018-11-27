@@ -249,7 +249,7 @@ class taskList_item extends eui.ItemRenderer {
     private completetask(code) {
         switch (code) {
             case 'browse_goods': {
-                location.href = Config.webHome + "view/game-browse-goods.html?listType=1"
+                location.href = Config.webHome + "view/game-browse-goods.html?listType=1&isFinished=false"
             }
                 break;
             case 'Invitation_friend': {
@@ -278,7 +278,7 @@ class taskList_item extends eui.ItemRenderer {
     private look(code){
         switch (code) {
             case 'browse_goods': {
-                location.href = Config.webHome + "view/game-browse-goods.html?listType=1"
+                location.href = Config.webHome + "view/game-browse-goods.html?listType=1&isFinished=true"
             }
                 break;
         }
