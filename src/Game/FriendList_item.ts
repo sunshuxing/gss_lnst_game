@@ -18,7 +18,11 @@ class FriendList_item extends eui.ItemRenderer{
 	protected dataChanged() {
 		HttpRequest.imageloader(this.data.friendUserIcon,this.friend_icon);
 		this.friend_name.text = Help.getcharlength(this.data.friendUserName,2);
-		HttpRequest.imageloader(Config.picurl+this.data.friendTreeIcon,this.tree_icon);
+		if(this.data.friendTreeIcon){
+			HttpRequest.imageloader(Config.picurl+this.data.friendTreeIcon,this.tree_icon);
+		}else{
+			this.tree_icon.texture = RES.getRes("water_png")
+		}
 	}
 
 

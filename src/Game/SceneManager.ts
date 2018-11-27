@@ -10,7 +10,7 @@ class SceneManager {
     public treePrompt: TreePrompt                //弹出消息框
     public friendSign: string                    //转发用户的标识，可以用于奖励道具
     public weixinUtil: WeixinUtil                //微信操作类
-    private webSocket: egret.DisplayObjectContainer                  //推送类
+    private webSocket: GameWebSocket                  //推送类
 
 
     constructor() {
@@ -210,5 +210,14 @@ class SceneManager {
         let user = this.weixinUtil.login_user_id
         let url = Config.socketHome + "?userId=" + user;
         this.webSocket = new GameWebSocket(url)
+        let that = this
+        setInterval(() => {
+            if (this.webSocket.connected()) {
+                that.webSocket.sendData("1")
+            } else {
+                this.initWebSocket();
+            }
+        }, 3000)
+
     }
 }

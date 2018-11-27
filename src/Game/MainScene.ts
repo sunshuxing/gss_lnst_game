@@ -813,9 +813,16 @@ class MainScene extends eui.Component implements eui.UIComponent {
 				this.nowTreeUserId = friendTreeUserId
 				this.getTreeLeaveMsg(friendTreeUserId)
 			}
+			//推送拜访消息
+			let data = {
+				userId:this.friendUser,
+				treeUserId: friendTreeUserId
+			}
+			MyRequest._post("game/visit",data,this,null,null)
 		}
 		if (!this.friend_list.selectedItem.treeUserId) {
 			//分享弹窗
+			SceneManager.addJump()
 		}
 
 	}
