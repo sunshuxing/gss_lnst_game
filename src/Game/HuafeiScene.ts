@@ -40,7 +40,7 @@ class HuafeiScene extends eui.Component implements eui.UIComponent{
     }
 
     private usefuhe(){
-        if(Number(this.youji_num.text) >= 1){
+        if(Number(this.fuhe_num.text) >= 1){
             this.useProp(5,2);
         }
         else{
@@ -53,7 +53,7 @@ class HuafeiScene extends eui.Component implements eui.UIComponent{
     }
 
     private useshuirong(){
-        if(Number(this.youji_num.text) >= 1){
+        if(Number(this.shuirong_num.text) >= 1){
             this.useProp(6,3);
         }
          else{

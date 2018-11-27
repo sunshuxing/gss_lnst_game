@@ -8,12 +8,12 @@
 	</e:Group>
 	<e:Image id="user_icon" width="60" height="60" x="2" y="74" mask="{img_rec}" y.noday="28" includeIn="day,noday" y.day="74" source="bg_png"/>
     <e:Rect id="img_rec" width="60" height="60" x="2" y="74" ellipseWidth="60" ellipseHeight="60" y.noday="28" includeIn="day,noday" y.day="74"/>
-	<e:Image id="dyn_bg" bottom.nomore="0" width="612" height="170" y.noday="10" x.noday="82" includeIn="day,noday" x.day="82" y.day="56" source="dynamic-bg-red"/>
-	<e:Label id="dyn_label" text="谁谁谁拜访了你的果园。" x="152" y="96" size="28" fontFamily="SimHei" textColor="0xeb4f58" y.noday="50" includeIn="day,noday" y.day="96"/>
+	<e:Image id="dyn_bg" bottom.nomore="0" width="612" height="170" y.noday="10" x.noday="82" includeIn="day,noday" x.day="82" y.day="56" source.noday="dyn-bf-bg_png" scale9Grid.noday="43,68,17,7" source.day="dyn-bf-bg_png" scale9Grid.day="45,68,14,7" source="dyn-bf-bg_png" scale9Grid="43,66,15,9"/>
+	<e:Label id="dyn_label" text="谁谁谁拜访了你的果园。" x="152" y="96" size="28" fontFamily="SimHei" textColor="0xeb4f58" y.noday="50" includeIn="day,noday" y.day="96" anchorOffsetX.day="0" width.day="506" anchorOffsetY.day="0" width.noday="506" width="506"/>
 	<e:Label id="dyn_time" text="9：20" x="152" y="178" size="24" fontFamily="Arial" textColor="0x999999" y.noday="132" includeIn="day,noday" y.day="178"/>
 	<e:Group id="dyn_toother" y="174" anchorOffsetY="0" anchorOffsetX="0" right="24" y.noday="128" includeIn="day,noday" x.day="556" x.noday="556" y.day="174">
-		<e:Label id="dyn_des" text="拜访TA" y="0" textColor="0xeb4f58" size="24" fontFamily="SimHei" anchorOffsetX="0" anchorOffsetY="0" right="0" text.day="拜访TA"/>
-		<e:Image id="dyn_icon" width="22" height="22" right="0" verticalCenter="0" source="close"/>
+		<e:Label id="dyn_des" text="拜访TA" y="0" textColor="0xeb4f58" size="24" fontFamily="SimHei" anchorOffsetX="0" anchorOffsetY="0" right="0" text.day="" text.noday=""/>
+		<e:Image id="dyn_icon" right="0" verticalCenter="0" source.noday="dyn-bf-icon_png" source="dyn-bf-icon_png" source.day="dyn-bf-icon_png"/>
 		<e:layout>
 			<e:HorizontalLayout gap="20"/>
 		</e:layout>

@@ -47,7 +47,7 @@ class LoadingUI extends eui.Component {
         this.logo.anchorOffsetY = 75.5;
         this.addChild(this.logo);
         this.addChild(this.textField);
-        this.textField.y = 1144;
+        this.textField.y = 720;
         this.textField.width = 250;
         this.textField.x = 250;
         this.textField.textAlign = "center";

@@ -202,7 +202,9 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 	//使用爱心值
 	private loveTouch() {
-		if (Number(this.love_num.text) >= 100) {
+		let text:string = this.love_num.text
+		text = text.substring(0,text.length-1)
+		if (Number(text) >= 100) {
 			if (Help.getTreeUserData().needTake == "true") {
 				let content = "需要先摘果子才能使用爱心值哦~"
 				let btn = "确定"
@@ -213,7 +215,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 				this.useProp(2);
 			}
 		}
-		else if (Number(this.love_num.text) < 100) {
+		else if (Number(text) < 100) {
 			let content = "您的爱心值不够兑换成长值哦！"
 			let btn = "确定"
 			let ti = "(为好友除虫除草可增加爱心值哦！)"
@@ -247,6 +249,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	}
 	// 果树图片点击事件
 	private treeTouch() {
+		Help.flower();
 		this.gro_tree.touchEnabled = false;
 		egret.Tween.get(this.tree)
 			.to({ scaleX: 1.12, scaleY: 1.12 }, 200)
@@ -304,7 +307,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 				this.n = 0;
 			}
 			HttpRequest.imageloader(this.infodata[this.n].mainUserIcon, this.img1);
-			this.str1.text = this.infodata[this.n].mainUserName + "的" + this.infodata[this.n].treeName + this.infodata[this.n].stageName + "了！"
+			this.str1.text = Help.getcharlength(this.infodata[this.n].mainUserName,4)+ "的" + this.infodata[this.n].treeName + this.infodata[this.n].stageName + "了！"
 			this.n++;
 			var rect: egret.Rectangle = this.str1.scrollRect;
 			egret.Tween.get(rect)
@@ -595,16 +598,17 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private init(data) {
 		console.log("数据", data);
 		if (this.currentState == "havetree") {
+			this.gro_love.touchEnabled = true;
 			this.gro_love.touchChildren = true;
 		} else {
 			this.gro_love.touchEnabled = false;
 			this.gro_love.touchChildren = false;
 		}
 		this.tree_name.text = data.treeName;			//果树名称
-		this.garden_name.text = Help.getcharlength(data.userName, 5);			//果园名称
+		this.garden_name.text = Help.getcharlength(data.userName, 4);			//果园名称
 		this.progress.maximum = data.stageObj.energy;	//进度条最大值
 		this.progress.minimum = 0;						//进度条最小值
-		this.progress.slideDuration = 5000;				//进度条速度		
+		this.progress.slideDuration = 3000;				//进度条速度		
 		this.progress.value = data.growthValue;			//进度条当前值
 		this.treeUpdate(data);							//果树显示
 		this.gameTreedata = data;						//当前用户果树数据
@@ -1094,6 +1098,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 	// 水滴不可见
 	private waterVis() {
+		Help.waters();
 		this.img_water.visible = false;
 	}
 
@@ -1141,7 +1146,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	}
 
 	private timelq(timer: egret.Timer) {
-		console.log("1")
 		this.a = this.a - 1;
 		this.showtime(this.a);
 		if (this.a <= 0) {

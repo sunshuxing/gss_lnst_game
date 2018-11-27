@@ -173,5 +173,73 @@ class Help{
         timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE,Func,SceneManager.sceneManager.mainScene)
         timer.start();
     }
+
+    public static isToday(date){
+        let time = new Date("2018-11-27 11:02:52");
+        let mouth = time.getMonth()+1
+        let Day = time.getDate();
+        let Hours = time.getHours();
+        let Min = time.getMinutes();
+        console.log(time)
+        console.log("月:"+mouth,"日:"+Day,"时:"+Hours,"分:"+Min)
+    }
+
+
+    public static getTime(date,Type){
+        let time = new Date(date);
+        if(Type == "day"){
+            return time.getMonth()+1+"."+time.getDate();
+        }else if(Type == "hours"){
+            if(time.getMinutes()<10){
+                return time.getHours()+":0"+time.getMinutes();
+            }
+            else{
+                return time.getHours()+":"+time.getMinutes();
+            } 
+        }
+    }
+
+
+    public static waters(){
+        let data:any = RES.getRes("waters_json");
+        let txtr:egret.Texture = RES.getRes("waters_png");
+        let water:egret.MovieClipDataFactory = new egret.MovieClipDataFactory(data,txtr);
+        let waters:egret.MovieClip = new egret.MovieClip(water.generateMovieClipData("waters"));
+        SceneManager.sceneManager.mainScene.addChild(waters);
+        waters.x = 230;
+		waters.y = 650;
+        waters.gotoAndPlay(1,5);
+        waters.addEventListener(egret.Event.COMPLETE, function (e:egret.Event):void {
+           
+        }, this);
+        var count:number = 0;
+        waters.addEventListener(egret.Event.LOOP_COMPLETE, function (e:egret.Event):void {
+            
+        }, SceneManager.sceneManager.mainScene);
+        waters.addEventListener(egret.MovieClipEvent.FRAME_LABEL, function (e:egret.MovieClipEvent):void {
+           
+        }, this);
+    }
+    
+    public static flower(){
+        let data:any = RES.getRes("flower_json");
+        let txtr:egret.Texture = RES.getRes("flower_png");
+        let flower:egret.MovieClipDataFactory = new egret.MovieClipDataFactory(data,txtr);
+        let flowerdown:egret.MovieClip = new egret.MovieClip(flower.generateMovieClipData("flower"));
+        SceneManager.sceneManager.mainScene.addChild(flowerdown);
+        flowerdown.x = 220;
+		flowerdown.y = 600;
+        flowerdown.gotoAndPlay(1,1);
+        flowerdown.addEventListener(egret.Event.COMPLETE, function (e:egret.Event):void {
+           
+        }, this);
+        var count:number = 0;
+        flowerdown.addEventListener(egret.Event.LOOP_COMPLETE, function (e:egret.Event):void {
+          
+        }, this);
+        flowerdown.addEventListener(egret.MovieClipEvent.FRAME_LABEL, function (e:egret.MovieClipEvent):void {
+           
+        }, this);
+    }
 }
 	

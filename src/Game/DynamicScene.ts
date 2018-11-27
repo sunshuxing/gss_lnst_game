@@ -117,6 +117,9 @@ class dynList_item extends eui.ItemRenderer{
 	}
 	// 当数据改变时，更新视图
 	protected dataChanged() {
+		console.log(this.data)
+		this.dyn_day.text = Help.getTime(this.data.createDate,"day");
+		this.dyn_time.text = Help.getTime(this.data.createDate,"hours");
 		if(this.data.type == 0){
 			this.dyn_toother.visible = false;
 			this.dyn_label.text = "我的"+this.data.treeName+this.data.stageName+"了!";
@@ -128,7 +131,7 @@ class dynList_item extends eui.ItemRenderer{
 		}
 		else if(this.data.type == 1){
 			this.dyn_toother.visible = false;
-			this.dyn_label.text = this.data.mainUserName+"领取了"+this.data.treeName+"!";
+			this.dyn_label.text = Help.getcharlength(this.data.mainUserName,4)+"领取了"+this.data.treeName+"!";
 			this.dyn_des.text = "";
 			this.dyn_bg.texture = RES.getRes("dyn-xt-bg_png");
 			if(this.data.mainUserIcon){
@@ -140,7 +143,7 @@ class dynList_item extends eui.ItemRenderer{
 			this.dyn_icon.texture = RES.getRes("dyn-bf-icon_png");
 			this.dyn_bg.texture = RES.getRes("dyn-bf-bg_png");
 			this.dyn_label.textFlow = Array<egret.ITextElement>(
-            { text:this.data.mainUserName, style: { "href" : "event:"+this.data.mainUser,"underline":true} }
+            { text:Help.getcharlength(this.data.mainUserName,4), style: { "href" : "event:"+this.data.mainUser,"underline":true} }
             ,{ text:"拜访你的果园"}
         );
 			this.dyn_des.text = "拜访TA";
@@ -153,7 +156,7 @@ class dynList_item extends eui.ItemRenderer{
 			this.dyn_icon.texture = RES.getRes("dyn-bf-icon_png");
 			this.dyn_bg.texture = RES.getRes("dyn-bf-bg_png");
 			this.dyn_label.textFlow = Array<egret.ITextElement>(
-            { text:this.data.mainUserName, style: { "href" : "event:"+this.data.mainUser,"underline":true} }
+            { text:Help.getcharlength(this.data.mainUserName,4), style: { "href" : "event:"+this.data.mainUser,"underline":true} }
             ,{ text:"来偷水"}
         );
 			this.dyn_des.text = "拜访TA";
@@ -166,7 +169,7 @@ class dynList_item extends eui.ItemRenderer{
 			this.dyn_icon.texture = RES.getRes("dyn-bf-icon_png");
 			this.dyn_bg.texture = RES.getRes("dyn-bf-bg_png");
 			this.dyn_label.textFlow = Array<egret.ITextElement>(
-            { text:this.data.mainUserName, style: { "href" : "event:"+this.data.mainUser,"underline":true} }
+            { text:Help.getcharlength(this.data.mainUserName,4), style: { "href" : "event:"+this.data.mainUser,"underline":true} }
             ,{ text:"帮你的小树浇了10g水"}
         );
 			this.dyn_des.text = "拜访TA";
@@ -179,7 +182,7 @@ class dynList_item extends eui.ItemRenderer{
 			this.dyn_icon.texture = RES.getRes("dyn-ly-icon_png");
 			this.dyn_bg.texture = RES.getRes("dyn-ly-bg_png");
 			this.dyn_label.textFlow = Array<egret.ITextElement>(
-            { text:this.data.mainUserName, style: { "href" : "event:"+this.data.mainUser,"underline":true} }
+            { text:Help.getcharlength(this.data.mainUserName,4), style: { "href" : "event:"+this.data.mainUser,"underline":true} }
             ,{ text:"给你留言"}
         );
 			this.dyn_des.text = "给TA留言";
@@ -190,7 +193,7 @@ class dynList_item extends eui.ItemRenderer{
 		else if(this.data.type == 6){
 			this.dyn_toother.visible = false;
 			this.dyn_bg.texture = RES.getRes("dyn-xt-bg_png");
-			this.dyn_label.text = this.data.mainUserName+"签到";
+			this.dyn_label.text = Help.getcharlength(this.data.mainUserName,4)+"签到";
 			this.dyn_des.text = "";
 			if(this.data.mainUserIcon){
 				HttpRequest.imageloader(this.data.mainUserIcon,this.user_icon);
@@ -211,7 +214,7 @@ class dynList_item extends eui.ItemRenderer{
 			this.dyn_icon.texture = RES.getRes("dyn-dd-icon_png");
 			this.dyn_bg.texture = RES.getRes("dyn-dd-bg_png");
 			this.dyn_label.textFlow = Array<egret.ITextElement>(
-            { text:this.data.mainUserName, style: { "href" : "event:"+this.data.mainUser,"underline":true} }
+            { text:Help.getcharlength(this.data.mainUserName,4), style: { "href" : "event:"+this.data.mainUser,"underline":true} }
             ,{ text:"给你放了杂草"}
         );
 			this.dyn_des.text = "给TA捣蛋";
@@ -224,7 +227,7 @@ class dynList_item extends eui.ItemRenderer{
 			this.dyn_icon.texture = RES.getRes("dyn-dd-icon_png");
 			this.dyn_bg.texture = RES.getRes("dyn-dd-bg_png");
 			this.dyn_label.textFlow = Array<egret.ITextElement>(
-            { text:this.data.mainUserName, style: { "href" : "event:"+this.data.mainUser,"underline":true} }
+            { text:Help.getcharlength(this.data.mainUserName,4), style: { "href" : "event:"+this.data.mainUser,"underline":true} }
             ,{ text:"给你放了虫子"}
         );
 			this.dyn_des.text = "给TA捣蛋";
@@ -237,7 +240,7 @@ class dynList_item extends eui.ItemRenderer{
 			this.dyn_icon.texture = RES.getRes("dyn-bf-icon_png");
 			this.dyn_bg.texture = RES.getRes("dyn-bf-bg_png");
 			this.dyn_label.textFlow = Array<egret.ITextElement>(
-            { text:this.data.mainUserName, style: { "href" : "event:"+this.data.mainUser,"underline":true} }
+            { text:Help.getcharlength(this.data.mainUserName,4), style: { "href" : "event:"+this.data.mainUser,"underline":true} }
             ,{ text:"帮你除草"}
         );
 			this.dyn_des.text = "拜访TA";
@@ -250,7 +253,7 @@ class dynList_item extends eui.ItemRenderer{
 			this.dyn_icon.texture = RES.getRes("dyn-bf-icon_png");
 			this.dyn_bg.texture = RES.getRes("dyn-bf-bg_png");
 			this.dyn_label.textFlow = Array<egret.ITextElement>(
-            { text:this.data.mainUserName, style: { "href" : "event:"+this.data.mainUser,"underline":true} }
+            { text:Help.getcharlength(this.data.mainUserName,4), style: { "href" : "event:"+this.data.mainUser,"underline":true} }
             ,{ text:"帮你除虫"}
         );
 			this.dyn_des.text = "拜访TA";
@@ -260,7 +263,7 @@ class dynList_item extends eui.ItemRenderer{
 		}
 		else if(this.data.type == 100){
 			this.dyn_toother.visible = false;
-			this.dyn_label.text = this.data.mainUserName+"兑换了水果";
+			this.dyn_label.text = Help.getcharlength(this.data.mainUserName,4)+"兑换了水果";
 			this.dyn_des.text = "";
 			this.dyn_bg.texture = RES.getRes("dyn-xt-bg_png");
 			if(this.data.mainUserIcon){
