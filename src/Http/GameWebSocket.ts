@@ -93,6 +93,14 @@ class GameWebSocket extends egret.DisplayObjectContainer {
                         info = "来果园帮忙了哦！"
                     }
                     break;
+                    case "water" : {
+                        info = "来果园帮浇水了哦！"
+                    }
+                    break;
+                    case "thiefWater" : {
+                        info = "来偷水啦！"
+                    }
+                    break;
                 }
                 let userName = pushMsg.userName;
                 let userIcon = pushMsg.userIcon;
