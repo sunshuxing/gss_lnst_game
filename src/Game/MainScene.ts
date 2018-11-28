@@ -756,16 +756,16 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 
 	//更新果树树
-	private treeUpdate(data) {
-		if(data.treeName == "苹果树"){
-			this.tree.texture = RES.getRes(Help.getTreeIconBystage(data.stage, 1, data.needTake));
-		}
-		else if(data.treeName == "芭乐"){
-			this.tree.texture = RES.getRes(Help.getTreeIconBystage(data.stage, 2, data.needTake));
+	private treeUpdate(data:TreeUserData) {
+		if(data.needTake == "true"){//*** */
+			HttpRequest.imageloader(Config.picurl+data.stageObj.harvestImage, this.tree);
+		}else{
+			HttpRequest.imageloader(Config.picurl+data.stageObj.stageImage, this.tree);
 		}
 		this.gro_fruit.removeChildren();
 		
 		Help.getTreeHWBystage(data.stage, this.tree);
+		console.log(this.tree)
 	}
 
 
@@ -945,7 +945,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			this.steal_hand.visible = true;
 
 			this.no_tou_btn.visible = false;
-		} else {//不能偷水，隐藏水滴，并且把错误信息绑定//*** */
+		} else {//不能偷水，隐藏水滴，并且把错误信息绑定
 			this.steal_btn.visible = false;	//隐藏水滴
 			this.steal_hand.visible = false;	//偷水的手
 			this.toushui_btn.visible = false;//偷水底部图片

@@ -164,11 +164,10 @@ class Help{
 
     //获取阶段果树锚点长宽等
     public static getTreeHWBystage(stage,img:eui.Image){
-        if(stage<2){
+        if(Number(stage) <2){
             img.width = 250;
             img.height = 257;
-        }
-        if(stage>1){
+        }else if(Number(stage)>1){
             img.width = 420;
             img.height = 433;
         }

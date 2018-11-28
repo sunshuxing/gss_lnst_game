@@ -57,6 +57,8 @@ declare class TreeStage {
     normalGet: any;                  //正常得果数
     fitGet: any;                     //施肥得果数
     isLast: any;                     //是否是最后阶段
+    stageImage:string                //阶段图片
+    harvestImage:string              //阶段结果图片
 }
 
 /**
