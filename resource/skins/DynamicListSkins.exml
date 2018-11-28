@@ -6,7 +6,7 @@
 		<e:Image width="70" height="40" y="0" x="0" source="white-bg"/>
 		<e:Label id="dyn_day" text="11.05" x="0" size="28" fontFamily="SimHei" textColor="0x333333" scaleX="1" scaleY="1" verticalCenter="0"/>
 	</e:Group>
-	<e:Image id="user_icon" width="60" height="60" x="2" y="74" mask="{img_rec}" y.noday="28" includeIn="day,noday" y.day="74" source="bg_png"/>
+	<e:Image id="user_icon" width="60" height="60" x="2" y="74" mask="{img_rec}" y.noday="28" includeIn="day,noday" y.day="74" source=""/>
     <e:Rect id="img_rec" width="60" height="60" x="2" y="74" ellipseWidth="60" ellipseHeight="60" y.noday="28" includeIn="day,noday" y.day="74"/>
 	<e:Image id="dyn_bg" bottom.nomore="0" width="612" height="170" y.noday="10" x.noday="82" includeIn="day,noday" x.day="82" y.day="56" source.noday="dyn-bf-bg_png" scale9Grid.noday="43,68,17,7" source.day="dyn-bf-bg_png" scale9Grid.day="45,68,14,7" source="dyn-bf-bg_png" scale9Grid="43,66,15,9"/>
 	<e:Label id="dyn_label" text="谁谁谁拜访了你的果园。" x="152" y="96" size="28" fontFamily="SimHei" textColor="0xeb4f58" y.noday="50" includeIn="day,noday" y.day="96" anchorOffsetX.day="0" width.day="506" anchorOffsetY.day="0" width.noday="506" width="506"/>

@@ -10,6 +10,8 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private friendsdata: any[];				//好友数据
 	private ownPropdata: any[];				//自己道具数据
 
+
+	private bg:eui.Image;				//背景图片
 	private gro_fruit: eui.Group;		//果实区域
 	private gro_prop: eui.Group;			//果园道具区域
 	private logo: eui.Image;   			//风车图片
@@ -62,7 +64,8 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private user_icon: eui.Image;		//用户头像
 	private friend_kettle: eui.Group;	//帮好友浇水
 	private progress1: eui.ProgressBar;	//果子进度条
-	private frimg_kettle: eui.Image;
+	private frimg_kettle:eui.Image;
+	private img_love:eui.Image;
 
 
 	/**
@@ -87,7 +90,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private no_tou_btn: eui.Image;			//不能偷水按钮
 	private hudong_btn: eui.Image;			//互动按钮
 	private friendUser: string;				//好友
-
+	private timer: egret.Timer = new egret.Timer(17000, 1);		//计时器
 
 	// private webSocket:egret.WebSocket; 	//网络连接
 	private n = 0;
@@ -134,6 +137,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		console.log("onComplete");
 		this.addEventListener(PuticonEvent.PUTGRASS, this.putgrass, this);
 		this.addEventListener(PuticonEvent.PUTINSECT, this.putinsect, this);
+		this.addEventListener(PuticonEvent.LEAVEMSG, this.addBarrageMsg, this);
 		this.addEventListener(PuticonEvent.TOFRIEND, this.toOther, this);
 		this.addEventListener(MaskEvent.REMOVEMASK, this.removemask, this);
 		this.addEventListener(PuticonEvent.USEHUAFEI, this.huafeiTwn, this);
@@ -183,14 +187,11 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 	//摘果子
 	private PickFruit() {
-		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		// let fruitNum = this.getPropById(3);
-		// if(fruitNum && fruitNum.num!=null && fruitNum.num > 0 && this.gameTreedata.needTake == "true"){
-		// 	this.useProp(3)
-		// 	this.gro_fruit.removeChildAt(0);
-		// 	this.getOwnTree();
-		// }
-		if (Number(this.pick_num.text) > 0 && this.gameTreedata.needTake == "true") {
+		// Help.pickTwn(5);
+		let text:string = this.pick_num.text
+		text = text.substring(1,text.length)
+		console.log(text)
+		if (Number(text) > 0 && this.gameTreedata.needTake == "true") {
 			this.useProp(3);
 		} else if (this.gameTreedata.needTake == "false") {
 			let content = "您现在还不能使用篮子哦~"
@@ -249,7 +250,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	}
 	// 果树图片点击事件
 	private treeTouch() {
-		Help.flower();
 		this.gro_tree.touchEnabled = false;
 		egret.Tween.get(this.tree)
 			.to({ scaleX: 1.12, scaleY: 1.12 }, 200)
@@ -372,6 +372,70 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			.to({ x: this.cloud3.x }, 8000)
 	}
 
+
+	//添加弹幕
+	private addBarrageMsg(evt:PuticonEvent){
+		let templateId = evt.templateId		//弹幕模板ID
+		let barragbg = new eui.Image;		//弹幕背景
+		let barragicon = new eui.Image;		//弹幕头像
+		let bariconmask = new eui.Rect;		//弹幕头像遮罩
+		let barragegroup = new eui.Group;	//弹幕容器
+		let barragetext = new eui.Label;	//弹幕内容
+		let data = Help.getOwnData();
+
+		barragegroup.x = 750;			//弹幕位置随机
+		barragegroup.y = 300 + Help.random_num(1, 3) * 60;
+		barragegroup.width = 414;
+		barragegroup.height = 72;
+		this.BarGroup.addChild(barragegroup);
+
+		//添加弹幕背景
+		barragbg.x = 0;
+		barragbg.y = 0;
+		barragbg.width = 414;
+		barragbg.height = 72;
+		barragbg.texture = RES.getRes('barragebg-green');
+		barragegroup.addChild(barragbg);
+		
+		//添加弹幕头像
+		barragicon.x = 7;
+		barragicon.y = 16;
+		barragicon.width = 46;
+		barragicon.height = 46;
+		// barragicon.texture = RES.getRes(TestData.leaveMsgUserdata[i].mainUserIcon);
+		if (data.userIcon) {
+			HttpRequest.imageloader(data.userIcon, barragicon);	//加载网络头像
+		}
+		barragegroup.addChild(barragicon);
+
+		//添加弹幕头像遮罩
+		bariconmask.x = 7;
+		bariconmask.y = 14;
+		bariconmask.width = 46;
+		bariconmask.height = 46;
+		bariconmask.ellipseWidth = 46;
+		bariconmask.ellipseHeight = 46;
+		barragegroup.addChild(bariconmask);
+		barragicon.mask = bariconmask;
+
+		//添加弹幕内容
+		barragetext.x = 78;
+		barragetext.y = 28;
+		barragetext.size = 24;
+		// barragetext.text = TestdataHelp.getleaveMsgById(TestData.leaveMsgUserdata[i].templateId);
+		barragetext.text = this.getLeaveMsgByTemplateId(templateId)
+		barragetext.textColor = 0x0F3B00;
+		barragetext.fontFamily = "SimHei";
+		barragegroup.addChild(barragetext);
+
+		//弹幕飘动
+		egret.Tween.get(barragegroup)
+		.to({ x: -430 },8000)
+		this.timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, this.removeBarrage, this);
+		this.timer.start();
+	}
+
+
 	// 弹幕滚动
 	private addBarrage(dataList: Array<LeaveMsgUser>) {
 		for (let i = 0; i < dataList.length; i++) {
@@ -379,15 +443,15 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			let barragbg = new eui.Image;		//弹幕背景
 			let barragicon = new eui.Image;		//弹幕头像
 			let bariconmask = new eui.Rect;		//弹幕头像遮罩
-			this.barragegroup = new eui.Group;	//弹幕容器
+			let barragegroup = new eui.Group;	//弹幕容器
 			let barragetext = new eui.Label;	//弹幕内容
 
 			//添加单个弹幕容器 
-			this.barragegroup.x = 750;			//弹幕位置随机
-			this.barragegroup.y = 300 + Help.random_num(1, 3) * 60;
-			this.barragegroup.width = 414;
-			this.barragegroup.height = 72;
-			this.BarGroup.addChild(this.barragegroup);
+			barragegroup.x = 750;			//弹幕位置随机
+			barragegroup.y = 300 + Help.random_num(1, 3) * 60;
+			barragegroup.width = 414;
+			barragegroup.height = 72;
+			this.BarGroup.addChild(barragegroup);
 
 			//添加弹幕背景
 			barragbg.x = 0;
@@ -395,7 +459,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			barragbg.width = 414;
 			barragbg.height = 72;
 			barragbg.texture = RES.getRes('barragebg-green');
-			this.barragegroup.addChild(barragbg);
+			barragegroup.addChild(barragbg);
 
 			//添加弹幕头像
 			barragicon.x = 7;
@@ -406,7 +470,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			if (dataList[i].mainUserIcon) {
 				HttpRequest.imageloader(dataList[i].mainUserIcon, barragicon);	//加载网络头像
 			}
-			this.barragegroup.addChild(barragicon);
+			barragegroup.addChild(barragicon);
 
 			//添加弹幕头像遮罩
 			bariconmask.x = 7;
@@ -415,7 +479,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			bariconmask.height = 46;
 			bariconmask.ellipseWidth = 46;
 			bariconmask.ellipseHeight = 46;
-			this.barragegroup.addChild(bariconmask);
+			barragegroup.addChild(bariconmask);
 			barragicon.mask = bariconmask;
 
 			//添加弹幕内容
@@ -426,17 +490,18 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			barragetext.text = this.getLeaveMsgByTemplateId(dataList[i].templateId)
 			barragetext.textColor = 0x0F3B00;
 			barragetext.fontFamily = "SimHei";
-			this.barragegroup.addChild(barragetext);
+			barragegroup.addChild(barragetext);
 
 
 			//弹幕飘动
-			egret.Tween.get(this.barragegroup)
+			if(barragegroup){
+				egret.Tween.get(barragegroup)
 				.wait(i * 3000)
-				.to({ x: -430 }, 8000)
+				.to({ x: -430 },8000)
+			}
 		}
-		var timer: egret.Timer = new egret.Timer(17000, 1);
-		timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, this.removeBarrage, this);
-		timer.start();
+		this.timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE,this.removeBarrage, this);
+		this.timer.start();
 	}
 
 	/**
@@ -455,9 +520,8 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 	//移除弹幕容器
 	private removeBarrage() {
-		if (this.barragegroup && this.barragegroup.parent) {
-			this.barragegroup.parent.removeChildren();
-		}
+		this.timer.reset()
+		this.BarGroup.removeChildren()
 	}
 
 	//进入互动场景
@@ -556,11 +620,11 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	//领取种子列表
 	private radioChangeHandler(evt: eui.UIEvent): void {
 		if (this.seed_id && this.seed_id.length > 0) {
-			this.RadioBtn1.value = this.seed_id[0];
-			this.RadioBtn2.value = this.seed_id[1];
+			this.RadioBtn1.value = this.seed_id[1];
+			this.RadioBtn2.value = this.seed_id[4];
 			this.RadioBtn3.value = this.seed_id[2];
 			this.RadioBtn4.value = this.seed_id[3];
-			this.RadioBtn5.value = this.seed_id[4];
+			this.RadioBtn5.value = this.seed_id[0];
 			this.RadioBtn6.value = this.seed_id[5];
 		}
 		var radioGroup: eui.RadioButtonGroup = evt.target;
@@ -596,6 +660,21 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	}
 
 	private init(data) {
+		let now = new Date();
+		let hour = now.getHours();
+		if(hour > 17 || hour <6){
+			this.logo.texture = RES.getRes("logo-night_png")
+			this.bg.texture = RES.getRes("bg-night_png");
+			this.cloud1.visible = false;
+			this.cloud2.visible = false;
+			this.cloud3.visible = false;
+		}else if(hour <18 || hour>5){
+			this.logo.texture = RES.getRes("logo")
+			this.bg.texture = RES.getRes("bg-day_png");
+			this.cloud1.visible = true;
+			this.cloud2.visible = true;
+			this.cloud3.visible = true;
+		}
 		console.log("数据", data);
 		if (this.currentState == "havetree") {
 			this.gro_love.touchEnabled = true;
@@ -626,16 +705,13 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private requestgetOwnTree(data): void {
 		var treedata = data;
 		let treeUser: TreeUserData = treedata.data;
-
-
+		Help.saveOwnData(treedata.data);					//保存自己果树数据
 		if (treedata.data) {
 			if (treedata.data.canReceive == "true") {
-				let params = {
-					treeUserId: treedata.data.id,
-					treeId: treedata.data.treeId
-				};
-				let _str = WeixinUtil.prototype.urlEncode(params, null, null, null);
-				window.location.href = Config.webHome + "/view/game-exchange.html?" + _str;
+				let prompt = new PromptJump();
+				 	prompt.x = 85;
+        			prompt.y = 430;
+				this.addChild(prompt);
 			} else {
 				if (treedata.data.needTake == "false") {
 					this.noHarvest = false;
@@ -681,8 +757,14 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 	//更新果树树
 	private treeUpdate(data) {
+		if(data.treeName == "苹果树"){
+			this.tree.texture = RES.getRes(Help.getTreeIconBystage(data.stage, 1, data.needTake));
+		}
+		else if(data.treeName == "芭乐"){
+			this.tree.texture = RES.getRes(Help.getTreeIconBystage(data.stage, 2, data.needTake));
+		}
 		this.gro_fruit.removeChildren();
-		this.tree.texture = RES.getRes(Help.getTreeIconBystage(data.stage, 1, data.needTake));
+		
 		Help.getTreeHWBystage(data.stage, this.tree);
 	}
 
@@ -703,8 +785,16 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			{ text: Help.getPropById(Data.data, 2) ? Help.getPropById(Data.data, 2).num : 0, style: { "size": 22 } }
 			, { text: "%", style: { "size": 18 } }
 		];
-		this.kettle_num.text = Help.getPropById(Data.data, 1) ? Help.getPropById(Data.data, 1).num : 0;			//水滴数量
-		this.pick_num.text = Help.getPropById(Data.data, 3) ? Help.getPropById(Data.data, 3).num : 0;				//篮子数量
+		this.kettle_num.text = Help.getPropById(Data.data, 1) ? Help.getPropById(Data.data, 1).num : 0;					//水滴数量
+		this.pick_num.text = "x"+(Help.getPropById(Data.data, 3) ? Help.getPropById(Data.data, 3).num : 0);				//篮子数量
+		let text:string = this.love_num.text
+		text = text.substring(0,text.length-1)
+		if(Number(text)>=100){
+			egret.Tween.get(this.img_love,{loop:true})
+			.to({ scaleX: 1, scaleY: 1 }, 400)
+			.to({ scaleX: 1.1, scaleY: 1.1 },400)
+			.to({ scaleX: 1, scaleY: 1 }, 400)
+		}
 	}
 
 	//查询果园道具(虫，草)	treeUserId：用户果树id
@@ -807,6 +897,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			this.setState("friendtree");
 			this.friendUser = this.friend_list.selectedItem.friendUser		//好友
 			let friendTreeUserId = this.friend_list.selectedItem.treeUserId;
+			Help.passAnm();
 			this.getTreeInfoByid(friendTreeUserId);
 			//查询是否可以偷水
 			this.checkSteal(friendTreeUserId)
@@ -877,17 +968,15 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	//除去果园道具成功后处理
 	private Req_removeTreeProp(icon, data): void {
 		var Data = data;
-		this.gro_prop.removeChild(icon);
-		let content = ""
+		this.removeChild(icon);
 		if (Data.data.loveCount > 0) {
-			content = "清除成功,获得爱心值x" + Data.data.loveCount + "！"
-			this.love_num.text = String(Number(this.love_num.text) + Number(Data.data.loveCount))
+			SceneManager.addNotice("获得爱心值x"+ Data.data.loveCount)
+			let text:string = this.love_num.text
+			text = text.substring(0,text.length-1)
+			this.love_num.text =(String(Number(text) + Number(Data.data.loveCount)))+"%"
 		} else {
-			content = "清除成功！"
+			SceneManager.addNotice("清除成功")
 		}
-		let btn = "确定"
-		let ti = "(多多帮助好友清除可使您的小树更快成长！)"
-		SceneManager.addPrompt(content, btn, ti);
 		console.log(Data, "除去果园道具数据")
 	}
 
@@ -931,6 +1020,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private ToSelfTree() {
 		if (this.currentState != "havetree") {
 			this.getOwnTree();
+			Help.passAnm();
 			this.setState("havetree");
 			this.getTreeLeaveMsg(this.ownTreeUserId)	//这时候肯定有自己果树id和模板信息了
 		}
@@ -991,7 +1081,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	//获取果树留言
 	private getTreeLeaveMsg(treeUserId) {
 		//加载留言前先清空留言内容
-		this.BarGroup.removeChildren()
+		this.removeBarrage();
 		let params = {
 			treeUserId: treeUserId,
 			pageNo: 1
@@ -1029,45 +1119,78 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			if (data[i].propType == 0) {
 				n++
 				if (n < 4) {
-					this.putgrass(data[i].id);
+					this.putgrass(data[i].id,n);
 				}
 			}
 			if (data[i].propType == 1) {
 				m++
 				if (m < 4) {
-					this.putinsect(data[i].id);
+					this.putinsect(data[i].id,m);
 				}
 			}
 		}
 	}
 
 	//放入草
-	private putgrass(id) {
+	private putgrass(id,m?) {
 		let grass = new eui.Image;
-		grass.x = 0 + Math.random() * this.gro_prop.width;	//x 250-500
-		grass.y = 0 + Math.random() * this.gro_prop.height;	//y 850-980
+		if(!m){
+			m = Help.random_num(4,6)
+			if(m == 4){
+				grass.x = 230 + Help.random_num(-2,2)*20;
+				grass.y = 950 + Help.random_num(-2,2)*5;
+			}
+			else if(m == 5){
+				grass.x = 362 + Help.random_num(-2,2)*20;
+				grass.y = 956 + Help.random_num(-2,2)*5;
+			}
+			else if(m == 6){
+				grass.x = 504 + Help.random_num(-2,2)*20;
+				grass.y = 938 + Help.random_num(-2,2)*5;
+			}
+		}
+		else if(m){
+			Help.grapos(m,grass);
+		}
 		grass.width = 74;
 		grass.height = 60;
 		grass.texture = RES.getRes("home-grass");
 		grass.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
 			this.removeTreeProp(grass, id);
 		}, this)
-		this.gro_prop.addChild(grass);
+		this.addChild(grass);
 	}
 
 	//放入虫
 
-	private putinsect(id) {
+	private putinsect(id,m?) {
 		let insect = new eui.Image;
-		insect.x = 0 + Math.random() * this.gro_prop.width;
-		insect.y = 0 + Math.random() * this.gro_prop.height;
+		if(!m){
+			m = Help.random_num(4,6)
+			if(m == 4){
+				insect.x = 536 + Help.random_num(-2,2)*20;
+				insect.y = 872 + Help.random_num(-2,2)*5;
+			}
+			else if(m == 5){
+				insect.x = 295 + Help.random_num(-2,2)*20;
+				insect.y = 932 + Help.random_num(-2,2)*5;
+			}
+			else if(m == 6){
+				insect.x = 436 + Help.random_num(-2,2)*20;
+				insect.y = 930 + Help.random_num(-2,2)*5;
+			}
+		}
+		else if(m){
+			Help.inspos(m,insect);
+		}
+		
 		insect.width = 76;
 		insect.height = 95.75;
 		insect.texture = RES.getRes("home-insect");
 		insect.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
 			this.removeTreeProp(insect, id);
 		}, this)
-		this.gro_prop.addChild(insect);
+		this.addChild(insect);
 	}
 
 
@@ -1161,6 +1284,15 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			.to({ rotation: this.sanj.rotation + 120 }, 500).call(this.lqTwn, this)
 		this.a = this.a - 1;
 		this.showtime(this.a);
+		let text = new eui.Label();
+		text.text = "-1";
+		text.x = 665;
+		text.y = 1090;
+		text.textColor = 0x1B8399;
+		text.size = 26;
+		this.addChild(text);
+		egret.Tween.get(text)
+		.to({y:1060},500).call(()=>{this.removeChild(text)},this)
 	}
 
 	//水壶冷却完成
@@ -1194,25 +1326,25 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		icon.anchorOffsetY = icon.height / 2;
 		this.addChild(icon)
 		egret.Tween.get(icon)
-			.to({ x: 296, y: 815 }, 500)
+			.to({ x: 540, y: 815 }, 1000)
 			.wait(300)
-			.to({ rotation: 112 }, 500).call(() => { this.huafeikeli(icon), this })
+			.to({ rotation: -60 }, 500).call(() => { this.huafeikeli(icon), this })
 	}
 
 
 	private huafeikeli(icon1) {
 		let icon = new eui.Image();
 		icon.texture = RES.getRes("huafeili_png");
-		icon.x = 338;			//355
+		icon.x = 460;			//355
 		icon.y = 847;			//875
 		icon.width = 35;
 		icon.height = 57;
 		this.addChild(icon)
 		egret.Tween.get(icon)
-			.to({ x: 355, y: 875, alpha: 0.2 }, 500)
+			.to({ x: 440, y: 875, alpha: 0.2 }, 500)
 			.wait(200)
-			.set({ x: 337, y: 847, alpha: 1 })
-			.to({ x: 355, y: 875, alpha: 0.2 }, 500)
+			.set({ x: 460, y: 847, alpha: 1 })
+			.to({ x: 440, y: 875, alpha: 0.2 }, 500)
 			.wait(200).call(() => { this.removeChild(icon), this }).call(() => { this.removeChild(icon1), this }).call(() => { this.getOwnTree(), this })
 
 	}

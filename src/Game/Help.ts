@@ -2,6 +2,7 @@ class Help{
    
     private static TreeUserData         //用户果树数据
     private static UserFriendData
+    private static OwnData              //自己果树数据
 
     //保存用户果树数据
     public static saveTreeUserData(data){
@@ -10,6 +11,15 @@ class Help{
     //获取用户果树数据
     public static getTreeUserData(){
         return this.TreeUserData;
+    }
+
+    //保存用户果树数据
+    public static saveOwnData(data){
+        this.OwnData = data;
+    }
+    //获取用户果树数据
+    public static getOwnData(){
+        return this.OwnData;
     }
 
 
@@ -80,24 +90,39 @@ class Help{
                 if(type == 1){
                     return "appletree1"     //树
                 }
+                else if(type == 2){
+                    return "baletree1_png"
+                }
             
             }
             else if(stage == 2){
                 if(type == 1){
                     return "appletree2"     //大树
                 }
+                else if(type == 2){
+                    return "baletree2"
+                }
             }
             else if(stage == 3){
                 if(type == 1){
                     return "appletree3"     //开花
+                }
+                else if(type == 2){
+                    return "baletree3"
                 }
             }
             else if(stage == 4){
                 if(type == 1 && istake == "false"){
                     return "appletree4"             //结果(绿)
                 }
-                else if(type = 1 && istake == "true"){
+                else if(type == 1 && istake == "true"){
                     return "appletree5"             //半红半绿
+                }
+                else if(type == 2 && istake == "false"){
+                    return "baletree4"
+                }
+                else if(type == 5 && istake == "true"){
+                    return "baletree5"             //半红半绿
                 }
             }
             else if(stage == 5){
@@ -107,6 +132,12 @@ class Help{
                 else if(type == 1 && istake == "true"){
                     return "appletree6"                 //半红半绿
                 }
+                else if(type == 2 && istake == "false"){
+                    return "baletree4"                 //半红半绿
+                }
+                else if(type == 2 && istake == "true"){
+                    return "baletree6"                 //半红半绿
+                }
             }   
             else if(stage ==6){
                  if(type == 1 && istake == "false"){
@@ -115,9 +146,19 @@ class Help{
                 else if(type == 1 && istake == "true"){
                     return "appletree7"                 
                 }
+                else if(type == 1 && istake == "false"){
+                    return "baletree4"                 
+                }
+                else if(type == 1 && istake == "true"){
+                    return "baletree7"                 
+                }
+                
             } 
-            else if(stage ==7){
+            else if(type == 1&&stage ==7){
                     return "appletree7"                 
+            }
+            else if(type == 2&&stage ==7){
+                    return "baleree7"                 
             } 
     }
 
@@ -143,19 +184,14 @@ class Help{
         timer.start();
     }
 
-    //使用水滴后动画
-    public static usewaterTwn(){
-
-        let water = new eui.Image()
-    }
-
-
+    //摘果动画
     public static pickTwn(num){
         let timer:egret.Timer = new egret.Timer(150,num);
         timer.addEventListener(egret.TimerEvent.TIMER,this.fruitTwn,this);
         timer.start();
     }
 
+    //果子动画
     public static fruitTwn(type){
         let fruit = new eui.Image()
         fruit.x = 398;
@@ -165,27 +201,22 @@ class Help{
         fruit.texture = RES.getRes("appleg1")
         SceneManager.sceneManager.mainScene.addChild(fruit);
         egret.Tween.get(fruit)
+        .to({x:368,y:505},300)
         .to({x:324,y:1178,height:34,width:29},1400).call(()=>{SceneManager.sceneManager.mainScene.removeChild(fruit)},SceneManager.sceneManager.mainScene)
     }
 
+    //摘果动画完成之后更新
     public static pickTwnupdata(Func){
         let timer:egret.Timer = new egret.Timer(2150,1);
         timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE,Func,SceneManager.sceneManager.mainScene)
         timer.start();
     }
 
-    public static isToday(date){
-        let time = new Date("2018-11-27 11:02:52");
-        let mouth = time.getMonth()+1
-        let Day = time.getDate();
-        let Hours = time.getHours();
-        let Min = time.getMinutes();
-        console.log(time)
-        console.log("月:"+mouth,"日:"+Day,"时:"+Hours,"分:"+Min)
-    }
 
-
+    //获取日期时间
     public static getTime(date,Type){
+        //如果createDate为后台传入的Date类型，这里直接转化为毫秒数
+        date = date.replace(new RegExp(/-/gm), "/"); //将所有的'-'转为'/'即可
         let time = new Date(date);
         if(Type == "day"){
             return time.getMonth()+1+"."+time.getDate();
@@ -199,7 +230,7 @@ class Help{
         }
     }
 
-
+    //浇水气泡动画
     public static waters(){
         let data:any = RES.getRes("waters_json");
         let txtr:egret.Texture = RES.getRes("waters_png");
@@ -221,25 +252,70 @@ class Help{
         }, this);
     }
     
-    public static flower(){
-        let data:any = RES.getRes("flower_json");
-        let txtr:egret.Texture = RES.getRes("flower_png");
-        let flower:egret.MovieClipDataFactory = new egret.MovieClipDataFactory(data,txtr);
-        let flowerdown:egret.MovieClip = new egret.MovieClip(flower.generateMovieClipData("flower"));
-        SceneManager.sceneManager.mainScene.addChild(flowerdown);
-        flowerdown.x = 220;
-		flowerdown.y = 600;
-        flowerdown.gotoAndPlay(1,1);
-        flowerdown.addEventListener(egret.Event.COMPLETE, function (e:egret.Event):void {
+    //落花动画
+    // public static flower(){
+    //     let data:any = RES.getRes("flower_json");
+    //     let txtr:egret.Texture = RES.getRes("flower_png");
+    //     let flower:egret.MovieClipDataFactory = new egret.MovieClipDataFactory(data,txtr);
+    //     let flowerdown:egret.MovieClip = new egret.MovieClip(flower.generateMovieClipData("flower"));
+    //     SceneManager.sceneManager.mainScene.addChild(flowerdown);
+    //     flowerdown.x = 220;
+	// 	flowerdown.y = 600;
+    //     flowerdown.gotoAndPlay(1,1);
+    //     flowerdown.addEventListener(egret.Event.COMPLETE, function (e:egret.Event):void {
            
-        }, this);
-        var count:number = 0;
-        flowerdown.addEventListener(egret.Event.LOOP_COMPLETE, function (e:egret.Event):void {
+    //     }, this);
+    //     var count:number = 0;
+    //     flowerdown.addEventListener(egret.Event.LOOP_COMPLETE, function (e:egret.Event):void {
           
-        }, this);
-        flowerdown.addEventListener(egret.MovieClipEvent.FRAME_LABEL, function (e:egret.MovieClipEvent):void {
+    //     }, this);
+    //     flowerdown.addEventListener(egret.MovieClipEvent.FRAME_LABEL, function (e:egret.MovieClipEvent):void {
            
-        }, this);
+    //     }, this);
+    // }
+
+    //过场动画
+    public static passAnm(){
+        let left = new eui.Image;
+        let right = new eui.Image;
+        left.x = 0;
+        left.y = 0;
+        right.x = 233;
+        right.y = 0;
+        left.texture = RES.getRes("passleft_png");
+        right.texture = RES.getRes("passright_png");
+        SceneManager.sceneManager.mainScene.addChild(left);
+        SceneManager.sceneManager.mainScene.addChild(right);
+        egret.Tween.get(left)
+        .wait(200)
+        .to({x:-574,alpha:0.2},1000)
+        egret.Tween.get(right)
+        .wait(200)
+        .to({x:807,alpha:0.2},1000)
+    }
+
+    public static grapos(n,icon){
+        if(n == 1){
+            return icon.x = 230,icon.y = 950;
+		}
+		else if(n == 2){
+			return icon.x = 362,icon.y = 956;
+		}
+		else if(n == 3){
+			return icon.x = 504,icon.y = 938;
+		}
+    }
+
+    public static inspos(n,icon){
+        if(n == 1){
+			return icon.x = 536,icon.y = 872;
+		}
+		else if(n == 2){
+			return icon.x = 295,icon.y = 932;
+		}
+		else if(n == 3){
+			return icon.x = 436,icon.y = 930;
+		}
     }
 }
 	

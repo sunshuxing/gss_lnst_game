@@ -102,8 +102,8 @@ class SceneManager {
      */
     static toMainScene() {
         let stage: egret.DisplayObjectContainer = this.instance._stage // (根) 舞台
-        let mainScene = SceneManager.instance.mainScene // 主场景
-        mainScene.y = -126
+        let mainScene = SceneManager.instance.mainScene; // 主场景
+        mainScene.y = stage.height - mainScene.height;
         // 判断主场景是否有父级(如果有,说明已经被添加到了场景中)
         if (!mainScene.parent) {
             // 未被添加到场景

@@ -57,15 +57,15 @@ class InteractiveScene extends eui.Component implements eui.UIComponent{
 			treeUserId:treeUserId,
 			templeteId:templeteId
 			};
-        MyRequest._post("game/leaveMsg",params,this,this.Req_leaveMsg.bind(this),this.onGetIOError)
+        MyRequest._post("game/leaveMsg",params,this,this.Req_leaveMsg.bind(this,treeUserId,templeteId),this.onGetIOError)
     }
 
-    private Req_leaveMsg(data):void{
-        let content = "留言成功！"
-		let btn = "确定"
-		let ti = ""
-		SceneManager.addPrompt(content, btn, ti);
+    private Req_leaveMsg(treeUserId,templeteId,data):void{
+        SceneManager.addNotice("留言成功！")
 		var Data = data;
+        let evt:PuticonEvent = new PuticonEvent(PuticonEvent.LEAVEMSG);
+        evt.templateId = templeteId;
+        SceneManager.sceneManager.mainScene.dispatchEvent(evt);
 		console.log(Data,"留言")
 	}
 
@@ -73,7 +73,6 @@ class InteractiveScene extends eui.Component implements eui.UIComponent{
     private listTouch(){
         let treeUserId = Help.getTreeUserData().id;
         let templeteId = this.list_barrage.selectedItem.id;
-        console.log(treeUserId,"id",templeteId)
         this.leaveMsg(treeUserId,templeteId);
         this.closeScene()
     }

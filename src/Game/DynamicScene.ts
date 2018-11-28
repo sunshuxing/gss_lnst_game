@@ -44,11 +44,9 @@ class DynamicScene extends eui.Component implements eui.UIComponent{
 	//查询动态信息成功后处理
 	private Req_searchDynamic(data):void{
 		var Data = data;
-		if(Data.status == 0){
-			var dyndata = Data.data.list;
-		}
+		var dyndata = Data.data.list;
 		console.log("动态数据:",Data)
-		let euiArr:eui.ArrayCollection = new eui.ArrayCollection(data.data.list);
+		let euiArr:eui.ArrayCollection = new eui.ArrayCollection(dyndata);
 		this.line.height = euiArr.length*220;
 		this.list_dyn.dataProvider = euiArr;
 		// 设置list_hero的项呈视器 (这里直接写类名,而不是写实例)
@@ -60,7 +58,15 @@ class DynamicScene extends eui.Component implements eui.UIComponent{
     	console.log("get error : " + event);
 	}
 
-	
+	private setItemState(list){
+		for(let i=0;i<list.length;i++){
+			for(let j=0;j<list.length-1;j++){
+
+			}
+		}
+	}
+
+
 	//数组排序
 	private arrsort(arr){
 		for(let i=0;i<arr.length;i++){
@@ -117,7 +123,6 @@ class dynList_item extends eui.ItemRenderer{
 	}
 	// 当数据改变时，更新视图
 	protected dataChanged() {
-		console.log(this.data)
 		this.dyn_day.text = Help.getTime(this.data.createDate,"day");
 		this.dyn_time.text = Help.getTime(this.data.createDate,"hours");
 		if(this.data.type == 0){
@@ -205,9 +210,7 @@ class dynList_item extends eui.ItemRenderer{
 			this.dyn_bg.texture = RES.getRes("dyn-xt-bg_png");
 			this.dyn_label.text = "您获得了"+this.data.num+"个"+this.getpropname(this.data.propType);
 			this.dyn_des.text = "";
-			if(this.data.mainUserIcon){
-				HttpRequest.imageloader(this.data.mainUserIcon,this.user_icon);
-			}
+			this.user_icon.texture = RES.getRes("logo")
 		}
 		else if(this.data.type == 10){
 			this.dyn_toother.visible = true;
@@ -298,6 +301,7 @@ class dynList_item extends eui.ItemRenderer{
 	private toother(user){
 		var data = Help.getUserFriendData();
 		var userid = Help.getUserIdByUser(user,data);
+		Help.passAnm();
 		let evt:PuticonEvent = new PuticonEvent(PuticonEvent.TOFRIEND);
 		evt.userid = userid;
 		SceneManager.sceneManager.mainScene.dispatchEvent(evt);
