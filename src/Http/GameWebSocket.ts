@@ -48,11 +48,6 @@ class GameWebSocket extends egret.DisplayObjectContainer {
     private onSocketOpen():void {
         //心跳，保持连接
         let that = this
-        if (this.socket.connected) {
-            setInterval(() => {
-                that.sendData("1")
-            }, 3000)
-        }
         this.trace("WebSocketOpen");
     }
 
@@ -70,7 +65,9 @@ class GameWebSocket extends egret.DisplayObjectContainer {
         this.trace(JSON.parse(msg));
         if(msg){
             let pushMsg = JSON.parse(msg);
-            pushMsg = JSON.parse(pushMsg)
+            if(typeof pushMsg == 'string' ){
+                pushMsg = JSON.parse(pushMsg)   //如果还是字符串则需要再进行一次转换
+            }
             //处理推送消息
             if(pushMsg.type == "1"){
                 //动态推送
@@ -105,8 +102,12 @@ class GameWebSocket extends egret.DisplayObjectContainer {
                 let userName = pushMsg.userName;
                 let userIcon = pushMsg.userIcon;
                 SceneManager.instance.mainScene.showDynamicMsg(info,userName,userIcon)
-            }else if(pushMsg.type == "0"){//顶部推送
-
+            }else if(pushMsg.type == "0"){//顶部推送,暂时用刷新，实际直接构建数据即可
+                if(pushMsg.code =="systemInfo"){//系统推送
+                    SceneManager.instance.mainScene.getSystemMsg()
+                }else if(pushMsg.code == "topInfo"){//成长周期推送
+                    SceneManager.instance.mainScene.getTopMsg()
+                }
             }else if(pushMsg.type == "2"){//刷新好友请求
                 SceneManager.instance.mainScene.getFriends();
             }

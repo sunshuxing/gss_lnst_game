@@ -830,7 +830,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 
 	//查询顶部消息
-	private getTopMsg() {
+	public getTopMsg() {
 		MyRequest._post("game/getTopInfo", null, this, this.Req_getTopMsg.bind(this), this.onGetIOError)
 	}
 
@@ -844,7 +844,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 
 	//查询系统消息
-	private getSystemMsg() {
+	public getSystemMsg() {
 		MyRequest._post("game/getSystemInfo", null, this, this.Req_getSystemMsg.bind(this), this.onGetIOError)
 	}
 

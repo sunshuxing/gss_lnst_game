@@ -268,7 +268,7 @@ class taskList_item extends eui.ItemRenderer {
             }
                 break;
             case 'specifiy_order': {
-                location.href = Config.webHome + "view/game-browse-goods.html?listType=1"
+                location.href = Config.webHome + "view/game-browse-goods.html?listType=0"
                 console.log("指定下单")
             }
                 break;
