@@ -12,6 +12,9 @@ class SceneManager {
     public weixinUtil: WeixinUtil                //微信操作类
     private webSocket: GameWebSocket                  //推送类
 
+    public connectTime:number = 0;                  //重连次数
+    private interval                            //定时器
+
 
     constructor() {
         this.mainScene = new MainScene()
@@ -211,13 +214,16 @@ class SceneManager {
         let url = Config.socketHome + "?userId=" + user;
         this.webSocket = new GameWebSocket(url)
         let that = this
-        setInterval(() => {
-            if (this.webSocket.connected()) {
-                that.webSocket.sendData("1")
-            } else {
-                this.initWebSocket();
-            }
-        }, 3000)
+        if(!this.interval){
+            this.interval = setInterval(() => {
+                if (this.webSocket.connected()) {
+                    that.webSocket.sendData("1")
+                } else {
+                    this.connectTime = this.connectTime + 1
+                    this.initWebSocket();
+                }
+            }, 10000)
+        }
 
     }
 }
