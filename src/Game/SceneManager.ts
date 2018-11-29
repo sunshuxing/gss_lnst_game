@@ -1,5 +1,5 @@
 class SceneManager {
-    private _stage: egret.DisplayObjectContainer // 设置所有场景所在的舞台(根)
+    public _stage: egret.DisplayObjectContainer // 设置所有场景所在的舞台(根)
 
     public mainScene: MainScene                  //主场景
     public interactiveScene: InteractiveScene    //互动场景
@@ -67,7 +67,7 @@ class SceneManager {
      * stage 要展示的舞台对象
      * time 显示持续时间（1000为1秒），不传默认1.5秒
      */
-    static addNotice(msg: string, time?) {
+    static addNotice(msg: string, time?,msgflow?) {
 
         let notice: Notice = new Notice();
 

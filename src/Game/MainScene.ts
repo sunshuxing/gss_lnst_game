@@ -104,7 +104,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		this.str2.scrollRect = new egret.Rectangle(0, 0, 320, 50);
 		this.img1.scrollRect = new egret.Rectangle(0, 0, 50, 50);
 		this.img2.scrollRect = new egret.Rectangle(0, 0, 50, 50);
-		this.gro_top.y = this.height - SceneManager.sceneManager._stage.height;
+		this.gro_top.y = this.height - SceneManager.instance._stage.height;
 		this.friend_scr.horizontalScrollBar = null;
 		//沒有果樹
 		this.seed_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.getSeed, this)
