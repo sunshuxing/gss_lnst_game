@@ -686,6 +686,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			} else {
 				if (treedata.data.needTake == "false") {
 					this.pick_hand.visible = false;
+					this.pick_label.visible = false;
 					this.noHarvest = false;
 				} else if (treedata.data.needTake == "true" && !this.noHarvest) {
 					this.noHarvest = true;
@@ -693,6 +694,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 				}
 				if(treedata.data.needTake == "true"){
 					this.pick_hand.visible = true;
+					this.pick_label.visible = true;
 					egret.Tween.get(this.pick_hand,{loop:true})
 					.to({y:this.pick_hand.y-20},500)
 					.to({y:this.pick_hand.y},500)

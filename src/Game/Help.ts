@@ -198,7 +198,7 @@ class Help{
         fruit.y = 605;
         fruit.width = 44;
         fruit.height = 50;
-        fruit.texture = RES.getRes("appleg1")
+        fruit.texture = RES.getRes("")
         SceneManager.sceneManager.mainScene.addChild(fruit);
         egret.Tween.get(fruit)
         .to({x:368,y:505},300)
@@ -280,7 +280,8 @@ class Help{
         let right = new eui.Image;
         left.x = 0;
         left.y = 0;
-        right.x = 233;
+        right.skewY = 180;
+        right.x = 750;
         right.y = 0;
         left.texture = RES.getRes("pass_png");
         right.texture = RES.getRes("pass_png");
@@ -288,10 +289,10 @@ class Help{
         SceneManager.sceneManager.mainScene.addChild(right);
         egret.Tween.get(left)
         .wait(200)
-        .to({x:-574,alpha:0.2},1000)
+        .to({x:-750,alpha:0.4},1000)
         egret.Tween.get(right)
         .wait(200)
-        .to({x:807,alpha:0.2},1000)
+        .to({x:1500,alpha:0.4},1000)
     }
 
     public static grapos(n,icon){
