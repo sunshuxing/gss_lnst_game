@@ -164,6 +164,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 	//偷水
 	private toushui() {
+		console.log(1)
 		this.stealWater(this.friendUser, this.nowTreeUserId);
 	}
 
@@ -232,10 +233,10 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private treeTouch() {
 		this.gro_tree.touchEnabled = false;
 		egret.Tween.get(this.tree)
-			.to({ scaleX: 1.12, scaleY: 1.12 }, 200)
+			.to({ scaleX: 1.05, scaleY: 1.05 }, 200)
 			.wait(150)
 			.to({ scaleX: 1, scaleY: 1 }, 200)
-			.to({ scaleX: 1.1, scaleY: 1.1 }, 200)
+			.to({ scaleX: 1.02, scaleY: 1.02 }, 200)
 			.to({ scaleX: 1, scaleY: 1 }, 200).call(this.treeEad, this);
 
 		// 所有树语中随机一个
@@ -929,6 +930,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 				.to({ y: 774 }, 1000)
 		} else {//不能偷水，隐藏水滴，并且把错误信息绑定
 			this.steal_btn.visible = false;	//隐藏水滴
+			this.steal_label.visible = false;
 		}
 	}
 
@@ -987,7 +989,8 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			SceneManager.addPrompt(content, btn, ti);
 		}
 		else if (propId == 3) {
-			this.getOwnTree();
+			Help.pickTwn(5)
+			Help.pickTwnupdata(this.getOwnTree())
 		}
 		else {
 			this.getOwnTree();
@@ -1277,7 +1280,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 	//水壶冷却完成
 	private kettleshow() {
-		console.log("2")
 		// this.gro_kettle.visible = true;
 		// this.gro_lq.visible = false;
 	}

@@ -81,10 +81,10 @@
 		<e:Image id="img_love" x="60" y="47" source="love" anchorOffsetX="60" anchorOffsetY="59"/>
 		<e:Label id="love_num" fontFamily="Microsoft YaHei" y="35.05" x="27.29" width="65.67" textAlign="center" textColor="0xffffff" size="22" anchorOffsetX="0" anchorOffsetY="0" height="20.67"/>
 	</e:Group>
-	<e:Image id="pick_hand" x="462" y="630" source="pickhand"/>
-	<e:Label id="pick_label" text="可摘果" x="460" y="736" fontFamily="SimHei" textColor="0xf75216" size="32" bold="true"/>
+	<e:Image id="pick_hand" x="462" y="630" source="pickhand" visible="false"/>
+	<e:Label id="pick_label" text="可摘果" x="460" y="736" fontFamily="SimHei" size="32" bold="true" textColor="0xffffff" visible="false"/>
 	<e:ProgressBar id="progress" width="350.78" height="49.65" y="1021.46" skinName="ProgressSkins" includeIn="havetree,friendtree" x="209.94" anchorOffsetX="0" anchorOffsetY="0"/>
-	<e:ProgressBar id="progress1" includeIn="havetree" x="232" y="1100" skinName="Progress1Skins" visible="false"/>
+	<e:ProgressBar id="progress1" includeIn="havetree" x="214" y="1112" skinName="Progress1Skins"/>
 	<e:Label id="progress_label" text="" includeIn="havetree" x="212.66" y="1074.43" anchorOffsetX="0" width="340.66" size="22" textAlign="center" fontFamily="Microsoft YaHei" textColor="0x000000"/>
 	<e:Image id="img_water" width="88" height="84" x="386" y="860" anchorOffsetX="0" anchorOffsetY="0" source="water" visible="false"/>
 
@@ -98,8 +98,8 @@
 
 
 	<e:Image id="hudong_btn" width="120" height="124" includeIn="friendtree" x="598" y="650" source="hudong"/>
-	<e:Image id="steal_btn" width="140" height="154" includeIn="friendtree" x="443" y="774" source="ketou" anchorOffsetX="0" anchorOffsetY="0"/>
-	<e:Label id="steal_label" text="可偷水" x="460" y="902" textColor="0x2db7d8" bold="true" includeIn="friendtree"/>
+	<e:Image id="steal_btn" width="140" height="154" includeIn="friendtree" x="443" y="774" source="ketou" anchorOffsetX="0" anchorOffsetY="0" visible="false"/>
+	<e:Label id="steal_label" text="可偷水" x="460" y="902" textColor="0x2db7d8" bold="true" includeIn="friendtree" visible="false"/>
 	<e:Image id="bg_mask" width="750" height="1344" x="0" y="0" source="panel-bg" alpha="0.8" scale9Grid="4,4,24,24" visible="false"/>
 
 	<e:Image width="750" height="1344" x="0" y="0" alpha="0.8" includeIn="notree" source="panel-bg" scale9Grid="4,4,24,24" visible="false"/>

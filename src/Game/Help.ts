@@ -198,7 +198,7 @@ class Help{
         fruit.y = 605;
         fruit.width = 44;
         fruit.height = 50;
-        fruit.texture = RES.getRes("")
+        HttpRequest.imageloader(Config.picurl+Help.getTreeUserData().seedIcon,fruit)
         SceneManager.sceneManager.mainScene.addChild(fruit);
         egret.Tween.get(fruit)
         .to({x:368,y:505},300)
@@ -232,24 +232,24 @@ class Help{
 
     //浇水气泡动画
     public static waters(){
-        let data:any = RES.getRes("waters_json");
-        let txtr:egret.Texture = RES.getRes("waters_png");
-        let water:egret.MovieClipDataFactory = new egret.MovieClipDataFactory(data,txtr);
-        let waters:egret.MovieClip = new egret.MovieClip(water.generateMovieClipData("waters"));
-        SceneManager.sceneManager.mainScene.addChild(waters);
-        waters.x = 230;
-		waters.y = 650;
-        waters.gotoAndPlay(1,5);
-        waters.addEventListener(egret.Event.COMPLETE, function (e:egret.Event):void {
+        // let data:any = RES.getRes("waters_json");
+        // let txtr:egret.Texture = RES.getRes("waters_png");
+        // let water:egret.MovieClipDataFactory = new egret.MovieClipDataFactory(data,txtr);
+        // let waters:egret.MovieClip = new egret.MovieClip(water.generateMovieClipData("waters"));
+        // SceneManager.sceneManager.mainScene.addChild(waters);
+        // waters.x = 230;
+		// waters.y = 650;
+        // waters.gotoAndPlay(1,5);
+        // waters.addEventListener(egret.Event.COMPLETE, function (e:egret.Event):void {
            
-        }, this);
-        var count:number = 0;
-        waters.addEventListener(egret.Event.LOOP_COMPLETE, function (e:egret.Event):void {
+        // }, this);
+        // var count:number = 0;
+        // waters.addEventListener(egret.Event.LOOP_COMPLETE, function (e:egret.Event):void {
             
-        }, SceneManager.sceneManager.mainScene);
-        waters.addEventListener(egret.MovieClipEvent.FRAME_LABEL, function (e:egret.MovieClipEvent):void {
+        // }, SceneManager.sceneManager.mainScene);
+        // waters.addEventListener(egret.MovieClipEvent.FRAME_LABEL, function (e:egret.MovieClipEvent):void {
            
-        }, this);
+        // }, this);
     }
     
     //落花动画

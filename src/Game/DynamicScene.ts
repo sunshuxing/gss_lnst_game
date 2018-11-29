@@ -163,7 +163,7 @@ class dynList_item extends eui.ItemRenderer{
 			this.dyn_toother.visible = false;
 			this.dyn_label.text = "我的"+this.data.treeName+this.data.stageName+"了!";
 			this.dyn_des.text = "";
-			this.dyn_bg.texture = RES.getRes("dyn-xt-bg");
+			this.dyn_bg.texture = RES.getRes("dyn-ly-xt");
 			if(this.data.mainUserIcon){
 				HttpRequest.imageloader(this.data.mainUserIcon,this.user_icon);
 			}
@@ -172,7 +172,7 @@ class dynList_item extends eui.ItemRenderer{
 			this.dyn_toother.visible = false;
 			this.dyn_label.text = Help.getcharlength(this.data.mainUserName,4)+"领取了"+this.data.treeName+"!";
 			this.dyn_des.text = "";
-			this.dyn_bg.texture = RES.getRes("dyn-xt-bg");
+			this.dyn_bg.texture = RES.getRes("dyn-ly-xt");
 			if(this.data.mainUserIcon){
 				HttpRequest.imageloader(this.data.mainUserIcon,this.user_icon);
 			}
@@ -231,7 +231,7 @@ class dynList_item extends eui.ItemRenderer{
 		}
 		else if(this.data.type == 6){
 			this.dyn_toother.visible = false;
-			this.dyn_bg.texture = RES.getRes("dyn-xt-bg");
+			this.dyn_bg.texture = RES.getRes("dyn-ly-xt");
 			this.dyn_label.text = Help.getcharlength(this.data.mainUserName,4)+"签到";
 			this.dyn_des.text = "";
 			if(this.data.mainUserIcon){
@@ -241,7 +241,7 @@ class dynList_item extends eui.ItemRenderer{
 		}
 		else if(this.data.type == 7){
 			this.dyn_toother.visible = false;
-			this.dyn_bg.texture = RES.getRes("dyn-xt-bg");
+			this.dyn_bg.texture = RES.getRes("dyn-ly-xt");
 			this.dyn_label.text = "您获得了"+this.data.num+"个"+this.getpropname(this.data.propType);
 			this.dyn_des.text = "";
 			this.user_icon.texture = RES.getRes("logo")
@@ -302,7 +302,7 @@ class dynList_item extends eui.ItemRenderer{
 			this.dyn_toother.visible = false;
 			this.dyn_label.text = Help.getcharlength(this.data.mainUserName,4)+"兑换了水果";
 			this.dyn_des.text = "";
-			this.dyn_bg.texture = RES.getRes("dyn-xt-bg");
+			this.dyn_bg.texture = RES.getRes("dyn-ly-xt");
 			if(this.data.mainUserIcon){
 				HttpRequest.imageloader(this.data.mainUserIcon,this.user_icon);
 			}
