@@ -58,14 +58,6 @@ class DynamicScene extends eui.Component implements eui.UIComponent{
     	console.log("get error : " + event);
 	}
 
-	private setItemState(list){
-		for(let i=0;i<list.length;i++){
-			for(let j=0;j<list.length-1;j++){
-
-			}
-		}
-	}
-
 
 	//数组排序
 	private arrsort(arr){
@@ -126,27 +118,30 @@ class dynList_item extends eui.ItemRenderer{
 		this.dyn_day.text = Help.getTime(this.data.createDate,"day");
 		this.dyn_time.text = Help.getTime(this.data.createDate,"hours");
 		if(this.data.type == 0){
+			this.setState(0);
 			this.dyn_toother.visible = false;
 			this.dyn_label.text = "我的"+this.data.treeName+this.data.stageName+"了!";
 			this.dyn_des.text = "";
-			this.dyn_bg.texture = RES.getRes("dyn-xt-bg_png");
+			this.dyn_bg.texture = RES.getRes("dyn-xt-bg");
 			if(this.data.mainUserIcon){
 				HttpRequest.imageloader(this.data.mainUserIcon,this.user_icon);
 			}
 		}
 		else if(this.data.type == 1){
+			this.setState(0);
 			this.dyn_toother.visible = false;
 			this.dyn_label.text = Help.getcharlength(this.data.mainUserName,4)+"领取了"+this.data.treeName+"!";
 			this.dyn_des.text = "";
-			this.dyn_bg.texture = RES.getRes("dyn-xt-bg_png");
+			this.dyn_bg.texture = RES.getRes("dyn-xt-bg");
 			if(this.data.mainUserIcon){
 				HttpRequest.imageloader(this.data.mainUserIcon,this.user_icon);
 			}
 		}
 		else if(this.data.type == 2){
+			this.setState(0);
 			this.dyn_toother.visible = true;
-			this.dyn_icon.texture = RES.getRes("dyn-bf-icon_png");
-			this.dyn_bg.texture = RES.getRes("dyn-bf-bg_png");
+			this.dyn_icon.texture = RES.getRes("dyn-bf-icon");
+			this.dyn_bg.texture = RES.getRes("dyn-bf-bg");
 			this.dyn_label.textFlow = Array<egret.ITextElement>(
             { text:Help.getcharlength(this.data.mainUserName,4), style: { "href" : "event:"+this.data.mainUser,"underline":true} }
             ,{ text:"拜访你的果园"}
@@ -157,9 +152,10 @@ class dynList_item extends eui.ItemRenderer{
 			}
 		}
 		else if(this.data.type == 3){
+			this.setState(0);
 			this.dyn_toother.visible = true;
-			this.dyn_icon.texture = RES.getRes("dyn-bf-icon_png");
-			this.dyn_bg.texture = RES.getRes("dyn-bf-bg_png");
+			this.dyn_icon.texture = RES.getRes("dyn-bf-icon");
+			this.dyn_bg.texture = RES.getRes("dyn-bf-bg");
 			this.dyn_label.textFlow = Array<egret.ITextElement>(
             { text:Help.getcharlength(this.data.mainUserName,4), style: { "href" : "event:"+this.data.mainUser,"underline":true} }
             ,{ text:"来偷水"}
@@ -170,9 +166,10 @@ class dynList_item extends eui.ItemRenderer{
 			}
 		}
 		else if(this.data.type == 4){
+			this.setState(0);
 			this.dyn_toother.visible = true;
-			this.dyn_icon.texture = RES.getRes("dyn-bf-icon_png");
-			this.dyn_bg.texture = RES.getRes("dyn-bf-bg_png");
+			this.dyn_icon.texture = RES.getRes("dyn-bf-icon");
+			this.dyn_bg.texture = RES.getRes("dyn-bf-bg");
 			this.dyn_label.textFlow = Array<egret.ITextElement>(
             { text:Help.getcharlength(this.data.mainUserName,4), style: { "href" : "event:"+this.data.mainUser,"underline":true} }
             ,{ text:"帮你的小树浇了10g水"}
@@ -183,9 +180,10 @@ class dynList_item extends eui.ItemRenderer{
 			}
 		}
 		else if(this.data.type == 5){
+			this.setState(0);
 			this.dyn_toother.visible = true;
-			this.dyn_icon.texture = RES.getRes("dyn-ly-icon_png");
-			this.dyn_bg.texture = RES.getRes("dyn-ly-bg_png");
+			this.dyn_icon.texture = RES.getRes("dyn-ly-icon");
+			this.dyn_bg.texture = RES.getRes("dyn-ly-bg");
 			this.dyn_label.textFlow = Array<egret.ITextElement>(
             { text:Help.getcharlength(this.data.mainUserName,4), style: { "href" : "event:"+this.data.mainUser,"underline":true} }
             ,{ text:"给你留言"}
@@ -196,8 +194,9 @@ class dynList_item extends eui.ItemRenderer{
 			}
 		}
 		else if(this.data.type == 6){
+			this.setState(0);
 			this.dyn_toother.visible = false;
-			this.dyn_bg.texture = RES.getRes("dyn-xt-bg_png");
+			this.dyn_bg.texture = RES.getRes("dyn-xt-bg");
 			this.dyn_label.text = Help.getcharlength(this.data.mainUserName,4)+"签到";
 			this.dyn_des.text = "";
 			if(this.data.mainUserIcon){
@@ -206,16 +205,18 @@ class dynList_item extends eui.ItemRenderer{
 
 		}
 		else if(this.data.type == 7){
+			this.setState(0);
 			this.dyn_toother.visible = false;
-			this.dyn_bg.texture = RES.getRes("dyn-xt-bg_png");
+			this.dyn_bg.texture = RES.getRes("dyn-xt-bg");
 			this.dyn_label.text = "您获得了"+this.data.num+"个"+this.getpropname(this.data.propType);
 			this.dyn_des.text = "";
 			this.user_icon.texture = RES.getRes("logo")
 		}
 		else if(this.data.type == 10){
+			this.setState(0);
 			this.dyn_toother.visible = true;
-			this.dyn_icon.texture = RES.getRes("dyn-dd-icon_png");
-			this.dyn_bg.texture = RES.getRes("dyn-dd-bg_png");
+			this.dyn_icon.texture = RES.getRes("dyn-dd-icon");
+			this.dyn_bg.texture = RES.getRes("dyn-dd-bg");
 			this.dyn_label.textFlow = Array<egret.ITextElement>(
             { text:Help.getcharlength(this.data.mainUserName,4), style: { "href" : "event:"+this.data.mainUser,"underline":true} }
             ,{ text:"给你放了杂草"}
@@ -226,9 +227,10 @@ class dynList_item extends eui.ItemRenderer{
 			}
 		}
 		else if(this.data.type == 11){
+			this.setState(0);
 			this.dyn_toother.visible = true;
-			this.dyn_icon.texture = RES.getRes("dyn-dd-icon_png");
-			this.dyn_bg.texture = RES.getRes("dyn-dd-bg_png");
+			this.dyn_icon.texture = RES.getRes("dyn-dd-icon");
+			this.dyn_bg.texture = RES.getRes("dyn-dd-bg");
 			this.dyn_label.textFlow = Array<egret.ITextElement>(
             { text:Help.getcharlength(this.data.mainUserName,4), style: { "href" : "event:"+this.data.mainUser,"underline":true} }
             ,{ text:"给你放了虫子"}
@@ -239,9 +241,10 @@ class dynList_item extends eui.ItemRenderer{
 			}
 		}
 		else if(this.data.type == 20){
+			this.setState(0);
 			this.dyn_toother.visible = true;
-			this.dyn_icon.texture = RES.getRes("dyn-bf-icon_png");
-			this.dyn_bg.texture = RES.getRes("dyn-bf-bg_png");
+			this.dyn_icon.texture = RES.getRes("dyn-bf-icon");
+			this.dyn_bg.texture = RES.getRes("dyn-bf-bg");
 			this.dyn_label.textFlow = Array<egret.ITextElement>(
             { text:Help.getcharlength(this.data.mainUserName,4), style: { "href" : "event:"+this.data.mainUser,"underline":true} }
             ,{ text:"帮你除草"}
@@ -252,9 +255,10 @@ class dynList_item extends eui.ItemRenderer{
 			}
 		}
 		else if(this.data.type == 21){
+			this.setState(0);
 			this.dyn_toother.visible = true;
-			this.dyn_icon.texture = RES.getRes("dyn-bf-icon_png");
-			this.dyn_bg.texture = RES.getRes("dyn-bf-bg_png");
+			this.dyn_icon.texture = RES.getRes("dyn-bf-icon");
+			this.dyn_bg.texture = RES.getRes("dyn-bf-bg");
 			this.dyn_label.textFlow = Array<egret.ITextElement>(
             { text:Help.getcharlength(this.data.mainUserName,4), style: { "href" : "event:"+this.data.mainUser,"underline":true} }
             ,{ text:"帮你除虫"}
@@ -265,10 +269,11 @@ class dynList_item extends eui.ItemRenderer{
 			}
 		}
 		else if(this.data.type == 100){
+			this.setState(0);
 			this.dyn_toother.visible = false;
 			this.dyn_label.text = Help.getcharlength(this.data.mainUserName,4)+"兑换了水果";
 			this.dyn_des.text = "";
-			this.dyn_bg.texture = RES.getRes("dyn-xt-bg_png");
+			this.dyn_bg.texture = RES.getRes("dyn-xt-bg");
 			if(this.data.mainUserIcon){
 				HttpRequest.imageloader(this.data.mainUserIcon,this.user_icon);
 			}

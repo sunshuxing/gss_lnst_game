@@ -21,19 +21,15 @@ class Notice extends eui.Component implements eui.UIComponent {
     /**
      * 提示消息
      */
-    public msgInfo(msg:string){
-        this.notice_label.text = msg;
+        public msgInfo(msg:string,msgFlow?){
+        if(msgFlow){
+            this.notice_label.textFlow = msgFlow;
+        }
+        else{
+            this.notice_label.text = msg;
+        }
         let width = this.notice_label.width
         let heigh = this.notice_label.height
         this.notice_label.width = width +20;
-        this.notice_label.height = heigh +20;
-        this.notice_label.left = 10;
-        this.notice_label.right = 10;
-
-        this.notice_background.width = width +20;
-        this.notice_background.height = heigh +20;
-
-        this.verticalCenter = 0
-        this.horizontalCenter = 0
     }
 }

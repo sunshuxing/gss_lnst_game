@@ -164,10 +164,11 @@ class Help{
 
     //获取阶段果树锚点长宽等
     public static getTreeHWBystage(stage,img:eui.Image){
-        if(Number(stage) <2){
+        if(stage<2){
             img.width = 250;
             img.height = 257;
-        }else if(Number(stage)>1){
+        }
+        if(stage>1){
             img.width = 420;
             img.height = 433;
         }
@@ -281,8 +282,8 @@ class Help{
         left.y = 0;
         right.x = 233;
         right.y = 0;
-        left.texture = RES.getRes("passleft_png");
-        right.texture = RES.getRes("passright_png");
+        left.texture = RES.getRes("pass_png");
+        right.texture = RES.getRes("pass_png");
         SceneManager.sceneManager.mainScene.addChild(left);
         SceneManager.sceneManager.mainScene.addChild(right);
         egret.Tween.get(left)
@@ -315,6 +316,25 @@ class Help{
 		else if(n == 3){
 			return icon.x = 436,icon.y = 930;
 		}
+    }
+
+
+    public static stealshow(num){
+        let img_water = new eui.Image();
+        img_water.texture = RES.getRes("shuidi");
+        img_water.x = 420;
+        img_water.y = 797;
+        SceneManager.sceneManager.mainScene.addChild(img_water);
+        let label_water = new eui.Label();
+        label_water.text = "+"+num;
+        label_water.textColor = 0x5AD0EC;
+        label_water.x = 464;
+        label_water.y = 815;
+        SceneManager.sceneManager.mainScene.addChild(label_water);
+        egret.Tween.get(img_water)
+        .to({y:img_water.y-40},500).call(()=>{SceneManager.sceneManager.mainScene.removeChild(img_water)},this);
+        egret.Tween.get(label_water)
+        .to({y:label_water.y-40},500).call(()=>{SceneManager.sceneManager.mainScene.removeChild(label_water)},this);
     }
 }
 	

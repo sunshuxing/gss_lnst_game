@@ -2,13 +2,13 @@
 <e:Skin class="TaskListSkins" width="690" height="160" currentState="can_look" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" states="can_finish,receive,ban,can_look" >
 <e:Group width="690" height="160" x="0" y="0">
 	<e:Image id="bg_task" width="690" height="160" x="0" y="0" source="task-bg-red"/>
-	<e:Image id="ban" x="521" y="58" includeIn="ban" fillMode="scale" source="task_finished_btn_png"/>
+	<e:Image id="ban" x="521" y="58" includeIn="ban" fillMode="scale" source="task_finished_btn"/>
 		<e:Image id="icon_task" x="32" verticalCenter="0" width="108" height="102" source="icon-share"/>
 		<e:Label id="name_task" text="每日分享" x="172" y="42" textColor="0x333333" fontFamily="SimHei" size="32"/>
 		<e:Label id="description_task" text="随机赠送5-20滴水，限领1次" x="172" y="90" textColor="0x666666" fontFamily="SimHei" size="24"/>
-	<e:Image id="can_look" x="521" y="67" includeIn="can_look" fillMode="scale" source="task_look_png"/>
+	<e:Image id="can_look" x="521" y="67" includeIn="can_look" fillMode="scale" source="task_look"/>
 	<e:Label text="今日已完成" includeIn="can_look" x="541" y="32" textColor="0x000000" size="20"/>
-	<e:Image id="can_finish" x="522" y="58" includeIn="can_finish" source="task_can_do_btn_png"/>
-	<e:Image id="receive" x="521" y="58" includeIn="receive" source="task_receive_btn_png"/>
+	<e:Image id="can_finish" x="522" y="58" includeIn="can_finish" source="task_can_do_btn"/>
+	<e:Image id="receive" x="521" y="58" includeIn="receive" source="task_receive_btn"/>
 	</e:Group>
 </e:Skin>

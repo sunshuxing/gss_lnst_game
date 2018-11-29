@@ -15,8 +15,8 @@
 	<e:Label text="x38" x="150" y="747" textColor="0xd67214" width="49"/>
 	<e:Label text="x50" x="303" y="747" textColor="0xd67214" width="49"/>
 	<e:Label text="x1" x="527" y="747" textColor="0xd67214"/>
-	<e:Image id="qiandao_btn" x="152" y="769" source="qiandao-btn" height="216" visible.today-is-sign="false" source.today-un-sign="qiandao-btn_png"/>
-	<e:Image id="qiandao_btn_signed" x="214" y="831" anchorOffsetX="0" width="326" anchorOffsetY="0" height="90" source="qiandao-is-sign_png" visible.today-un-sign="false" height.today-is-sign="95" y.today-is-sign="826" width.today-is-sign="330" x.today-is-sign="207" scaleX.today-is-sign="1.02"/>
+	<e:Image id="qiandao_btn" x="214" y="831" source="qiandao-btn" visible.today-is-sign="false" source.today-un-sign="qiandao-btn"/>
+	<e:Image id="qiandao_btn_signed" x="214" y="831" anchorOffsetX="0" width="326" anchorOffsetY="0" height="90" visible.today-un-sign="false" height.today-is-sign="95" y.today-is-sign="826" width.today-is-sign="330" x.today-is-sign="207" scaleX.today-is-sign="1.02" source="qiandao-is-sign"/>
 	<e:Image id="day1" x="96" y="577" source="yiqiandao" visible="false"/>
     <e:Image id="day2" x="250" y="577" source="yiqiandao" visible="false"/>
     <e:Image id="day3" x="399" y="577" source="yiqiandao" visible="false"/>

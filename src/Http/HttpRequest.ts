@@ -10,7 +10,6 @@ class HttpRequest {
                 if (evt.currentTarget.data) {
                     let texture = new egret.Texture();
                     texture.bitmapData = evt.currentTarget.data;
-                    let bitmap = new egret.Bitmap(texture);
                     image.texture = texture;
                 }
             }, this);

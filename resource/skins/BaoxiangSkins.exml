@@ -2,7 +2,7 @@
 <e:Skin class="BaoxiangSkins" width="750" height="1344" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" states="close,open" >
 	<e:Image width="750" height="1344" x="0" y="0" alpha="0.8" source="panel-bg" scale9Grid="4,4,24,24"/>
 	<e:Image id="baoxbg" anchorOffsetX="352.5" anchorOffsetY="352.5" horizontalCenter="0.5" verticalCenter="203.5" source="baoxbg_png" includeIn="close"/>
-	<e:Image horizontalCenter="-23.5" verticalCenter="180" source="baox" includeIn="close"/>
-	<e:Image source="bx_png" y="124" x="216"/>
-	<e:Image x="-1.5" y="416.75" source="bxopen_png" anchorOffsetX="0" width="855.54" includeIn="open"/>
+	<e:Image horizontalCenter="-32.5" verticalCenter="183" includeIn="close" source="boax"/>
+	<e:Image y="124" x="216" source="bx"/>
+	<e:Image y="416.75" source="bxopen_png" anchorOffsetX="0" includeIn="open"/>
 </e:Skin>
