@@ -1,5 +1,5 @@
 class SceneManager {
-    public _stage: egret.DisplayObjectContainer // 设置所有场景所在的舞台(根)
+    private _stage: egret.DisplayObjectContainer // 设置所有场景所在的舞台(根)
 
     public mainScene: MainScene                  //主场景
     public interactiveScene: InteractiveScene    //互动场景
@@ -11,6 +11,9 @@ class SceneManager {
     public friendSign: string                    //转发用户的标识，可以用于奖励道具
     public weixinUtil: WeixinUtil                //微信操作类
     private webSocket: GameWebSocket                  //推送类
+
+    public connectTime:number = 0;                  //重连次数
+    private interval                            //定时器
 
 
     constructor() {
@@ -64,7 +67,7 @@ class SceneManager {
      * stage 要展示的舞台对象
      * time 显示持续时间（1000为1秒），不传默认1.5秒
      */
-    static addNotice(msg: string, time?, msgflow?) {
+    static addNotice(msg: string, time?) {
 
         let notice: Notice = new Notice();
 
@@ -140,9 +143,10 @@ class SceneManager {
     /**
      * 动态场景
      */
-    static toDynamicScene() {
+    static toDynamicScene(treeUserId:string) {
         this.instance.removeOther(this.instance.dynamicScene)
         // 把互动场景添加到主场景中
+        this.instance.dynamicScene.searchDynamic(treeUserId)
         this.instance.mainScene.addChild(this.instance.dynamicScene)
         egret.Tween.get(this.instance.dynamicScene)
             .set(this.instance.dynamicScene.y = 1208)
@@ -212,13 +216,16 @@ class SceneManager {
         let url = Config.socketHome + "?userId=" + user;
         this.webSocket = new GameWebSocket(url)
         let that = this
-        setInterval(() => {
-            if (this.webSocket.connected()) {
-                that.webSocket.sendData("1")
-            } else {
-                this.initWebSocket();
-            }
-        }, 3000)
+        if(!this.interval){
+            this.interval = setInterval(() => {
+                if (this.webSocket.connected()) {
+                    that.webSocket.sendData("1")
+                } else {
+                    this.connectTime = this.connectTime + 1
+                    this.initWebSocket();
+                }
+            }, 10000)
+        }
 
     }
 }
