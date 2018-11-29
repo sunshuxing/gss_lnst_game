@@ -82,7 +82,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 
 	//好友果园
-	
 	private hudong_btn: eui.Image;			//互动按钮
 	private friendUser: string;				//好友
 	private timer: egret.Timer = new egret.Timer(17000, 1);		//计时器
@@ -109,7 +108,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		this.friend_scr.horizontalScrollBar = null;
 		//沒有果樹
 		this.seed_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.getSeed, this)
-		
 	}
 
 	public initData() {
@@ -289,7 +287,14 @@ class MainScene extends eui.Component implements eui.UIComponent {
 				this.n = 0;
 			}
 			HttpRequest.imageloader(this.infodata[this.n].mainUserIcon, this.img1);
-			this.str1.text = Help.getcharlength(this.infodata[this.n].mainUserName,4)+ "的" + this.infodata[this.n].treeName + this.infodata[this.n].stageName + "了！"
+			let userName = Help.getcharlength(this.infodata[this.n].mainUserName,4);
+			let treeName = this.infodata[this.n].treeName;
+			let stageName = this.infodata[this.n].stageName;
+			if(this.infodata[this.n].type == "0"){
+				this.str1.text = userName + "的" + treeName + stageName + "了！"
+			}else{
+				this.str1.text = userName + "领取了" + treeName + "！"
+			}
 			this.n++;
 			var rect: egret.Rectangle = this.str1.scrollRect;
 			egret.Tween.get(rect)
@@ -520,7 +525,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	//进入动态场景
 	private ToDynamicScene() {
 		this.addmask();
-		SceneManager.toDynamicScene();
+		SceneManager.toDynamicScene(this.ownTreeUserId);
 	}
 
 	//进入签到场景
@@ -594,6 +599,9 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private onGetIOError(event: egret.IOErrorEvent): void {
 		console.log("get error : " + event);
 	}
+
+
+
 
 	//获取种子
 	private getSeed(treeId) {
@@ -734,9 +742,9 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		}else{
 			HttpRequest.imageloader(Config.picurl+data.stageObj.stageImage, this.tree);
 		}
-		console.log("果树阶段",data.stage)
+		
 		Help.getTreeHWBystage(data.stage, this.tree);
-		console.log("果树图片1",this.tree.width,this.tree.height)
+		console.log(this.tree)
 	}
 
 
@@ -803,7 +811,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 
 	//查询顶部消息
-	private getTopMsg() {
+	public getTopMsg() {
 		MyRequest._post("game/getTopInfo", null, this, this.Req_getTopMsg.bind(this), this.onGetIOError)
 	}
 
@@ -817,7 +825,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 
 	//查询系统消息
-	private getSystemMsg() {
+	public getSystemMsg() {
 		MyRequest._post("game/getSystemInfo", null, this, this.Req_getSystemMsg.bind(this), this.onGetIOError)
 	}
 
@@ -917,8 +925,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			egret.Tween.get(this.steal_btn, { loop: true })
 				.to({ y: 780 }, 1000)
 				.to({ y: 774 }, 1000)
-		} else {//不能偷水，隐藏水滴，并且把错误信息绑定//*** */
-			this.steal_label.visible = false;
+		} else {//不能偷水，隐藏水滴，并且把错误信息绑定
 			this.steal_btn.visible = false;	//隐藏水滴
 		}
 	}

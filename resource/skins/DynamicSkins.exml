@@ -7,7 +7,7 @@
 	<e:Scroller id="scr_dyn" height="868" anchorOffsetX="0" anchorOffsetY="0" left="28" right="28" y="474">
 		<e:List id="list_dyn" itemRendererSkinName="DynamicListSkins" anchorOffsetX="0" x="12" y="0" anchorOffsetY="0">
 			<e:layout>
-				<e:VerticalLayout gap="10"/>
+				<e:VerticalLayout gap="0"/>
 			</e:layout>
 		</e:List>
 	</e:Scroller>

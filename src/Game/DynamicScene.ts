@@ -15,7 +15,7 @@ class DynamicScene extends eui.Component implements eui.UIComponent{
 	protected childrenCreated():void
 	{
 		super.childrenCreated();
-		this.searchDynamic(Help.getTreeUserData().id);
+		// this.searchDynamic(Help.getTreeUserData().id);
 		this.addEventListener(PuticonEvent.TOFRIEND,this.closeScene,this);
         this.btn_close.addEventListener(egret.TouchEvent.TOUCH_TAP,this.closeScene,this)
 		this.scr_dyn.addEventListener(eui.UIEvent.CHANGE_END,this.asdas,this)
@@ -32,7 +32,7 @@ class DynamicScene extends eui.Component implements eui.UIComponent{
 	}
 
 	//查询动态
-	private searchDynamic(treeUserId){
+	public searchDynamic(treeUserId){
 		let params = {	
 			treeUserId:treeUserId,
 			pageNo:1,
@@ -45,17 +45,44 @@ class DynamicScene extends eui.Component implements eui.UIComponent{
 	private Req_searchDynamic(data):void{
 		var Data = data;
 		var dyndata = Data.data.list;
+		dyndata = this.initData(dyndata)
 		console.log("动态数据:",Data)
 		let euiArr:eui.ArrayCollection = new eui.ArrayCollection(dyndata);
-		this.line.height = euiArr.length*220;
+		this.line.height = euiArr.length*300;
 		this.list_dyn.dataProvider = euiArr;
 		// 设置list_hero的项呈视器 (这里直接写类名,而不是写实例)
 		this.list_dyn.itemRenderer = dynList_item;
 	}
 
+	private initData(data:Array<Dynamic>):Array<Dynamic>{
+		if(!data){
+			return null;
+		}
+		let map: { [key: string]: boolean } = {};//创建一个map
+		for(let a = 0;a<data.length;a++){
+			let time = data[a].createDate.split(" ")[0];	//取出日期
+			let hasTime = map[time]
+			if(!hasTime){
+				map[time] = true
+				data[a].showDate = true;
+			}else{
+				data[a].showDate = false;
+			}
+		}
+		return data;
+	}
+
 	//请求错误
 	private onGetIOError(event:egret.IOErrorEvent):void {
     	console.log("get error : " + event);
+	}
+
+	private setItemState(list){
+		for(let i=0;i<list.length;i++){
+			for(let j=0;j<list.length-1;j++){
+
+			}
+		}
 	}
 
 
@@ -109,16 +136,30 @@ class dynList_item extends eui.ItemRenderer{
 		this.dyn_toother.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
             this.toother(this.data.mainUser)
 		}, this)
+		this.itemIndex
+		
 	}
 	private onComplete() {
 		
 	}
+
 	// 当数据改变时，更新视图
 	protected dataChanged() {
-		this.dyn_day.text = Help.getTime(this.data.createDate,"day");
+		if(this.data.showDate){
+			this.setState(0)
+			this.dyn_day.text = Help.getTime(this.data.createDate,"day");
+		}else{
+			this.setState(1)
+		}
+		if(this.dyn_label.text.length>18){//如果大于18个字符串则需要换行
+			let lineNum = this.dyn_label.text.length/18		//要换行多少每行35
+			this.dyn_bg.height = this.dyn_bg.height + 35 * lineNum
+			this.height = this.height + 35 * lineNum
+			this.dyn_time.y = this.dyn_time.y + 35 * lineNum
+			this.dyn_toother.y = this.dyn_toother.y + 35 * lineNum
+		}
 		this.dyn_time.text = Help.getTime(this.data.createDate,"hours");
 		if(this.data.type == 0){
-			this.setState(0);
 			this.dyn_toother.visible = false;
 			this.dyn_label.text = "我的"+this.data.treeName+this.data.stageName+"了!";
 			this.dyn_des.text = "";
@@ -128,7 +169,6 @@ class dynList_item extends eui.ItemRenderer{
 			}
 		}
 		else if(this.data.type == 1){
-			this.setState(0);
 			this.dyn_toother.visible = false;
 			this.dyn_label.text = Help.getcharlength(this.data.mainUserName,4)+"领取了"+this.data.treeName+"!";
 			this.dyn_des.text = "";
@@ -138,7 +178,6 @@ class dynList_item extends eui.ItemRenderer{
 			}
 		}
 		else if(this.data.type == 2){
-			this.setState(0);
 			this.dyn_toother.visible = true;
 			this.dyn_icon.texture = RES.getRes("dyn-bf-icon");
 			this.dyn_bg.texture = RES.getRes("dyn-bf-bg");
@@ -152,7 +191,6 @@ class dynList_item extends eui.ItemRenderer{
 			}
 		}
 		else if(this.data.type == 3){
-			this.setState(0);
 			this.dyn_toother.visible = true;
 			this.dyn_icon.texture = RES.getRes("dyn-bf-icon");
 			this.dyn_bg.texture = RES.getRes("dyn-bf-bg");
@@ -166,7 +204,6 @@ class dynList_item extends eui.ItemRenderer{
 			}
 		}
 		else if(this.data.type == 4){
-			this.setState(0);
 			this.dyn_toother.visible = true;
 			this.dyn_icon.texture = RES.getRes("dyn-bf-icon");
 			this.dyn_bg.texture = RES.getRes("dyn-bf-bg");
@@ -180,7 +217,6 @@ class dynList_item extends eui.ItemRenderer{
 			}
 		}
 		else if(this.data.type == 5){
-			this.setState(0);
 			this.dyn_toother.visible = true;
 			this.dyn_icon.texture = RES.getRes("dyn-ly-icon");
 			this.dyn_bg.texture = RES.getRes("dyn-ly-bg");
@@ -194,7 +230,6 @@ class dynList_item extends eui.ItemRenderer{
 			}
 		}
 		else if(this.data.type == 6){
-			this.setState(0);
 			this.dyn_toother.visible = false;
 			this.dyn_bg.texture = RES.getRes("dyn-xt-bg");
 			this.dyn_label.text = Help.getcharlength(this.data.mainUserName,4)+"签到";
@@ -205,7 +240,6 @@ class dynList_item extends eui.ItemRenderer{
 
 		}
 		else if(this.data.type == 7){
-			this.setState(0);
 			this.dyn_toother.visible = false;
 			this.dyn_bg.texture = RES.getRes("dyn-xt-bg");
 			this.dyn_label.text = "您获得了"+this.data.num+"个"+this.getpropname(this.data.propType);
@@ -213,7 +247,6 @@ class dynList_item extends eui.ItemRenderer{
 			this.user_icon.texture = RES.getRes("logo")
 		}
 		else if(this.data.type == 10){
-			this.setState(0);
 			this.dyn_toother.visible = true;
 			this.dyn_icon.texture = RES.getRes("dyn-dd-icon");
 			this.dyn_bg.texture = RES.getRes("dyn-dd-bg");
@@ -227,7 +260,6 @@ class dynList_item extends eui.ItemRenderer{
 			}
 		}
 		else if(this.data.type == 11){
-			this.setState(0);
 			this.dyn_toother.visible = true;
 			this.dyn_icon.texture = RES.getRes("dyn-dd-icon");
 			this.dyn_bg.texture = RES.getRes("dyn-dd-bg");
@@ -241,7 +273,6 @@ class dynList_item extends eui.ItemRenderer{
 			}
 		}
 		else if(this.data.type == 20){
-			this.setState(0);
 			this.dyn_toother.visible = true;
 			this.dyn_icon.texture = RES.getRes("dyn-bf-icon");
 			this.dyn_bg.texture = RES.getRes("dyn-bf-bg");
@@ -255,7 +286,6 @@ class dynList_item extends eui.ItemRenderer{
 			}
 		}
 		else if(this.data.type == 21){
-			this.setState(0);
 			this.dyn_toother.visible = true;
 			this.dyn_icon.texture = RES.getRes("dyn-bf-icon");
 			this.dyn_bg.texture = RES.getRes("dyn-bf-bg");
@@ -269,7 +299,6 @@ class dynList_item extends eui.ItemRenderer{
 			}
 		}
 		else if(this.data.type == 100){
-			this.setState(0);
 			this.dyn_toother.visible = false;
 			this.dyn_label.text = Help.getcharlength(this.data.mainUserName,4)+"兑换了水果";
 			this.dyn_des.text = "";
@@ -278,6 +307,8 @@ class dynList_item extends eui.ItemRenderer{
 				HttpRequest.imageloader(this.data.mainUserIcon,this.user_icon);
 			}
 		}
+
+		
 	}
 
 
