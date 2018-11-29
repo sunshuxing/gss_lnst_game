@@ -1,15 +1,3 @@
-declare class AppleSeedRadioButton extends eui.Skin{
-}
-declare class MtSeedRadioButton extends eui.Skin{
-}
-declare class OraSeedRadioButton extends eui.Skin{
-}
-declare class QnSeedRadioButton extends eui.Skin{
-}
-declare class QzSeedRadioButton extends eui.Skin{
-}
-declare class YzSeedRadioButton extends eui.Skin{
-}
 declare module skins{
 	class ButtonSkin extends eui.Skin{
 	}
@@ -62,6 +50,18 @@ declare module skins{
 	class VSliderSkin extends eui.Skin{
 	}
 }
+declare class AppleSeedRadioButton extends eui.Skin{
+}
+declare class MtSeedRadioButton extends eui.Skin{
+}
+declare class OraSeedRadioButton extends eui.Skin{
+}
+declare class QnSeedRadioButton extends eui.Skin{
+}
+declare class QzSeedRadioButton extends eui.Skin{
+}
+declare class YzSeedRadioButton extends eui.Skin{
+}
 declare class BaoxiangSkins extends eui.Skin{
 }
 declare class BarrageListSkins extends eui.Skin{
@@ -75,8 +75,6 @@ declare class FriendListSkins extends eui.Skin{
 declare class HuafeiSkins extends eui.Skin{
 }
 declare class InteractiveSkins extends eui.Skin{
-}
-declare class LingquSkins extends eui.Skin{
 }
 declare class MainSkins extends eui.Skin{
 }

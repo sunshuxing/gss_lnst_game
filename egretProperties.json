@@ -25,6 +25,9 @@
       "name": "socket"
     },
     {
+      "name": "game"
+    },
+    {
       "name": "weixinapi",
       "path": "../libsrc"
     }
