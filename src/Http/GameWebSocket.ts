@@ -69,7 +69,7 @@ class GameWebSocket extends egret.DisplayObjectContainer {
                 pushMsg = JSON.parse(pushMsg)   //如果还是字符串则需要再进行一次转换
             }
             //处理推送消息
-            if(pushMsg.type == "1"){
+            if(pushMsg.type == "1" ||pushMsg.type == 1){
                 //动态推送
                 let code = pushMsg.code
                 let info = "";
