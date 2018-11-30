@@ -92,6 +92,7 @@ declare class Dynamic {
     treeName: any;                   //果树名称（当type为0显示成长动态时有）
     treeStage: any;                  //果树阶段（当type为0显示成长动态时有）
     createDate: any;                 //创建时间
+    showDate:boolean                 //是否显示时间
 }
 
 /**

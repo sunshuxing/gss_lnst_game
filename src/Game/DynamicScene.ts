@@ -298,6 +298,25 @@ class dynList_item extends eui.ItemRenderer{
 				HttpRequest.imageloader(this.data.mainUserIcon,this.user_icon);
 			}
 		}
+		else if(this.data.type == 50){
+			this.dyn_toother.visible = true;
+			this.dyn_icon.texture = RES.getRes("dyn-dd-icon");
+			this.dyn_bg.texture = RES.getRes("dyn-dd-bg");
+			let info = ""
+			if(this.data.num>0){
+				info = "帮你摘了"+this.data.num+"个果子哦!";
+			}else{
+				info = "手气不佳，没有帮您摘到果子哦！"
+			}
+			this.dyn_label.textFlow = Array<egret.ITextElement>(
+            { text:Help.getcharlength(this.data.mainUserName,4), style: { "href" : "event:"+this.data.mainUser,"underline":true} }
+            ,{ text:info}
+        );
+			this.dyn_des.text = "去TA果园";
+			if(this.data.mainUserIcon){
+				HttpRequest.imageloader(this.data.mainUserIcon,this.user_icon);
+			}
+		}
 		else if(this.data.type == 100){
 			this.dyn_toother.visible = false;
 			this.dyn_label.text = Help.getcharlength(this.data.mainUserName,4)+"兑换了水果";
