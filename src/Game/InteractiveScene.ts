@@ -124,10 +124,6 @@ class InteractiveScene extends eui.Component implements eui.UIComponent{
 		var Data = data;
         this.parent.dispatchEvent(PutType);
         this.closeScene()
-        let content = "捣蛋成功！"
-		let btn = "确定"
-		let ti = "(帮助好友能获得爱心值哦！)"
-		SceneManager.addPrompt(content, btn, ti);
 		console.log(Data,"放置果园道具数据")
 	}
 

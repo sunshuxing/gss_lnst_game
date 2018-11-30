@@ -192,7 +192,7 @@ class Help{
     }
 
     //果子动画
-    public static fruitTwn(type){
+    public static fruitTwn(){
         let fruit = new eui.Image()
         fruit.x = 398;
         fruit.y = 605;
@@ -327,15 +327,15 @@ class Help{
         img_water.y = 797;
         SceneManager.sceneManager.mainScene.addChild(img_water);
         let label_water = new eui.Label();
-        label_water.text = "+"+num;
+        label_water.text = "+"+num + "g";
         label_water.textColor = 0x5AD0EC;
         label_water.x = 464;
         label_water.y = 815;
         SceneManager.sceneManager.mainScene.addChild(label_water);
         egret.Tween.get(img_water)
-        .to({y:img_water.y-40},500).call(()=>{SceneManager.sceneManager.mainScene.removeChild(img_water)},this);
+        .to({y:img_water.y-60},800).call(()=>{SceneManager.sceneManager.mainScene.removeChild(img_water)},this);
         egret.Tween.get(label_water)
-        .to({y:label_water.y-40},500).call(()=>{SceneManager.sceneManager.mainScene.removeChild(label_water)},this);
+        .to({y:label_water.y-60},800).call(()=>{SceneManager.sceneManager.mainScene.removeChild(label_water)},this);
     }
 }
 	

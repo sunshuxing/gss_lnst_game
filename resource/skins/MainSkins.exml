@@ -6,12 +6,12 @@
 	<e:Image id="cloud3" x="332" y="-7" includeIn="havetree,friendtree" source="cloud1"/>
 	<e:Image id="cloud2" x="-3" y="119"  includeIn="havetree,friendtree" source="cloud2"/>
 	<e:Group id="gro_top" width="376" height="172" y="0" anchorOffsetY="0" anchorOffsetX="0" x="187">
-		<e:Image x="-22" y="56" includeIn="havetree,friendtree" source="toppai" scaleX="1" scaleY="1"/>
-		<e:Group id="info1" width="372" height="50" x="20" y="139" includeIn="havetree,friendtree" scaleX="1" scaleY="1">
+		<e:Image x="-22" y="4" includeIn="havetree,friendtree" source="toppai" scaleX="1" scaleY="1"/>
+		<e:Group id="info1" width="372" height="50" x="20" y="85" includeIn="havetree,friendtree" scaleX="1" scaleY="1">
 			<e:Label id="str1" text="" y="0" height="100%" verticalAlign="middle" anchorOffsetX="0" textAlign="left" x="65" size="24" fontFamily="Microsoft YaHei"/>
 			<e:Image id="img1" width="50" height="50" anchorOffsetX="0" anchorOffsetY="0" y="0"/>
 		</e:Group>
-		<e:Group id="info2" width="372" height="50" x="20" y="139" includeIn="havetree,friendtree" scaleX="1" scaleY="1">
+		<e:Group id="info2" width="372" height="50" x="20" y="85" includeIn="havetree,friendtree" scaleX="1" scaleY="1">
 			<e:Label id="str2" text="" y="0" height="100%" verticalAlign="middle" anchorOffsetX="0" textAlign="left" x="65" size="24" fontFamily="Microsoft YaHei"/>
 			<e:Image id="img2" width="50" height="50" anchorOffsetX="0" anchorOffsetY="0" y="0"/>
 		</e:Group>
@@ -76,11 +76,16 @@
 	</e:Group>
 
 	<e:Group id="gro_tree" width="415" height="389" x="190" y="503" anchorOffsetY="0" anchorOffsetX="0" locked="true"/>
-	<e:Group id="gro_prop" width="248" height="214" x="297" y="806.05" anchorOffsetY="0" anchorOffsetX="0" includeIn="havetree,friendtree" locked="true"/>
+	<e:Group id="gro_prop" width="750" height="1344" x="0" y="0" anchorOffsetY="0" anchorOffsetX="0" includeIn="havetree,friendtree" locked="true"/>
 	<e:Group id="gro_love" width="103.03" height="81" x="205.09" y="756" includeIn="havetree,friendtree" anchorOffsetX="0" y.friendtree="1074" x.friendtree="5.09" locked="true">
 		<e:Image id="img_love" x="60" y="47" source="love" anchorOffsetX="60" anchorOffsetY="59"/>
 		<e:Label id="love_num" fontFamily="Microsoft YaHei" y="35.05" x="27.29" width="65.67" textAlign="center" textColor="0xffffff" size="22" anchorOffsetX="0" anchorOffsetY="0" height="20.67"/>
 	</e:Group>
+	<e:Group id="friend_pick" width="130" height="130" x="596" y="850" anchorOffsetX="0" anchorOffsetY="0" includeIn="friendtree" visible="false">
+		<e:Image x="0" y="0" anchorOffsetX="0" anchorOffsetY="0" source="friendpick-bg" scaleX="1" scaleY="1"/>
+		<e:Image id="friend_pickhand" x="22" y="6" source="pickhand"/>
+	</e:Group>
+	<e:Image id="friend_not_pick" x="594" y="850" anchorOffsetX="0" anchorOffsetY="0" source="friendpick-no" includeIn="friendtree" visible="false"/>
 	<e:Image id="pick_hand" x="462" y="630" source="pickhand" visible="false"/>
 	<e:Label id="pick_label" text="可摘果" x="460" y="736" fontFamily="SimHei" size="32" bold="true" textColor="0xffffff" visible="false"/>
 	<e:ProgressBar id="progress" width="350.78" height="49.65" y="1021.46" skinName="ProgressSkins" includeIn="havetree,friendtree" x="209.94" anchorOffsetX="0" anchorOffsetY="0"/>
@@ -104,7 +109,7 @@
 
 	<e:Image width="750" height="1344" x="0" y="0" alpha="0.8" includeIn="notree" source="panel-bg" scale9Grid="4,4,24,24" visible="false"/>
 	<e:Image x="42.5" y="296" width="665" height="744" includeIn="notree" source="seed-main-bg_png" visible="false"/>
-	<e:Scroller width="430" height="466" x="154" y="476" anchorOffsetX="0" anchorOffsetY="0" visible="false">
+	<e:Scroller width="430" height="466" x="154" y="476" anchorOffsetX="0" anchorOffsetY="0" includeIn="notree" visible="false">
 		<e:List id="list_seed" itemRendererSkinName="SeedListskins">
 			<e:layout>
 				<e:TileLayout/>

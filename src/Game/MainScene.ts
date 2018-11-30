@@ -70,6 +70,9 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private pick_hand:eui.Image;		//摘果子的手
 	private steal_label:eui.Label;		//偷水的字
 	private pick_label:eui.Label;		//摘果的字
+	private friend_pick:eui.Group;		//朋友摘果
+	private friend_pickhand:eui.Image;	//朋友摘果的手
+	private friend_not_pick:eui.Image;	//朋友摘果不能状态
 
 
 	/**
@@ -100,6 +103,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	protected childrenCreated(): void {
 		super.childrenCreated();
 		this.gro_prop.touchThrough = true;
+		this.gro_kettle.touchThrough = true;
 		this.str1.scrollRect = new egret.Rectangle(0, 0, 320, 50);
 		this.str2.scrollRect = new egret.Rectangle(0, 0, 320, 50);
 		this.img1.scrollRect = new egret.Rectangle(0, 0, 50, 50);
@@ -111,7 +115,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	}
 
 	public initData() {
-		this.getTreeLanguage();				//树语数据
 		this.getTopMsg();					//顶部消息
 		this.getFriends();					//好友数据
 		this.getOwnTree();					//自己果树数据
@@ -207,16 +210,18 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 	//浇水
 	private addwater() {
+		let kettleNum:string = this.kettle_num.text;
+		kettleNum = kettleNum.substring(0,kettleNum.length-1);
 		let canWater = false;
 		canWater = this.gameTreedata.growthValue != this.gameTreedata.stageObj.energy && ((this.gameTreedata.needTake == null ? 'false' : this.gameTreedata.needTake) == 'false');
-		if (canWater && this.currentState == "havetree" && Number(this.kettle_num.text) >= 10) {
+		if (canWater && this.currentState == "havetree" && Number(kettleNum) >= 10) {
 			this.useProp(1);		//1:使用水滴
 		} else if (this.gameTreedata.needTake == "true") {
 			let content = "您需要先把树上成熟果子摘完才可以浇水哦~"
 			let btn = "确定"
 			let ti = "(篮子可以完成任务获得哦！)"
 			SceneManager.addPrompt(content, btn, ti);
-		} else if (Number(this.kettle_num.text) < 10) {
+		} else if (Number(kettleNum) < 10) {
 			let content = "您现在没有水滴可以浇哦~"
 			let btn = "确定"
 			let ti = "(可以通过完成任务和签到获取哦！)"
@@ -240,23 +245,23 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			.to({ scaleX: 1, scaleY: 1 }, 200).call(this.treeEad, this);
 
 		// 所有树语中随机一个
-		let n = Help.random_num(0, this.gettreeLanguageByStage(this.gameTreedata.stage).length - 1)
-		SceneManager.addtreePrompt(this.gettreeLanguageByStage(this.gameTreedata.stage)[n].msg);
+		let n = Help.random_num(0, this.treelanguagedata.length - 1)
+		SceneManager.addtreePrompt(this.treelanguagedata[n].msg);
 	}
 
-	//根据阶段值获取树语
-	private gettreeLanguageByStage(stage) {
-		let data: any[] = []
-		for (let i = 0; i < this.treelanguagedata.length; i++) {
-			if (this.treelanguagedata[i].stage == stage && this.treelanguagedata[i].isStage) {
-				data.push(this.treelanguagedata[i]);
-			}
-			if (this.treelanguagedata[i].isStage == "false") {
-				data.push(this.treelanguagedata[i]);
-			}
-		}
-		return data;
-	}
+	// //根据阶段值获取树语
+	// private gettreeLanguageByStage(stage) {
+	// 	let data: any[] = []
+	// 	for (let i = 0; i < this.treelanguagedata.length; i++) {
+	// 		if (this.treelanguagedata[i].stage == stage && this.treelanguagedata[i].isStage) {
+	// 			data.push(this.treelanguagedata[i]);
+	// 		}
+	// 		if (this.treelanguagedata[i].isStage == "false") {
+	// 			data.push(this.treelanguagedata[i]);
+	// 		}
+	// 	}
+	// 	return data;
+	// }
 
 	/**
 	 * 获取留言模板
@@ -660,6 +665,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		this.progress.minimum = 0;						//进度条最小值
 		this.progress.slideDuration = 0;				//进度条速度		
 		this.progress.value = data.growthValue;			//进度条当前值
+		this.getTreeLanguage(data);						//获取当前阶段树语
 		this.treeUpdate(data);							//果树显示
 		this.gameTreedata = data;						//当前用户果树数据
 		this.getTreeProp(data.id);						//查询当前果园道具和显示
@@ -762,14 +768,14 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private Req_getOwnProp(data): void {
 		var Data = data;
 		console.log(Data, "自己道具数据")
+		let loveNum = Help.getPropById(Data.data, 2) ? Help.getPropById(Data.data, 2).num : "0"
 		//显示自己道具数值
 		this.love_num.textFlow = <Array<egret.ITextElement>>[					//爱心值数量
-			{ text: Help.getPropById(Data.data, 2) ? Help.getPropById(Data.data, 2).num : 0, style: { "size": 22 } }
+			{text: loveNum, style: { "size": 22 }}
 			, { text: "%", style: { "size": 18 } }
 		];
 		let usedNum = Math.floor(Help.getOwnData().obtainFruitNum/Help.getOwnData().basketCapacity);
-		console.log(usedNum)
-		this.kettle_num.text = Help.getPropById(Data.data, 1) ? Help.getPropById(Data.data, 1).num : 0;								//水滴数量
+		this.kettle_num.text = (Help.getPropById(Data.data, 1) ? Help.getPropById(Data.data, 1).num : 0) + "g";							//水滴数量
 		this.pick_num.text = "x"+((Help.getPropById(Data.data, 3) ? Help.getPropById(Data.data, 3).num : 0)-usedNum);				//篮子数量
 		let text:string = this.love_num.text
 		text = text.substring(0,text.length-1)
@@ -799,8 +805,11 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 
 	//获取树语数据
-	private getTreeLanguage() {
-		MyRequest._post("game/getTreeLanguage", null, this, this.Req_getTreeLanguage.bind(this), this.onGetIOError)
+	private getTreeLanguage(data) {
+		let params = {
+			stage: data.stage
+		};
+		MyRequest._post("game/getTreeLanguage", params, this, this.Req_getTreeLanguage.bind(this), this.onGetIOError)
 	}
 
 
@@ -949,8 +958,8 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		this.gro_prop.removeChild(icon);
 		if (Data.data.loveCount > 0) {
 			let textflow = <Array<egret.ITextElement>>[																//爱心值数量
-			{ text: "爱心值+", style: { "size": 22,"textColor":0xF4555C } }
-			, { text: Data.data.loveCount, style: { "size": 22,"textColor":0xF4555C } }
+			{ text: "爱心值+", style: { "size": 30,"textColor":0xED8282,"bold":true } }
+			, { text: Data.data.loveCount, style: { "size": 30,"textColor":0xED8282,"bold":true } }
 		];
 			SceneManager.addNotice(null,null,textflow)
 			let text:string = this.love_num.text
@@ -1090,8 +1099,9 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	//偷水请求之后的处理
 	private Req_stealWater(data): void {
 		var Data = data.data;
-		SceneManager.addNotice("偷到" + Data.stealNum + "g水滴", 2000)
+		// SceneManager.addNotice("偷到" + Data.stealNum + "g水滴", 2000)
 		Help.stealshow(Data.stealNum);
+		this.checkSteal(this.gameTreedata.id);
 	}
 
 	//显示果园道具
@@ -1117,63 +1127,88 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	//放入草
 	private putgrass(id,m?) {
 		let grass = new eui.Image;
-		if(!m){
-			m = Help.random_num(4,6)
-			if(m == 4){
-				grass.x = 230 + Help.random_num(-2,2)*20;
-				grass.y = 950 + Help.random_num(-2,2)*5;
-			}
-			else if(m == 5){
-				grass.x = 362 + Help.random_num(-2,2)*20;
-				grass.y = 956 + Help.random_num(-2,2)*5;
-			}
-			else if(m == 6){
-				grass.x = 504 + Help.random_num(-2,2)*20;
-				grass.y = 938 + Help.random_num(-2,2)*5;
-			}
-		}
-		else if(m){
-			Help.grapos(m,grass);
-		}
 		grass.width = 74;
 		grass.height = 60;
 		grass.texture = RES.getRes("home-grass");
 		grass.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
 			this.removeTreeProp(grass, id);
 		}, this)
-		this.gro_prop.addChild(grass);
+		if(!m){
+			m = Help.random_num(4,6)
+			if(m == 4){
+				this.gro_prop.addChild(grass);
+				let twn_x = 230 + Help.random_num(-2,2)*20;
+				let twn_y = 950 + Help.random_num(-2,2)*5;
+				egret.Tween.get(grass)
+				.set({x:210,y:720})
+				.to({x:twn_x,y:twn_y},1000)
+			}
+			else if(m == 5){
+				this.gro_prop.addChild(grass);
+				let twn_x = 362 + Help.random_num(-2,2)*20;
+				let twn_y = 956 + Help.random_num(-2,2)*5;
+				egret.Tween.get(grass)
+				.set({x:210,y:720})
+				.to({x:twn_x,y:twn_y},1000)
+			}
+			else if(m == 6){
+				this.gro_prop.addChild(grass);
+				let twn_x = 504 + Help.random_num(-2,2)*20;
+				let twn_y = 938 + Help.random_num(-2,2)*5;
+				egret.Tween.get(grass)
+				.set({x:210,y:720})
+				.to({x:twn_x,y:twn_y},1000)
+			}
+		}
+		else if(m){
+			Help.grapos(m,grass);
+			this.gro_prop.addChild(grass);
+		}
+		
 	}
 
 	//放入虫
 
 	private putinsect(id,m?) {
 		let insect = new eui.Image;
-		if(!m){
-			m = Help.random_num(4,6)
-			if(m == 4){
-				insect.x = 536 + Help.random_num(-2,2)*20;
-				insect.y = 872 + Help.random_num(-2,2)*5;
-			}
-			else if(m == 5){
-				insect.x = 295 + Help.random_num(-2,2)*20;
-				insect.y = 932 + Help.random_num(-2,2)*5;
-			}
-			else if(m == 6){
-				insect.x = 436 + Help.random_num(-2,2)*20;
-				insect.y = 930 + Help.random_num(-2,2)*5;
-			}
-		}
-		else if(m){
-			Help.inspos(m,insect);
-		}
-		
 		insect.width = 76;
 		insect.height = 95.75;
 		insect.texture = RES.getRes("home-insect");
 		insect.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
 			this.removeTreeProp(insect, id);
 		}, this)
-		this.gro_prop.addChild(insect);
+		if(!m){
+			m = Help.random_num(4,6)
+			if(m == 4){
+				this.gro_prop.addChild(insect);
+				let twn_x = 536 + Help.random_num(-2,2)*20;
+				let twn_y = 872 + Help.random_num(-2,2)*5;
+				egret.Tween.get(insect)
+				.set({x:530,y:720})
+				.to({x:twn_x,y:twn_y},1000)
+				
+			}
+			else if(m == 5){
+				this.gro_prop.addChild(insect);
+				let twn_x = 295 + Help.random_num(-2,2)*20;
+				let twn_y = 932 + Help.random_num(-2,2)*5;
+				egret.Tween.get(insect)
+				.set({x:530,y:720})
+				.to({x:twn_x,y:twn_y},1000)
+			}
+			else if(m == 6){
+				this.gro_prop.addChild(insect);
+				let twn_x = 436 + Help.random_num(-2,2)*20;
+				let twn_y = 930 + Help.random_num(-2,2)*5;
+				egret.Tween.get(insect)
+				.set({x:530,y:720})
+				.to({x:twn_x,y:twn_y},1000)
+			}
+		}
+		else if(m){
+			Help.inspos(m,insect);
+			this.gro_prop.addChild(insect);
+		}
 	}
 
 
