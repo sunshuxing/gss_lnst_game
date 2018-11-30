@@ -284,37 +284,64 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private treeEad() {
 		this.gro_tree.touchEnabled = true;
 	}
-
-
+	
+	private onlyFlag:boolean = true; 	//只有用户推送的情况需要的标记
 	// 推送滚动1
 	public info1scr() {
 		if (this.infodata && this.infodata.length > 0) {
 			if (this.n >= this.infodata.length) {
 				this.n = 0;
+				this.getTopMsg()
+				return
 			}
-			HttpRequest.imageloader(this.infodata[this.n].mainUserIcon, this.img1);
+			let systemEmpty = this.sysinfodata ==null? true:this.sysinfodata.length==0?true:false	//系统消息为空
 			let userName = Help.getcharlength(this.infodata[this.n].mainUserName,4);
 			let treeName = this.infodata[this.n].treeName;
 			let stageName = this.infodata[this.n].stageName;
+			let info = ""
 			if(this.infodata[this.n].type == "0"){
-				this.str1.text = userName + "的" + treeName + stageName + "了！"
+					info = userName + "的" + treeName + stageName + "了！"
 			}else{
-				this.str1.text = userName + "领取了" + treeName + "！"
+				info = userName + "领取了" + treeName + "！"
 			}
-			this.n++;
-			var rect: egret.Rectangle = this.str1.scrollRect;
-			egret.Tween.get(rect)
-				.set({ y: -50 })
-				.to({ y: 0 }, 1000)
-				.wait(2000).call(this.info2scr, this)
-				.to({ y: 50 }, 1000);
+			if(systemEmpty && this.onlyFlag){//如果为空，则使用系统的框来循环
+				HttpRequest.imageloader(this.infodata[this.n].mainUserIcon, this.img2);
+				this.n++;
+				this.str2.text = info
+				var rect: egret.Rectangle = this.str2.scrollRect;
+				egret.Tween.get(rect)
+					.set({ y: -60 })
+					.to({ y: 0 }, 1000)
+					.wait(2000).call(this.info2scr, this)
+					.to({ y: 60 }, 1000);
 
-			var rect1: egret.Rectangle = this.img1.scrollRect;
-			egret.Tween.get(rect1)
-				.set({ y: -50 })
-				.to({ y: 0 }, 1000)
-				.wait(2000)
-				.to({ y: 50 }, 1000);
+				var rect1: egret.Rectangle = this.img2.scrollRect;
+				egret.Tween.get(rect1)
+					.set({ y: -65 })
+					.to({ y: -5 }, 1000)
+					.wait(2000)
+					.to({ y: 55 }, 1000);
+				this.onlyFlag = false;
+			}else{
+				HttpRequest.imageloader(this.infodata[this.n].mainUserIcon, this.img1);
+				this.str1.text = info
+				this.n++;
+				var rect: egret.Rectangle = this.str1.scrollRect;
+				egret.Tween.get(rect)
+					.set({ y: -50 })
+					.to({ y: 0 }, 1000)
+					.wait(2000).call(this.info2scr, this)
+					.to({ y: 50 }, 1000);
+
+				var rect1: egret.Rectangle = this.img1.scrollRect;
+				egret.Tween.get(rect1)
+					.set({ y: -50 })
+					.to({ y: 0 }, 1000)
+					.wait(2000)
+					.to({ y: 50 }, 1000);
+				this.onlyFlag = true
+			}
+			
 		}
 		else {
 			this.info2scr()
@@ -342,6 +369,8 @@ class MainScene extends eui.Component implements eui.UIComponent {
 				.to({ y: -5 }, 1000)
 				.wait(2000)
 				.to({ y: 55 }, 1000);
+		}else{
+			this.info1scr()
 		}
 	}
 
@@ -820,16 +849,26 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		console.log(this.treelanguagedata, "树语数据")
 	}
 
-
+	private topPage:number = 0		//当前页面
 
 	//查询顶部消息
 	public getTopMsg() {
-		MyRequest._post("game/getTopInfo", null, this, this.Req_getTopMsg.bind(this), this.onGetIOError)
+		this.topPage  = this.topPage + 1
+		let data = {
+			pageNo : this.topPage
+
+		}
+		MyRequest._post("game/getTopInfo", data, this, this.Req_getTopMsg.bind(this), this.onGetIOError)
 	}
 
 	//查询顶部消息成功后处理
 	private Req_getTopMsg(data): void {
 		var Data = data;
+		let maxPage = parseInt(Data.lastPage)
+		if(this.topPage == maxPage){
+			//如果是最后一页，则下一次从首页开始
+			this.topPage = 0
+		}
 		this.infodata = Data.data.list;
 		this.info1scr();
 		console.log(Data, "顶部消息数据")
