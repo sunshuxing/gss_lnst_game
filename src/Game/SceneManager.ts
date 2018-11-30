@@ -14,6 +14,7 @@ class SceneManager {
 
     public connectTime:number = 0;                  //重连次数
     private interval                            //定时器
+    public static jumpMark: JumpScene                       //分享遮罩
 
 
     constructor() {
@@ -205,10 +206,23 @@ class SceneManager {
         this.instance._stage.addChild(prompt);
     }
 
+    public static obj;          //加入舞台的对象
     static addJump() {
-        let jump = new JumpScene();
-        jump.y = jump.height-this.instance._stage.height;
-        this.instance.mainScene.addChild(jump);
+        if(!this.jumpMark){
+            this.jumpMark = new JumpScene();
+            this.jumpMark.y = this.jumpMark.height-this.instance._stage.height;
+        }
+        this.obj = this.instance.mainScene.addChild(this.jumpMark);
+    }
+    
+    static removeJump(){
+        if(this.obj){
+            let flag = this.instance.mainScene.contains(this.obj)
+            if(flag){
+               this.instance.mainScene.removeChild(this.obj)
+               this.obj = null;
+            }
+        }
     }
 
     public initWebSocket() {

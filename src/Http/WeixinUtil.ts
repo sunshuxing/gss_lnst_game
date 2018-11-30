@@ -81,6 +81,7 @@ public _openShare (){
 					// 用户确认分享后执行的回调函数
 					if(that.shareData.success && typeof that.shareData.success == 'function'){
 						that.shareData.success()
+                        SceneManager.removeJump();  //删除遮罩
 					}
 				}
 			wx.onMenuShareTimeline(obj);
@@ -96,6 +97,7 @@ public _openShare (){
 					// 用户确认分享后执行的回调函数
 					if(that.shareData.success && typeof that.shareData.success == 'function'){
 						that.shareData.success()
+                        SceneManager.removeJump();  //删除遮罩
 					}
 				}
 			//发送给朋友
