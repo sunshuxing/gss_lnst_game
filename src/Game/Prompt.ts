@@ -17,7 +17,7 @@ class Prompt extends eui.Component implements eui.UIComponent{
 
 
     private onComplete():void{
-
+        SceneManager.sceneManager.mainScene.enabled = false;
     }
 
 	public setPrompt(content,btn,tishi){
@@ -28,7 +28,11 @@ class Prompt extends eui.Component implements eui.UIComponent{
 
     private remove(){
         if(this.parent){
-            this.parent.removeChild(this);
+        SceneManager.sceneManager.mainScene.enabled = true;
+           this.parent.removeChild(this);
+           let Removemask:MaskEvent = new MaskEvent(MaskEvent.REMOVEMASK);
+           SceneManager.sceneManager.mainScene.dispatchEvent(Removemask);
+           SceneManager.toMainScene();
         }
     }
 }

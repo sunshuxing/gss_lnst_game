@@ -91,7 +91,8 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	// private webSocket:egret.WebSocket; 	//网络连接
 	private n = 0;
 	private m = 0;
-	private a = 0;							//冷却计时
+	private a = 20;							//冷却计时
+	private b = 20;
 
 	private loadLeaveMsg: boolean = true;			//是否需要加载留言模板（当第一次进入时需要）
 	private leaveMsgTemplateList: Array<LeaveMsgTemplate>;		//留言模板对象列表
@@ -182,15 +183,18 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			text = text.substring(1,text.length)
 			if (Number(text) > 0 && this.gameTreedata.needTake == "true") {
 				this.useProp(3);
-			} else if (this.gameTreedata.needTake == "false") {
-			let content = "您现在还不能使用道具哦~"
-			let btn = "确定"
-			let ti = "(快让您的小树快快成长吧！)"
-			SceneManager.addPrompt(content, btn, ti);
-			}else if(Number(text) <= 0){
+			} 
+			else if (this.gameTreedata.needTake == "false") {
+				let content = "您现在还不能使用道具哦~"
+				let btn = "确定"
+				let ti = "(快让您的小树快快成长吧！)"
+				SceneManager.addPrompt(content, btn, ti);
+			}
+			else if(Number(text) <= 0){
 				let content = "道具数量不够"
-			let btn = "确定"
-			let ti = "(完成任务可以获得道具！)"
+				let btn = "确定"
+				let ti = "(完成任务可以获得道具！)"
+				SceneManager.addPrompt(content, btn, ti);
 			}
 		}
 		else if(this.currentState == "friendtree"){
@@ -230,7 +234,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		if (canWater && this.currentState == "havetree" && Number(kettleNum) >= 10) {
 			this.useProp(1);		//1:使用水滴
 		} else if (this.gameTreedata.needTake == "true") {
-			let content = "先把成熟果子摘完才可以浇水哦~"
+			let content = "您需要先把树上成熟果子摘完才可以浇水哦~"
 			let btn = "确定"
 			let ti = "(篮子可以完成任务获得哦！)"
 			SceneManager.addPrompt(content, btn, ti);
@@ -1388,7 +1392,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	// 水壶冷却展现
 	private tettleEad() {
 		this.getOwnTree();
-		this.a = 20
 		this.gro_kettle.visible = false;
 		this.showtime(this.a);
 		this.gro_lq.visible = true;
@@ -1432,6 +1435,11 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		this.a = this.a - 1;
 		this.showtime(this.a);
 		if (this.a <= 0) {
+			this.b = this.b + 10
+			if(this.b >= 40){
+				this.b = 40;
+			}
+			this.a = this.b
 			this.gro_kettle.visible = true;
 			this.gro_lq.visible = false;
 			timer.reset();

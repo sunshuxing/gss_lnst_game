@@ -71,7 +71,10 @@ class SigninScene extends eui.Component implements eui.UIComponent {
                 info = "袋"
             }
             //显示签到成功奖励
-            SceneManager.addNotice("签到成功！获得" + data.propName + data.propNum + info, 2000)
+            SceneManager.addNotice("签到成功！获得" + data.propName + data.propNum + info, 2000);
+            let evt:PuticonEvent = new PuticonEvent(PuticonEvent.TASKFINSHED);
+            SceneManager.instance.mainScene.dispatchEvent(evt)
+            this.closeScene();
         }
         else {
             console.log(Data, "错误")
