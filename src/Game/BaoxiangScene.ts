@@ -27,14 +27,30 @@ class BaoxiangScene extends eui.Component implements eui.UIComponent{
 
 	public seticon(data){
 		console.log(data,"道具数据")
-		// for(let i=0;i<data.length;i++){
-		// 	if(data.id = 0){
-		// 		this.shuidiNum.text = data.name+"x"+data.num+"g";
-		// 	}
-		// 	else if(data.id = 1){
-
-		// 	}
-		// }
+		var Data = data.data
+		for(let i=0;i<Data.length;i++){
+			if(Data.id == 1){
+				this.shuidiNum.text = Data.name+"x"+Data.num+"g";
+			}
+			else if(Data.id == 2){
+				//爱心值
+			}
+			else if(Data.id == 3){
+				this.daojuNum.text = Data.name+"x"+Data.num+"个";
+			}
+			else if(Data.id == 4){
+				this.huafeiIcon.texture = RES.getRes("youji");
+				this.huafeiNum.text = Data.name+"x"+Data.num+"袋";
+			}
+			else if(Data.id == 5){
+				this.huafeiIcon.texture = RES.getRes("fuhe");
+				this.huafeiNum.text = Data.name+"x"+Data.num+"袋";				
+			}
+			else if(Data.id == 6){
+				this.huafeiIcon.texture = RES.getRes("shuirong");
+				this.huafeiNum.text = Data.name+"x"+Data.num+"袋";				
+			}
+		}
 	}
 
 	private bxopen(){

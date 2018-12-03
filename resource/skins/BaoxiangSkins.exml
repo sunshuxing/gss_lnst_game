@@ -7,7 +7,7 @@
 	<e:Image y="416.75" source="bxopen_png" anchorOffsetX="0" includeIn="open"/>
 	<e:Image width="68" height="103" x="160" y="526" source="shuidi" anchorOffsetX="0" anchorOffsetY="0" includeIn="open"/>
 	<e:Image width="110" height="123" x="322" y="497" source="lanzi" includeIn="open"/>
-	<e:Image id="huafeiIcon" width="86" height="94" x="526" y="524.5" source="youji" includeIn="open"/>
+	<e:Image id="huafeiIcon" width="86" height="94" x="526" y="524.5" includeIn="open" source=""/>
 	<e:Label id="shuidiNum" text="水滴x100g" x="113.28" y="680" size="30" fontFamily="Microsoft YaHei" anchorOffsetX="0" width="160" textAlign="center" includeIn="open"/>
 	<e:Label id="daojuNum" text="果篮x1个" x="322" y="680" width="123" size="30" fontFamily="Microsoft YaHei" textAlign="center" includeIn="open"/>
 	<e:Label id="huafeiNum" text="有机肥x1袋" x="496.52" y="680" size="30" width="160" textAlign="center" fontFamily="Microsoft YaHei" includeIn="open"/>

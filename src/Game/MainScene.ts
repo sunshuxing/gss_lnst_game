@@ -230,7 +230,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		if (canWater && this.currentState == "havetree" && Number(kettleNum) >= 10) {
 			this.useProp(1);		//1:使用水滴
 		} else if (this.gameTreedata.needTake == "true") {
-			let content = "您需要先把树上成熟果子摘完才可以浇水哦~"
+			let content = "先把成熟果子摘完才可以浇水哦~"
 			let btn = "确定"
 			let ti = "(篮子可以完成任务获得哦！)"
 			SceneManager.addPrompt(content, btn, ti);
@@ -789,7 +789,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		this.friend_list.selectedIndex = -1;
 		if(treedata.data){
 			let distrNum = Number(treedata.data.exchangeNum)-Number(treedata.data.friendCanObtain);
-			this.distribution_label.textFlow =  <Array<egret.ITextElement>>[					//爱心值数量
+			this.distribution_label.textFlow =  <Array<egret.ITextElement>>[					//道具数量
 				{text: "还需要"}
 				, { text: String(distrNum), style: { "textColor":0xFF0000}}
 				, { text:"个果子就能配送了"	}

@@ -254,27 +254,6 @@ class Help{
         // }, this);
     }
     
-    //落花动画
-    // public static flower(){
-    //     let data:any = RES.getRes("flower_json");
-    //     let txtr:egret.Texture = RES.getRes("flower_png");
-    //     let flower:egret.MovieClipDataFactory = new egret.MovieClipDataFactory(data,txtr);
-    //     let flowerdown:egret.MovieClip = new egret.MovieClip(flower.generateMovieClipData("flower"));
-    //     SceneManager.sceneManager.mainScene.addChild(flowerdown);
-    //     flowerdown.x = 220;
-	// 	flowerdown.y = 600;
-    //     flowerdown.gotoAndPlay(1,1);
-    //     flowerdown.addEventListener(egret.Event.COMPLETE, function (e:egret.Event):void {
-           
-    //     }, this);
-    //     var count:number = 0;
-    //     flowerdown.addEventListener(egret.Event.LOOP_COMPLETE, function (e:egret.Event):void {
-          
-    //     }, this);
-    //     flowerdown.addEventListener(egret.MovieClipEvent.FRAME_LABEL, function (e:egret.MovieClipEvent):void {
-           
-    //     }, this);
-    // }
 
     //过场动画
     public static passAnm(){

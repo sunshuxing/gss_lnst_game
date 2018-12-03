@@ -28,7 +28,18 @@ class HuafeiScene extends eui.Component implements eui.UIComponent{
 
     private useyouji(){
         if(Number(this.youji_num.text) >= 1){
-            this.useProp(4,1);
+            if(Help.getOwnData().stageObj.fitFeritilizer == 4){
+                this.useProp(4,1);
+            }
+            else{
+                let prompt = new PromptHuafei();
+                let tishi = "(使用"+this.gethuafei(Help.getOwnData().stageObj.fitFeritilizer)+"能使小树更快生长!)"
+                prompt.x = 85;
+                prompt.y = 430;
+                prompt.setUse(1);
+                prompt.setPrompt(tishi);
+                SceneManager.sceneManager._stage.addChild(prompt);
+            }
         }
         else{
             this.colseScene()
@@ -41,7 +52,18 @@ class HuafeiScene extends eui.Component implements eui.UIComponent{
 
     private usefuhe(){
         if(Number(this.fuhe_num.text) >= 1){
-            this.useProp(5,2);
+            if(Help.getOwnData().stageObj.fitFeritilizer == 5){
+                this.useProp(5,2);
+            }
+            else{
+                let prompt = new PromptHuafei();
+                let tishi = "(使用"+this.gethuafei(Help.getOwnData().stageObj.fitFeritilizer)+"能使小树更快生长!)"
+                prompt.x = 85;
+                prompt.y = 430;
+                prompt.setUse(2);
+                prompt.setPrompt(tishi);
+                SceneManager.sceneManager._stage.addChild(prompt)
+            }
         }
         else{
             this.colseScene()
@@ -54,7 +76,18 @@ class HuafeiScene extends eui.Component implements eui.UIComponent{
 
     private useshuirong(){
         if(Number(this.shuirong_num.text) >= 1){
-            this.useProp(6,3);
+            if(Help.getOwnData().stageObj.fitFeritilizer == 6){
+                this.useProp(6,3);
+            }
+            else{
+                let prompt = new PromptHuafei();
+                let tishi = "(使用"+this.gethuafei(Help.getOwnData().stageObj.fitFeritilizer)+"能使小树更快生长!)"
+                prompt.x = 85;
+                prompt.y = 430;
+                prompt.setUse(3);
+                prompt.setPrompt(tishi);
+                SceneManager.sceneManager._stage.addChild(prompt);
+            }
         }
          else{
             this.colseScene()
@@ -65,13 +98,26 @@ class HuafeiScene extends eui.Component implements eui.UIComponent{
         }
     }
 
+    private gethuafei(propid){
+        if(propid == 4){
+            return "有机肥"
+        }
+        else if(propid ==5){
+            return "复合肥"
+        }
+        else if(propid ==6){
+            return "水溶肥"
+        }
+    }
+
+
     private colseScene(){
         let Removemask:MaskEvent = new MaskEvent(MaskEvent.REMOVEMASK);
         this.parent.dispatchEvent(Removemask);
         SceneManager.toMainScene();
     }
 
-    private useProp(propId,type){
+    public useProp(propId,type){
         let canUseProp = Help.getTreeUserData().canReceive ==null?"false":Help.getTreeUserData().canReceive;
 		if(canUseProp == 'true'){
 			console.log("果树已经可以兑换啦，不用再使用道具了。")
