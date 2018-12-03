@@ -65,7 +65,7 @@ class Main extends eui.UILayer {
            SceneManager.instance.mainScene.initData();
            SceneManager.instance.checkAddFriend()
            SceneManager.instance.initWebSocket()
-        },true,null)
+        },true,null,false)
         const result = await RES.getResAsync("description_json")
         await platform.login();
         const userInfo = await platform.getUserInfo();

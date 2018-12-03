@@ -27,7 +27,15 @@ class MyRequest{
             if(data.status == 1){//错误
                 console.log("错误:",data.msg)
                 SceneManager.addNotice(data.msg)
-            }else{
+            }
+            else if(data.status == 2){  //请求过期
+                //需要调用微信登陆，并且再次执行该请求
+                
+                SceneManager.instance.weixinUtil._commWxInit(Config.wxhttpServer,"1",()=>{
+                    MyRequest._post(_url,_params,_this,_success,_err);//网页过期后，只能重新向微信请求（会刷新页面），暂时没法执行到此处
+                },true,null,true)
+            }
+            else if(data.status == 0){
                 if(_success){
                     if(_success)
                     _success.call(_this,data);
