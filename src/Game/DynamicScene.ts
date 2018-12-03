@@ -9,34 +9,49 @@ class DynamicScene extends eui.Component implements eui.UIComponent{
 	private scr_dyn:eui.Scroller;
 	private list_dyn:eui.List;
 	private line:eui.Image;
-	private arr:any[] = []
-
+	private perNum = 1;
+	private isLastPage = "false";
+	private treeUserId;
+	private euiArr:eui.ArrayCollection = new eui.ArrayCollection();
 
 	protected childrenCreated():void
 	{
 		super.childrenCreated();
-		// this.searchDynamic(Help.getTreeUserData().id);
 		this.addEventListener(PuticonEvent.TOFRIEND,this.closeScene,this);
+		this.addEventListener(MaskEvent.INITEUIARR,()=>{this.euiArr.removeAll();this.list_dyn.scrollV = 0;this.perNum = 1}, this);
         this.btn_close.addEventListener(egret.TouchEvent.TOUCH_TAP,this.closeScene,this)
-		this.scr_dyn.addEventListener(eui.UIEvent.CHANGE_END,this.asdas,this)
         this.scr_dyn.verticalScrollBar = null;
 		this.scr_dyn.bounces = null;
+		this.list_dyn.dataProvider = this.euiArr;
+ 		this.list_dyn.itemRenderer = dynList_item;
 		console.log("childrenCreated");
 	}
 
 	private asdas(){
 		if(this.list_dyn.scrollV == this.list_dyn.contentHeight - this.list_dyn.height){
-			console.log("滑动到了底部")
+			console.log("滑动到了底部");
+			console.log(this.isLastPage,"sss")
+			if(this.isLastPage == "false")
+			{
+				this.perNum = this.perNum+1;
+				this.searchDynamic(this.treeUserId);
+			}
+			else{
+				this.euiArr.addItem({state:true,createDate:"2018-11-30 10:41:44"});
+				this.scr_dyn.removeEventListener(eui.UIEvent.CHANGE_END,this.asdas,this);
+			}
 		}
-		
 	}
+
 
 	//查询动态
 	public searchDynamic(treeUserId){
+		console.log(this.perNum,"页数");
+		this.treeUserId = treeUserId
 		let params = {	
 			treeUserId:treeUserId,
-			pageNo:1,
-			numPerPage:10000
+			pageNo:this.perNum,
+			numPerPage:10
 			};
 		MyRequest._post("game/searchDynamic",params,this,this.Req_searchDynamic.bind(this),this.onGetIOError)
 	}
@@ -47,11 +62,13 @@ class DynamicScene extends eui.Component implements eui.UIComponent{
 		var dyndata = Data.data.list;
 		dyndata = this.initData(dyndata)
 		console.log("动态数据:",Data)
-		let euiArr:eui.ArrayCollection = new eui.ArrayCollection(dyndata);
-		this.line.height = euiArr.length*300;
-		this.list_dyn.dataProvider = euiArr;
-		// 设置list_hero的项呈视器 (这里直接写类名,而不是写实例)
-		this.list_dyn.itemRenderer = dynList_item;
+		
+		this.scr_dyn.addEventListener(eui.UIEvent.CHANGE_END,this.asdas,this)
+		this.line.height = this.euiArr.length*300;
+		for(let i=0;i<dyndata.length;i++){
+			this.euiArr.addItem(dyndata[i])
+		}
+		this.isLastPage = Data.data.isLastPage;
 	}
 
 	private initData(data:Array<Dynamic>):Array<Dynamic>{
@@ -104,6 +121,9 @@ class DynamicScene extends eui.Component implements eui.UIComponent{
 
 	//关闭该场景
     private closeScene(){
+		this.perNum = 1;
+		this.euiArr.removeAll();
+		this.list_dyn.scrollV = 0;
         let Removemask:MaskEvent = new MaskEvent(MaskEvent.REMOVEMASK);
         this.parent.dispatchEvent(Removemask);
         SceneManager.toMainScene();
@@ -136,7 +156,6 @@ class dynList_item extends eui.ItemRenderer{
 		this.dyn_toother.addEventListener(egret.TouchEvent.TOUCH_TAP,() => {
             this.toother(this.data.mainUser)
 		}, this)
-		this.itemIndex
 		
 	}
 	private onComplete() {
@@ -146,10 +165,13 @@ class dynList_item extends eui.ItemRenderer{
 	// 当数据改变时，更新视图
 	protected dataChanged() {
 		if(this.data.showDate){
-			this.setState(0)
+			this.currentState = "day"
 			this.dyn_day.text = Help.getTime(this.data.createDate,"day");
 		}else{
-			this.setState(1)
+			this.currentState = "noday"
+		}
+		if(this.data.state){
+			this.currentState = "nomore"
 		}
 		if(this.dyn_label.text.length>18){//如果大于18个字符串则需要换行
 			let lineNum = this.dyn_label.text.length/18		//要换行多少每行35
@@ -371,7 +393,7 @@ class dynList_item extends eui.ItemRenderer{
 		else if(dynList_State == 1){
 			this.currentState = "noday";
 		}
-		else{
+		else if(dynList_State == 2){
 			this.currentState = "nomore";
 		}
 	}

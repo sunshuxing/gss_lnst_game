@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="FriendListSkins" width="98" height="122.67" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" states="up,down" >
-	<e:Image y="0" source="friendbg" horizontalCenter="0" includeIn="down"/>
+	<e:Image y="0" source="friendbg" horizontalCenter="0" source.down="friendbgy_png"/>
 	<e:Image id="friend_icon" width="80" height="80" source="" mask="{icon_mask}" horizontalCenter="0" y="3"/>
 	<e:Rect id="icon_mask" width="80" height="80" y="3" ellipseWidth="80" ellipseHeight="80" horizontalCenter="0"/>
 	<e:Label id="friend_name" text="二毛..." y="91" anchorOffsetY="0" left="0" right="0" height="30.5" textAlign="center" verticalAlign="middle" fontFamily="Microsoft JhengHei" size="24"/>

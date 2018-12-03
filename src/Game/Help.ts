@@ -205,7 +205,9 @@ class Help{
         .to({x:324,y:1178,height:34,width:29},1400).call(()=>{SceneManager.sceneManager.mainScene.removeChild(fruit)},SceneManager.sceneManager.mainScene)
     }
 
-    //摘果动画完成之后更新
+    /**
+     * 摘果动画完成之后更新
+     */
     public static pickTwnupdata(Func){
         let timer:egret.Timer = new egret.Timer(2150,1);
         timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE,Func,SceneManager.sceneManager.mainScene)
@@ -278,6 +280,8 @@ class Help{
     public static passAnm(){
         let left = new eui.Image;
         let right = new eui.Image;
+        left.height = 1344;
+        right.height = 1344;
         left.x = 0;
         left.y = 0;
         right.skewY = 180;
@@ -289,10 +293,10 @@ class Help{
         SceneManager.sceneManager.mainScene.addChild(right);
         egret.Tween.get(left)
         .wait(200)
-        .to({x:-750,alpha:0.4},1000)
+        .to({x:-1089},1000)
         egret.Tween.get(right)
         .wait(200)
-        .to({x:1500,alpha:0.4},1000)
+        .to({x:1839},1000)
     }
 
     public static grapos(n,icon){

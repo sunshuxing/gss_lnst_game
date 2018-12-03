@@ -204,6 +204,8 @@ class taskList_item extends eui.ItemRenderer {
         }
         SceneManager.addNotice("获得" + data.propName + data.propNum + info, 2000)
         SceneManager.instance.taskScene.dispatchEventWith(egret.Event.ADDED_TO_STAGE)   //使用manager获取场景并触发事件
+        let evt:PuticonEvent = new PuticonEvent(PuticonEvent.TASKFINSHED);
+        SceneManager.instance.mainScene.dispatchEvent(evt)
     }
 
     // 当数据改变时，更新视图

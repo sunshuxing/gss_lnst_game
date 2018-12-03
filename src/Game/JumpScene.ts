@@ -10,7 +10,7 @@ class JumpScene extends eui.Component implements eui.UIComponent{
         console.log("onComplete")
     }
 
-	private remove(){
+	public remove(){
 		if(this.parent){
 			this.parent.removeChild(this);
 		}

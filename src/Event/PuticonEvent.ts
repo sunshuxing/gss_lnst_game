@@ -4,6 +4,7 @@ class PuticonEvent extends egret.Event {
 		public static USEHUAFEI:string = "使用化肥";
 		public static TOFRIEND:string = "进入他人花园";
 		public static LEAVEMSG:string = "留言";
+		public static TASKFINSHED:string = "任务完成"
 
 		public templateId:Number;
 		public userid:Number;

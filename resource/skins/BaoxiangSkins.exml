@@ -2,7 +2,13 @@
 <e:Skin class="BaoxiangSkins" width="750" height="1344" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" states="close,open" >
 	<e:Image width="750" height="1344" x="0" y="0" alpha="0.8" source="panel-bg" scale9Grid="4,4,24,24"/>
 	<e:Image id="baoxbg" anchorOffsetX="352.5" anchorOffsetY="352.5" horizontalCenter="0.5" verticalCenter="203.5" source="baoxbg_png" includeIn="close"/>
-	<e:Image horizontalCenter="-32.5" verticalCenter="183" includeIn="close" source="boax"/>
-	<e:Image y="124" x="216" source="bx"/>
+	<e:Image horizontalCenter="-24.5" verticalCenter="183" includeIn="close" source="boax"/>
+	<e:Image id="bx" y="0" x="216.5" source="bx"/>
 	<e:Image y="416.75" source="bxopen_png" anchorOffsetX="0" includeIn="open"/>
+	<e:Image width="68" height="103" x="160" y="526" source="shuidi" anchorOffsetX="0" anchorOffsetY="0" includeIn="open"/>
+	<e:Image width="110" height="123" x="322" y="497" source="lanzi" includeIn="open"/>
+	<e:Image id="huafeiIcon" width="86" height="94" x="526" y="524.5" source="youji" includeIn="open"/>
+	<e:Label id="shuidiNum" text="水滴x100g" x="113.28" y="680" size="30" fontFamily="Microsoft YaHei" anchorOffsetX="0" width="160" textAlign="center" includeIn="open"/>
+	<e:Label id="daojuNum" text="果篮x1个" x="322" y="680" width="123" size="30" fontFamily="Microsoft YaHei" textAlign="center" includeIn="open"/>
+	<e:Label id="huafeiNum" text="有机肥x1袋" x="496.52" y="680" size="30" width="160" textAlign="center" fontFamily="Microsoft YaHei" includeIn="open"/>
 </e:Skin>
