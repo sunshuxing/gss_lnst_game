@@ -10,12 +10,14 @@ class TaskScene extends eui.Component implements eui.UIComponent {
     private btn_close: eui.Image;        //关闭按钮  
     private taskdata;                    //任务数据（经过修改的）
     public timerList: Array<any> = []              //定时器列表
+    private common_problem: eui.Label       //常见问题
 
 
 
     protected childrenCreated(): void {
         super.childrenCreated()
         this.btn_close.addEventListener(egret.TouchEvent.TOUCH_TAP, this.closeScene, this)
+        this.common_problem.addEventListener(egret.TouchEvent.TOUCH_TAP,this.clickCommonProblem,this)
         this.scr_task.verticalScrollBar = null;
     }
 
@@ -23,6 +25,13 @@ class TaskScene extends eui.Component implements eui.UIComponent {
      * 显示阶段
      */
     private onAdded(): void {
+    }
+
+    /**
+     * 
+     */
+    private clickCommonProblem(){
+        console.log("常见问题")
     }
 
 
@@ -283,8 +292,7 @@ class taskList_item extends eui.ItemRenderer {
 
     // 当数据改变时，更新视图
     protected dataChanged() {
-        this.bg_task.texture = RES.getRes("task-bg-blue");
-        // this.bg_task.texture = RES.getRes(this.getbgBycode(this.data.code));
+        this.bg_task.texture = RES.getRes(this.getbgBycode(this.data.code));
         this.icon_task.texture = RES.getRes(this.geticonBycode(this.data.code));
         this.name_task.text = this.data.name;
         this.description_task.text = "赠送" + this.data.rewardRule.name + "," + this.getlimitTime(this.data.limitTime);
