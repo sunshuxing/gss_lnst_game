@@ -91,7 +91,7 @@
 	<e:Label id="distribution_label" text="18个" x="268.83" y="1157.67" size="18" fontFamily="Microsoft YaHei" includeIn="havetree" visible="false"/>
 
 	<e:Label id="pick_num" text="x1" x="150" y="1164" size="20" textColor="0x563b12" includeIn="havetree" visible="false"/>
-	<e:Image id="fruit_img" width="24" height="28" x="451" y="1142" anchorOffsetX="0" anchorOffsetY="0" visible="false"/>
+	<e:Image id="fruit_img" width="24" height="28" x="451" y="1142" anchorOffsetX="0" anchorOffsetY="0" includeIn="havetree" visible="false"/>
 	<e:Label id="fruit_num" text="100个" x="444" y="1171" size="16" fontFamily="Microsoft YaHei" textColor="0xf3e911" visible="false"/>
 	<e:Label id="progress_label" text="" includeIn="havetree" x="212.66" y="1074.43" anchorOffsetX="0" width="340.66" size="22" textAlign="center" fontFamily="Microsoft YaHei" textColor="0x000000"/>
 	<e:Image id="img_water" width="88" height="84" x="386" y="860" anchorOffsetX="0" anchorOffsetY="0" source="water" visible="false"/>

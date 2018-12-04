@@ -31,7 +31,7 @@ class LoadingUI extends eui.Component {
 
     public constructor() {
         super();
-        this.createView();
+        this.addEventListener(egret.Event.ADDED_TO_STAGE,this.createView,this)
     }
 
     private textField: egret.TextField;
@@ -43,20 +43,23 @@ class LoadingUI extends eui.Component {
         this.logo = new eui.Image();
         this.loadingbg = new eui.Image();
         this.loadingbg.texture = RES.getRes("loading-bg_png");
+        this.loadingbg.height = 1344;
+        this.loadingbg.y = this.stage.stageHeight - this.loadingbg.height;
         this.addChild(this.loadingbg);
         this.logo.texture = RES.getRes("logo_png");
         this.logo.width = 294;
         this.logo.height = 292;
         this.logo.x = 375;
-        this.logo.y = 505;
+        this.logo.y = 505 + (this.stage.stageHeight - this.loadingbg.height);
         this.logo.anchorOffsetX = this.logo.width/2;
         this.logo.anchorOffsetY = this.logo.height/2;
         this.addChild(this.logo);
         this.addChild(this.textField);
-        this.textField.y = 820;
+        this.textField.y = 820 + (this.stage.stageHeight - this.loadingbg.height);
         this.textField.width = 250;
         this.textField.x = 250;
         this.textField.size = 36;
+        this.textField.bold = true;
         this.textField.textAlign = "center";
         this.textField.textColor = 0xFFFFFF;
         egret.Tween.get(this.logo,{loop:true})

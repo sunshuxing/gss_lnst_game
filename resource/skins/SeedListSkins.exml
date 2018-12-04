@@ -4,5 +4,5 @@
 	<e:Image x="48" y="167" source="choose" includeIn="down"/>
 	<e:Image width="38" height="38" x="48" y="166" source="choose2"/>
 	<e:Image id="icon" y="38" source="" horizontalCenter="0"/>
-	<e:Label id="label" text="芭乐" y="107" fontFamily="Microsoft YaHei" textColor="0xa6652a" size="26" horizontalCenter="0"/>
+	<e:Label id="label" text="芭乐" y="99" fontFamily="Microsoft YaHei" textColor="0xa6652a" size="26" horizontalCenter="0" width="78" textAlign="center"/>
 </e:Skin>

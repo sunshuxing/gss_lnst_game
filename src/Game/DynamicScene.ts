@@ -28,19 +28,19 @@ class DynamicScene extends eui.Component implements eui.UIComponent{
 	}
 
 	private asdas(){
-		if(this.list_dyn.scrollV == this.list_dyn.contentHeight - this.list_dyn.height){
-			console.log("滑动到了底部");
-			console.log(this.isLastPage,"sss")
-			if(this.isLastPage == "false")
-			{
-				this.perNum = this.perNum+1;
-				this.searchDynamic(this.treeUserId);
-			}
-			else{
-				this.euiArr.addItem({state:true,createDate:"2018-11-30 10:41:44"});
-				this.scr_dyn.removeEventListener(eui.UIEvent.CHANGE_END,this.asdas,this);
-			}
-		}
+		// if(this.list_dyn.scrollV == this.list_dyn.contentHeight - this.list_dyn.height){
+		// 	console.log("滑动到了底部");
+		// 	console.log(this.isLastPage,"sss")
+		// 	if(this.isLastPage == "false")
+		// 	{
+		// 		this.perNum = this.perNum+1;
+		// 		this.searchDynamic(this.treeUserId);
+		// 	}
+		// 	else{
+		// 		this.euiArr.addItem({state:true,createDate:"2018-11-30 10:41:44"});
+		// 		this.scr_dyn.removeEventListener(eui.UIEvent.CHANGE_END,this.asdas,this);
+		// 	}
+		// }
 	}
 
 
@@ -51,7 +51,7 @@ class DynamicScene extends eui.Component implements eui.UIComponent{
 		let params = {	
 			treeUserId:treeUserId,
 			pageNo:this.perNum,
-			numPerPage:10
+			numPerPage:10000
 			};
 		MyRequest._post("game/searchDynamic",params,this,this.Req_searchDynamic.bind(this),this.onGetIOError)
 	}
@@ -61,13 +61,12 @@ class DynamicScene extends eui.Component implements eui.UIComponent{
 		var Data = data;
 		var dyndata = Data.data.list;
 		dyndata = this.initData(dyndata)
-		console.log("动态数据:",Data)
-		
 		this.scr_dyn.addEventListener(eui.UIEvent.CHANGE_END,this.asdas,this)
-		this.line.height = this.euiArr.length*300;
 		for(let i=0;i<dyndata.length;i++){
 			this.euiArr.addItem(dyndata[i])
 		}
+		this.euiArr.addItem({state:true,createDate:"2018-11-30 10:41:44"});
+		this.line.height = this.euiArr.length*300;
 		this.isLastPage = Data.data.isLastPage;
 	}
 

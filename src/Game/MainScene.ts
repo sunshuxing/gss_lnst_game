@@ -265,6 +265,8 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 		// 所有树语中随机一个
 		let n = Help.random_num(0, this.treelanguagedata.length - 1)
+		SceneManager.treepromptgro.removeChildren();
+		SceneManager.treetimer.reset();
 		SceneManager.addtreePrompt(this.treelanguagedata[n].msg);
 	}
 
@@ -679,11 +681,36 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		console.log("get error : " + event);
 	}
 
+	//检查是否可以帮摘果
+	private checkHelpTakeFruit(treeUserId){
+		let params = {
+			treeUserId: treeUserId
+		};
+		MyRequest._post("game/checkHelpTakeGoods", params, this, this.Req_checkHelpTakeFruit.bind(this), this.onGetIOError)
+	}
 
+	//检查是否可以帮摘果返回
+	private Req_checkHelpTakeFruit(data): void {
+		console.log("是否帮摘果",data)
+		if(data.data.canTake == "true"){
+			this.pick_hand.visible = true;
+			this.pick_label.text = "帮摘果";
+			this.pick_label.visible = true;
+			egret.Tween.get(this.pick_hand,{loop:true})
+			.to({y:this.pick_hand.y-20},500)
+			.to({y:this.pick_hand.y},500)
+			.to({y:this.pick_hand.y+20},500)
+			.to({y:this.pick_hand.y},500)
+		}
+		else{
+			this.pick_hand.visible = false;
+			this.pick_label.visible = false;
+		}
+	}
 
 
 	//获取种子
-	private getSeed(treeId) {
+	private getSeed() {
 		let params = {
 			treeId: this.seed_value,
 			friendSign: SceneManager.instance.friendSign	//分享标识，如果有，则是通过分享进入
@@ -732,11 +759,12 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			this.gro_love.touchEnabled = false;
 			this.gro_love.touchChildren = false;
 		}
+		let nowValue = (Number(data.growthValue)/Number(data.stageObj.energy))
 		this.tree_name.text = data.treeName;			//果树名称
 		this.garden_name.text = Help.getcharlength(data.userName, 4);			//果园名称
 		this.progress.maximum = data.stageObj.energy;	//进度条最大值
 		this.progress.minimum = 0;						//进度条最小值
-		this.progress.slideDuration = 5000;				//进度条速度		
+		this.progress.slideDuration = 6000;				//进度条速度	
 		this.progress.value = data.growthValue;			//进度条当前值
 		this.getTreeLanguage(data);						//获取当前阶段树语
 		this.treeUpdate(data);							//果树显示
@@ -768,22 +796,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 				this.pick_label.visible = false;
 			}
 		}
-		else if(this.currentState == "friendtree"){
-			if(Number(data.friendCanObtain)>0){
-				this.pick_hand.visible = true;
-				this.pick_label.text = "帮摘果";
-				this.pick_label.visible = true;
-				egret.Tween.get(this.pick_hand,{loop:true})
-				.to({y:this.pick_hand.y-20},500)
-				.to({y:this.pick_hand.y},500)
-				.to({y:this.pick_hand.y+20},500)
-				.to({y:this.pick_hand.y},500)
-			}
-			else if(Number(data.friendCanObtain)<=0){
-				this.pick_hand.visible = false;
-				this.pick_label.visible = false;
-			}
-		}
 	}
 
 	//查询自己果树回调
@@ -805,6 +817,8 @@ class MainScene extends eui.Component implements eui.UIComponent {
 				} else if (treedata.data.needTake == "true" && !this.noHarvest) {
 					this.noHarvest = true;
 					this.gro_tree.touchEnabled = false;
+					SceneManager.treepromptgro.removeChildren();
+					SceneManager.treetimer.reset();
 					SceneManager.addtreePrompt("我的果实长好啦，快使用篮子将果子摘下来吧！")
 				}
 				this.setState("havetree");
@@ -999,8 +1013,8 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 
 	private toOther(evt: PuticonEvent) {
-		this.progress.value = 0;
 		this.progress.slideDuration = 0;
+		this.progress.value = 0;
 		Help.passAnm()
 		var id = evt.userid;
 		this.getTreeInfoByid(id);
@@ -1008,10 +1022,10 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 
 	private toOtherTree() {
-		this.progress.value = 0;
-		this.progress.slideDuration = 0;
 		//查询好友果树数据
 		if (this.friend_list.selectedItem.treeUserId != this.gameTreedata.id && this.friend_list.selectedItem.treeUserId) {
+			this.progress.slideDuration = 0;
+			this.progress.value = 0;
 			this.setState("friendtree");
 			this.friendUser = this.friend_list.selectedItem.friendUser		//好友
 			let friendTreeUserId = this.friend_list.selectedItem.treeUserId;
@@ -1187,11 +1201,13 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	//查询果树数据后处理
 
 	private Req_getTreeInfo(data): void {
+		console.log(data.data.id,"id")
+		if(data.data.friendCanObtain>0){
+			this.checkHelpTakeFruit(data.data.id);
+		}
 		this.setState("friendtree");
 		var Data = data;
 		Help.saveTreeUserData(Data.data);
-		this.progress.value = 0;
-		this.progress.slideDuration = 0;
 		console.log("果树数据:", Data.data)
 		this.init(Data.data);
 	}

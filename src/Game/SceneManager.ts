@@ -175,25 +175,43 @@ class SceneManager {
     /**
      * 添加弹窗，如果文字过多，则调整高度
      */
-    static addtreePrompt(info: string) {
-        let treeprompt = new TreePrompt();
-        treeprompt.y = 656;
-        treeprompt.x = 208;
-        if (info.length > 14) {
-            let a = info.length / 14
-            treeprompt.height = 66 + a * 30
-            treeprompt.setBackHeight(a)
-        }
-        let timer: egret.Timer = new egret.Timer(3000, 1);
-        timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, () => {
-            this.instance.mainScene.removeChild(treeprompt)
-        }
-            , this);
-        treeprompt.setPrompt(info);
-        this.instance.mainScene.addChild(treeprompt);
-        timer.start();
-    }
+    // static addtreePrompt(info: string) {
+    //     let treeprompt = new TreePrompt();
+    //     treeprompt.y = 656;
+    //     treeprompt.x = 208;
+    //     if (info.length > 14) {
+    //         let a = info.length / 14
+    //         treeprompt.height = 66 + a * 30
+    //         treeprompt.setBackHeight(a)
+    //     }
+    //     let timer: egret.Timer = new egret.Timer(3000, 1);
+    //     timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, () => {
+    //         this.instance.mainScene.removeChild(treeprompt)
+    //     }
+    //         , this);
+    //     treeprompt.setPrompt(info);
+    //     this.instance.mainScene.addChild(treeprompt);
+    //     timer.start();
+    // }
 
+    public static treetimer:egret.Timer = new egret.Timer(3000,1);
+    private static treeprompt:TreePrompt = new TreePrompt ();
+    public static treepromptgro:eui.Group = new eui.Group();
+
+    static addtreePrompt(info: string){
+        this.treepromptgro.width = 750;
+        this.treepromptgro.height = 1344;
+        this.treepromptgro.touchThrough = true;
+        this.instance.mainScene.addChild(this.treepromptgro);
+        this.treetimer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, () => {
+            this.treepromptgro.removeChildren()
+        } , this);
+        this.treeprompt.y = 656;
+        this.treeprompt.x = 208;
+        this.treeprompt.setPrompt(info);
+        this.treepromptgro.addChild(this.treeprompt);
+        this.treetimer.start();
+    }
 
     /**
      * 添加提示框
