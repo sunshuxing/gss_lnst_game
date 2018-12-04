@@ -136,6 +136,7 @@ class SceneManager {
         this.instance.removeOther(this.instance.taskScene)
         // 把互动场景添加到主场景中
         this.instance.mainScene.addChild(this.instance.taskScene)
+        this.instance.taskScene.taskDataInit();
         egret.Tween.get(this.instance.taskScene)
             .set(this.instance.taskScene.y = 1208)
             .to({ y: 0 }, 500);

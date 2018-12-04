@@ -1,8 +1,7 @@
 class TaskScene extends eui.Component implements eui.UIComponent {
     public constructor() {
         super();
-        this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAdded, this)
-        this.addEventListener(MaskEvent.REMOVED_FROM_STAGE,this.closeScene,this)
+        this.addEventListener(MaskEvent.REMOVED_FROM_STAGE, this.closeScene, this)
         this.skinName = "resource/skins/TaskSkins.exml";
     }
 
@@ -10,20 +9,20 @@ class TaskScene extends eui.Component implements eui.UIComponent {
     private list_task: eui.List;         //任务列表
     private btn_close: eui.Image;        //关闭按钮  
     private taskdata;                    //任务数据（经过修改的）
+    public timerList: Array<any> = []              //定时器列表
 
 
 
     protected childrenCreated(): void {
         super.childrenCreated()
+        this.btn_close.addEventListener(egret.TouchEvent.TOUCH_TAP, this.closeScene, this)
+        this.scr_task.verticalScrollBar = null;
     }
 
     /**
      * 显示阶段
      */
     private onAdded(): void {
-        this.taskDataInit();
-        this.btn_close.addEventListener(egret.TouchEvent.TOUCH_TAP, this.closeScene, this)
-        this.scr_task.verticalScrollBar = null;
     }
 
 
@@ -31,7 +30,12 @@ class TaskScene extends eui.Component implements eui.UIComponent {
     private closeScene() {
         let Removemask: MaskEvent = new MaskEvent(MaskEvent.REMOVEMASK);
         this.parent.dispatchEvent(Removemask);
-        this.parent.removeChild(this);
+        SceneManager.toMainScene();
+        if (this.timerList && this.timerList.length > 0) {
+            for (let a = 0; a < this.timerList.length; a++) {
+                clearInterval(this.timerList[a]);
+            }
+        }
     }
 
 
@@ -77,6 +81,7 @@ class TaskScene extends eui.Component implements eui.UIComponent {
                         task.needReceive = true;
                         task.finishedId = finishList[a].id//领取用的任务完成id
                     }
+                    task.lastFinishedTime = finishList[a].createDate
                     map[finishList[a].taskCode] = task
                     mapKey.push(finishList[a].taskCode) //遍历map用的数组
                 } else {
@@ -95,18 +100,35 @@ class TaskScene extends eui.Component implements eui.UIComponent {
                     let finishCode = mapKey[a];
                     let completeTask = map[mapKey[a]];//完成的任务记录
                     for (let b = 0; b < taskList.length; b++) {
-                        if (taskList[b].code == finishCode) {
+                        let nowTask = taskList[b]
+                        if (nowTask.code == finishCode) {
                             //当前完成的任务就是该任务
-                            taskList[b].finishCount = map[mapKey[a]].finishCount
-                            taskList[b].needReceive = map[mapKey[a]].needReceive
+                            nowTask.finishCount = map[mapKey[a]].finishCount
+                            nowTask.needReceive = map[mapKey[a]].needReceive
+
                             //判断按钮状态
-                            if (taskList[b].needReceive) {//可领取
-                                taskList[b].btnStatus = 1
-                                taskList[b].finishedId = completeTask.finishedId    //领取奖励用的id
-                            } else if (taskList[b].limitTime > 0 && taskList[b].finishCount >= taskList[b].limitTime) {
-                                taskList[b].btnStatus = 2
-                            } else {
-                                taskList[b].btnStatus = 0
+                            if (nowTask.needReceive) {//可领取//*** */
+                                nowTask.btnStatus = 1
+                                nowTask.finishedId = completeTask.finishedId    //领取奖励用的id
+                            } else if (nowTask.limitTime && parseInt(nowTask.limitTime) > 0 && nowTask.finishCount >= nowTask.limitTime) {
+                                nowTask.btnStatus = 2
+                            }
+                            //如果当前的任务存在限制次数并且有间隔时间
+                            else if (nowTask.timeInterval && parseInt(nowTask.timeInterval) > 0 && nowTask.limitTime && parseInt(nowTask.limitTime) > 1) {
+                                nowTask.lastFinishedTime = map[mapKey[a]].lastFinishedTime
+                                //计算出还有多少秒，并且展示xx：xx：xx后可领取
+                                let finishTime = nowTask.lastFinishedTime.replace(new RegExp(/-/gm), "/"); //将所有的'-'转为'/'即可
+                                nowTask.intervalCancleTime = new Date(new Date(finishTime).getTime() + 60 * nowTask.timeInterval * 1000).getTime()//用于元素自己遍历处理
+                                let str = this.dateDif(nowTask.intervalCancleTime, null)
+                                if (str != "-1") {
+                                    nowTask.btnStatus = 3
+                                } else {
+                                    nowTask.btnStatus = 0
+                                }
+
+                            }
+                            else {
+                                nowTask.btnStatus = 0
                             }
                             break;
                         }
@@ -117,6 +139,56 @@ class TaskScene extends eui.Component implements eui.UIComponent {
         }
         console.log("构建数据", this.taskdata)
         this.init();//构建好数据后初始化
+    }
+
+    //计算时间相差
+    dateDif(timeInterval: number, timer: any): string {
+        var date = timeInterval - new Date().getTime();
+        var days = date / 1000 / 60 / 60 / 24;
+        var daysRound = Math.floor(days);
+        var hours = date / 1000 / 60 / 60 - (24 * daysRound);
+        var hoursRound = Math.floor(hours);
+        var minutes = date / 1000 / 60 - (24 * 60 * daysRound) - (60 * hoursRound);
+        var minutesRound = Math.floor(minutes);
+        var seconds = date / 1000 - (24 * 60 * 60 * daysRound) - (60 * 60 * hoursRound) - (60 * minutesRound);
+        var secondsRound = Math.floor(seconds);
+        let timeStr = "";
+
+        let hoursStr
+        let minutesStr
+        let secondsStr
+        if (hoursRound >= 0 && hoursRound < 10) {
+            hoursStr = "0" + hoursRound
+        } else {
+            hoursStr = hoursRound
+        }
+        if (minutesRound >= 0 && minutesRound < 10) {
+            minutesStr = "0" + minutesRound
+        } else {
+            minutesStr = minutesRound
+        }
+        if (secondsRound >= 0 && secondsRound < 10) {
+            secondsStr = "0" + secondsRound
+        } else {
+            secondsStr = secondsRound
+        }
+
+        if (date <= 0) {
+            if (timer) {
+                clearInterval(timer)
+            }
+            return "-1"
+        } else if (hoursRound >= 0) {
+            timeStr = hoursStr + ":" + minutesStr + ":" + secondsStr
+        } else if (minutesRound >= 0) {
+            timeStr = "00:" + minutesStr + ":" + secondsStr;
+        } else if (secondsStr > 0) {
+            timeStr = "00:00:" + secondsStr;
+        } else {
+            return "-1"
+        }
+        return timeStr
+
     }
 
     //请求错误
@@ -142,9 +214,10 @@ class taskList_item extends eui.ItemRenderer {
     private name_task: eui.Label;            //任务名称
     private description_task: eui.Label;     //任务说明
     private can_finish: eui.Image;           //任务按钮(去完成)
-    private receive: eui.Image;               //任务按钮(去领取)
-    private ban: eui.Image;                   //任务按钮(不可完成)
+    private receive: eui.Image;              //任务按钮(去领取)
+    private ban: eui.Image;                  //任务按钮(不可完成)
     private can_look: eui.Image;             //任务按钮（再逛逛）
+    private interval_time: eui.Label          //任务冷却
 
     public constructor() {
         super()
@@ -203,33 +276,59 @@ class taskList_item extends eui.ItemRenderer {
             info = "袋"
         }
         SceneManager.addNotice("获得" + data.propName + data.propNum + info, 2000)
-        SceneManager.instance.taskScene.dispatchEventWith(egret.Event.ADDED_TO_STAGE)   //使用manager获取场景并触发事件
-        let evt:PuticonEvent = new PuticonEvent(PuticonEvent.TASKFINSHED);
+        SceneManager.instance.taskScene.taskDataInit()
+        let evt: PuticonEvent = new PuticonEvent(PuticonEvent.TASKFINSHED);
         SceneManager.instance.mainScene.dispatchEvent(evt)
     }
 
     // 当数据改变时，更新视图
     protected dataChanged() {
-        this.bg_task.texture = RES.getRes(this.getbgBycode(this.data.code));
+        this.bg_task.texture = RES.getRes("task-bg-blue");
+        // this.bg_task.texture = RES.getRes(this.getbgBycode(this.data.code));
         this.icon_task.texture = RES.getRes(this.geticonBycode(this.data.code));
         this.name_task.text = this.data.name;
         this.description_task.text = "赠送" + this.data.rewardRule.name + "," + this.getlimitTime(this.data.limitTime);
         // this.can_finish.texture = RES.getRes(this.getbtnBycode(this.data.code));
-        this.currentState = this.getItemBtnStatus(this.data.btnStatus,this.data.code)
+        this.currentState = this.getItemBtnStatus(this.data.btnStatus, this.data.code)
+        let parent = SceneManager.instance.taskScene
+        if (this.data.btnStatus == 3) {
+            //以500毫秒的速度执行（可以避免方法执行速度慢会影响展示效果的情况）
+            var time = 1000;
+            let nowTask = this.data
+            let that = this
+            //预先执行一次
+            let text = parent.dateDif(nowTask.intervalCancleTime, null)
+            if (text == "-1") {
+                this.currentState = "can_finish"
+            } else {
+                this.interval_time.text = text + "后可开启"
+            }
+            let timer = setInterval(() => {
+                let text = parent.dateDif(nowTask.intervalCancleTime, timer)
+                if (text == "-1") {
+                    this.currentState = "can_finish"
+                } else {
+                    that.interval_time.text = text + "后可开启"
+                }
+            }, time);
+            SceneManager.instance.taskScene.timerList.push(timer)
+        }
     }
 
     /**
      * （0可完成1可领取2无法完成）
      */
-    private getItemBtnStatus(btnStatus,code) {
+    private getItemBtnStatus(btnStatus, code) {
         if (btnStatus == 0) {
             return "can_finish"
         } else if (btnStatus == 1) {
             return "receive"
-        }else if(btnStatus == 2 &&  code == "browse_goods"){
+        } else if (btnStatus == 2 && code == "browse_goods") {
             return "can_look"
         } else if (btnStatus == 2) {
             return "ban"
+        } else if (btnStatus == 3) {
+            return "interval"
         }
     }
 
@@ -275,7 +374,7 @@ class taskList_item extends eui.ItemRenderer {
         }
     }
 
-    private look(code){
+    private look(code) {
         switch (code) {
             case 'browse_goods': {
                 location.href = Config.webHome + "view/game-browse-goods.html?listType=1&isFinished=true"

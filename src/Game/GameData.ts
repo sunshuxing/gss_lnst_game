@@ -137,6 +137,10 @@ declare class Task {
     needReceive: boolean;            //是否可以领取
     finishedId: string;               //当可以领取时，领取的任务code
     btnStatus:number;                //按钮状态（0未完成1未领取2已经完成达到限制次数）
+    timeInterval:any                 //间隔时间
+    lastFinishedTime:any             //最后完成时间
+    intervalCancleTime:any           //冷却完毕时间
+    leftTimeStr:any                   //冷却时间字符串
 }
 
 /**
