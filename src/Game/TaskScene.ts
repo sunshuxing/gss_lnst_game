@@ -17,7 +17,7 @@ class TaskScene extends eui.Component implements eui.UIComponent {
     protected childrenCreated(): void {
         super.childrenCreated()
         this.btn_close.addEventListener(egret.TouchEvent.TOUCH_TAP, this.closeScene, this)
-        this.common_problem.addEventListener(egret.TouchEvent.TOUCH_TAP,this.clickCommonProblem,this)
+        this.common_problem.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickCommonProblem, this)
         this.scr_task.verticalScrollBar = null;
     }
 
@@ -30,7 +30,7 @@ class TaskScene extends eui.Component implements eui.UIComponent {
     /**
      * 
      */
-    private clickCommonProblem(){
+    private clickCommonProblem() {
         console.log("常见问题")
     }
 
@@ -52,8 +52,8 @@ class TaskScene extends eui.Component implements eui.UIComponent {
     /**
      * 初始化任务数据
      */
-    public taskDataInit(func?:Function) {
-        MyRequest._post("game/getTaskList", null, this, this.Req_getTaskList.bind(this,func), null);//获取任务列表
+    public taskDataInit(func?: Function) {
+        MyRequest._post("game/getTaskList", null, this, this.Req_getTaskList.bind(this, func), null);//获取任务列表
     }
 
 
@@ -61,17 +61,17 @@ class TaskScene extends eui.Component implements eui.UIComponent {
     /**
      * 初始化任务数据
      */
-    private Req_getTaskList(func:Function,data): void {
+    private Req_getTaskList(func: Function, data): void {
         var Data = data;
         this.taskdata = Data.data
-        MyRequest._post("game/getTaskFinish", null, this, this.Req_initFinishTask.bind(this,func), null);//获取完成任务列表（包含领取/未领取任务），用于显示按钮状态
+        MyRequest._post("game/getTaskFinish", null, this, this.Req_initFinishTask.bind(this, func), null);//获取完成任务列表（包含领取/未领取任务），用于显示按钮状态
     }
 
 
     /**
      * 遍历完成任务，统计完成数量，如果有可领取奖励任务，则标记
      */
-    private Req_initFinishTask(func:Function,data): void {
+    private Req_initFinishTask(func: Function, data): void {
         var Data = data;
         let finishList: Array<TaskFinished> = Data.data;
         let map: { [key: string]: Task } = {};//创建一个map，用于存放任务列表
@@ -105,6 +105,7 @@ class TaskScene extends eui.Component implements eui.UIComponent {
             //判断统计出来的次数有没有>=限制，并且判断当前按钮为（0可完成1可领取2无法完成）
             let taskList: Array<Task> = this.taskdata
             let hasFinish = false;
+            let hasShare = false;
             if (mapKey && mapKey.length > 0) {//有的时候才循环map
                 for (let a = 0; a < mapKey.length; a++) {
                     let finishCode = mapKey[a];
@@ -136,24 +137,41 @@ class TaskScene extends eui.Component implements eui.UIComponent {
                                 } else {
                                     nowTask.btnStatus = 0
                                 }
-
                             }
                             else {
                                 nowTask.btnStatus = 0
+                            }
+                            //如果当前任务是分享任务，则默认完成（目前不分享，直接完成）
+                            if (nowTask.code == "share_orchard") {
+                                hasShare = true;
+                                if(nowTask.btnStatus == 0){
+                                    this.completeShareTask();
+                                }
                             }
                             break;
                         }
                     }
                 }
                 this.taskdata = taskList
-
             }
-            if(hasFinish && func){
-                func(true)
+            //如果还未完成分享任务（当前不分享，直接完成）则直接完成
+            if(!hasShare){
+                this.completeShareTask();
+            }
+            if (func && typeof func === "function") {
+                func(hasFinish)
             }
         }
         console.log("构建数据", this.taskdata)
         this.init();//构建好数据后初始化
+    }
+
+    public completeShareTask() {
+        let data = {
+            taskCode: "share_orchard",
+        }
+        console.log("完成任务")
+        MyRequest._post("game/completeTask", data, this, this.taskDataInit, null);
     }
 
     //计算时间相差
@@ -313,16 +331,22 @@ class taskList_item extends eui.ItemRenderer {
             //预先执行一次
             let text = parent.dateDif(nowTask.intervalCancleTime, null)
             if (text == "-1") {
+                if(this.data.code == "share_orchard"){
+                    parent.completeShareTask()
+                }
                 this.currentState = "can_finish"
             } else {
-                this.interval_time.text = text + "后可开启"
+                this.interval_time.text = text + "后可领取"
             }
             let timer = setInterval(() => {
                 let text = parent.dateDif(nowTask.intervalCancleTime, timer)
                 if (text == "-1") {
+                    if(this.data.code == "share_orchard"){
+                        parent.completeShareTask()
+                    }
                     this.currentState = "can_finish"
                 } else {
-                    that.interval_time.text = text + "后可开启"
+                    that.interval_time.text = text + "后可领取"
                 }
             }, time);
             SceneManager.instance.taskScene.timerList.push(timer)

@@ -26,10 +26,7 @@ class WeixinUtil {
             describes: "",
             iconUrl: "",
             success: function () {
-                let data = {
-                    taskCode: "share_orchard",
-                }
-                MyRequest._post("game/completeTask", data, this, null, null);
+                
                 console.log("success share")
             }
         }
