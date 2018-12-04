@@ -22,7 +22,7 @@
 
 
 	<e:Label id="tree_name" text="" bold="true" x="201.19" y="882.9" anchorOffsetX="0" anchorOffsetY="0" fontFamily="SimHei" textColor="0x7a6934" size="34" includeIn="havetree,friendtree" width="104.67" textAlign="center"/>
-	<e:Image id="logo" x="80" y="348" anchorOffsetX="75" anchorOffsetY="75"  source="logo"/>
+	<e:Image id="logo" x="80" y="384" anchorOffsetX="75" anchorOffsetY="75"  source="logo"/>
 	<e:Label id="garden_name" text="" rotation="353.59" size="24" textColor="0x7a6934" textAlign="right" fontFamily="Microsoft YaHei" includeIn="havetree,friendtree" bold="true" anchorOffsetX="0" anchorOffsetY="0" y="502.75" x="116" width="120" height="28.96" text.havetree="我的"/>
 
 
@@ -62,14 +62,14 @@
 		<e:Label text="添加好友" y="96" anchorOffsetY="0" left="0" right="0" height="44" verticalAlign="middle" textAlign="center" size="24" fontFamily="Microsoft YaHei"/>
 	</e:Group>
 	<e:Group id="gro_kettle" width="170" height="157.33" y="986" anchorOffsetY="0" anchorOffsetX="0" right="26" includeIn="havetree">
-		<e:Image width="152" height="150" x="28" y="30.34" source="kettlebg_png"/>
+		<e:Image x="40" y="45" source="kettlebg_png"/>
 		<e:Image id="img_kettle" x="102" y="85" anchorOffsetX="70" anchorOffsetY="58" source="kettle_png"/>
-		<e:Label id="kettle_num" text="" x="61" y="137.37" anchorOffsetX="0" width="87" size="26" textAlign="center" fontFamily="Microsoft YaHei" text.friendtree="帮TA浇水" size.friendtree="24" width.friendtree="108.22" x.friendtree="50.38" fontFamily.friendtree="SimHei"/>
+		<e:Label id="kettle_num" text="" x="61" y="137" anchorOffsetX="0" width="87" size="26" textAlign="center" fontFamily="Microsoft YaHei" text.friendtree="帮TA浇水" size.friendtree="24" width.friendtree="108.22" x.friendtree="50.38" fontFamily.friendtree="SimHei"/>
 	</e:Group>
 	<e:Group id="friend_kettle" width="170" height="157.33" y="986" anchorOffsetY="0" anchorOffsetX="0" right="26" includeIn="friendtree">
-		<e:Image width="152" height="150" x="28" y="30.34" source="kettlebg_png"/>
+		<e:Image x="40" y="45" source="kettlebg_png"/>
 		<e:Image id="frimg_kettle" x="102" y="85" anchorOffsetX="70" anchorOffsetY="58" source="kettle_png"/>
-		<e:Label text="帮TA浇水" x="49" y="137.37" anchorOffsetX="0" width="115" size="24" textAlign="center" fontFamily="Microsoft YaHei" text.friendtree="帮TA浇水" size.friendtree="24" width.friendtree="108.22" x.friendtree="50.38" fontFamily.friendtree="SimHei" anchorOffsetY="0" height="24"/>
+		<e:Label text="帮TA浇水" x="49" y="136" anchorOffsetX="0" width="115" size="24" textAlign="center" fontFamily="Microsoft YaHei" text.friendtree="帮TA浇水" size.friendtree="24" width.friendtree="108.22" x.friendtree="50.38" fontFamily.friendtree="SimHei" anchorOffsetY="0" height="24"/>
 	</e:Group>
 	<e:Group id="gro_lq" width="143.15" height="140.61" y="1022" anchorOffsetX="0" anchorOffsetY="0" x="584" includeIn="havetree" visible="false">
 		<e:Image scaleX="1" scaleY="1" source="noshui_png" x="7.58" y="7.6"/>
@@ -80,16 +80,19 @@
 
 	<e:Group id="gro_tree" width="415" height="389" x="190" y="503" anchorOffsetY="0" anchorOffsetX="0" locked="true"/>
 	<e:Group id="gro_prop" width="750" height="1344" x="0" y="0" anchorOffsetY="0" anchorOffsetX="0" includeIn="havetree,friendtree" locked="true"/>
-	<e:Group id="gro_love" width="103.03" height="81" x="606.49" y="806" includeIn="havetree,friendtree" anchorOffsetX="0" y.friendtree="1074" x.friendtree="5.09">
+	<e:Group id="gro_love" width="103.03" height="81" x="606.49" y="806" includeIn="havetree,friendtree" anchorOffsetX="0" y.friendtree="1074" x.friendtree="5.09" locked="true">
 		<e:Image id="img_love" x="60" y="47" source="love" anchorOffsetX="60" anchorOffsetY="59"/>
 		<e:Label id="love_num" fontFamily="Microsoft YaHei" y="35.05" x="27.29" width="65.67" textAlign="center" textColor="0xffffff" size="22" anchorOffsetX="0" anchorOffsetY="0" height="20.67"/>
 	</e:Group>
 	<e:Image id="pick_hand" x="462" y="630" source="pickhand" visible="false"/>
 	<e:Label id="pick_label" text="可摘果" x="460" y="736" fontFamily="SimHei" size="32" bold="true" textColor="0xffffff" visible="false"/>
 	<e:ProgressBar id="progress" width="350.78" height="49.65" y="1021.46" skinName="ProgressSkins" includeIn="havetree,friendtree" x="209.94" anchorOffsetX="0" anchorOffsetY="0"/>
-	<e:ProgressBar id="progress1" includeIn="havetree" x="135" y="1115.04" skinName="Progress1Skins" visible="false"/>
-	<e:Label id="distribution_label" text="还需要50个果子就能配送了" x="243" y="1125" anchorOffsetX="0" anchorOffsetY="0" size="19" textAlign="center" fontFamily="SimHei" textColor="0x000000" includeIn="havetree" visible="false"/>
+	<e:ProgressBar id="progress1" includeIn="havetree" x="135" y="1115.04" skinName="Progress1Skins"/>
+	<e:Label id="distribution_label" text="18个" x="268.83" y="1157.67" size="18" fontFamily="Microsoft YaHei" includeIn="havetree" visible="false"/>
+
 	<e:Label id="pick_num" text="x1" x="150" y="1164" size="20" textColor="0x563b12" includeIn="havetree" visible="false"/>
+	<e:Image id="fruit_img" width="24" height="28" x="451" y="1142" anchorOffsetX="0" anchorOffsetY="0" visible="false"/>
+	<e:Label id="fruit_num" text="100个" x="444" y="1171" size="16" fontFamily="Microsoft YaHei" textColor="0xf3e911" visible="false"/>
 	<e:Label id="progress_label" text="" includeIn="havetree" x="212.66" y="1074.43" anchorOffsetX="0" width="340.66" size="22" textAlign="center" fontFamily="Microsoft YaHei" textColor="0x000000"/>
 	<e:Image id="img_water" width="88" height="84" x="386" y="860" anchorOffsetX="0" anchorOffsetY="0" source="water" visible="false"/>
 
@@ -102,7 +105,7 @@
 
 
 
-	<e:Image id="hudong_btn" width="120" height="124" includeIn="friendtree" x="598" y="650" source="hudong"/>
+	<e:Image id="hudong_btn" includeIn="friendtree" x="22.59" y="952.7" source="hudong_png"/>
 	<e:Image id="steal_btn" width="140" height="154" includeIn="friendtree" x="443" y="774" source="ketou" anchorOffsetX="0" anchorOffsetY="0" visible="false"/>
 	<e:Label id="steal_label" text="可偷水" x="460" y="902" textColor="0x2db7d8" bold="true" includeIn="friendtree" visible="false"/>
 	<e:Image id="bg_mask" width="750" height="1344" x="0" y="0" source="panel-bg" alpha="0.8" scale9Grid="4,4,24,24" visible="false"/>

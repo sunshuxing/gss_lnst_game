@@ -202,7 +202,7 @@ class Help{
         SceneManager.sceneManager.mainScene.addChild(fruit);
         egret.Tween.get(fruit)
         .to({x:368,y:505},300)
-        .to({x:324,y:1178,height:34,width:29},1400).call(()=>{SceneManager.sceneManager.mainScene.removeChild(fruit)},SceneManager.sceneManager.mainScene)
+        .to({x:200,y:1153,height:34,width:29},1400).call(()=>{SceneManager.sceneManager.mainScene.removeChild(fruit)},SceneManager.sceneManager.mainScene)
     }
 
     /**
@@ -319,6 +319,61 @@ class Help{
         .to({y:img_water.y-60},800).call(()=>{SceneManager.sceneManager.mainScene.removeChild(img_water)},this);
         egret.Tween.get(label_water)
         .to({y:label_water.y-60},800).call(()=>{SceneManager.sceneManager.mainScene.removeChild(label_water)},this);
+    }
+
+    /**
+     * 帮摘果之后奖励动画
+     */
+
+    public static helppickTwn(data){
+        let img_fruit = new eui.Image();            //果实图片
+        img_fruit.width = 61.6;
+        img_fruit.height = 70;
+        img_fruit.x = 356;
+        img_fruit.y = 700;
+        HttpRequest.imageloader(Config.picurl+Help.getTreeUserData().seedIcon,img_fruit);
+        SceneManager.sceneManager.mainScene.addChild(img_fruit);
+        let label_fruit = new eui.Label();              //果实数量
+        label_fruit.x = 434;
+        label_fruit.y = 712;
+        label_fruit.text = "+"+data.takeNum;
+        SceneManager.sceneManager.mainScene.addChild(label_fruit);
+        let img_love = new eui.Image();                 //爱心图片
+        img_love.width = 72.8;
+        img_love.height = 63.7;
+        img_love.x = 350;
+        img_love.y = 626;
+        img_love.texture = RES.getRes("loveimg_png");   
+        SceneManager.sceneManager.mainScene.addChild(img_love);
+        let label_love = new eui.Label;
+        label_love.x = 426;
+        label_love.y = 638;
+        label_love.text = "+"+data.loveCount
+        SceneManager.sceneManager.mainScene.addChild(label_love);
+
+        egret.Tween.get(img_fruit)
+        .to({y:img_fruit.y-60},800).call(()=>{SceneManager.sceneManager.mainScene.removeChild(img_fruit)},this);
+        egret.Tween.get(label_fruit)
+        .to({y:label_fruit.y-60},800).call(()=>{SceneManager.sceneManager.mainScene.removeChild(label_fruit)},this);
+        egret.Tween.get(img_love)
+        .to({y:img_love.y-60},800).call(()=>{SceneManager.sceneManager.mainScene.removeChild(img_love)},this);
+        egret.Tween.get(label_love)
+        .to({y:label_love.y-60},800).call(()=>{SceneManager.sceneManager.mainScene.removeChild(label_love)},this);
+
+    }
+
+    //爱心值兑换成长值动画
+    public static useLoveTwn(){
+        let img_love = new eui.Image();
+        img_love.x = 615;
+        img_love.y = 806;
+        img_love.texture = RES.getRes("loveimg_png");
+        SceneManager.sceneManager.mainScene.addChild(img_love);
+        egret.Tween.get(img_love)
+        .to({x:615,y:730},500)
+        .to({x:306,y:1138,scaleY:0.5,scaleX:0.5},1200).call(
+            ()=>{SceneManager.sceneManager.mainScene.removeChild(img_love);
+                 SceneManager.sceneManager.mainScene.getOwnTree();},this); 
     }
 }
 	

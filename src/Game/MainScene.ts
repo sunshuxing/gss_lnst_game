@@ -72,6 +72,8 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private img1_bg:eui.Image;
 	private img2_bg:eui.Image;
 	private distribution_label:eui.Label;	//配送的字
+	private fruit_num:eui.Label;
+	private fruit_img:eui.Image;
 	
 
 	/**
@@ -734,7 +736,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		this.garden_name.text = Help.getcharlength(data.userName, 4);			//果园名称
 		this.progress.maximum = data.stageObj.energy;	//进度条最大值
 		this.progress.minimum = 0;						//进度条最小值
-		this.progress.slideDuration = 3000;				//进度条速度		
+		this.progress.slideDuration = 5000;				//进度条速度		
 		this.progress.value = data.growthValue;			//进度条当前值
 		this.getTreeLanguage(data);						//获取当前阶段树语
 		this.treeUpdate(data);							//果树显示
@@ -791,14 +793,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		let treeUser: TreeUserData = treedata.data;
 		Help.saveOwnData(treedata.data);					//保存自己果树数据
 		this.friend_list.selectedIndex = -1;
-		if(treedata.data){
-			let distrNum = Number(treedata.data.exchangeNum)-Number(treedata.data.friendCanObtain);
-			this.distribution_label.textFlow =  <Array<egret.ITextElement>>[					//道具数量
-				{text: "还需要"}
-				, { text: String(distrNum), style: { "textColor":0xFF0000}}
-				, { text:"个果子就能配送了"	}
-			];
-		}
 		if (treedata.data) {
 			if (treedata.data.canReceive == "true") {
 				let prompt = new PromptJump();
@@ -825,13 +819,20 @@ class MainScene extends eui.Component implements eui.UIComponent {
 					// }
 					this.progress1.value = treedata.data.obtainFruitNum; 						//当前收获果子树
 					this.progress1.visible = true;
-					this.distribution_label.visible = true;
 					this.pick_num.visible = true;
+					this.distribution_label.visible = true;
+					this.distribution_label.text = treedata.data.obtainFruitNum+"个";
+					this.fruit_img.visible = true;
+					this.fruit_num.visible = true;
+					HttpRequest.imageloader(Config.picurl+treedata.data.seedIcon,this.fruit_img);
+					this.fruit_num.text = treedata.data.exchangeNum+"个";
 				}
 				else {
 					this.progress1.visible = false;
-					this.distribution_label.visible = false;
 					this.pick_num.visible = false;
+					this.distribution_label.visible = false;
+					this.fruit_img.visible = false;
+					this.fruit_num.visible = false;
 				}
 				this.getOwnProp();
 				this.init(treedata.data);
@@ -998,6 +999,8 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 
 	private toOther(evt: PuticonEvent) {
+		this.progress.value = 0;
+		this.progress.slideDuration = 0;
 		Help.passAnm()
 		var id = evt.userid;
 		this.getTreeInfoByid(id);
@@ -1005,6 +1008,8 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 
 	private toOtherTree() {
+		this.progress.value = 0;
+		this.progress.slideDuration = 0;
 		//查询好友果树数据
 		if (this.friend_list.selectedItem.treeUserId != this.gameTreedata.id && this.friend_list.selectedItem.treeUserId) {
 			this.setState("friendtree");
@@ -1110,15 +1115,15 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			this.kettleTwn();			//使用水滴之后更新在动画中完成
 		}
 		else if (propId == 2) {
-			this.getOwnTree();
-			let content = "您的爱心值已兑换成长值！"
-			let btn = "确定"
-			let ti = "(多多帮助好友可使您的小树更快成长哦！)"
-			SceneManager.addPrompt(content, btn, ti);
+			Help.useLoveTwn();
+			// let content = "您的爱心值已兑换成长值！"
+			// let btn = "确定"
+			// let ti = "(多多帮助好友可使您的小树更快成长哦！)"
+			// SceneManager.addPrompt(content, btn, ti);
 		}
 		else if (propId == 3) {
 			Help.pickTwn(5);
-			Help.pickTwnupdata(this.getOwnTree);
+			Help.pickTwnupdata(this.pickafter);
 		}
 		else {
 			this.getOwnTree();
@@ -1223,9 +1228,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 	//帮摘果之后请求
 	private Req_friendpick(data){
-		let content = "帮助好友摘到"+data.data.takeNum+"个果子,爱心值+"+data.data.loveCount;
-		let btn = "确定";
-		let ti = "(帮助好友除虫除草也能获得爱心值)";
+		Help.helppickTwn(data.data);
 		let text:string = this.love_num.text;
 		text = text.substring(0,text.length-1);
 		this.love_num.text =(String(Number(text) + Number(data.data.loveCount)))+"%";

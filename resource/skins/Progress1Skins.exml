@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="Progress1Skins" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing"  width="462" height="86">
+<e:Skin class="Progress1Skins" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing"  width="457" height="90">
 	<e:Image x="0" y="0" source="progress2-bg_png"/>
-	<e:Image id="thumb" mask="{pro_mask}" verticalCenter="8" x="105.5" width="269.85" anchorOffsetY="0" height="66" anchorOffsetX="0" source="progress-value2" scale9Grid="18,23,29,13"/>
+	<e:Image id="thumb" mask="{pro_mask}" verticalCenter="8" x="105.5" width="225.85" anchorOffsetY="0" height="66" anchorOffsetX="0" source="progress-value2" scale9Grid="18,23,29,13"/>
 
-	<e:Rect id="pro_mask"  ellipseWidth="30" x="103.62" y="35.8" width="242" height="30" anchorOffsetX="0" anchorOffsetY="0"/>
+	<e:Rect id="pro_mask"  ellipseWidth="30" x="105.62" y="35.8" width="196" height="30" anchorOffsetX="0" anchorOffsetY="0"/>
 </e:Skin>
