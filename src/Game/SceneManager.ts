@@ -208,6 +208,14 @@ class SceneManager {
         } , this);
         this.treeprompt.y = 656;
         this.treeprompt.x = 208;
+        if (info.length > 14) {
+            let a = info.length / 14
+            this.treeprompt.height = 66 + a * 30
+            this.treeprompt.setBackHeight(a)
+        }
+        else{
+            this.treeprompt.height = 66
+        }
         this.treeprompt.setPrompt(info);
         this.treepromptgro.addChild(this.treeprompt);
         this.treetimer.start();

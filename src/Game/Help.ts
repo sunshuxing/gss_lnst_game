@@ -228,7 +228,7 @@ class Help{
             }
             else{
                 return time.getHours()+":"+time.getMinutes();
-            } 
+            }
         }
     }
 
@@ -332,34 +332,53 @@ class Help{
         img_fruit.x = 356;
         img_fruit.y = 700;
         HttpRequest.imageloader(Config.picurl+Help.getTreeUserData().seedIcon,img_fruit);
-        SceneManager.sceneManager.mainScene.addChild(img_fruit);
         let label_fruit = new eui.Label();              //果实数量
         label_fruit.x = 434;
         label_fruit.y = 712;
         label_fruit.text = "+"+data.takeNum;
-        SceneManager.sceneManager.mainScene.addChild(label_fruit);
         let img_love = new eui.Image();                 //爱心图片
         img_love.width = 72.8;
         img_love.height = 63.7;
         img_love.x = 350;
         img_love.y = 626;
         img_love.texture = RES.getRes("loveimg_png");   
-        SceneManager.sceneManager.mainScene.addChild(img_love);
         let label_love = new eui.Label;
         label_love.x = 426;
         label_love.y = 638;
         label_love.text = "+"+data.loveCount
-        SceneManager.sceneManager.mainScene.addChild(label_love);
-
-        egret.Tween.get(img_fruit)
-        .to({y:img_fruit.y-60},800).call(()=>{SceneManager.sceneManager.mainScene.removeChild(img_fruit)},this);
-        egret.Tween.get(label_fruit)
-        .to({y:label_fruit.y-60},800).call(()=>{SceneManager.sceneManager.mainScene.removeChild(label_fruit)},this);
-        egret.Tween.get(img_love)
-        .to({y:img_love.y-60},800).call(()=>{SceneManager.sceneManager.mainScene.removeChild(img_love)},this);
-        egret.Tween.get(label_love)
-        .to({y:label_love.y-60},800).call(()=>{SceneManager.sceneManager.mainScene.removeChild(label_love)},this);
-
+        if(Number(data.takeNum) == 0){
+            SceneManager.sceneManager.mainScene.enabled = false;
+            SceneManager.addNotice("手气不佳，没有为好友摘到果子",1000),
+            this.waitFun(1,function(){
+                SceneManager.sceneManager.mainScene.addChild(img_love);
+                SceneManager.sceneManager.mainScene.addChild(label_love);
+                egret.Tween.get(img_love)
+                .to({y:img_love.y-60},800).call(()=>{SceneManager.sceneManager.mainScene.removeChild(img_love)},this);
+                egret.Tween.get(label_love)
+                .to({y:label_love.y-60},800).call(()=>{SceneManager.sceneManager.mainScene.removeChild(label_love);
+                    SceneManager.sceneManager.mainScene.enabled = true;
+                },this);
+            },this)
+        }
+        else{
+            SceneManager.sceneManager.mainScene.enabled = false;
+            SceneManager.sceneManager.mainScene.addChild(img_fruit);
+            SceneManager.sceneManager.mainScene.addChild(label_fruit);
+            egret.Tween.get(img_fruit)
+            .to({y:img_fruit.y-60},800).call(()=>{SceneManager.sceneManager.mainScene.removeChild(img_fruit);
+                SceneManager.sceneManager.mainScene.addChild(img_love);
+                egret.Tween.get(img_love)
+                .to({y:img_love.y-60},800).call(()=>{SceneManager.sceneManager.mainScene.removeChild(img_love)},this);
+            },this);
+            egret.Tween.get(label_fruit)
+            .to({y:label_fruit.y-60},800).call(()=>{SceneManager.sceneManager.mainScene.removeChild(label_fruit);
+                SceneManager.sceneManager.mainScene.addChild(label_love);
+                egret.Tween.get(label_love)
+                .to({y:label_love.y-60},800).call(()=>{SceneManager.sceneManager.mainScene.removeChild(label_love);
+                    SceneManager.sceneManager.mainScene.enabled = true;    
+                },this);
+            },this);
+        }
     }
 
     //爱心值兑换成长值动画

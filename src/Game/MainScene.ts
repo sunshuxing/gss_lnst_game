@@ -74,6 +74,8 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private distribution_label:eui.Label;	//配送的字
 	private fruit_num:eui.Label;
 	private fruit_img:eui.Image;
+	private sign_gro:eui.Group;
+	public task_gro:eui.Group;
 	
 
 	/**
@@ -129,7 +131,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		this.logorot();
 		this.cloudTwn();
 	}
-
 	private onComplete(): void {
 		console.log("onComplete");
 		this.addEventListener(PuticonEvent.PUTGRASS, this.putgrass, this);
@@ -168,6 +169,15 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		}
 		if (State == "friendtree") {
 			this.currentState = "friendtree";
+		}
+	}
+
+	private checktask(flag){
+		if(flag){
+			SceneManager.sceneManager.mainScene.task_gro.visible = true;
+		}
+		else if(!flag){
+			SceneManager.sceneManager.mainScene.task_gro.visible = false;
 		}
 	}
 
@@ -309,7 +319,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private onlyFlag:boolean = true; 	//只有用户推送的情况需要的标记
 	// 推送滚动1
 	public info1scr() {
-		if (this.infodata && this.infodata.length > 0) {
+		if (this.infodata && this.infodata.length) {
 			if (this.n >= this.infodata.length) {
 				this.n = 0;
 				if(this.hasTopMsg){
@@ -587,6 +597,28 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		return null
 	}
 
+	//查询签到信息
+    private getSignInInfo() {
+        MyRequest._post("game/getSignInInfo", null, this, this.Req_getSignInInfo.bind(this), this.onGetIOError)
+    }
+
+    //查询成功的处理
+    private Req_getSignInInfo(data): void {
+		let Signdate = data.data.lastSignDay;
+		Signdate = Signdate.replace(new RegExp(/-/gm), "/"); //将所有的'-'转为'/'即可
+		let nowdate = new Date();
+		let time = new Date(Signdate);
+		if(time.getDate() == nowdate.getDate()&&time.getMonth() == nowdate.getMonth()){
+			this.sign_gro.visible = false;
+		}
+		else{
+			this.sign_gro.visible = true;
+		}
+		console.log(data,"签到数据")
+	}
+
+
+
 	//移除弹幕容器
 	private removeBarrage() {
 		this.timer.reset()
@@ -694,7 +726,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 	//检查是否可以帮摘果返回
 	private Req_checkHelpTakeFruit(data): void {
-		console.log("是否帮摘果",data)
 		if(data.data.canTake == "true"){
 			this.pick_hand.visible = true;
 			this.pick_label.text = "帮摘果";
@@ -735,7 +766,8 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 	//查询自己的果树
 	public getOwnTree() {
-		MyRequest._post("game/getOwnTree", null, this, this.requestgetOwnTree.bind(this), this.onGetIOError)
+		MyRequest._post("game/getOwnTree", null, this, this.requestgetOwnTree.bind(this), this.onGetIOError);
+		this.getSignInInfo();
 	}
 
 	private init(data) {
@@ -756,6 +788,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		}
 		console.log("数据", data);
 		if (this.currentState == "havetree") {
+			SceneManager.sceneManager.taskScene.taskDataInit(this.checktask);
 			this.gro_love.touchEnabled = true;
 			this.gro_love.touchChildren = true;
 		} else {
@@ -803,7 +836,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 	//查询自己果树回调
 	private requestgetOwnTree(data): void {
-		
 		var treedata = data;
 		let treeUser: TreeUserData = treedata.data;
 		Help.saveOwnData(treedata.data);					//保存自己果树数据
@@ -819,7 +851,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 					this.noHarvest = false;
 				} else if (treedata.data.needTake == "true" && !this.noHarvest) {
 					this.noHarvest = true;
-					this.gro_tree.touchEnabled = false;
 					SceneManager.treepromptgro.removeChildren();
 					SceneManager.treetimer.reset();
 					SceneManager.addtreePrompt("我的果实长好啦，快使用篮子将果子摘下来吧！")
@@ -876,9 +907,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		}else{
 			HttpRequest.imageloader(Config.picurl+data.stageObj.stageImage, this.tree);
 		}
-		
 		Help.getTreeHWBystage(data.stage, this.tree);
-		console.log(this.tree)
 	}
 
 
@@ -962,8 +991,8 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	//查询顶部消息成功后处理
 	private Req_getTopMsg(data): void {
 		var Data = data;
-		let maxPage = parseInt(Data.lastPage)
-		if(this.topPage == maxPage-1){
+		let maxPage = parseInt(Data.data.lastPage)
+		if(this.topPage == maxPage){
 			//如果是最后一页，则下一次从首页开始
 			this.topPage = 0
 		}
@@ -1040,6 +1069,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private toOtherTree() {
 		//查询好友果树数据
 		if (this.friend_list.selectedItem.treeUserId != this.gameTreedata.id && this.friend_list.selectedItem.treeUserId) {
+			SceneManager.treepromptgro.removeChildren();
 			this.progress.slideDuration = 0;
 			this.progress.value = 0;
 			this.setState("friendtree");
@@ -1172,6 +1202,8 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	//回到自己果园
 	private ToSelfTree() {
 		if (this.currentState != "havetree") {
+			this.progress.slideDuration = 0;
+			this.progress.value = 0;
 			this.getOwnTree();
 			Help.passAnm();
 			this.setState("havetree");
@@ -1217,9 +1249,12 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	//查询果树数据后处理
 
 	private Req_getTreeInfo(data): void {
-		console.log(data.data.id,"id")
 		if(data.data.friendCanObtain>0){
 			this.checkHelpTakeFruit(data.data.id);
+		}
+		else{
+			this.pick_hand.visible = false;
+			this.pick_label.visible = false;
 		}
 		this.setState("friendtree");
 		var Data = data;

@@ -31,8 +31,16 @@
 	<e:Group id="BarGroup" anchorOffsetX="0" anchorOffsetY="0" left="0" right="0" top="0" bottom="0" locked="true"/>
 	<e:Image id="tu" y="889.05" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="30" source="tu"/>
 	<e:Image id="btn_signin" x="20" y="666" includeIn="havetree" source="signin_png"/>
+	<e:Group id="sign_gro" width="67" height="29" x="79" y="660" anchorOffsetX="0" anchorOffsetY="0" includeIn="havetree" visible="false">
+		<e:Image x="0" y="1" source="taskprompt_png" scaleX="1" scaleY="1"/>
+		<e:Label text="可签到" size="18" verticalCenter="-2" horizontalCenter="0" fontFamily="Microsoft YaHei"/>
+	</e:Group>
 	<e:Image id="btn_dynamic" x="20" y="910" includeIn="havetree" source="dynamic_png"/>
 	<e:Image id="btn_task" x="20" y="788" includeIn="havetree" source="task-icon_png"/>
+	<e:Group id="task_gro" width="67" height="29" x="79" y="781" anchorOffsetX="0" anchorOffsetY="0" includeIn="havetree" visible="false">
+		<e:Image x="0" y="1" source="taskprompt_png" scaleX="1" scaleY="1"/>
+		<e:Label text="可领取" size="18" verticalCenter="-2" horizontalCenter="0" fontFamily="Microsoft YaHei"/>
+	</e:Group>
 	<e:Image id="btn_fertilizer" x="20" y="1034" includeIn="havetree" source="huafei_png"/>
 
 
@@ -121,4 +129,5 @@
 	</e:Scroller>
 
 	<e:Image id="seed_btn" y="1100" horizontalCenter="0.5" width="287" height="109" includeIn="notree" source="seed-btn"/>
+
 </e:Skin>
