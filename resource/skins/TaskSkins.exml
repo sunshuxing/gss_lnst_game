@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="TaskSkins" width="750" height="1344" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Image height="980" bottom="0" left="0" right="0" source="white-bg" scale9Grid="4,4,26,26"/>
-	<e:Label text="任务" x="30" y="398" size="36" fontFamily="SimHei" textColor="0x333333"/>
-    <e:Image id="btn_close" y="398" width="40" height="40" right="30" x="680" scaleX="1" scaleY="1" source="close"/>
-	<e:Scroller id="scr_task" height="866" anchorOffsetX="0" anchorOffsetY="0" bottom="0" left="0" right="0">
+	<e:Image height="1030" bottom="0" left="0" right="0" source="white-bg" scale9Grid="4,4,26,26"/>
+	<e:Label text="任务" x="30" y="348" size="36" fontFamily="SimHei" textColor="0x333333"/>
+    <e:Image id="btn_close" y="358" width="40" height="40" right="30" x="680" scaleX="1" scaleY="1" source="close"/>
+	<e:Scroller id="scr_task" height="866" anchorOffsetX="0" anchorOffsetY="0" bottom="50" left="0" right="0">
 		<e:List id="list_task" itemRendererSkinName="TaskListSkins">
 			<e:layout>
 				<e:TileLayout horizontalGap="6" paddingLeft="30" paddingRight="30" verticalGap="10"/>
 			</e:layout>
 		</e:List>
 	</e:Scroller>
+	<e:Label text="完成任务后会获得奖励，超过当天24点未领取会消失哦！" textColor="0x666666" size="20" y="400" horizontalCenter="0"/>
+	<e:Label id="common_problem" text="常见问题 &gt;" textColor="0x666666" size="20" horizontalCenter="0" bottom="20"/>
 </e:Skin>

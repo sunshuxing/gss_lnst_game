@@ -123,12 +123,11 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	}
 
 	public initData() {
-		this.getTopMsg();					//顶部消息
+		this.getSystemMsg();				//系统消息
 		this.getFriends();					//好友数据
 		this.getOwnTree();					//自己果树数据
 		this.logorot();
 		this.cloudTwn();
-		this.getSystemMsg();				//系统消息
 	}
 
 	private onComplete(): void {
@@ -313,7 +312,9 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		if (this.infodata && this.infodata.length > 0) {
 			if (this.n >= this.infodata.length) {
 				this.n = 0;
-				this.getTopMsg()
+				if(this.hasTopMsg){
+					this.getTopMsg()
+				}
 				return
 			}
 			let systemEmpty = this.sysinfodata ==null? true:this.sysinfodata.length==0?true:false	//系统消息为空
@@ -380,7 +381,9 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			
 		}
 		else {
-			this.info2scr()
+			if(this.hasSysMsg){
+				this.info2scr()
+			}
 		}
 	}
 
@@ -965,9 +968,16 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			this.topPage = 0
 		}
 		this.infodata = Data.data.list;
+		if(Data.data.list.length == 0 && this.topPage == 1){
+			//如果第一页都没有数据，就是没数据
+			this.hasTopMsg = false;
+		}
 		this.info1scr();
 		console.log(Data, "顶部消息数据")
 	}
+
+	private hasTopMsg = true;
+	private hasSysMsg = true;
 
 
 	//查询系统消息
@@ -979,7 +989,13 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private Req_getSystemMsg(data): void {
 		var Data = data;
 		this.sysinfodata = Data.data;
+
+		if(this.sysinfodata.length == 0){
+			//如果第一页都没有数据，就是没数据
+			this.hasSysMsg = false;
+		}
 		console.log(Data, "系统消息数据")
+		this.getTopMsg();
 	}
 
 
