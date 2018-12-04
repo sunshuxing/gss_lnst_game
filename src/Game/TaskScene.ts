@@ -31,7 +31,7 @@ class TaskScene extends eui.Component implements eui.UIComponent {
      * 
      */
     private clickCommonProblem() {
-        console.log("常见问题")
+        location.href = Config.webHome+"view/common-problem.html"
     }
 
 
@@ -170,7 +170,6 @@ class TaskScene extends eui.Component implements eui.UIComponent {
         let data = {
             taskCode: "share_orchard",
         }
-        console.log("完成任务")
         MyRequest._post("game/completeTask", data, this, this.taskDataInit, null);
     }
 
