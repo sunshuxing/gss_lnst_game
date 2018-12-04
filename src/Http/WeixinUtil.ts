@@ -179,7 +179,7 @@ class WeixinUtil {
         var request = <egret.HttpRequest>event.currentTarget;
         var response = JSON.parse(request.response)
         if (response.status == 3) {//强制登录,重定向鉴权
-            location.href = response.data;
+            location.replace(response.data);
         } else if (response.status == 0) {
             localStorage.setItem("sessionid", response.data.sessionId);//放入sessionid
             this.login_user_id = response.data.unionId;
