@@ -148,7 +148,7 @@ class TaskScene extends eui.Component implements eui.UIComponent {
                 this.taskdata = taskList
 
             }
-            if(hasFinish){
+            if(hasFinish && func){
                 func(true)
             }
         }
