@@ -80,88 +80,6 @@ class Help{
     }
 
 
-
-    //根据阶段获取和种类果树图片
-    public static getTreeIconBystage(stage,type,istake){
-            // if(stage == 1){
-            //     return "treemiao"               //苗
-            // }
-             if(stage == 1){
-                if(type == 1){
-                    return "appletree1"     //树
-                }
-                else if(type == 2){
-                    return "baletree1_png"
-                }
-            
-            }
-            else if(stage == 2){
-                if(type == 1){
-                    return "appletree2"     //大树
-                }
-                else if(type == 2){
-                    return "baletree2"
-                }
-            }
-            else if(stage == 3){
-                if(type == 1){
-                    return "appletree3"     //开花
-                }
-                else if(type == 2){
-                    return "baletree3"
-                }
-            }
-            else if(stage == 4){
-                if(type == 1 && istake == "false"){
-                    return "appletree4"             //结果(绿)
-                }
-                else if(type == 1 && istake == "true"){
-                    return "appletree5"             //半红半绿
-                }
-                else if(type == 2 && istake == "false"){
-                    return "baletree4"
-                }
-                else if(type == 5 && istake == "true"){
-                    return "baletree5"             //半红半绿
-                }
-            }
-            else if(stage == 5){
-                if(type == 1 && istake == "false"){
-                    return "appletree4"                 //结果(绿)
-                }
-                else if(type == 1 && istake == "true"){
-                    return "appletree6"                 //半红半绿
-                }
-                else if(type == 2 && istake == "false"){
-                    return "baletree4"                 //半红半绿
-                }
-                else if(type == 2 && istake == "true"){
-                    return "baletree6"                 //半红半绿
-                }
-            }   
-            else if(stage ==6){
-                 if(type == 1 && istake == "false"){
-                    return "appletree4"                 //结果(绿)
-                }
-                else if(type == 1 && istake == "true"){
-                    return "appletree7"                 
-                }
-                else if(type == 1 && istake == "false"){
-                    return "baletree4"                 
-                }
-                else if(type == 1 && istake == "true"){
-                    return "baletree7"                 
-                }
-                
-            } 
-            else if(type == 1&&stage ==7){
-                    return "appletree7"                 
-            }
-            else if(type == 2&&stage ==7){
-                    return "baleree7"                 
-            } 
-    }
-
     //获取阶段果树锚点长宽等
     public static getTreeHWBystage(stage,img:eui.Image){
         if(stage<2){
@@ -341,7 +259,7 @@ class Help{
         img_love.height = 63.7;
         img_love.x = 350;
         img_love.y = 626;
-        img_love.texture = RES.getRes("loveimg_png");   
+        img_love.texture = RES.getRes("loveimg");   
         let label_love = new eui.Label;
         label_love.x = 426;
         label_love.y = 638;
@@ -386,7 +304,7 @@ class Help{
         let img_love = new eui.Image();
         img_love.x = 615;
         img_love.y = 806;
-        img_love.texture = RES.getRes("loveimg_png");
+        img_love.texture = RES.getRes("loveimg");
         SceneManager.sceneManager.mainScene.addChild(img_love);
         egret.Tween.get(img_love)
         .to({x:615,y:730},500)
@@ -394,5 +312,8 @@ class Help{
             ()=>{SceneManager.sceneManager.mainScene.removeChild(img_love);
                  SceneManager.sceneManager.mainScene.getOwnTree();},this); 
     }
+
+    
+
 }
 	

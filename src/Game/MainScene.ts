@@ -473,7 +473,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		barragbg.y = 0;
 		barragbg.width = 414;
 		barragbg.height = 72;
-		barragbg.texture = RES.getRes('barragebg-green_png');
+		barragbg.texture = RES.getRes('barragebg-green');
 		barragegroup.addChild(barragbg);
 		
 		//添加弹幕头像
@@ -537,7 +537,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			barragbg.y = 0;
 			barragbg.width = 414;
 			barragbg.height = 72;
-			barragbg.texture = RES.getRes('barragebg-green_png');
+			barragbg.texture = RES.getRes('barragebg-green');
 			barragegroup.addChild(barragbg);
 
 			//添加弹幕头像
@@ -604,17 +604,23 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
     //查询成功的处理
     private Req_getSignInInfo(data): void {
-		let Signdate = data.data.lastSignDay;
-		Signdate = Signdate.replace(new RegExp(/-/gm), "/"); //将所有的'-'转为'/'即可
-		let nowdate = new Date();
-		let time = new Date(Signdate);
-		if(time.getDate() == nowdate.getDate()&&time.getMonth() == nowdate.getMonth()){
-			this.sign_gro.visible = false;
+		if(data){
+			let Signdate = data.data.lastSignDay;
+			Signdate = Signdate.replace(new RegExp(/-/gm), "/"); //将所有的'-'转为'/'即可
+			let nowdate = new Date();
+			let time = new Date(Signdate);
+			if(time.getDate() == nowdate.getDate()&&time.getMonth() == nowdate.getMonth()){
+				this.sign_gro.visible = false;
+			}
+			else{
+				this.sign_gro.visible = true;
+			}
+			console.log(data,"签到数据")
 		}
 		else{
 			this.sign_gro.visible = true;
 		}
-		console.log(data,"签到数据")
+		
 	}
 
 

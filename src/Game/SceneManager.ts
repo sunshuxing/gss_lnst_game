@@ -7,7 +7,6 @@ class SceneManager {
     public dynamicScene: DynamicScene            //动态场景
     public signinScene: SigninScene              //领取种子场景
     public huafeiScene: HuafeiScene              //化肥场景
-    public treePrompt: TreePrompt                //弹出消息框
     public friendSign: string                    //转发用户的标识，可以用于奖励道具
     public weixinUtil: WeixinUtil                //微信操作类
     private webSocket: GameWebSocket                  //推送类
@@ -24,7 +23,6 @@ class SceneManager {
         this.dynamicScene = new DynamicScene()
         this.signinScene = new SigninScene()
         this.huafeiScene = new HuafeiScene()
-        this.treePrompt = new TreePrompt()
         this.weixinUtil = new WeixinUtil()
         this.friendSign = MyRequest.geturlstr("friendSign")
     }
@@ -195,7 +193,7 @@ class SceneManager {
     // }
 
     public static treetimer:egret.Timer = new egret.Timer(3000,1);
-    private static treeprompt:TreePrompt = new TreePrompt ();
+    private static treeprompt:TreePrompt = new TreePrompt();
     public static treepromptgro:eui.Group = new eui.Group();
 
     static addtreePrompt(info: string){
