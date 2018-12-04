@@ -52,8 +52,8 @@ class TaskScene extends eui.Component implements eui.UIComponent {
     /**
      * 初始化任务数据
      */
-    public taskDataInit() {
-        MyRequest._post("game/getTaskList", null, this, this.Req_getTaskList.bind(this), null);//获取任务列表
+    public taskDataInit(func?:Function) {
+        MyRequest._post("game/getTaskList", null, this, this.Req_getTaskList.bind(this,func), null);//获取任务列表
     }
 
 
@@ -61,17 +61,17 @@ class TaskScene extends eui.Component implements eui.UIComponent {
     /**
      * 初始化任务数据
      */
-    private Req_getTaskList(data): void {
+    private Req_getTaskList(func:Function,data): void {
         var Data = data;
         this.taskdata = Data.data
-        MyRequest._post("game/getTaskFinish", null, this, this.Req_initFinishTask.bind(this), null);//获取完成任务列表（包含领取/未领取任务），用于显示按钮状态
+        MyRequest._post("game/getTaskFinish", null, this, this.Req_initFinishTask.bind(this,func), null);//获取完成任务列表（包含领取/未领取任务），用于显示按钮状态
     }
 
 
     /**
      * 遍历完成任务，统计完成数量，如果有可领取奖励任务，则标记
      */
-    private Req_initFinishTask(data): void {
+    private Req_initFinishTask(func:Function,data): void {
         var Data = data;
         let finishList: Array<TaskFinished> = Data.data;
         let map: { [key: string]: Task } = {};//创建一个map，用于存放任务列表
@@ -104,6 +104,7 @@ class TaskScene extends eui.Component implements eui.UIComponent {
             }
             //判断统计出来的次数有没有>=限制，并且判断当前按钮为（0可完成1可领取2无法完成）
             let taskList: Array<Task> = this.taskdata
+            let hasFinish = false;
             if (mapKey && mapKey.length > 0) {//有的时候才循环map
                 for (let a = 0; a < mapKey.length; a++) {
                     let finishCode = mapKey[a];
@@ -118,6 +119,7 @@ class TaskScene extends eui.Component implements eui.UIComponent {
                             //判断按钮状态
                             if (nowTask.needReceive) {//可领取//*** */
                                 nowTask.btnStatus = 1
+                                hasFinish = true;
                                 nowTask.finishedId = completeTask.finishedId    //领取奖励用的id
                             } else if (nowTask.limitTime && parseInt(nowTask.limitTime) > 0 && nowTask.finishCount >= nowTask.limitTime) {
                                 nowTask.btnStatus = 2
@@ -144,6 +146,10 @@ class TaskScene extends eui.Component implements eui.UIComponent {
                     }
                 }
                 this.taskdata = taskList
+
+            }
+            if(hasFinish){
+                func(true)
             }
         }
         console.log("构建数据", this.taskdata)
