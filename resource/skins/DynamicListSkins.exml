@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="DynamicListSkins" width="694" height="80" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" states="day,noday,nomore" height.day="160" height.noday="140" height.nomore="80">
 	<e:Image width="66" height="82" includeIn="noday" x="1" y="17" anchorOffsetX="0" anchorOffsetY="0" source="white-bg"/>
-	<e:Image width="694" height="80" includeIn="nomore" x="0" y="0" source="white-bg"/>
+
 	<e:Label text="没有更多动态了~" includeIn="nomore" size="24" textColor="0xcccccc" fontFamily="Microsoft YaHei" x="254" y="23.04"/>
 	<e:Group x="0" height="40" includeIn="day" y="0">
 		<e:Image width="70" height="40" y="0" x="0" source="white-bg"/>

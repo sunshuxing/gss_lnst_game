@@ -21,7 +21,7 @@
 
 
 
-	<e:Label id="tree_name" text="" bold="true" x="201.19" y="882.9" anchorOffsetX="0" anchorOffsetY="0" fontFamily="SimHei" textColor="0x7a6934" size="34" includeIn="havetree,friendtree" width="104.67" textAlign="center"/>
+	<e:Label id="tree_name" text="" bold="true" x="201" y="883" anchorOffsetX="0" anchorOffsetY="0" fontFamily="SimHei" textColor="0x7a6934" size="34" includeIn="havetree,friendtree" textAlign="center"/>
 	<e:Image id="logo" x="80" y="384" anchorOffsetX="75" anchorOffsetY="75"  source="logo"/>
 	<e:Label id="garden_name" text="" rotation="353.59" size="24" textColor="0x7a6934" textAlign="right" fontFamily="Microsoft YaHei" includeIn="havetree,friendtree" bold="true" anchorOffsetX="0" anchorOffsetY="0" y="502.75" x="116" width="120" height="28.96" text.havetree="我的"/>
 

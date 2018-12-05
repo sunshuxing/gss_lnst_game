@@ -76,6 +76,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private fruit_img:eui.Image;
 	private sign_gro:eui.Group;
 	public task_gro:eui.Group;
+	private nowprogressvalue;
 	
 
 	/**
@@ -803,11 +804,22 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		}
 		let nowValue = (Number(data.growthValue)/Number(data.stageObj.energy))
 		this.tree_name.text = data.treeName;			//果树名称
+		if(this.tree_name.width > 110){
+			Help.labelRect(this.tree_name);
+		}
 		this.garden_name.text = Help.getcharlength(data.userName, 4);			//果园名称
 		this.progress.maximum = data.stageObj.energy;	//进度条最大值
 		this.progress.minimum = 0;						//进度条最小值
 		this.progress.slideDuration = 6000;				//进度条速度	
 		this.progress.value = data.growthValue;			//进度条当前值
+		this.nowprogressvalue = 100;
+		if(this.nowprogressvalue && this.nowprogressvalue>data.growthValue){
+			this.progress.value = this.progress.maximum;
+		}
+		// if(this.progress.value >= this.progress.maximum){
+		// 	this.progress.value = data.growthValue;
+		// }
+		this.nowprogressvalue = data.growthValue;
 		this.getTreeLanguage(data);						//获取当前阶段树语
 		this.treeUpdate(data);							//果树显示
 		this.gameTreedata = data;						//当前用户果树数据
@@ -848,9 +860,14 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		this.friend_list.selectedIndex = -1;
 		if (treedata.data) {
 			if (treedata.data.canReceive == "true") {
+				SceneManager.sceneManager.mainScene.removeChildren();
+				let image = new eui.Image();
+				image.texture = RES.getRes("bg-day_png");
+				image.height = 1344;
 				let prompt = new PromptJump();
 				 	prompt.x = 85;
         			prompt.y = 430;
+				this.addChild(image);
 				this.addChild(prompt);
 			} else {
 				if (treedata.data.needTake == "false") {

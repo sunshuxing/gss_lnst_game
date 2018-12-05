@@ -1,7 +1,7 @@
 class HttpRequest {
 
     //加载网络图片
-    public static imageloader(url, image) {
+    public static imageByUrl(url, image) {
         try {
             let imgLoader = new egret.ImageLoader();
             imgLoader.crossOrigin = "anonymous";// 跨域请求
@@ -14,5 +14,11 @@ class HttpRequest {
                 }
             }, this);
         } catch (e) { console.log("图片加载错误",e) }
+    }
+
+    public static imageloader(url,image:eui.Image){
+         RES.getResByUrl(url,function(data){
+            image.texture = data;
+        },this,RES.ResourceItem.TYPE_IMAGE);
     }
 }

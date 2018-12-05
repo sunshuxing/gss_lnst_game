@@ -306,14 +306,23 @@ class Help{
         img_love.y = 806;
         img_love.texture = RES.getRes("loveimg");
         SceneManager.sceneManager.mainScene.addChild(img_love);
+        SceneManager.sceneManager.mainScene.enabled = false;
         egret.Tween.get(img_love)
         .to({x:615,y:730},500)
         .to({x:306,y:1138,scaleY:0.5,scaleX:0.5},1200).call(
             ()=>{SceneManager.sceneManager.mainScene.removeChild(img_love);
-                 SceneManager.sceneManager.mainScene.getOwnTree();},this); 
+                 SceneManager.sceneManager.mainScene.getOwnTree();
+                 SceneManager.sceneManager.mainScene.enabled = true;},this); 
     }
 
-    
+    //果树名称过长滚动
+    public static labelRect(label:eui.Label){
+        label.scrollRect = new egret.Rectangle(0, 0, 104, 34);
+        var rect: egret.Rectangle = label.scrollRect;
+        egret.Tween.get(rect,{loop:true})
+					.set({x:-114})
+                    .to({x:label.width},28.7*label.width);
+    }
 
 }
 	

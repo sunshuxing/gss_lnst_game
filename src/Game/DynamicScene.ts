@@ -28,19 +28,18 @@ class DynamicScene extends eui.Component implements eui.UIComponent{
 	}
 
 	private asdas(){
-		// if(this.list_dyn.scrollV == this.list_dyn.contentHeight - this.list_dyn.height){
-		// 	console.log("滑动到了底部");
-		// 	console.log(this.isLastPage,"sss")
-		// 	if(this.isLastPage == "false")
-		// 	{
-		// 		this.perNum = this.perNum+1;
-		// 		this.searchDynamic(this.treeUserId);
-		// 	}
-		// 	else{
-		// 		this.euiArr.addItem({state:true,createDate:"2018-11-30 10:41:44"});
-		// 		this.scr_dyn.removeEventListener(eui.UIEvent.CHANGE_END,this.asdas,this);
-		// 	}
-		// }
+		if(this.list_dyn.scrollV == this.list_dyn.contentHeight - this.list_dyn.height){
+			
+			if(this.isLastPage == "false")
+			{
+				this.perNum = this.perNum+1;
+				this.searchDynamic(this.treeUserId);
+			}
+			else{
+				this.euiArr.addItem({state:true,createDate:"2018-11-30 10:41:44"});
+				this.scr_dyn.removeEventListener(eui.UIEvent.CHANGE_END,this.asdas,this);
+			}
+		}
 	}
 
 
@@ -65,7 +64,7 @@ class DynamicScene extends eui.Component implements eui.UIComponent{
 		for(let i=0;i<dyndata.length;i++){
 			this.euiArr.addItem(dyndata[i])
 		}
-		this.euiArr.addItem({state:true,createDate:"2018-11-30 10:41:44"});
+		// this.euiArr.addItem({state:true,createDate:"2018-11-30 10:41:44"});
 		this.line.height = this.euiArr.length*300;
 		this.isLastPage = Data.data.isLastPage;
 	}
@@ -172,13 +171,13 @@ class dynList_item extends eui.ItemRenderer{
 		if(this.data.state){
 			this.currentState = "nomore"
 		}
-		if(this.dyn_label.text.length>18){//如果大于18个字符串则需要换行
-			let lineNum = this.dyn_label.text.length/18		//要换行多少每行35
-			this.dyn_bg.height = this.dyn_bg.height + 35 * lineNum
-			this.height = this.height + 35 * lineNum
-			this.dyn_time.y = this.dyn_time.y + 35 * lineNum
-			this.dyn_toother.y = this.dyn_toother.y + 35 * lineNum
-		}
+		// if(this.dyn_label.text.length>18){//如果大于18个字符串则需要换行
+		// 	let lineNum = this.dyn_label.text.length/18		//要换行多少每行35
+		// 	this.dyn_bg.height = this.dyn_bg.height + 35 * lineNum
+		// 	this.height = this.height + 35 * lineNum
+		// 	this.dyn_time.y = this.dyn_time.y + 35 * lineNum
+		// 	this.dyn_toother.y = this.dyn_toother.y + 35 * lineNum
+		// }
 		this.dyn_time.text = Help.getTime(this.data.createDate,"hours");
 		if(this.data.type == 0){
 			this.dyn_toother.visible = false;
