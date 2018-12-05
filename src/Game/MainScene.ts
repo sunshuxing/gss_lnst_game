@@ -131,6 +131,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		this.getOwnTree();					//自己果树数据
 		this.logorot();
 		this.cloudTwn();
+		this.getSignInInfo();				//获取签到信息
 	}
 	private onComplete(): void {
 		console.log("onComplete");
@@ -774,7 +775,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	//查询自己的果树
 	public getOwnTree() {
 		MyRequest._post("game/getOwnTree", null, this, this.requestgetOwnTree.bind(this), this.onGetIOError);
-		this.getSignInInfo();
 	}
 
 	private init(data) {
