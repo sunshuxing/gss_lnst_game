@@ -157,6 +157,7 @@ class TaskScene extends eui.Component implements eui.UIComponent {
             //如果还未完成分享任务（当前不分享，直接完成）则直接完成
             if(!hasShare){
                 this.completeShareTask();
+                hasFinish = true;
             }
             if (func && typeof func === "function") {
                 func(hasFinish)
