@@ -31,7 +31,7 @@ class TaskScene extends eui.Component implements eui.UIComponent {
      * 
      */
     private clickCommonProblem() {
-        location.href = Config.webHome+"view/common-problem.html"
+        location.href = Config.webHome + "view/common-problem.html"
     }
 
 
@@ -66,6 +66,8 @@ class TaskScene extends eui.Component implements eui.UIComponent {
         this.taskdata = Data.data
         MyRequest._post("game/getTaskFinish", null, this, this.Req_initFinishTask.bind(this, func), null);//获取完成任务列表（包含领取/未领取任务），用于显示按钮状态
     }
+
+    private hasTimer = false;
 
 
     /**
@@ -118,7 +120,7 @@ class TaskScene extends eui.Component implements eui.UIComponent {
                             nowTask.needReceive = map[mapKey[a]].needReceive
 
                             //判断按钮状态
-                            if (nowTask.needReceive) {//可领取//*** */
+                            if (nowTask.needReceive) {
                                 nowTask.btnStatus = 1
                                 hasFinish = true;
                                 nowTask.finishedId = completeTask.finishedId    //领取奖励用的id
@@ -132,8 +134,22 @@ class TaskScene extends eui.Component implements eui.UIComponent {
                                 let finishTime = nowTask.lastFinishedTime.replace(new RegExp(/-/gm), "/"); //将所有的'-'转为'/'即可
                                 nowTask.intervalCancleTime = new Date(new Date(finishTime).getTime() + 60 * nowTask.timeInterval * 1000).getTime()//用于元素自己遍历处理
                                 let str = this.dateDif(nowTask.intervalCancleTime, null)
+
+
                                 if (str != "-1") {
                                     nowTask.btnStatus = 3
+                                    if (!this.hasTimer) {
+                                        //创建一个定时器，当任务被隐藏后刷新、完成直接领取任务
+                                        this.hasTimer = true;
+                                        setTimeout(() => {
+                                            let isHide = !SceneManager.instance.mainScene.contains(SceneManager.instance.taskScene)//判断任务列表是否被隐藏
+                                            this.hasTimer = false;
+                                            if (isHide) {
+                                                SceneManager.instance.taskScene.taskDataInit(SceneManager.instance.mainScene.checktask)
+                                            }
+                                        }, parseInt(nowTask.intervalCancleTime) - new Date().getTime())
+
+                                    }
                                 } else {
                                     nowTask.btnStatus = 0
                                 }
@@ -144,8 +160,9 @@ class TaskScene extends eui.Component implements eui.UIComponent {
                             //如果当前任务是分享任务，则默认完成（目前不分享，直接完成）
                             if (nowTask.code == "share_orchard") {
                                 hasShare = true;
-                                if(nowTask.btnStatus == 0){
+                                if (nowTask.btnStatus == 0) {
                                     this.completeShareTask();
+                                    hasFinish = true;
                                 }
                             }
                             break;
@@ -155,7 +172,7 @@ class TaskScene extends eui.Component implements eui.UIComponent {
                 this.taskdata = taskList
             }
             //如果还未完成分享任务（当前不分享，直接完成）则直接完成
-            if(!hasShare){
+            if (!hasShare) {
                 this.completeShareTask();
                 hasFinish = true;
             }
@@ -171,9 +188,9 @@ class TaskScene extends eui.Component implements eui.UIComponent {
         let data = {
             taskCode: "share_orchard",
         }
-        if(this.canPost){
+        if (this.canPost) {
             let that = this
-            MyRequest._post("game/completeTask", data, this, ()=>{
+            MyRequest._post("game/completeTask", data, this, () => {
                 that.canPost = true;
                 that.taskDataInit()
             }, null);
@@ -338,7 +355,7 @@ class taskList_item extends eui.ItemRenderer {
             //预先执行一次
             let text = parent.dateDif(nowTask.intervalCancleTime, null)
             if (text == "-1") {
-                if(this.data.code == "share_orchard"){
+                if (this.data.code == "share_orchard") {
                     parent.completeShareTask()
                 }
                 this.currentState = "can_finish"
@@ -348,7 +365,7 @@ class taskList_item extends eui.ItemRenderer {
             let timer = setInterval(() => {
                 let text = parent.dateDif(nowTask.intervalCancleTime, timer)
                 if (text == "-1") {
-                    if(this.data.code == "share_orchard"){
+                    if (this.data.code == "share_orchard") {
                         parent.completeShareTask()
                     }
                     this.currentState = "can_finish"
