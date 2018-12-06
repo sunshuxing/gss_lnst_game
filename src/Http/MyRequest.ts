@@ -7,7 +7,7 @@ class MyRequest{
      * _success 请求成功回调事件
      * _err 请求失败回调
      */
-    public static _post(_url:string,_params: Object,_this: Object,_success: Function,_err: Function,loadService?:boolean):void{
+    public static _post(_url:string,_params: Object,_this: Object,_success: Function,_err: Function,loadService?:Boolean):void{
         let request = new egret.HttpRequest();
         let _paramStr = "";
         request.responseType = egret.HttpResponseType.TEXT;
