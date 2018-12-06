@@ -166,12 +166,19 @@ class TaskScene extends eui.Component implements eui.UIComponent {
         console.log("构建数据", this.taskdata)
         this.init();//构建好数据后初始化
     }
-
+    private canPost = true;
     public completeShareTask() {
         let data = {
             taskCode: "share_orchard",
         }
-        MyRequest._post("game/completeTask", data, this, this.taskDataInit, null);
+        if(this.canPost){
+            let that = this
+            MyRequest._post("game/completeTask", data, this, ()=>{
+                that.canPost = true;
+                that.taskDataInit()
+            }, null);
+            this.canPost = false;
+        }
     }
 
     //计算时间相差
@@ -309,7 +316,7 @@ class taskList_item extends eui.ItemRenderer {
             info = "袋"
         }
         SceneManager.addNotice("获得" + data.propName + data.propNum + info, 2000)
-        SceneManager.instance.taskScene.taskDataInit()
+        SceneManager.instance.taskScene.taskDataInit(SceneManager.instance.mainScene.checktask)
         let evt: PuticonEvent = new PuticonEvent(PuticonEvent.TASKFINSHED);
         SceneManager.instance.mainScene.dispatchEvent(evt)
     }

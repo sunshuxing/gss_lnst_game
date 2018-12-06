@@ -7,7 +7,7 @@ class Notice extends eui.Component implements eui.UIComponent {
     }
 
     private notice_label:eui.Label;       //提示信息
-    private notice_background:eui.Label;
+    private notice_background:eui.Rect;
 
     protected childrenCreated():void{
 		super.childrenCreated();
@@ -28,14 +28,9 @@ class Notice extends eui.Component implements eui.UIComponent {
         else{
             this.notice_label.text = msg;
         }
-        let width = this.notice_label.width
-        let heigh = this.notice_label.height
-        this.notice_label.height = heigh +20;
-        this.notice_label.left = 10;
-        this.notice_label.right = 10;
-
-        this.notice_background.width = width +20;
-        this.notice_background.height = heigh +20;
+        
+        this.notice_background.height = this.notice_label.height + 30;
+        this.notice_background.width = this.notice_label.width + 50;
 
         this.verticalCenter = 0
         this.horizontalCenter = 0

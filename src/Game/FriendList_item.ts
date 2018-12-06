@@ -21,7 +21,7 @@ class FriendList_item extends eui.ItemRenderer{
 		if(this.data.friendTreeIcon){
 			HttpRequest.imageloader(Config.picurl+this.data.friendTreeIcon,this.tree_icon);
 		}else{
-			this.tree_icon.texture = RES.getRes("water")
+			this.tree_icon.texture = RES.getRes("shuidi")
 		}
 	}
 

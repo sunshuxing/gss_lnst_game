@@ -262,7 +262,7 @@ class Help{
         img_love.texture = RES.getRes("loveimg");   
         let label_love = new eui.Label;
         label_love.x = 426;
-        label_love.y = 638;
+        label_love.y = 626;
         label_love.text = "+"+data.loveCount
         if(Number(data.takeNum) == 0){
             SceneManager.sceneManager.mainScene.enabled = false;
@@ -299,6 +299,28 @@ class Help{
         }
     }
 
+    public static helpwaterLove(data){
+        SceneManager.sceneManager.mainScene.enabled = false;
+        let img_love = new eui.Image();                 //爱心图片
+        img_love.width = 72.8;
+        img_love.height = 63.7;
+        img_love.x = 350;
+        img_love.y = 626;
+        img_love.texture = RES.getRes("loveimg");   
+        let label_love = new eui.Label;
+        label_love.x = 426;
+        label_love.y = 626;
+        label_love.text = "+"+data.loveCount;
+        SceneManager.sceneManager.mainScene.addChild(img_love);
+            SceneManager.sceneManager.mainScene.addChild(label_love);
+            egret.Tween.get(img_love)
+            .to({y:img_love.y-60},800).call(()=>{SceneManager.sceneManager.mainScene.removeChild(img_love)},this);
+            egret.Tween.get(label_love)
+            .to({y:label_love.y-60},800).call(()=>{SceneManager.sceneManager.mainScene.removeChild(label_love);
+                SceneManager.sceneManager.mainScene.enabled = true;
+            },this);
+    }
+
     //爱心值兑换成长值动画
     public static useLoveTwn(){
         let img_love = new eui.Image();
@@ -317,10 +339,10 @@ class Help{
 
     //果树名称过长滚动
     public static labelRect(label:eui.Label){
-        label.scrollRect = new egret.Rectangle(0, 0, 104, 34);
+        label.scrollRect = new egret.Rectangle(0, 0, 74, 24);
         var rect: egret.Rectangle = label.scrollRect;
         egret.Tween.get(rect,{loop:true})
-					.set({x:-114})
+					.set({x:-74})
                     .to({x:label.width},28.7*label.width);
     }
 

@@ -11,8 +11,8 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private ownPropdata: any[];				//自己道具数据
 
 
-	private gro_top:eui.Group;
-	private bg:eui.Image;				//背景图片
+	private gro_top: eui.Group;
+	private bg: eui.Image;				//背景图片
 	private gro_prop: eui.Group;			//果园道具区域
 	private logo: eui.Image;   			//风车图片
 	private tree: eui.Image;				//果树图片
@@ -63,21 +63,23 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private user_icon: eui.Image;		//用户头像
 	private friend_kettle: eui.Group;	//帮好友浇水
 	private progress1: eui.ProgressBar;	//果子进度条
-	private frimg_kettle:eui.Image;
-	private img_love:eui.Image;
-	private list_seed:eui.List;			//领取种子列表
-	private pick_hand:eui.Image;		//摘果子的手
-	private steal_label:eui.Label;		//偷水的字
-	private pick_label:eui.Label;		//摘果的字
-	private img1_bg:eui.Image;
-	private img2_bg:eui.Image;
-	private distribution_label:eui.Label;	//配送的字
-	private fruit_num:eui.Label;
-	private fruit_img:eui.Image;
-	private sign_gro:eui.Group;
-	public task_gro:eui.Group;
+	private frimg_kettle: eui.Image;
+	private img_love: eui.Image;
+	private list_seed: eui.List;			//领取种子列表
+	private pick_hand: eui.Image;		//摘果子的手
+	private steal_label: eui.Label;		//偷水的字
+	private pick_label: eui.Label;		//摘果的字
+	private img1_bg: eui.Image;
+	private img2_bg: eui.Image;
+	private distribution_label: eui.Label;	//配送的字
+	private fruit_num: eui.Label;
+	private fruit_img: eui.Image;
+	private sign_gro: eui.Group;
+	public task_gro: eui.Group;
 	private nowprogressvalue;
-	
+	private distribution:eui.Label;
+	public huafei_red:eui.Rect;
+
 
 	/**
 	 * 沒有果樹的
@@ -132,6 +134,10 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		this.logorot();
 		this.cloudTwn();
 		this.getSignInInfo();				//获取签到信息
+		SceneManager.sceneManager.taskScene.taskDataInit(this.checktask);
+		localStorage.setItem("isNewUser","old")
+		let a = RES.getRes("bg-day_png")
+		console.log(a,"ssss")
 	}
 	private onComplete(): void {
 		console.log("onComplete");
@@ -174,11 +180,11 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		}
 	}
 
-	private checktask(flag){
-		if(flag){
+	public checktask(flag) {
+		if (flag) {
 			SceneManager.sceneManager.mainScene.task_gro.visible = true;
 		}
-		else if(!flag){
+		else if (!flag) {
 			SceneManager.sceneManager.mainScene.task_gro.visible = false;
 		}
 	}
@@ -191,34 +197,34 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 	//摘果子
 	private PickFruit() {
-		if(this.currentState == "havetree"){
-			let text:string = this.pick_num.text
-			text = text.substring(1,text.length)
+		if (this.currentState == "havetree") {
+			let text: string = this.pick_num.text
+			text = text.substring(1, text.length)
 			if (Number(text) > 0 && this.gameTreedata.needTake == "true") {
 				this.useProp(3);
-			} 
+			}
 			else if (this.gameTreedata.needTake == "false") {
-				let content = "您现在还不能使用道具哦~"
+				let content = "您现在还不能使用果篮哦~"
 				let btn = "确定"
 				let ti = "(快让您的小树快快成长吧！)"
 				SceneManager.addPrompt(content, btn, ti);
 			}
-			else if(Number(text) <= 0){
-				let content = "道具数量不够"
+			else if (Number(text) <= 0) {
+				let content = "果篮数量不够"
 				let btn = "确定"
-				let ti = "(完成任务可以获得道具！)"
+				let ti = "(完成任务可以获得果篮！)"
 				SceneManager.addPrompt(content, btn, ti);
 			}
 		}
-		else if(this.currentState == "friendtree"){
+		else if (this.currentState == "friendtree") {
 			this.friendpick(this.gameTreedata.id);
 		}
 	}
 
 	//使用爱心值
 	private loveTouch() {
-		let text:string = this.love_num.text
-		text = text.substring(0,text.length-1)
+		let text: string = this.love_num.text
+		text = text.substring(0, text.length - 1)
 		if (Number(text) >= 100) {
 			if (Help.getTreeUserData().needTake == "true") {
 				let content = "需要先摘果子才能使用爱心值哦~"
@@ -231,17 +237,17 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			}
 		}
 		else if (Number(text) < 100) {
-			let content = "您的爱心值不够兑换成长值哦！"
+			let content = "百分百爱心才能使用哦~"
 			let btn = "确定"
-			let ti = "(为好友除虫除草可增加爱心值哦！)"
+			let ti = "(帮好友除虫/拔草/浇水/帮摘果获取爱心值哦)"
 			SceneManager.addPrompt(content, btn, ti);
 		}
 	}
 
 	//浇水
 	private addwater() {
-		let kettleNum:string = this.kettle_num.text;
-		kettleNum = kettleNum.substring(0,kettleNum.length-1);
+		let kettleNum: string = this.kettle_num.text;
+		kettleNum = kettleNum.substring(0, kettleNum.length - 1);
 		let canWater = false;
 		canWater = this.gameTreedata.growthValue != this.gameTreedata.stageObj.energy && ((this.gameTreedata.needTake == null ? 'false' : this.gameTreedata.needTake) == 'false');
 		if (canWater && this.currentState == "havetree" && Number(kettleNum) >= 10) {
@@ -275,10 +281,12 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			.to({ scaleX: 1, scaleY: 1 }, 200).call(this.treeEad, this);
 
 		// 所有树语中随机一个
-		let n = Help.random_num(0, this.treelanguagedata.length - 1)
-		SceneManager.treepromptgro.removeChildren();
-		SceneManager.treetimer.reset();
-		SceneManager.addtreePrompt(this.treelanguagedata[n].msg);
+		if(this.treelanguagedata){
+			let n = Help.random_num(0, this.treelanguagedata.length - 1)
+			SceneManager.treepromptgro.removeChildren();
+			SceneManager.treetimer.reset();
+			SceneManager.addtreePrompt(this.treelanguagedata[n].msg);
+		}	
 	}
 
 	// //根据阶段值获取树语
@@ -318,31 +326,31 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	}
 
 
-	private onlyFlag:boolean = true; 	//只有用户推送的情况需要的标记
+	private onlyFlag: boolean = true; 	//只有用户推送的情况需要的标记
 	// 推送滚动1
 	public info1scr() {
 		if (this.infodata && this.infodata.length) {
 			if (this.n >= this.infodata.length) {
 				this.n = 0;
-				if(this.hasTopMsg){
+				if (this.hasTopMsg) {
 					this.getTopMsg()
 				}
 				return
 			}
-			let systemEmpty = this.sysinfodata ==null? true:this.sysinfodata.length==0?true:false	//系统消息为空
-			let userName = Help.getcharlength(this.infodata[this.n].mainUserName,4);
+			let systemEmpty = this.sysinfodata == null ? true : this.sysinfodata.length == 0 ? true : false	//系统消息为空
+			let userName = Help.getcharlength(this.infodata[this.n].mainUserName, 4);
 			let treeName = this.infodata[this.n].treeName;
 			let stageName = this.infodata[this.n].stageName;
 			let info = ""
-			if(this.infodata[this.n].type == "0"){
-					info = userName + "的" + treeName + stageName + "了！"
-			}else{
+			if (this.infodata[this.n].type == "0") {
+				info = userName + "的" + treeName + stageName + "了！"
+			} else {
 				info = userName + "领取了" + treeName + "！"
 			}
-			if(systemEmpty && this.onlyFlag){//如果为空，则使用系统的框来循环
+			if (systemEmpty && this.onlyFlag) {//如果为空，则使用系统的框来循环
 				HttpRequest.imageloader(this.infodata[this.n].mainUserIcon, this.img2);
 				this.n++;
-				this.str2.text = Help.getcharlength(info,12);
+				this.str2.text = Help.getcharlength(info, 12);
 				var rect: egret.Rectangle = this.str2.scrollRect;
 				egret.Tween.get(rect)
 					.set({ y: -50 })
@@ -364,9 +372,9 @@ class MainScene extends eui.Component implements eui.UIComponent {
 					.wait(2000)
 					.to({ y: 50 }, 1000);
 				this.onlyFlag = false;
-			}else{
+			} else {
 				HttpRequest.imageloader(this.infodata[this.n].mainUserIcon, this.img1);
-				this.str1.text = Help.getcharlength(info,12);
+				this.str1.text = Help.getcharlength(info, 12);
 				this.n++;
 				var rect: egret.Rectangle = this.str1.scrollRect;
 				egret.Tween.get(rect)
@@ -390,10 +398,10 @@ class MainScene extends eui.Component implements eui.UIComponent {
 					.to({ y: 50 }, 1000);
 				this.onlyFlag = true
 			}
-			
+
 		}
 		else {
-			if(this.hasSysMsg){
+			if (this.hasSysMsg) {
 				this.info2scr()
 			}
 		}
@@ -405,7 +413,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			if (this.m >= this.sysinfodata.length) {
 				this.m = 0;
 			}
-			this.str2.text = Help.getcharlength(this.sysinfodata[this.m].title,12);
+			this.str2.text = Help.getcharlength(this.sysinfodata[this.m].title, 12);
 			this.m++;
 			var rect: egret.Rectangle = this.str2.scrollRect;
 			egret.Tween.get(rect)
@@ -428,7 +436,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 				.wait(2000)
 				.to({ y: 50 }, 1000);
 		}
-	else{
+		else {
 			this.info1scr()
 		}
 	}
@@ -455,7 +463,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 
 	//添加弹幕
-	private addBarrageMsg(evt:PuticonEvent){
+	private addBarrageMsg(evt: PuticonEvent) {
 		let templateId = evt.templateId		//弹幕模板ID
 		let barragbg = new eui.Image;		//弹幕背景
 		let barragicon = new eui.Image;		//弹幕头像
@@ -477,7 +485,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		barragbg.height = 72;
 		barragbg.texture = RES.getRes('barragebg-green');
 		barragegroup.addChild(barragbg);
-		
+
 		//添加弹幕头像
 		barragicon.x = 7;
 		barragicon.y = 16;
@@ -511,7 +519,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 		//弹幕飘动
 		egret.Tween.get(barragegroup)
-		.to({ x: -430 },8000)
+			.to({ x: -430 }, 8000)
 		this.timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, this.removeBarrage, this);
 		this.timer.start();
 	}
@@ -575,13 +583,13 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 
 			//弹幕飘动
-			if(barragegroup){
+			if (barragegroup) {
 				egret.Tween.get(barragegroup)
-				.wait(i * 3000)
-				.to({ x: -430 },8000)
+					.wait(i * 3000)
+					.to({ x: -430 }, 8000)
 			}
 		}
-		this.timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE,this.removeBarrage, this);
+		this.timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, this.removeBarrage, this);
 		this.timer.start();
 	}
 
@@ -600,29 +608,29 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	}
 
 	//查询签到信息
-    private getSignInInfo() {
-        MyRequest._post("game/getSignInInfo", null, this, this.Req_getSignInInfo.bind(this), this.onGetIOError)
-    }
+	private getSignInInfo() {
+		MyRequest._post("game/getSignInInfo", null, this, this.Req_getSignInInfo.bind(this), this.onGetIOError)
+	}
 
-    //查询成功的处理
-    private Req_getSignInInfo(data): void {
-		if(data){
+	//查询成功的处理
+	private Req_getSignInInfo(data): void {
+		if (data.data) {
 			let Signdate = data.data.lastSignDay;
 			Signdate = Signdate.replace(new RegExp(/-/gm), "/"); //将所有的'-'转为'/'即可
 			let nowdate = new Date();
 			let time = new Date(Signdate);
-			if(time.getDate() == nowdate.getDate()&&time.getMonth() == nowdate.getMonth()){
+			if (time.getDate() == nowdate.getDate() && time.getMonth() == nowdate.getMonth()) {
 				this.sign_gro.visible = false;
 			}
-			else{
+			else {
 				this.sign_gro.visible = true;
 			}
-			console.log(data,"签到数据")
+			console.log(data, "签到数据")
 		}
-		else{
+		else {
 			this.sign_gro.visible = true;
 		}
-		
+
 	}
 
 
@@ -665,8 +673,8 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	//点击透明遮罩关闭场景
 	private mask_touch() {
 		this.bg_mask.visible = false;
-		let evt:MaskEvent = new MaskEvent(MaskEvent.INITEUIARR);
-        SceneManager.sceneManager.dynamicScene.dispatchEvent(evt);
+		let evt: MaskEvent = new MaskEvent(MaskEvent.INITEUIARR);
+		SceneManager.sceneManager.dynamicScene.dispatchEvent(evt);
 		SceneManager.toMainScene();
 	}
 
@@ -705,19 +713,19 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private requestGetTree(data): void {
 		var treedata = data;
 		console.log(treedata.data, "领取果树信息")
-		let euiArr:eui.ArrayCollection = new eui.ArrayCollection(treedata.data);
-		
+		let euiArr: eui.ArrayCollection = new eui.ArrayCollection(treedata.data);
+
 		this.list_seed.dataProvider = euiArr;
 		// 设置list_hero的项呈视器 (这里直接写类名,而不是写实例)
 		this.list_seed.itemRenderer = SeedList_item;
-		this.list_seed.addEventListener(eui.ItemTapEvent.ITEM_TAP,this.onChange,this);
+		this.list_seed.addEventListener(eui.ItemTapEvent.ITEM_TAP, this.onChange, this);
 	}
 
-	private onChange(e:eui.PropertyEvent):void{
+	private onChange(e: eui.PropertyEvent): void {
 		this.seed_value = this.list_seed.selectedItem.id;
-        //获取点击消息
-        console.log(this.seed_value)
-    }
+		//获取点击消息
+		console.log(this.seed_value)
+	}
 
 	//请求错误
 	private onGetIOError(event: egret.IOErrorEvent): void {
@@ -725,7 +733,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	}
 
 	//检查是否可以帮摘果
-	private checkHelpTakeFruit(treeUserId){
+	private checkHelpTakeFruit(treeUserId) {
 		let params = {
 			treeUserId: treeUserId
 		};
@@ -734,17 +742,17 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 	//检查是否可以帮摘果返回
 	private Req_checkHelpTakeFruit(data): void {
-		if(data.data.canTake == "true"){
+		if (data.data.canTake == "true") {
 			this.pick_hand.visible = true;
 			this.pick_label.text = "帮摘果";
 			this.pick_label.visible = true;
-			egret.Tween.get(this.pick_hand,{loop:true})
-			.to({y:this.pick_hand.y-20},500)
-			.to({y:this.pick_hand.y},500)
-			.to({y:this.pick_hand.y+20},500)
-			.to({y:this.pick_hand.y},500)
+			egret.Tween.get(this.pick_hand, { loop: true })
+				.to({ y: this.pick_hand.y - 20 }, 500)
+				.to({ y: this.pick_hand.y }, 500)
+				.to({ y: this.pick_hand.y + 20 }, 500)
+				.to({ y: this.pick_hand.y }, 500)
 		}
-		else{
+		else {
 			this.pick_hand.visible = false;
 			this.pick_label.visible = false;
 		}
@@ -780,13 +788,13 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private init(data) {
 		let now = new Date();
 		let hour = now.getHours();
-		if(hour > 17 || hour <6){
+		if (hour > 17 || hour < 6) {
 			this.logo.texture = RES.getRes("logo-night")
 			this.bg.texture = RES.getRes("bg-night_png");
 			this.cloud1.visible = false;
 			this.cloud2.visible = false;
 			this.cloud3.visible = false;
-		}else if(hour <18 || hour>5){
+		} else if (hour < 18 || hour > 5) {
 			this.logo.texture = RES.getRes("logo")
 			this.bg.texture = RES.getRes("bg-day_png");
 			this.cloud1.visible = true;
@@ -795,30 +803,29 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		}
 		console.log("数据", data);
 		if (this.currentState == "havetree") {
-			SceneManager.sceneManager.taskScene.taskDataInit(this.checktask);
 			this.gro_love.touchEnabled = true;
 			this.gro_love.touchChildren = true;
 		} else {
 			this.gro_love.touchEnabled = false;
 			this.gro_love.touchChildren = false;
 		}
-		let nowValue = (Number(data.growthValue)/Number(data.stageObj.energy))
+		let nowValue = (Number(data.growthValue) / Number(data.stageObj.energy))
 		this.tree_name.text = data.treeName;			//果树名称
-		if(this.tree_name.width > 110){
+		if (this.tree_name.width > 76) {
 			Help.labelRect(this.tree_name);
 		}
 		this.garden_name.text = Help.getcharlength(data.userName, 4);			//果园名称
 		this.progress.maximum = data.stageObj.energy;	//进度条最大值
 		this.progress.minimum = 0;						//进度条最小值
-		this.progress.slideDuration = 6000;				//进度条速度	
 		this.progress.value = data.growthValue;			//进度条当前值
-		this.nowprogressvalue = 100;
-		if(this.nowprogressvalue && this.nowprogressvalue>data.growthValue){
+		if (this.nowprogressvalue && this.nowprogressvalue > data.growthValue) {
 			this.progress.value = this.progress.maximum;
 		}
-		// if(this.progress.value >= this.progress.maximum){
-		// 	this.progress.value = data.growthValue;
-		// }
+		if (this.progress.value == this.progress.maximum) {
+			this.progress.value = 0;
+			this.progress.slideDuration = 0;
+			this.progress.value = data.growthValue;
+		}
 		this.nowprogressvalue = data.growthValue;
 		this.getTreeLanguage(data);						//获取当前阶段树语
 		this.treeUpdate(data);							//果树显示
@@ -830,22 +837,22 @@ class MainScene extends eui.Component implements eui.UIComponent {
 				{ text: (Number(data.stageObj.energy) - Number(data.growthValue)), style: { "textColor": 0xd67214 } },
 				{ text: "成长值才到一下阶段" }
 			]
-			if(data.needTake == "true"){
+			if (data.needTake == "true") {
 				this.progress_label.textFlow = <Array<egret.ITextElement>>[
-				{ text: "需要" },
-				{ text: "摘果", style: { "textColor": 0xd67214 } },
-				{ text: "才能到一下阶段" }
-			]
+					{ text: "需要" },
+					{ text: "摘果", style: { "textColor": 0xd67214 } },
+					{ text: "才能到一下阶段" }
+				]
 				this.pick_hand.visible = true;
 				this.pick_label.text = "可摘果";
 				this.pick_label.visible = true;
-				egret.Tween.get(this.pick_hand,{loop:true})
-				.to({y:this.pick_hand.y-20},500)
-				.to({y:this.pick_hand.y},500)
-				.to({y:this.pick_hand.y+20},500)
-				.to({y:this.pick_hand.y},500)
+				egret.Tween.get(this.pick_hand, { loop: true })
+					.to({ y: this.pick_hand.y - 20 }, 500)
+					.to({ y: this.pick_hand.y }, 500)
+					.to({ y: this.pick_hand.y + 20 }, 500)
+					.to({ y: this.pick_hand.y }, 500)
 			}
-			else if(data.needTake == "false"){
+			else if (data.needTake == "false") {
 				this.pick_hand.visible = false;
 				this.pick_label.visible = false;
 			}
@@ -865,8 +872,8 @@ class MainScene extends eui.Component implements eui.UIComponent {
 				image.texture = RES.getRes("bg-day_png");
 				image.height = 1344;
 				let prompt = new PromptJump();
-				 	prompt.x = 85;
-        			prompt.y = 430;
+				prompt.x = 85;
+				prompt.y = 430;
 				this.addChild(image);
 				this.addChild(prompt);
 			} else {
@@ -882,7 +889,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 				Help.saveTreeUserData(treedata.data);				//保存果树数据
 				this.user_name.text = Help.getcharlength(treedata.data.userName, 3);
 				HttpRequest.imageloader(treedata.data.userIcon, this.user_icon);				//用户头像
-				if (treedata.data.stage >= 4) {
+				if (treedata.data.stageObj.canHarvest == "true") {
 					this.progress1.maximum = treedata.data.exchangeNum;							//装箱需要的果子总数
 					this.progress1.minimum = 0;
 					// if(treedata.data.obtainFruitNum>treedata.data.exchangeNum){
@@ -891,16 +898,18 @@ class MainScene extends eui.Component implements eui.UIComponent {
 					this.progress1.value = treedata.data.obtainFruitNum; 						//当前收获果子树
 					this.progress1.visible = true;
 					this.pick_num.visible = true;
+					this.distribution.visible = true;
 					this.distribution_label.visible = true;
-					this.distribution_label.text = treedata.data.obtainFruitNum+"个";
+					this.distribution_label.text = treedata.data.obtainFruitNum + "个";
 					this.fruit_img.visible = true;
 					this.fruit_num.visible = true;
-					HttpRequest.imageloader(Config.picurl+treedata.data.seedIcon,this.fruit_img);
-					this.fruit_num.text = treedata.data.exchangeNum+"个";
+					HttpRequest.imageloader(Config.picurl + treedata.data.goodsIcon, this.fruit_img);
+					this.fruit_num.text = treedata.data.exchangeNum + "个";
 				}
 				else {
 					this.progress1.visible = false;
 					this.pick_num.visible = false;
+					this.distribution.visible = false;
 					this.distribution_label.visible = false;
 					this.fruit_img.visible = false;
 					this.fruit_num.visible = false;
@@ -924,11 +933,11 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 
 	//更新果树树
-	private treeUpdate(data:TreeUserData) {
-		if(data.needTake == "true"){
-			HttpRequest.imageloader(Config.picurl+data.stageObj.harvestImage, this.tree);
-		}else{
-			HttpRequest.imageloader(Config.picurl+data.stageObj.stageImage, this.tree);
+	private treeUpdate(data: TreeUserData) {
+		if (data.needTake == "true") {
+			HttpRequest.imageloader(Config.picurl + data.stageObj.harvestImage, this.tree);
+		} else {
+			HttpRequest.imageloader(Config.picurl + data.stageObj.stageImage, this.tree);
 		}
 		Help.getTreeHWBystage(data.stage, this.tree);
 	}
@@ -948,20 +957,45 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		let loveNum = Help.getPropById(Data.data, 2) ? Help.getPropById(Data.data, 2).num : "0"
 		//显示自己道具数值
 		this.love_num.textFlow = <Array<egret.ITextElement>>[					//爱心值数量
-			{text: loveNum, style: { "size": 22 }}
+			{ text: loveNum, style: { "size": 22 } }
 			, { text: "%", style: { "size": 18 } }
 		];
-		let usedNum = Math.floor(Help.getOwnData().obtainFruitNum/Help.getOwnData().basketCapacity);
+		let usedNum = Math.floor(Help.getOwnData().obtainFruitNum / Help.getOwnData().basketCapacity);
 		this.kettle_num.text = (Help.getPropById(Data.data, 1) ? Help.getPropById(Data.data, 1).num : 0) + "g";							//水滴数量
-		this.pick_num.text = "x"+((Help.getPropById(Data.data, 3) ? Help.getPropById(Data.data, 3).num : 0)-usedNum);				//篮子数量
-		let text:string = this.love_num.text
-		text = text.substring(0,text.length-1)
-		if(Number(text)>=100){
-			egret.Tween.get(this.img_love,{loop:true})
-			.to({ scaleX: 1, scaleY: 1 }, 400)
-			.to({ scaleX: 1.1, scaleY: 1.1 },400)
-			.to({ scaleX: 1, scaleY: 1 }, 400)
+		this.pick_num.text = "x" + ((Help.getPropById(Data.data, 3) ? Help.getPropById(Data.data, 3).num : 0) - usedNum);				//篮子数量
+		let text: string = this.love_num.text
+		text = text.substring(0, text.length - 1)
+		if (Number(text) >= 100) {
+			egret.Tween.get(this.img_love, { loop: true })
+				.to({ scaleX: 1, scaleY: 1 }, 400)
+				.to({ scaleX: 1.1, scaleY: 1.1 }, 400)
+				.to({ scaleX: 1, scaleY: 1 }, 400)
 		}
+		let youji = Help.getPropById(Data.data, 4);
+		let fuhe = Help.getPropById(Data.data, 5);
+		let shuirong = Help.getPropById(Data.data, 6);
+		let huafeiNum = Number(youji ? youji.num : 0)+Number(fuhe ? fuhe.num : 0)+Number(shuirong ? shuirong.num : 0);
+		if(localStorage.getItem("huafeiNum")){
+			if(huafeiNum > Number(localStorage.getItem("huafeiNum"))){
+				this.huafei_red.visible = true;
+				console.log("newhuafei");
+			}
+			else{
+				this.huafei_red.visible = false;
+				console.log("oldhuafei")
+			}
+		}
+		else{
+			if(huafeiNum>0){
+				this.huafei_red.visible = true;
+				console.log("newhuafei")
+			}
+			else{
+				this.huafei_red.visible = false;
+				console.log("oldhuafei")
+			}
+		}
+		localStorage.setItem("huafeiNum",String(huafeiNum));
 	}
 
 	//查询果园道具(虫，草)	treeUserId：用户果树id
@@ -977,7 +1011,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		this.gro_prop.removeChildren();
 		var Data = data;
 		this.showtreeprop(Data.data);					//显示虫和草
-		console.log(Data, "果园道具数据")
+		console.log(Data, "果园数据")
 	}
 
 
@@ -999,13 +1033,13 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 
 
-	private topPage:number = 0		//当前页面
+	private topPage: number = 0		//当前页面
 
 	//查询顶部消息
 	public getTopMsg() {
-		this.topPage  = this.topPage + 1
+		this.topPage = this.topPage + 1
 		let data = {
-			pageNo : this.topPage
+			pageNo: this.topPage
 
 		}
 		MyRequest._post("game/getTopInfo", data, this, this.Req_getTopMsg.bind(this), this.onGetIOError)
@@ -1015,12 +1049,12 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private Req_getTopMsg(data): void {
 		var Data = data;
 		let maxPage = parseInt(Data.data.lastPage)
-		if(this.topPage == maxPage){
+		if (this.topPage == maxPage) {
 			//如果是最后一页，则下一次从首页开始
 			this.topPage = 0
 		}
 		this.infodata = Data.data.list;
-		if(Data.data.list.length == 0 && this.topPage == 1){
+		if (Data.data.list.length == 0 && this.topPage == 1) {
 			//如果第一页都没有数据，就是没数据
 			this.hasTopMsg = false;
 		}
@@ -1042,7 +1076,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		var Data = data;
 		this.sysinfodata = Data.data;
 
-		if(this.sysinfodata.length == 0){
+		if (this.sysinfodata.length == 0) {
 			//如果第一页都没有数据，就是没数据
 			this.hasSysMsg = false;
 		}
@@ -1111,10 +1145,10 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			}
 			//推送拜访消息
 			let data = {
-				userId:this.friendUser,
+				userId: this.friendUser,
 				treeUserId: friendTreeUserId
 			}
-			MyRequest._post("game/visit",data,this,null,null)
+			MyRequest._post("game/visit", data, this, null, null)
 		}
 		if (!this.friend_list.selectedItem.treeUserId) {
 			//分享弹窗
@@ -1151,7 +1185,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	}
 
 
-	//除去果园道具(草，虫)    treePropId：果树道具id
+	//除去果园(草，虫)    treePropId：果树id
 	private removeTreeProp(icon, id) {
 		let params = {
 			treePropId: id
@@ -1159,24 +1193,26 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		MyRequest._post("game/removeTreeProp", params, this, this.Req_removeTreeProp.bind(this, icon), this.onGetIOError)
 	}
 
-	//除去果园道具成功后处理
+	//除去果园成功后处理
 	private Req_removeTreeProp(icon, data): void {
 		var Data = data;
 		this.gro_prop.removeChild(icon);
 		if (Data.data.loveCount > 0) {
 			let textflow = <Array<egret.ITextElement>>[																//爱心值数量
-			{ text: "爱心值+", style: { "size": 30,"textColor":0xED8282,"bold":true } }
-			, { text: Data.data.loveCount, style: { "size": 30,"textColor":0xED8282,"bold":true } }
-		];
-			SceneManager.addNotice(null,null,textflow)
-			let text:string = this.love_num.text
-			text = text.substring(0,text.length-1)
-			this.love_num.text =(String(Number(text) + Number(Data.data.loveCount)))+"%"
+				{ text: "爱心值+", style: { "size": 30, "textColor": 0xED8282, "bold": true } }
+				, { text: Data.data.loveCount, style: { "size": 30, "textColor": 0xED8282, "bold": true } }
+			];
+			SceneManager.addNotice(null, null, textflow)
+			let text: string = this.love_num.text
+			text = text.substring(0, text.length - 1)
+			this.love_num.text = (String(Number(text) + Number(Data.data.loveCount))) + "%"
 		} else {
 			SceneManager.addNotice("清除成功")
 		}
 		console.log(Data, "除去果园道具数据")
 	}
+
+	private canPost = true;
 
 	//使用道具				propId:道具种类id
 	private useProp(propId) {
@@ -1185,14 +1221,30 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			console.log("果树已经可以兑换啦，不用再使用道具了。")
 			return;
 		}
+		if (this.gameTreedata.needTake == "true" && propId != "3") {
+			SceneManager.addNotice("果树已经长好了,快使用篮子去摘果吧！")
+			return
+		}
+		if (this.gameTreedata.stageObj.isLast == "true" && this.gameTreedata.growthValue == this.gameTreedata.stageObj.energy && this.gameTreedata.needTake == "false") {
+			SceneManager.addNotice("果树已经长好啦，您可以邀请好友帮忙摘果哦！")
+			return
+		}
 		let params = {
 			propId: propId
 		};
-		MyRequest._post("game/useProp", params, this, this.Req_useProp.bind(this, propId), this.onGetIOError);
+		if(this.canPost){
+			MyRequest._post("game/useProp", params, this, this.Req_useProp.bind(this, propId), this.postErr);
+		}
+		this.canPost = false;
+	}
+	private postErr(){
+		this.canPost = true;
 	}
 
 	//使用道具成功后处理
 	private Req_useProp(propId, data): void {
+		this.canPost = true;
+		this.progress.slideDuration = 6000;
 		var Data = data;
 		if (propId == 1) {
 			this.kettleTwn();			//使用水滴之后更新在动画中完成
@@ -1214,11 +1266,11 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		console.log("使用道具消息:", Data)
 	}
 
-	private pickafter(){
-		let content = "您的树上还有未摘完的果子哦!"
-		let btn = "确定"
-		let ti = "(快去邀请好友帮忙摘果吧！)"
-		SceneManager.addPrompt(content, btn, ti);
+	private pickafter() {
+		let proshare = new PromptShare();
+		proshare.x = 85;
+		proshare.y = 430;
+		this.addChild(proshare);
 		this.getOwnTree()
 	}
 
@@ -1253,12 +1305,15 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		var Data = data;
 		egret.Tween.get(this.frimg_kettle)
 			.to({ y: -130 }, 500)
-			.to({ x: -29, y: -170, rotation: -54 }, 500).call(this.waterTwn, this)
+			.to({ x: -29, y: -170, rotation: -54 }, 500).call(()=>{this.waterTwn(data.data)}, this)
 			.wait(1200)
 			.to({ y: -130, rotation: 0 }, 500)
 			.to({ y: 80, x: 100 }, 500)
 		this.getTreeInfoByid(this.gameTreedata.id)
 		console.log("好友浇水数据:", Data)
+		let text: string = this.love_num.text;
+		text = text.substring(0, text.length - 1);
+		this.love_num.text = (String(Number(text) + Number(data.data.loveCount))) + "%";
 	}
 
 	//通过果树ID查询果树数据
@@ -1272,10 +1327,11 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	//查询果树数据后处理
 
 	private Req_getTreeInfo(data): void {
-		if(data.data.friendCanObtain>0){
+		if(data){
+			if (data.data.friendCanObtain > 0) {
 			this.checkHelpTakeFruit(data.data.id);
 		}
-		else{
+		else {
 			this.pick_hand.visible = false;
 			this.pick_label.visible = false;
 		}
@@ -1284,6 +1340,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		Help.saveTreeUserData(Data.data);
 		console.log("果树数据:", Data.data)
 		this.init(Data.data);
+		}
 	}
 
 
@@ -1309,7 +1366,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	}
 
 	//帮摘果请求
-	private friendpick(treeUserId){
+	private friendpick(treeUserId) {
 		let params = {
 			treeUserId: treeUserId
 		};
@@ -1317,13 +1374,13 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	}
 
 	//帮摘果之后请求
-	private Req_friendpick(data){
+	private Req_friendpick(data) {
 		Help.helppickTwn(data.data);
-		let text:string = this.love_num.text;
-		text = text.substring(0,text.length-1);
-		this.love_num.text =(String(Number(text) + Number(data.data.loveCount)))+"%";
+		let text: string = this.love_num.text;
+		text = text.substring(0, text.length - 1);
+		this.love_num.text = (String(Number(text) + Number(data.data.loveCount))) + "%";
 		this.getTreeInfoByid(this.gameTreedata.id);
-		console.log(data,"帮摘果")
+		console.log(data, "帮摘果")
 	}
 
 	//偷水请求	stealUser：被偷的用户    treeUserId：用户果树id
@@ -1351,20 +1408,20 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			if (data[i].propType == 0) {
 				n++
 				if (n < 4) {
-					this.putgrass(data[i].id,n);
+					this.putgrass(data[i].id, n);
 				}
 			}
 			if (data[i].propType == 1) {
 				m++
 				if (m < 4) {
-					this.putinsect(data[i].id,m);
+					this.putinsect(data[i].id, m);
 				}
 			}
 		}
 	}
 
 	//放入草
-	private putgrass(id,m?) {
+	private putgrass(id, m?) {
 		let grass = new eui.Image;
 		grass.width = 74;
 		grass.height = 60;
@@ -1372,43 +1429,43 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		grass.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
 			this.removeTreeProp(grass, id);
 		}, this)
-		if(!m){
-			m = Help.random_num(4,6)
-			if(m == 4){
+		if (!m) {
+			m = Help.random_num(4, 6)
+			if (m == 4) {
 				this.gro_prop.addChild(grass);
-				let twn_x = 230 + Help.random_num(-2,2)*20;
-				let twn_y = 950 + Help.random_num(-2,2)*5;
+				let twn_x = 230 + Help.random_num(-2, 2) * 20;
+				let twn_y = 950 + Help.random_num(-2, 2) * 5;
 				egret.Tween.get(grass)
-				.set({x:210,y:720})
-				.to({x:twn_x,y:twn_y},1000)
+					.set({ x: 210, y: 720 })
+					.to({ x: twn_x, y: twn_y }, 1000)
 			}
-			else if(m == 5){
+			else if (m == 5) {
 				this.gro_prop.addChild(grass);
-				let twn_x = 362 + Help.random_num(-2,2)*20;
-				let twn_y = 956 + Help.random_num(-2,2)*5;
+				let twn_x = 362 + Help.random_num(-2, 2) * 20;
+				let twn_y = 956 + Help.random_num(-2, 2) * 5;
 				egret.Tween.get(grass)
-				.set({x:210,y:720})
-				.to({x:twn_x,y:twn_y},1000)
+					.set({ x: 210, y: 720 })
+					.to({ x: twn_x, y: twn_y }, 1000)
 			}
-			else if(m == 6){
+			else if (m == 6) {
 				this.gro_prop.addChild(grass);
-				let twn_x = 504 + Help.random_num(-2,2)*20;
-				let twn_y = 938 + Help.random_num(-2,2)*5;
+				let twn_x = 504 + Help.random_num(-2, 2) * 20;
+				let twn_y = 938 + Help.random_num(-2, 2) * 5;
 				egret.Tween.get(grass)
-				.set({x:210,y:720})
-				.to({x:twn_x,y:twn_y},1000)
+					.set({ x: 210, y: 720 })
+					.to({ x: twn_x, y: twn_y }, 1000)
 			}
 		}
-		else if(m){
-			Help.grapos(m,grass);
+		else if (m) {
+			Help.grapos(m, grass);
 			this.gro_prop.addChild(grass);
 		}
-		
+
 	}
 
 	//放入虫
 
-	private putinsect(id,m?) {
+	private putinsect(id, m?) {
 		let insect = new eui.Image;
 		insect.width = 76;
 		insect.height = 95.75;
@@ -1416,36 +1473,36 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		insect.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
 			this.removeTreeProp(insect, id);
 		}, this)
-		if(!m){
-			m = Help.random_num(4,6)
-			if(m == 4){
+		if (!m) {
+			m = Help.random_num(4, 6)
+			if (m == 4) {
 				this.gro_prop.addChild(insect);
-				let twn_x = 536 + Help.random_num(-2,2)*20;
-				let twn_y = 872 + Help.random_num(-2,2)*5;
+				let twn_x = 536 + Help.random_num(-2, 2) * 20;
+				let twn_y = 872 + Help.random_num(-2, 2) * 5;
 				egret.Tween.get(insect)
-				.set({x:530,y:720})
-				.to({x:twn_x,y:twn_y},1000)
-				
+					.set({ x: 530, y: 720 })
+					.to({ x: twn_x, y: twn_y }, 1000)
+
 			}
-			else if(m == 5){
+			else if (m == 5) {
 				this.gro_prop.addChild(insect);
-				let twn_x = 295 + Help.random_num(-2,2)*20;
-				let twn_y = 932 + Help.random_num(-2,2)*5;
+				let twn_x = 295 + Help.random_num(-2, 2) * 20;
+				let twn_y = 932 + Help.random_num(-2, 2) * 5;
 				egret.Tween.get(insect)
-				.set({x:530,y:720})
-				.to({x:twn_x,y:twn_y},1000)
+					.set({ x: 530, y: 720 })
+					.to({ x: twn_x, y: twn_y }, 1000)
 			}
-			else if(m == 6){
+			else if (m == 6) {
 				this.gro_prop.addChild(insect);
-				let twn_x = 436 + Help.random_num(-2,2)*20;
-				let twn_y = 930 + Help.random_num(-2,2)*5;
+				let twn_x = 436 + Help.random_num(-2, 2) * 20;
+				let twn_y = 930 + Help.random_num(-2, 2) * 5;
 				egret.Tween.get(insect)
-				.set({x:530,y:720})
-				.to({x:twn_x,y:twn_y},1000)
+					.set({ x: 530, y: 720 })
+					.to({ x: twn_x, y: twn_y }, 1000)
 			}
 		}
-		else if(m){
-			Help.inspos(m,insect);
+		else if (m) {
+			Help.inspos(m, insect);
 			this.gro_prop.addChild(insect);
 		}
 	}
@@ -1464,7 +1521,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 
 	//水滴动画
-	private waterTwn() {
+	private waterTwn(data?) {
 		this.img_water.visible = true;
 		egret.Tween.get(this.img_water)
 			.set({ y: 860, x: 386, alpha: 1 })
@@ -1473,13 +1530,19 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			.set({ y: 860, x: 386, alpha: 1 })
 			.to({ y: 900, x: 366, alpha: 0.2 }, 500)
 			.wait(200)
-			.call(this.waterVis, this)
+			.call(()=>{this.waterVis(data)}, this)
 	}
 
 	// 水滴不可见
-	private waterVis() {
-		Help.waters();
-		this.img_water.visible = false;
+	private waterVis(data?) {
+		if(data){
+			Help.helpwaterLove(data);
+			this.img_water.visible = false;
+		}
+		else{
+			Help.waters();
+			this.img_water.visible = false;
+		}
 	}
 
 	// 水壶冷却展现
@@ -1529,7 +1592,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		this.showtime(this.a);
 		if (this.a <= 0) {
 			this.b = this.b + 10
-			if(this.b >= 40){
+			if (this.b >= 40) {
 				this.b = 40;
 			}
 			this.a = this.b
@@ -1553,7 +1616,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		text.size = 40;
 		this.addChild(text);
 		egret.Tween.get(text)
-		.to({y:960},500).call(()=>{this.removeChild(text)},this)
+			.to({ y: 960 }, 500).call(() => { this.removeChild(text) }, this)
 	}
 
 	//水壶冷却完成

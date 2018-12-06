@@ -67,6 +67,6 @@ class LoadingUI extends eui.Component {
     }
 
     public onProgress(current: number, total: number): void {
-        this.textField.text = "正在进入..."+Math.floor((current / total) * 100) + "%";
+        this.textField.text = Math.floor((current / total) * 100) + "%";
     }
 }

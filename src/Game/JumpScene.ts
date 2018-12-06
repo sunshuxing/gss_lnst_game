@@ -7,12 +7,13 @@ class JumpScene extends eui.Component implements eui.UIComponent{
 
 	private onComplete(){
 		this.addEventListener(egret.TouchEvent.TOUCH_TAP,this.remove,this)
+		this.addEventListener(MaskEvent.SHARECLOSE,this.remove, this);
         console.log("onComplete")
     }
 
 	public remove(){
-		if(this.parent){
-			this.parent.removeChild(this);
+		if(SceneManager.instance.jumpMark){
+			SceneManager.instance._stage.removeChild(SceneManager.sceneManager.jumpMark)
 		}
 	}
 }

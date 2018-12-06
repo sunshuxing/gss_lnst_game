@@ -73,11 +73,6 @@ class Main extends eui.UILayer {
 
     }
 
-    // public callback(){
-    //     let sessionid = localStorage.getItem("sessionid")
-    //     console.log("使用session",sessionid)
-    //     HttpRequest.request("game/getTree")
-    // }
 
     private async loadResource() {
         try {
@@ -86,7 +81,14 @@ class Main extends eui.UILayer {
             await RES.loadGroup("loading");//加载loading组
             const loadingView=new LoadingUI();//创建loadingUI实例
             this.stage.addChild(loadingView);
-            await RES.loadGroup("preload", 0, loadingView);//加载默认preload组资源,并执行loadingView
+             if(!localStorage.getItem("isNewUser")){
+                await RES.loadGroup("preload", 0, loadingView);//加载默认preload组资源,并执行loadingView
+                await RES.loadGroup("guide")
+                const guideView=new guideUI();//创建loadingUI实例
+                this.stage.addChild(guideView);
+            }else{
+                await RES.loadGroup("preload", 0, loadingView);//加载默认preload组资源,并执行loadingView
+            }
             this.stage.removeChild(loadingView);
         }
         catch (e) {

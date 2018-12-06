@@ -135,7 +135,7 @@ class HuafeiScene extends eui.Component implements eui.UIComponent{
         this.getOwnProp();
 		let evt:PuticonEvent = new PuticonEvent(PuticonEvent.USEHUAFEI);
         evt.Type = type
-        this.parent.dispatchEvent(evt);
+        SceneManager.sceneManager.mainScene.dispatchEvent(evt);
         this.colseScene()
 	}
 
@@ -149,7 +149,9 @@ class HuafeiScene extends eui.Component implements eui.UIComponent{
         this.youji_num.text = Help.getPropById(Data.data,4)?Help.getPropById(Data.data,4).num:0;
         this.fuhe_num.text = Help.getPropById(Data.data,5)?Help.getPropById(Data.data,5).num:0;
         this.shuirong_num.text = Help.getPropById(Data.data,6)?Help.getPropById(Data.data,6).num:0;
-		console.log(Data,"自己道具数据")
+        let huafeiNum = Number(Help.getPropById(Data.data, 4) ? Help.getPropById(Data.data, 4).num : 0)+Number(Help.getPropById(Data.data, 5) ? Help.getPropById(Data.data, 5).num : 0)+Number(Help.getPropById(Data.data, 6) ? Help.getPropById(Data.data, 6).num : 0);
+		SceneManager.sceneManager.mainScene.huafei_red.visible = false;
+        console.log(Data,"自己道具数据")
 	}
 
 

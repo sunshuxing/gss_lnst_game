@@ -26,16 +26,19 @@ class PromptHuafei extends eui.Component implements eui.UIComponent{
     public setUse(type){
         if(type == 1){
                 this.use = ()=>{
+                this.remove();
                 SceneManager.sceneManager.huafeiScene.useProp(type+3,type)
             }
         }
         if(type == 2){
                 this.use = ()=>{
+                this.remove();
                 SceneManager.sceneManager.huafeiScene.useProp(type+3,type)
             }
         }
         if(type == 3){
                 this.use = ()=>{
+                this.remove();
                 SceneManager.sceneManager.huafeiScene.useProp(type+3,type)
             }
         }

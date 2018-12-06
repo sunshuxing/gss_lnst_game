@@ -29,26 +29,26 @@ class BaoxiangScene extends eui.Component implements eui.UIComponent{
 		console.log(data,"道具数据")
 		var Data = data.data
 		for(let i=0;i<Data.length;i++){
-			if(Data.id == 1){
-				this.shuidiNum.text = Data.name+"x"+Data.num+"g";
+			if(Data[i].id == 1){
+				this.shuidiNum.text = Data[i].name+"x"+Data[i].num+"g";
 			}
-			else if(Data.id == 2){
+			else if(Data[i].id == 2){
 				//爱心值
 			}
-			else if(Data.id == 3){
-				this.daojuNum.text = Data.name+"x"+Data.num+"个";
+			else if(Data[i].id == 3){
+				this.daojuNum.text = Data[i].name+"x"+Data[i].num+"个";
 			}
-			else if(Data.id == 4){
+			else if(Data[i].id == 4){
 				this.huafeiIcon.texture = RES.getRes("youji");
-				this.huafeiNum.text = Data.name+"x"+Data.num+"袋";
+				this.huafeiNum.text = Data[i].name+"x"+Data[i].num+"袋";
 			}
-			else if(Data.id == 5){
+			else if(Data[i].id == 5){
 				this.huafeiIcon.texture = RES.getRes("fuhe");
-				this.huafeiNum.text = Data.name+"x"+Data.num+"袋";				
+				this.huafeiNum.text = Data[i].name+"x"+Data[i].num+"袋";				
 			}
-			else if(Data.id == 6){
+			else if(Data[i].id == 6){
 				this.huafeiIcon.texture = RES.getRes("shuirong");
-				this.huafeiNum.text = Data.name+"x"+Data.num+"袋";				
+				this.huafeiNum.text = Data[i].name+"x"+Data[i].num+"袋";				
 			}
 		}
 	}

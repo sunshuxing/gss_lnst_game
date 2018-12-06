@@ -1,28 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="QiandaoSkins" width="750" height="1344" currentState="today-un-sign" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" states="today-un-sign,today-is-sign" >
-	<e:Image horizontalCenter="0" verticalCenter="0" source="qiandao-bg_png"/>
-	<e:Image x="104" y="587" width="46" height="66" source="shuidi"/>
-    <e:Image x="254" y="587" width="46" height="66" source="shuidi"/>
-    <e:Image x="396" y="587" width="46" height="66" source="shuidi"/>
-    <e:Image x="526" y="587" width="46" height="66" source="shuidi"/>
-    <e:Image x="104" y="722" width="46" height="66" source="shuidi"/>
-    <e:Image x="254" y="722" width="46" height="66" source="shuidi"/>
-	<e:Image x="384" y="669" source="qiandao-hf"/>
-	<e:Label text="x5" x="150" y="610" anchorOffsetX="0" width="49" textAlign="center" textColor="0xd67214"/>
-	<e:Label text="x8" x="303" y="610" textAlign="center" anchorOffsetX="0" width="49" textColor="0xd67214"/>
-	<e:Label text="x15" x="445" y="610" textColor="0xd67214" width="49"/>
-	<e:Label text="x25" x="572" y="610" textColor="0xd67214" width="49"/>
-	<e:Label text="x38" x="150" y="747" textColor="0xd67214" width="49"/>
-	<e:Label text="x50" x="303" y="747" textColor="0xd67214" width="49"/>
-	<e:Label text="x1" x="527" y="747" textColor="0xd67214"/>
-	<e:Image id="qiandao_btn" x="214" y="831" source="qiandao-btn" visible.today-is-sign="false" source.today-un-sign="qiandao-btn"/>
-	<e:Image id="qiandao_btn_signed" x="214" y="831" anchorOffsetX="0" width="326" anchorOffsetY="0" height="90" visible.today-un-sign="false" height.today-is-sign="95" y.today-is-sign="826" width.today-is-sign="330" x.today-is-sign="207" scaleX.today-is-sign="1.02" source="qiandao-is-sign"/>
-	<e:Image id="day1" x="96" y="577" source="yiqiandao" visible="false"/>
-    <e:Image id="day2" x="250" y="577" source="yiqiandao" visible="false"/>
-    <e:Image id="day3" x="399" y="577" source="yiqiandao" visible="false"/>
-    <e:Image id="day4" x="526" y="577" source="yiqiandao" visible="false"/>
-    <e:Image id="day5" x="96" y="712" source="yiqiandao" visible="false"/>
-    <e:Image id="day6" x="250" y="712" source="yiqiandao" visible="false"/>
-    <e:Image id="day7" x="423" y="712" source="yiqiandao" visible="false"/>
-	<e:Image id="close_btn" rotation="1.47" source="close1" y="1088.24" horizontalCenter="0"/>
+<e:Skin class="QiandaoSkins" width="750" height="918" currentState="today-un-sign" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" states="today-un-sign,today-is-sign" >
+	<e:Group width="684.85" height="918" x="34.39" y="0" anchorOffsetX="0" anchorOffsetY="0">
+		<e:Image horizontalCenter="2.0749999999999886" verticalCenter="-92.5" source="qiandao-bg_png" x="1.6099999999999994" y="3.9999999999999716" scaleX="1" scaleY="1"/>
+		<e:Image x="69.61" y="342" width="46" height="66" source="shuidi" scaleX="1" scaleY="1"/>
+		<e:Image x="219.61" y="342" width="46" height="66" source="shuidi" scaleX="1" scaleY="1"/>
+		<e:Image x="361.61" y="342" width="46" height="66" source="shuidi" scaleX="1" scaleY="1"/>
+		<e:Image x="491.61" y="342" width="46" height="66" source="shuidi" scaleX="1" scaleY="1"/>
+		<e:Image x="69.61" y="477" width="46" height="66" source="shuidi" scaleX="1" scaleY="1"/>
+		<e:Image x="219.61" y="477" width="46" height="66" source="shuidi" scaleX="1" scaleY="1"/>
+		<e:Image x="355.61000000000007" y="424" source="qiandao-hf" scaleX="1" scaleY="1"/>
+		<e:Label text="x20" x="115.61" y="365" anchorOffsetX="0" width="49" textAlign="center" textColor="0xd67214" scaleX="1" scaleY="1"/>
+		<e:Label text="x25" x="268.61" y="365" textAlign="center" anchorOffsetX="0" width="49" textColor="0xd67214" scaleX="1" scaleY="1"/>
+		<e:Label text="x35" x="410.61" y="365" textColor="0xd67214" width="49" scaleX="1" scaleY="1"/>
+		<e:Label text="x50" x="537.61" y="365" textColor="0xd67214" width="49" scaleX="1" scaleY="1"/>
+		<e:Label text="x70" x="115.61" y="502" textColor="0xd67214" width="49" scaleX="1" scaleY="1"/>
+		<e:Label text="x100" x="268.61" y="502" textColor="0xd67214" width="67" anchorOffsetX="0" scaleX="1" scaleY="1"/>
+		<e:Label text="x1" x="492.61" y="502" textColor="0xd67214" scaleX="1" scaleY="1"/>
+		<e:Image id="qiandao_btn" x="179.61" y="586" source="qiandao-btn" visible.today-is-sign="false" source.today-un-sign="qiandao-btn" scaleX="1" scaleY="1" x.today-un-sign="180" y.today-un-sign="585"/>
+		<e:Image id="qiandao_btn_signed" x="180" y="585" anchorOffsetX="0" anchorOffsetY="0" source="qiandao-is-sign" scaleX="1" scaleY="1" includeIn="today-is-sign"/>
+		<e:Image id="day1" x="61.61" y="332" source="yiqiandao" scaleX="1" scaleY="1" visible="false"/>
+		<e:Image id="day2" x="215.61" y="332" source="yiqiandao" scaleX="1" scaleY="1" visible="false"/>
+		<e:Image id="day3" x="364.61000000000007" y="332" source="yiqiandao" scaleX="1" scaleY="1" visible="false"/>
+		<e:Image id="day4" x="491.61" y="332" source="yiqiandao" scaleX="1" scaleY="1" visible="false"/>
+		<e:Image id="day5" x="61.61" y="467" source="yiqiandao" scaleX="1" scaleY="1" visible="false"/>
+		<e:Image id="day6" x="215.61" y="467" source="yiqiandao" scaleX="1" scaleY="1" visible="false"/>
+		<e:Image id="day7" x="388.61" y="467" source="yiqiandao" scaleX="1" scaleY="1" visible="false"/>
+		<e:Image id="close_btn" rotation="1.47" source="close1" y="843.24" horizontalCenter="0" x="310.61" scaleX="1" scaleY="1"/>
+	</e:Group>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </e:Skin>

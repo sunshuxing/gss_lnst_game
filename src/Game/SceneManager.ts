@@ -13,7 +13,7 @@ class SceneManager {
 
     public connectTime:number = 0;                  //重连次数
     private interval                            //定时器
-    public static jumpMark: JumpScene                       //分享遮罩
+    public  jumpMark: JumpScene                       //分享遮罩
 
 
     constructor() {
@@ -24,6 +24,7 @@ class SceneManager {
         this.signinScene = new SigninScene()
         this.huafeiScene = new HuafeiScene()
         this.weixinUtil = new WeixinUtil()
+        this.jumpMark = new JumpScene()
         this.friendSign = MyRequest.geturlstr("friendSign")
     }
 
@@ -155,7 +156,7 @@ class SceneManager {
 
 
     /**
-     * 领取种子场景
+     * 签到场景
      */
     static toSigninScene() {
         this.instance.removeOther(this.instance.signinScene)
@@ -204,16 +205,8 @@ class SceneManager {
         this.treetimer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, () => {
             this.treepromptgro.removeChildren()
         } , this);
-        this.treeprompt.y = 656;
-        this.treeprompt.x = 208;
-        if (info.length > 14) {
-            let a = info.length / 14
-            this.treeprompt.height = 66 + a * 30
-            this.treeprompt.setBackHeight(a)
-        }
-        else{
-            this.treeprompt.height = 66
-        }
+        this.treeprompt.y = 550;
+        this.treeprompt.x = 400;
         this.treeprompt.setPrompt(info);
         this.treepromptgro.addChild(this.treeprompt);
         this.treetimer.start();
@@ -231,25 +224,10 @@ class SceneManager {
         this.instance._stage.addChild(prompt);
     }
 
-    public static obj;          //加入舞台的对象
     static addJump() {
-        if(!this.jumpMark){
-            this.jumpMark = new JumpScene();
-            this.jumpMark.y = this.jumpMark.height-this.instance._stage.height;
-        }
-        this.obj = this.instance.mainScene.addChild(this.jumpMark);
+       this.instance._stage.addChild(this.instance.jumpMark);
     }
     
-    static removeJump(){
-        if(this.obj){
-            let flag = this.instance.mainScene.contains(this.obj)
-            if(flag){
-               this.instance.mainScene.removeChild(this.obj)
-               this.obj = null;
-            }
-        }
-    }
-
     public initWebSocket() {
         let user = this.weixinUtil.login_user_id
         let url = Config.socketHome + "?userId=" + user;
