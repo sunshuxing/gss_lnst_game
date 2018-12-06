@@ -16,7 +16,8 @@ class FriendList_item extends eui.ItemRenderer{
 	}
 	// 当数据改变时，更新视图
 	protected dataChanged() {
-		HttpRequest.imageloader(this.data.friendUserIcon,this.friend_icon);
+		let user = this.data.friendUser
+		HttpRequest.imageloader(Config.picurl+Help.getfriendIcon()[user],this.friend_icon);
 		this.friend_name.text = Help.getcharlength(this.data.friendUserName,2);
 		if(this.data.friendTreeIcon){
 			HttpRequest.imageloader(Config.picurl+this.data.friendTreeIcon,this.tree_icon);
@@ -24,6 +25,5 @@ class FriendList_item extends eui.ItemRenderer{
 			this.tree_icon.texture = RES.getRes("shuidi")
 		}
 	}
-
 
 }

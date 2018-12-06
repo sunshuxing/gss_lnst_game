@@ -227,6 +227,22 @@ class SceneManager {
     static addJump() {
        this.instance._stage.addChild(this.instance.jumpMark);
     }
+
+    static async guiedResource(){
+        try {
+            const loadingView = new guideLoading();
+            this.instance.mainScene.addChild(loadingView)
+            loadingView.y = this.instance.mainScene.height - loadingView.height
+            await RES.loadGroup("guide", 0, loadingView)
+            this.instance.mainScene.removeChild(loadingView)
+            const guideView = new guideUI();
+            this.instance.mainScene.addChild(guideView);
+            guideView.y = this.instance.mainScene.height - guideView.height;
+        }
+        catch (e) {
+            console.error(e);
+        }
+    }
     
     public initWebSocket() {
         let user = this.weixinUtil.login_user_id

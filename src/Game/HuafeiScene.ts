@@ -16,6 +16,7 @@ class HuafeiScene extends eui.Component implements eui.UIComponent{
 	{
 		super.childrenCreated();
         this.getOwnProp();
+        localStorage.setItem("huafeisee","true");
     }
 
     private onComplete():void{

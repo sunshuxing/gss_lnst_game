@@ -22,8 +22,6 @@ class DynamicScene extends eui.Component implements eui.UIComponent{
         this.btn_close.addEventListener(egret.TouchEvent.TOUCH_TAP,this.closeScene,this)
         this.scr_dyn.verticalScrollBar = null;
 		this.scr_dyn.bounces = null;
-		this.list_dyn.dataProvider = this.euiArr;
- 		this.list_dyn.itemRenderer = dynList_item;
 		console.log("childrenCreated");
 	}
 
@@ -50,7 +48,7 @@ class DynamicScene extends eui.Component implements eui.UIComponent{
 		let params = {	
 			treeUserId:treeUserId,
 			pageNo:this.perNum,
-			numPerPage:10000
+			numPerPage:10
 			};
 		MyRequest._post("game/searchDynamic",params,this,this.Req_searchDynamic.bind(this),this.onGetIOError)
 	}
@@ -59,6 +57,19 @@ class DynamicScene extends eui.Component implements eui.UIComponent{
 	private Req_searchDynamic(data):void{
 		var Data = data;
 		var dyndata = Data.data.list;
+		let dyndata_user = []
+		for(let i = 0;i<dyndata.length;i++){
+			if(dyndata[i].mainUser!=""){
+				dyndata_user.push(dyndata[i].mainUser);
+				dyndata_user = this.uniq(dyndata_user);
+			}
+		}
+		if(dyndata_user&&dyndata_user.length>0){
+			let params = {
+				users: dyndata_user.join(",")
+			};
+			MyRequest._post("manage/image/getWechatImg", params, this, this.Req_getWechatImg.bind(this), this.onGetIOError,true);
+		}
 		dyndata = this.initData(dyndata)
 		this.scr_dyn.addEventListener(eui.UIEvent.CHANGE_END,this.asdas,this)
 		for(let i=0;i<dyndata.length;i++){
@@ -68,6 +79,24 @@ class DynamicScene extends eui.Component implements eui.UIComponent{
 		this.line.height = this.euiArr.length*300;
 		this.isLastPage = Data.data.isLastPage;
 	}
+
+	private Req_getWechatImg(data){
+		Help.savedynIcon(data.data);
+		this.list_dyn.dataProvider = this.euiArr;
+ 		this.list_dyn.itemRenderer = dynList_item;
+	}
+
+	//数组去重
+	private uniq(array){
+		var temp = []; //一个新的临时数组
+		for(var i = 0; i < array.length; i++){
+			if(temp.indexOf(array[i]) == -1){
+				temp.push(array[i]);
+			}
+		}
+		return temp;
+	}
+
 
 	private initData(data:Array<Dynamic>):Array<Dynamic>{
 		if(!data){
@@ -184,9 +213,7 @@ class dynList_item extends eui.ItemRenderer{
 			this.dyn_label.text = "我的"+this.data.treeName+this.data.stageName+"了!";
 			this.dyn_des.text = "";
 			this.dyn_bg.texture = RES.getRes("dyn-ly-xt");
-			if(this.data.mainUserIcon){
-				HttpRequest.imageloader(this.data.mainUserIcon,this.user_icon);
-			}
+			HttpRequest.imageloader(Config.picurl+Help.getdynIcon()[this.data.mainUser],this.user_icon);
 		}
 		else if(this.data.type == 1){
 			this.dyn_toother.visible = false;
@@ -194,7 +221,8 @@ class dynList_item extends eui.ItemRenderer{
 			this.dyn_des.text = "";
 			this.dyn_bg.texture = RES.getRes("dyn-ly-xt");
 			if(this.data.mainUserIcon){
-				HttpRequest.imageloader(this.data.mainUserIcon,this.user_icon);
+				HttpRequest.imageloader(Config.picurl+Help.getdynIcon()[this.data.mainUser],this.user_icon);
+				
 			}
 		}
 		else if(this.data.type == 2){
@@ -207,7 +235,7 @@ class dynList_item extends eui.ItemRenderer{
         );
 			this.dyn_des.text = "拜访TA";
 			if(this.data.mainUserIcon){
-				HttpRequest.imageloader(this.data.mainUserIcon,this.user_icon);
+				HttpRequest.imageloader(Config.picurl+Help.getdynIcon()[this.data.mainUser],this.user_icon);
 			}
 		}
 		else if(this.data.type == 3){
@@ -220,7 +248,7 @@ class dynList_item extends eui.ItemRenderer{
         );
 			this.dyn_des.text = "拜访TA";
 			if(this.data.mainUserIcon){
-				HttpRequest.imageloader(this.data.mainUserIcon,this.user_icon);
+				HttpRequest.imageloader(Config.picurl+Help.getdynIcon()[this.data.mainUser],this.user_icon);
 			}
 		}
 		else if(this.data.type == 4){
@@ -233,7 +261,7 @@ class dynList_item extends eui.ItemRenderer{
         );
 			this.dyn_des.text = "拜访TA";
 			if(this.data.mainUserIcon){
-				HttpRequest.imageloader(this.data.mainUserIcon,this.user_icon);
+				HttpRequest.imageloader(Config.picurl+Help.getdynIcon()[this.data.mainUser],this.user_icon);
 			}
 		}
 		else if(this.data.type == 5){
@@ -246,7 +274,7 @@ class dynList_item extends eui.ItemRenderer{
         );
 			this.dyn_des.text = "给TA留言";
 			if(this.data.mainUserIcon){
-				HttpRequest.imageloader(this.data.mainUserIcon,this.user_icon);
+				HttpRequest.imageloader(Config.picurl+Help.getdynIcon()[this.data.mainUser],this.user_icon);
 			}
 		}
 		else if(this.data.type == 6){
@@ -255,7 +283,7 @@ class dynList_item extends eui.ItemRenderer{
 			this.dyn_label.text = Help.getcharlength(this.data.mainUserName,4)+"签到";
 			this.dyn_des.text = "";
 			if(this.data.mainUserIcon){
-				HttpRequest.imageloader(this.data.mainUserIcon,this.user_icon);
+				HttpRequest.imageloader(Config.picurl+Help.getdynIcon()[this.data.mainUser],this.user_icon);
 			}
 
 		}
@@ -276,7 +304,7 @@ class dynList_item extends eui.ItemRenderer{
         );
 			this.dyn_des.text = "给TA捣蛋";
 			if(this.data.mainUserIcon){
-				HttpRequest.imageloader(this.data.mainUserIcon,this.user_icon);
+				HttpRequest.imageloader(Config.picurl+Help.getdynIcon()[this.data.mainUser],this.user_icon);
 			}
 		}
 		else if(this.data.type == 11){
@@ -289,7 +317,7 @@ class dynList_item extends eui.ItemRenderer{
         );
 			this.dyn_des.text = "给TA捣蛋";
 			if(this.data.mainUserIcon){
-				HttpRequest.imageloader(this.data.mainUserIcon,this.user_icon);
+				HttpRequest.imageloader(Config.picurl+Help.getdynIcon()[this.data.mainUser],this.user_icon);
 			}
 		}
 		else if(this.data.type == 20){
@@ -302,7 +330,7 @@ class dynList_item extends eui.ItemRenderer{
         );
 			this.dyn_des.text = "拜访TA";
 			if(this.data.mainUserIcon){
-				HttpRequest.imageloader(this.data.mainUserIcon,this.user_icon);
+				HttpRequest.imageloader(Config.picurl+Help.getdynIcon()[this.data.mainUser],this.user_icon);
 			}
 		}
 		else if(this.data.type == 21){
@@ -315,7 +343,7 @@ class dynList_item extends eui.ItemRenderer{
         );
 			this.dyn_des.text = "拜访TA";
 			if(this.data.mainUserIcon){
-				HttpRequest.imageloader(this.data.mainUserIcon,this.user_icon);
+				HttpRequest.imageloader(Config.picurl+Help.getdynIcon()[this.data.mainUser],this.user_icon);
 			}
 		}
 		else if(this.data.type == 50){
@@ -334,7 +362,7 @@ class dynList_item extends eui.ItemRenderer{
         );
 			this.dyn_des.text = "去TA果园";
 			if(this.data.mainUserIcon){
-				HttpRequest.imageloader(this.data.mainUserIcon,this.user_icon);
+				HttpRequest.imageloader(Config.picurl+Help.getdynIcon()[this.data.mainUser],this.user_icon);
 			}
 		}
 		else if(this.data.type == 100){
@@ -343,7 +371,7 @@ class dynList_item extends eui.ItemRenderer{
 			this.dyn_des.text = "";
 			this.dyn_bg.texture = RES.getRes("dyn-ly-xt");
 			if(this.data.mainUserIcon){
-				HttpRequest.imageloader(this.data.mainUserIcon,this.user_icon);
+				HttpRequest.imageloader(Config.picurl+Help.getdynIcon()[this.data.mainUser],this.user_icon);
 			}
 		}
 

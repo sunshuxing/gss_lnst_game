@@ -1,6 +1,6 @@
 class Config{
     // public static wxhttpServer = "http://www.guoss.net/test_gsswe/"
-    public static wxhttpServer = "http://192.168.3.10:8337/gsswe/"
+    public static wxhttpServer = "http://192.168.3.19:8337/gsswe/"
     
     /**
      * 后台图片服务

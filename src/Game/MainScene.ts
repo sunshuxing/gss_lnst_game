@@ -74,11 +74,11 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private distribution_label: eui.Label;	//配送的字
 	private fruit_num: eui.Label;
 	private fruit_img: eui.Image;
-	private sign_gro: eui.Group;
+	public sign_gro: eui.Group;
 	public task_gro: eui.Group;
 	private nowprogressvalue;
-	private distribution:eui.Label;
-	public huafei_red:eui.Rect;
+	private distribution: eui.Label;
+	public huafei_red: eui.Rect;
 
 
 	/**
@@ -135,9 +135,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		this.cloudTwn();
 		this.getSignInInfo();				//获取签到信息
 		SceneManager.sceneManager.taskScene.taskDataInit(this.checktask);
-		localStorage.setItem("isNewUser","old")
-		let a = RES.getRes("bg-day_png")
-		console.log(a,"ssss")
+		localStorage.setItem("isNewUser", "old")
 	}
 	private onComplete(): void {
 		console.log("onComplete");
@@ -281,12 +279,12 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			.to({ scaleX: 1, scaleY: 1 }, 200).call(this.treeEad, this);
 
 		// 所有树语中随机一个
-		if(this.treelanguagedata){
+		if (this.treelanguagedata) {
 			let n = Help.random_num(0, this.treelanguagedata.length - 1)
 			SceneManager.treepromptgro.removeChildren();
 			SceneManager.treetimer.reset();
 			SceneManager.addtreePrompt(this.treelanguagedata[n].msg);
-		}	
+		}
 	}
 
 	// //根据阶段值获取树语
@@ -348,7 +346,10 @@ class MainScene extends eui.Component implements eui.UIComponent {
 				info = userName + "领取了" + treeName + "！"
 			}
 			if (systemEmpty && this.onlyFlag) {//如果为空，则使用系统的框来循环
-				HttpRequest.imageloader(this.infodata[this.n].mainUserIcon, this.img2);
+				let params = {
+					users: this.infodata[this.n].mainUser
+				}
+				MyRequest._post("manage/image/getWechatImg", params, this, this.Req_WechatImg.bind(this, this.infodata[this.n].mainUser, this.img2), this.onGetIOError, true);
 				this.n++;
 				this.str2.text = Help.getcharlength(info, 12);
 				var rect: egret.Rectangle = this.str2.scrollRect;
@@ -373,7 +374,10 @@ class MainScene extends eui.Component implements eui.UIComponent {
 					.to({ y: 50 }, 1000);
 				this.onlyFlag = false;
 			} else {
-				HttpRequest.imageloader(this.infodata[this.n].mainUserIcon, this.img1);
+				let params = {
+					users: this.infodata[this.n].mainUser
+				}
+				MyRequest._post("manage/image/getWechatImg", params, this, this.Req_WechatImg.bind(this, this.infodata[this.n].mainUser, this.img1), this.onGetIOError, true);
 				this.str1.text = Help.getcharlength(info, 12);
 				this.n++;
 				var rect: egret.Rectangle = this.str1.scrollRect;
@@ -413,6 +417,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			if (this.m >= this.sysinfodata.length) {
 				this.m = 0;
 			}
+			this.img2.texture = RES.getRes("gamelogo")
 			this.str2.text = Help.getcharlength(this.sysinfodata[this.m].title, 12);
 			this.m++;
 			var rect: egret.Rectangle = this.str2.scrollRect;
@@ -493,7 +498,10 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		barragicon.height = 46;
 		// barragicon.texture = RES.getRes(TestData.leaveMsgUserdata[i].mainUserIcon);
 		if (data.userIcon) {
-			HttpRequest.imageloader(data.userIcon, barragicon);	//加载网络头像
+			let params = {
+				users: data.user
+			}
+			MyRequest._post("manage/image/getWechatImg", params, this, this.Req_WechatImg.bind(this, data.user, barragicon), this.onGetIOError, true);
 		}
 		barragegroup.addChild(barragicon);
 
@@ -557,7 +565,10 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			barragicon.height = 46;
 			// barragicon.texture = RES.getRes(TestData.leaveMsgUserdata[i].mainUserIcon);
 			if (dataList[i].mainUserIcon) {
-				HttpRequest.imageloader(dataList[i].mainUserIcon, barragicon);	//加载网络头像
+				let params = {
+					users: dataList[i].mainUser
+				}
+				MyRequest._post("manage/image/getWechatImg", params, this, this.Req_WechatImg.bind(this, dataList[i].mainUser, barragicon), this.onGetIOError, true);
 			}
 			barragegroup.addChild(barragicon);
 
@@ -888,7 +899,10 @@ class MainScene extends eui.Component implements eui.UIComponent {
 				this.setState("havetree");
 				Help.saveTreeUserData(treedata.data);				//保存果树数据
 				this.user_name.text = Help.getcharlength(treedata.data.userName, 3);
-				HttpRequest.imageloader(treedata.data.userIcon, this.user_icon);				//用户头像
+				let params = {
+					users: treedata.data.user
+				}
+				MyRequest._post("manage/image/getWechatImg", params, this, this.Req_WechatImg.bind(this, treedata.data.user, this.user_icon), this.onGetIOError, true);
 				if (treedata.data.stageObj.canHarvest == "true") {
 					this.progress1.maximum = treedata.data.exchangeNum;							//装箱需要的果子总数
 					this.progress1.minimum = 0;
@@ -930,7 +944,10 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		}
 	}
 
-
+	private Req_WechatImg(icon, image: eui.Image, data) {
+		let imgUrl = Config.picurl + data.data[icon];
+		HttpRequest.imageloader(imgUrl, image);
+	}
 
 	//更新果树树
 	private treeUpdate(data: TreeUserData) {
@@ -974,28 +991,26 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		let youji = Help.getPropById(Data.data, 4);
 		let fuhe = Help.getPropById(Data.data, 5);
 		let shuirong = Help.getPropById(Data.data, 6);
-		let huafeiNum = Number(youji ? youji.num : 0)+Number(fuhe ? fuhe.num : 0)+Number(shuirong ? shuirong.num : 0);
-		if(localStorage.getItem("huafeiNum")){
-			if(huafeiNum > Number(localStorage.getItem("huafeiNum"))){
+		let huafeiNum = Number(youji ? youji.num : 0) + Number(fuhe ? fuhe.num : 0) + Number(shuirong ? shuirong.num : 0);
+		if (localStorage.getItem("huafeiNum")) {
+			if (huafeiNum > Number(localStorage.getItem("huafeiNum"))||localStorage.getItem("huafeisee") == "false") {
 				this.huafei_red.visible = true;
-				console.log("newhuafei");
+				localStorage.setItem("huafeisee", "false");
 			}
-			else{
+			else {
 				this.huafei_red.visible = false;
-				console.log("oldhuafei")
 			}
 		}
-		else{
-			if(huafeiNum>0){
+		else {
+			if (huafeiNum > 0) {
 				this.huafei_red.visible = true;
-				console.log("newhuafei")
+				localStorage.setItem("huafeisee", "false");
 			}
-			else{
+			else {
 				this.huafei_red.visible = false;
-				console.log("oldhuafei")
 			}
 		}
-		localStorage.setItem("huafeiNum",String(huafeiNum));
+		localStorage.setItem("huafeiNum", String(huafeiNum));
 	}
 
 	//查询果园道具(虫，草)	treeUserId：用户果树id
@@ -1040,7 +1055,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		this.topPage = this.topPage + 1
 		let data = {
 			pageNo: this.topPage
-
 		}
 		MyRequest._post("game/getTopInfo", data, this, this.Req_getTopMsg.bind(this), this.onGetIOError)
 	}
@@ -1090,15 +1104,30 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		MyRequest._post("game/getFriends", null, this, this.Req_getFriends.bind(this), this.onGetIOError);
 	}
 
+	private friendList;
 	//查询好友列表成功后处理
 	private Req_getFriends(data): void {
 		var Data = data;
-		Help.saveUserFriendData(Data.data);
-		this.friendlistUpdate(Data.data);
+		this.friendList = Data.data;
 		console.log(Data, "好友列表数据")
+		let friend_data = Data.data;
+		let friend_user = []
+		for (let i = 0; i < friend_data.length; i++) {
+			friend_user.push(friend_data[i].friendUser)
+		}
+		if (friend_user && friend_user.length > 0) {
+			let params = {
+				users: friend_user.join(",")
+			};
+			MyRequest._post("manage/image/getWechatImg", params, this, this.Req_getWechatImg.bind(this), this.onGetIOError, true);
+		}
+		console.log(friend_user, "好友用户id数据")
 	}
-
-
+	private Req_getWechatImg(data) {
+		Help.savefriendIcon(data.data);
+		Help.saveUserFriendData(this.friendList);
+		this.friendlistUpdate(this.friendList);
+	}
 
 	//更新好友列表
 	private friendlistUpdate(data) {
@@ -1117,6 +1146,9 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private toOther(evt: PuticonEvent) {
 		this.progress.slideDuration = 0;
 		this.progress.value = 0;
+		SceneManager.treepromptgro.removeChildren();
+		SceneManager.treetimer.reset();
+		SceneManager.addtreePrompt("欢迎来到我的农场！");
 		Help.passAnm()
 		var id = evt.userid;
 		this.getTreeInfoByid(id);
@@ -1132,6 +1164,9 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			this.setState("friendtree");
 			this.friendUser = this.friend_list.selectedItem.friendUser		//好友
 			let friendTreeUserId = this.friend_list.selectedItem.treeUserId;
+			SceneManager.treepromptgro.removeChildren();
+			SceneManager.treetimer.reset();
+			SceneManager.addtreePrompt("欢迎来到我的农场！");
 			Help.passAnm();
 			this.getTreeInfoByid(friendTreeUserId);
 			//查询是否可以偷水
@@ -1198,16 +1233,12 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		var Data = data;
 		this.gro_prop.removeChild(icon);
 		if (Data.data.loveCount > 0) {
-			let textflow = <Array<egret.ITextElement>>[																//爱心值数量
-				{ text: "爱心值+", style: { "size": 30, "textColor": 0xED8282, "bold": true } }
-				, { text: Data.data.loveCount, style: { "size": 30, "textColor": 0xED8282, "bold": true } }
-			];
-			SceneManager.addNotice(null, null, textflow)
+			Help.helpwaterLove(Data.data);
 			let text: string = this.love_num.text
 			text = text.substring(0, text.length - 1)
 			this.love_num.text = (String(Number(text) + Number(Data.data.loveCount))) + "%"
 		} else {
-			SceneManager.addNotice("清除成功")
+			SceneManager.addNotice("清除成功,每日爱心值已达上限！")
 		}
 		console.log(Data, "除去果园道具数据")
 	}
@@ -1232,12 +1263,12 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		let params = {
 			propId: propId
 		};
-		if(this.canPost){
+		if (this.canPost) {
 			MyRequest._post("game/useProp", params, this, this.Req_useProp.bind(this, propId), this.postErr);
+			this.canPost = false;
 		}
-		this.canPost = false;
 	}
-	private postErr(){
+	private postErr() {
 		this.canPost = true;
 	}
 
@@ -1270,7 +1301,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		let proshare = new PromptShare();
 		proshare.x = 85;
 		proshare.y = 430;
-		this.addChild(proshare);
+		SceneManager.sceneManager._stage.addChild(proshare);
 		this.getOwnTree()
 	}
 
@@ -1294,10 +1325,14 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 	//帮好友浇水
 	private friendWater(treeUserId) {
+
 		let params = {
 			treeUserId: treeUserId
 		};
-		MyRequest._post("game/friendWater", params, this, this.Req_friendWater.bind(this), this.onGetIOError)
+		if (this.canPost) {
+			MyRequest._post("game/friendWater", params, this, this.Req_friendWater.bind(this), this.postErr)
+			this.canPost = false;
+		}
 	}
 
 	//帮好友浇水后的处理
@@ -1305,7 +1340,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		var Data = data;
 		egret.Tween.get(this.frimg_kettle)
 			.to({ y: -130 }, 500)
-			.to({ x: -29, y: -170, rotation: -54 }, 500).call(()=>{this.waterTwn(data.data)}, this)
+			.to({ x: -29, y: -170, rotation: -54 }, 500).call(() => { this.waterTwn(data.data) }, this)
 			.wait(1200)
 			.to({ y: -130, rotation: 0 }, 500)
 			.to({ y: 80, x: 100 }, 500)
@@ -1327,19 +1362,19 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	//查询果树数据后处理
 
 	private Req_getTreeInfo(data): void {
-		if(data){
+		if (data) {
 			if (data.data.friendCanObtain > 0) {
-			this.checkHelpTakeFruit(data.data.id);
-		}
-		else {
-			this.pick_hand.visible = false;
-			this.pick_label.visible = false;
-		}
-		this.setState("friendtree");
-		var Data = data;
-		Help.saveTreeUserData(Data.data);
-		console.log("果树数据:", Data.data)
-		this.init(Data.data);
+				this.checkHelpTakeFruit(data.data.id);
+			}
+			else {
+				this.pick_hand.visible = false;
+				this.pick_label.visible = false;
+			}
+			this.setState("friendtree");
+			var Data = data;
+			Help.saveTreeUserData(Data.data);
+			console.log("果树数据:", Data.data)
+			this.init(Data.data);
 		}
 	}
 
@@ -1530,16 +1565,16 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			.set({ y: 860, x: 386, alpha: 1 })
 			.to({ y: 900, x: 366, alpha: 0.2 }, 500)
 			.wait(200)
-			.call(()=>{this.waterVis(data)}, this)
+			.call(() => { this.waterVis(data) }, this)
 	}
 
 	// 水滴不可见
 	private waterVis(data?) {
-		if(data){
+		if (data) {
 			Help.helpwaterLove(data);
 			this.img_water.visible = false;
 		}
-		else{
+		else {
 			Help.waters();
 			this.img_water.visible = false;
 		}

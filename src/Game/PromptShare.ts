@@ -23,7 +23,7 @@ class PromptShare extends eui.Component implements eui.UIComponent{
         SceneManager.sceneManager.mainScene.enabled = false;
         let close = new eui.Image();
         close.texture = RES.getRes("close1")
-        close.x = 524;
+        close.x = 504;
         close.y = 24;
         this.addChild(close);
         close.addEventListener(egret.TouchEvent.TOUCH_TAP,this.remove,this)

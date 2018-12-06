@@ -45,6 +45,7 @@ class SigninScene extends eui.Component implements eui.UIComponent {
      * 签到成功的处理
      */
     private Req_SignIn(data): void {
+        SceneManager.sceneManager.mainScene.sign_gro.visible = false;
         var Data = data;
         console.log(Data, "签到数据")
         if (Data.status == 0) {
