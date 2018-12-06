@@ -1,9 +1,14 @@
 class Config{
-
-    // public static httpServer = "http://www.guoss.net/test_gsswe/game/"
-    public static httpServer = "http://192.168.3.10:8337/gsswe/game/"
     // public static wxhttpServer = "http://www.guoss.net/test_gsswe/"
     public static wxhttpServer = "http://192.168.3.10:8337/gsswe/"
+    
+    /**
+     * 后台图片服务
+     */
+    public static imgServer = "http://192.168.3.10:8080/gssmanage/"
+    
+    // public static imgServer = "http://m.guoss.net/gssmanage/"
+
     //测试线上的web主页，正式版去除test
     public static webHome = "http://www.guoss.net/test/wefruitmall/"
 
