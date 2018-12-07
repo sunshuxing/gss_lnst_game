@@ -254,9 +254,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private addwater() {
 		let kettleNum: string = this.kettle_num.text;
 		kettleNum = kettleNum.substring(0, kettleNum.length - 1);
-		let canWater = false;
-		canWater = this.gameTreedata.growthValue != this.gameTreedata.stageObj.energy && ((this.gameTreedata.needTake == null ? 'false' : this.gameTreedata.needTake) == 'false');
-		if (canWater && this.currentState == "havetree" && Number(kettleNum) >= 10) {
+		if (this.currentState == "havetree" && Number(kettleNum) >= 10) {
 			this.useProp(1);		//1:使用水滴
 		} else if (this.gameTreedata.needTake == "true") {
 			let content = "您需要先把树上成熟果子摘完才可以浇水哦~"
@@ -894,7 +892,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 					{ text: "了" }
 				]
 			}
-			if(data.stageObj.isLast == "false" && data.growthValue == data.stageObj.energy){
+			if(data.stageObj.isLast == "true" && data.growthValue == data.stageObj.energy){
 				this.progress_label.textFlow = <Array<egret.ITextElement>>[
 					{ text: "快让朋友来帮摘果吧！" },
 				]
