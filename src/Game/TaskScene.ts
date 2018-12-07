@@ -325,11 +325,11 @@ class taskList_item extends eui.ItemRenderer {
         let info = "";
         if (data.propType == "0") {
             info = "g";
-        } else if (data.propType == "0") {
+        } else if (data.propType == "1") {
             info = "个";
-        } else if (data.propType == "0") {
+        } else if (data.propType == "2") {
             info = "个"
-        } else if (data.propType == "0") {
+        } else if (data.propType == "3") {
             info = "袋"
         }
         SceneManager.addNotice("获得" + data.propName + data.propNum + info, 2000)
