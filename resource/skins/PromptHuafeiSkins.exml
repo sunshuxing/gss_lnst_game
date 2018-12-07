@@ -4,7 +4,7 @@
 	<e:Label id="prompt_label" text="这是提示的话" y="162" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="0.5" verticalAlign="middle" textAlign="center" textColor="0x6b4821" bold="true" fontFamily="Microsoft YaHei"/>
 	<e:Group id="use_btn" width="158" height="50" x="93" y="304">
 		<e:Image width="158" height="50" y="1" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="-0.5" x="-1" scaleX="1" scaleY="1" source="prompt-btn"/>
-		<e:Label id="" text="使用" x="18" y="7" anchorOffsetX="0" width="112" anchorOffsetY="0" height="35" textAlign="center" verticalAlign="middle" fontFamily="Microsoft YaHei" textColor="0xfff0c7" bold="true" size="28" scaleX="1" scaleY="1"/>
+		<e:Label id="label_btn" text="使用" x="18" y="7" anchorOffsetX="0" width="112" anchorOffsetY="0" height="35" textAlign="center" verticalAlign="middle" fontFamily="Microsoft YaHei" textColor="0xfff0c7" bold="true" size="28" scaleX="1" scaleY="1"/>
 	</e:Group>
     <e:Group id="close_btn" width="158" height="50" x="334" y="304">
 		<e:Image width="158" height="50" y="1" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="-0.5" x="-1" scaleX="1" scaleY="1" source="prompt-btn"/>

@@ -206,8 +206,8 @@ class Help{
         right.y = 0;
         left.texture = RES.getRes("pass_png");
         right.texture = RES.getRes("pass_png");
-        SceneManager.sceneManager.mainScene.addChild(left);
-        SceneManager.sceneManager.mainScene.addChild(right);
+        SceneManager.sceneManager._stage.addChild(left);
+        SceneManager.sceneManager._stage.addChild(right);
         egret.Tween.get(left)
         .wait(200)
         .to({x:-1089},1000)

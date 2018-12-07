@@ -208,6 +208,7 @@ class SceneManager {
         } , this);
         this.treeprompt.x = 400;
         this.treeprompt.setPrompt(info);
+        
          if(Help.getTreeUserData().stage == "1"){
             this.treeprompt.y = 900;
         }

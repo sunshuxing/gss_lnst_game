@@ -909,6 +909,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		var treedata = data;
 		let treeUser: TreeUserData = treedata.data;
 		Help.saveOwnData(treedata.data);					//保存自己果树数据
+		Help.saveTreeUserData(treedata.data);				//保存果树数据
 		this.friend_list.selectedIndex = -1;
 		if (treedata.data) {
 			if (treedata.data.canReceive == "true") {
@@ -931,7 +932,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 					SceneManager.addtreePrompt("我的果实长好啦，快使用篮子将果子摘下来吧！")
 				}
 				this.setState("havetree");
-				Help.saveTreeUserData(treedata.data);				//保存果树数据
 				this.user_name.text = Help.getcharlength(treedata.data.userName, 3);
 				let params = {
 					users: treedata.data.user
@@ -1191,6 +1191,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 
 	private toOther(evt: PuticonEvent) {
+		Help.passAnm()
 		this.progress.slideDuration = 0;
 		this.progress.value = 0;
 		SceneManager.treepromptgro.removeChildren();
@@ -1203,6 +1204,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private toOtherTree() {
 		//查询好友果树数据
 		if (this.friend_list.selectedItem.treeUserId != this.gameTreedata.id && this.friend_list.selectedItem.treeUserId) {
+			Help.passAnm()
 			SceneManager.treepromptgro.removeChildren();
 			this.progress.slideDuration = 0;
 			this.progress.value = 0;
@@ -1307,12 +1309,22 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			propId: propId
 		};
 		if (this.canPost) {
-			MyRequest._post("game/useProp", params, this, this.Req_useProp.bind(this, propId), this.postErr);
 			this.canPost = false;
+			MyRequest._post("game/useProp", params, this, this.Req_useProp.bind(this, propId), this.postErr.bind(this,propId));
 		}
 	}
-	private postErr() {
+	private postErr(propId?) {
 		this.canPost = true;
+		if(propId == "3"){
+			let jumpPrompt = new PromptHuafei(()=>{location.href = Config.webHome + "view/game-browse-goods.html?listType=0"})
+			let label = "你的篮子装不下了";
+			let tishi = "(指定商品下单，获取新果篮)"
+			let btn = "确定";
+			jumpPrompt.x = 85;
+            jumpPrompt.y = 430;
+			jumpPrompt.setPrompt(label,tishi,btn);
+        	SceneManager.sceneManager._stage.addChild(jumpPrompt)
+		}
 	}
 
 	//使用道具成功后处理
@@ -1389,8 +1401,8 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			treeUserId: treeUserId
 		};
 		if (this.canPost) {
-			MyRequest._post("game/friendWater", params, this, this.Req_friendWater.bind(this), this.postErr)
 			this.canPost = false;
+			MyRequest._post("game/friendWater", params, this, this.Req_friendWater.bind(this), this.postErr)
 		}
 	}
 
@@ -1434,7 +1446,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			var Data = data;
 			Help.saveTreeUserData(Data.data);
 			SceneManager.addtreePrompt("欢迎来到我的农场！")
-			Help.passAnm()
 			console.log("果树数据:", Data.data)
 			this.init(Data.data);
 		}

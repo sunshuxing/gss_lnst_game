@@ -9,13 +9,13 @@
 		<e:Image x="-22" y="-34" includeIn="havetree,friendtree" scaleX="1" scaleY="1" source="toppai"/>
 		<e:Group id="info1" width="372" height="50" x="20" y="47" includeIn="havetree,friendtree" scaleX="1" scaleY="1">
 			<e:Label id="str1" text="" y="0" height="100%" verticalAlign="middle" anchorOffsetX="0" textAlign="left" x="65" size="24" fontFamily="Microsoft YaHei"/>
-			<e:Image id="img1" width="50" height="50" anchorOffsetX="0" anchorOffsetY="0" y="0"/>
-			<e:Image id="img1_bg" width="50" height="50" x="0" y="0" source="infobg"/>
+			<e:Image id="img1" width="50" height="50" anchorOffsetX="0" anchorOffsetY="0" y="0" x="8"/>
+			<e:Image id="img1_bg" width="50" height="50" x="8" y="0" source="infobg"/>
 		</e:Group>
 		<e:Group id="info2" width="372" height="50" x="20" y="47" includeIn="havetree,friendtree" scaleX="1" scaleY="1">
 			<e:Label id="str2" text="" y="0" height="100%" verticalAlign="middle" anchorOffsetX="0" textAlign="left" x="65" size="24" fontFamily="Microsoft YaHei"/>
-			<e:Image id="img2" width="50" height="50" anchorOffsetX="0" anchorOffsetY="0" y="0"/>
-			<e:Image id="img2_bg" width="50" height="50" x="0" y="0" source="infobg"/>
+			<e:Image id="img2" width="50" height="50" anchorOffsetX="0" anchorOffsetY="0" y="0" x="8" source=""/>
+			<e:Image id="img2_bg" width="50" height="50" x="8" y="0" source="infobg"/>
 		</e:Group>
 		<e:Image id="guide_img" x="479.03" y="39.52" source="guide_png" includeIn="havetree,friendtree" scaleX="1" scaleY="1"/>
 
