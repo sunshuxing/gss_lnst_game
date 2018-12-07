@@ -289,7 +289,7 @@ class Help{
             SceneManager.addNotice("手气不佳，没有为好友摘到果子",1000),
             
             this.waitFun(1,function(){
-                if(data.data.loveCount>0){
+                if(data.loveCount&&Number(data.loveCount)>0){
                     SceneManager.sceneManager.mainScene.addChild(img_love);
                     SceneManager.sceneManager.mainScene.addChild(label_love);
                     egret.Tween.get(img_love)
@@ -312,7 +312,7 @@ class Help{
             .to({y:img_fruit.y-60},800).call(()=>{SceneManager.sceneManager.mainScene.removeChild(img_fruit)},this);
             egret.Tween.get(label_fruit)
             .to({y:label_fruit.y-60},800).call(()=>{SceneManager.sceneManager.mainScene.removeChild(label_fruit);
-                if(data.loveCount>0){
+                if(data.loveCount&&Number(data.loveCount)>0){
                      SceneManager.sceneManager.mainScene.addChild(img_love);
                     egret.Tween.get(img_love)
                     .to({y:img_love.y-60},800).call(()=>{SceneManager.sceneManager.mainScene.removeChild(img_love)},this);
@@ -330,7 +330,8 @@ class Help{
     }
 
     public static helpwaterLove(data){
-        if(data.loveConut>0){
+        
+        if(data.loveCount&&Number(data.loveCount)>0){
             SceneManager.sceneManager.mainScene.enabled = false;
             let img_love = new eui.Image();                 //爱心图片
             img_love.width = 72.8;

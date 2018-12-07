@@ -40,7 +40,6 @@ class DynamicScene extends eui.Component implements eui.UIComponent{
 		}
 	}
 
-
 	//查询动态
 	public searchDynamic(treeUserId){
 		console.log(this.perNum,"页数");
@@ -300,7 +299,7 @@ class dynList_item extends eui.ItemRenderer{
 			this.dyn_bg.texture = RES.getRes("dyn-dd-bg");
 			this.dyn_label.textFlow = Array<egret.ITextElement>(
             { text:Help.getcharlength(this.data.mainUserName,4), style: { "href" : "event:"+this.data.mainUser,"underline":true} }
-            ,{ text:"给你放了杂草"}
+            ,{ text:"给你放了虫子"}
         );
 			this.dyn_des.text = "给TA捣蛋";
 			if(this.data.mainUserIcon){
@@ -313,7 +312,7 @@ class dynList_item extends eui.ItemRenderer{
 			this.dyn_bg.texture = RES.getRes("dyn-dd-bg");
 			this.dyn_label.textFlow = Array<egret.ITextElement>(
             { text:Help.getcharlength(this.data.mainUserName,4), style: { "href" : "event:"+this.data.mainUser,"underline":true} }
-            ,{ text:"给你放了虫子"}
+            ,{ text:"给你放了杂草"}
         );
 			this.dyn_des.text = "给TA捣蛋";
 			if(this.data.mainUserIcon){

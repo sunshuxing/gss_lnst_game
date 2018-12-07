@@ -341,7 +341,7 @@ class taskList_item extends eui.ItemRenderer {
     // 当数据改变时，更新视图
     protected dataChanged() {
         this.bg_task.texture = RES.getRes(this.getbgBycode(this.data.code));
-        this.icon_task.texture = RES.getRes(this.geticonBycode(this.data.code));
+        HttpRequest.imageloader(Config.picurl+this.data.icon,this.icon_task);
         this.name_task.text = this.data.name;
         this.description_task.text = "赠送" + this.data.rewardRule.name + "," + this.getlimitTime(this.data.limitTime);
         // this.can_finish.texture = RES.getRes(this.getbtnBycode(this.data.code));
@@ -471,24 +471,6 @@ class taskList_item extends eui.ItemRenderer {
             return "task-bg-fen"
         }
 
-    }
-    //获得任务图标
-    private geticonBycode(code) {
-        if (code == "browse_goods") {
-            return "icon-liulan"
-        }
-        if (code == "share_orchard") {
-            return "icon-share"
-        }
-        if (code == "Invitation_friend") {
-            return "icon-friend"
-        }
-        if (code == "any_order") {
-            return "icon-anyorder"
-        }
-        if (code == "specifiy_order") {
-            return "icon-order"
-        }
     }
 
 }

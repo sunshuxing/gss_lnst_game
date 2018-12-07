@@ -27,7 +27,7 @@ class TreePrompt extends eui.Component implements eui.UIComponent{
 		this.background.height = this.tree_label.height+40;
 		this.background2.y = this.background.height - 3;
 		this.anchorOffsetX = this.width/2;
-		this.anchorOffsetY = this.height/2;
+		this.anchorOffsetY = this.height;
 	}
 
 }

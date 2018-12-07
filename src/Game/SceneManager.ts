@@ -161,6 +161,7 @@ class SceneManager {
     static toSigninScene() {
         this.instance.removeOther(this.instance.signinScene)
         // 把互动场景添加到主场景中
+        this.instance.signinScene.y = (this.instance.mainScene.height - this.instance.signinScene.height)/2;
         this.instance.mainScene.addChild(this.instance.signinScene)
     }
 
@@ -205,9 +206,14 @@ class SceneManager {
         this.treetimer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, () => {
             this.treepromptgro.removeChildren()
         } , this);
-        this.treeprompt.y = 550;
         this.treeprompt.x = 400;
         this.treeprompt.setPrompt(info);
+         if(Help.getTreeUserData().stage == "1"){
+            this.treeprompt.y = 900;
+        }
+        else{
+            this.treeprompt.y = 580;
+        }
         this.treepromptgro.addChild(this.treeprompt);
         this.treetimer.start();
     }

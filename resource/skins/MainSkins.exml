@@ -5,8 +5,8 @@
 	<e:Image id="cloud1" x="-63.38" y="-62" includeIn="havetree,friendtree" source="cloud1"/>
 	<e:Image id="cloud3" x="332" y="-7" includeIn="havetree,friendtree" source="cloud1"/>
 	<e:Image id="cloud2" x="-3" y="119"  includeIn="havetree,friendtree" source="cloud2"/>
-	<e:Group id="gro_top" width="376" height="172" y="0" anchorOffsetY="0" anchorOffsetX="0" x="187">
-		<e:Image x="-22" y="-34" includeIn="havetree,friendtree" source="toppai" scaleX="1" scaleY="1"/>
+	<e:Group id="gro_top" width="529.03" height="172" y="0" anchorOffsetY="0" anchorOffsetX="0" x="187">
+		<e:Image x="-22" y="-34" includeIn="havetree,friendtree" scaleX="1" scaleY="1" source="toppai"/>
 		<e:Group id="info1" width="372" height="50" x="20" y="47" includeIn="havetree,friendtree" scaleX="1" scaleY="1">
 			<e:Label id="str1" text="" y="0" height="100%" verticalAlign="middle" anchorOffsetX="0" textAlign="left" x="65" size="24" fontFamily="Microsoft YaHei"/>
 			<e:Image id="img1" width="50" height="50" anchorOffsetX="0" anchorOffsetY="0" y="0"/>
@@ -17,16 +17,16 @@
 			<e:Image id="img2" width="50" height="50" anchorOffsetX="0" anchorOffsetY="0" y="0"/>
 			<e:Image id="img2_bg" width="50" height="50" x="0" y="0" source="infobg"/>
 		</e:Group>
+		<e:Image id="guide_img" x="479.03" y="39.52" source="guide_png" includeIn="havetree,friendtree" scaleX="1" scaleY="1"/>
+
+	</e:Group>
+	<e:Group width="74" height="28.79" x="213" y="865" anchorOffsetY="0" anchorOffsetX="0">
+		<e:Label id="tree_name" bold="true" y="3.0900000000001455" anchorOffsetX="0" anchorOffsetY="0" fontFamily="SimHei" textColor="0x7a6934" size="24" includeIn="havetree,friendtree" textAlign="center" text="" scaleX="1" scaleY="1" horizontalCenter="0"/>
 	</e:Group>
 
 
-
-	<e:Label id="tree_name" bold="true" x="212" y="869" anchorOffsetX="0" anchorOffsetY="0" fontFamily="SimHei" textColor="0x7a6934" size="24" includeIn="havetree,friendtree" textAlign="center"/>
 	<e:Image id="logo" x="80" y="384" anchorOffsetX="75" anchorOffsetY="75"  width="152" height="152" source=""/>
 	<e:Label id="garden_name"  rotation="353.59" size="24" textAlign="right" fontFamily="Microsoft YaHei" includeIn="havetree,friendtree" bold="true" anchorOffsetX="0" anchorOffsetY="0" y="502.75" x="116" width="120" height="28.96" textColor="0x6e5422"/>
-
-
-
 	<e:Image id="tree" horizontalCenter="27.5" includeIn="havetree,friendtree" bottom="401"  anchorOffsetY="0" anchorOffsetX="0" source="" />
 	<e:Group id="BarGroup" anchorOffsetX="0" anchorOffsetY="0" left="0" right="0" top="0" bottom="0" locked="true"/>
 	<e:Image id="tu" y="889.05" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="30" source="tu"/>

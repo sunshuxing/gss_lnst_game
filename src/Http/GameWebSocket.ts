@@ -80,6 +80,7 @@ class GameWebSocket extends egret.DisplayObjectContainer {
                     break;
                     case "makeTrouble" : {
                         info = "来捣乱了！"
+                        SceneManager.instance.mainScene.getTreeProp(Help.getOwnData().id);
                     }
                     break;
                     case "leaveMsg" : {
@@ -88,14 +89,17 @@ class GameWebSocket extends egret.DisplayObjectContainer {
                     break;
                     case "help" : {
                         info = "来果园帮忙了哦！"
+                        SceneManager.instance.mainScene.getTreeProp(Help.getOwnData().id);
                     }
                     break;
                     case "water" : {
                         info = "来果园帮浇水了哦！"
+                        SceneManager.instance.mainScene.getOwnTree();
                     }
                     break;
                     case "thiefWater" : {
                         info = "来偷水啦！"
+                        SceneManager.instance.mainScene.getOwnProp();
                     }
                     break;
                     case "flushTake" : {
@@ -105,13 +109,13 @@ class GameWebSocket extends egret.DisplayObjectContainer {
                     break;
                 }
                 let userName = pushMsg.userName;
-                let userIcon = pushMsg.userIcon;
-                SceneManager.instance.mainScene.showDynamicMsg(info,userName,userIcon)
+                let userId = pushMsg.userId;
+                SceneManager.instance.mainScene.showDynamicMsg(info,userName,userId)
             }else if(pushMsg.type == "0"){//顶部推送,暂时用刷新，实际直接构建数据即可
                 if(pushMsg.code =="systemInfo"){//系统推送
-                    SceneManager.instance.mainScene.getSystemMsg()
+                    SceneManager.instance.mainScene.getSystemMsg(true)
                 }else if(pushMsg.code == "topInfo"){//成长周期推送
-                    SceneManager.instance.mainScene.getTopMsg()
+                    SceneManager.instance.mainScene.getTopMsg(true)
                 }
             }else if(pushMsg.type == "2"){//刷新好友请求
                 SceneManager.instance.mainScene.getFriends();

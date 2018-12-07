@@ -47,7 +47,15 @@ class PromptShare extends eui.Component implements eui.UIComponent{
             this.parent.removeChild(this);
             SceneManager.sceneManager.mainScene.enabled = true;
             SceneManager.addJump();
-        }
+            let url = SceneManager.instance.weixinUtil.shareData.shareUrl
+            let addFriend = MyRequest.geturlstr("addFriend", url)
+            if (!addFriend) {
+                SceneManager.instance.weixinUtil.shareData.shareUrl = url + "&addFriend=true"
+            }
+                SceneManager.instance.weixinUtil.shareData.titles = "【果实熟了】快来、快来帮我摘水果。"
+                SceneManager.instance.weixinUtil.shareData.describes = "离免费收获一箱水果，只差最后一步啦！"
+                SceneManager.instance.weixinUtil._openShare();
+            }
     }
 }
 

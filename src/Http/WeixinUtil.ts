@@ -26,7 +26,8 @@ class WeixinUtil {
             describes: "",
             iconUrl: "",
             success: function () {
-                
+                let evt: MaskEvent = new MaskEvent(MaskEvent.SHARECLOSE);
+		        SceneManager.instance.jumpMark.dispatchEvent(evt);
                 console.log("success share")
             }
         }
@@ -78,7 +79,6 @@ class WeixinUtil {
                 // 用户确认分享后执行的回调函数
                 if (that.shareData.success && typeof that.shareData.success == 'function') {
                     that.shareData.success()
-                    SceneManager.removeJump();  //删除遮罩
                 }
             }
             wx.onMenuShareTimeline(obj);
@@ -94,7 +94,6 @@ class WeixinUtil {
                 // 用户确认分享后执行的回调函数
                 if (that.shareData.success && typeof that.shareData.success == 'function') {
                     that.shareData.success()
-                    SceneManager.removeJump();  //删除遮罩
                 }
             }
             //发送给朋友
@@ -129,8 +128,7 @@ class WeixinUtil {
         } else {
             this.shareData.shareUrl = href + "?friendSign=" + friendSign;//分享id
         }
-        this.shareData.describes = "家里很远,回去好难,耳边叮咛,多吃蔬果." +
-            "    -- 果说说";
+        this.shareData.describes = "种上一棵树，恋上一座城，开启舌尖上的旅行--果说说"
     }
     /**
      * 微信初始化
@@ -188,7 +186,7 @@ class WeixinUtil {
             if (needShare) {
                 this._getShareData(response);//***
                 this.shareData.iconUrl = "http://www.guoss.net/test/wefruitmall/images/game_share.png";
-                this.shareData.titles = "【送你一份水果】亲手种水果，包邮送到家！";
+                this.shareData.titles = "【果说说农场】你的专属农场，亲手种，包邮送到家！";
                 that._openShare();
             }
             if (callback && typeof callback === 'function') {//回调函数

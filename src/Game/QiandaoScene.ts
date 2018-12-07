@@ -22,8 +22,6 @@ class SigninScene extends eui.Component implements eui.UIComponent {
 
     protected childrenCreated(): void {
         super.childrenCreated();
-        this.verticalCenter = 0;
-        this.horizontalCenter = 0;
         this.qiandao_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.Signin, this)
         this.qiandao_btn_signed.addEventListener(egret.TouchEvent.TOUCH_TAP, this.closeScene, this)
         this.close_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.closeScene, this)
