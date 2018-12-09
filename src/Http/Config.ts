@@ -9,9 +9,9 @@ class Config{
     public static imgServer = "http://m.guoss.net/gssmanage/"
 
     //测试线上的web主页，正式版去除test
-    public static webHome = "http://www.guoss.net/test/wefruitmall/"
+    public static webHome = "http://www.guoss.net/wefruitmall/"
 
-    public static socketHome = "ws://www.guoss.net/test_gsswe/websocket"
+    public static socketHome = "ws://www.guoss.net/gsswe/websocket"
 
     public static projectName = '/gsswe';// /roadshow  线上配置 空字符
     public static homeServer = location.protocol + '//' + location.host+ Config.projectName;

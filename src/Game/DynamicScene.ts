@@ -380,7 +380,7 @@ class dynList_item extends eui.ItemRenderer {
 			return "水滴"
 		}
 		else if (data == 1) {
-			return "道具"
+			return "果篮"
 		}
 		else if (data == 2) {
 			return "爱心值"
