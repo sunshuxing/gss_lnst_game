@@ -126,8 +126,8 @@ class SigninScene extends eui.Component implements eui.UIComponent {
         }
         let day = new Date();
         let flag = false;
-        let yesterday = new Date(day.getFullYear() + "/" + (day.getMonth() + 1) + "/" + (day.getUTCDate() - 1))
-        let today = new Date(day.getFullYear() + "/" + (day.getMonth() + 1) + "/" + (day.getUTCDate()))
+        let yesterday = new Date(day.getFullYear() + "/" + (day.getMonth() + 1) + "/" + (day.getDate() - 1))
+        let today = new Date(day.getFullYear() + "/" + (day.getMonth() + 1) + "/" + (day.getDate()))
         let hasData = this.qiandao_data.data ? true : false;    //是否从来没有签到过
         let lastSignDay = hasData ? (new Date(this.qiandao_data.data.lastSignDay.split(" ")[0].replace(new RegExp(/-/gm), "/")).getTime()) : null; //最后签到时间的时间戳 如果没有则是null
         let todaySigned = hasData && (lastSignDay == today.getTime());     //判断当天是否已经签到
