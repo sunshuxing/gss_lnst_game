@@ -61,7 +61,7 @@ class HuafeiScene extends eui.Component implements eui.UIComponent{
             else{
                 let prompt = new PromptHuafei();
                 let tishi = "(使用"+this.gethuafei(Help.getOwnData().stageObj.fitFeritilizer)+"能使小树更快生长!)"
-                let label = "使用的化肥不适合当前阶段";
+                let label = "该化肥不是最佳施用阶段";
                 let btn = "使用"
                 prompt.x = 85;
                 prompt.y = 430;
@@ -158,7 +158,6 @@ class HuafeiScene extends eui.Component implements eui.UIComponent{
         this.shuirong_num.text = Help.getPropById(Data.data,6)?Help.getPropById(Data.data,6).num:0;
         let huafeiNum = Number(Help.getPropById(Data.data, 4) ? Help.getPropById(Data.data, 4).num : 0)+Number(Help.getPropById(Data.data, 5) ? Help.getPropById(Data.data, 5).num : 0)+Number(Help.getPropById(Data.data, 6) ? Help.getPropById(Data.data, 6).num : 0);
 		SceneManager.sceneManager.mainScene.huafei_red.visible = false;
-        console.log(Data,"自己道具数据")
 	}
 
 

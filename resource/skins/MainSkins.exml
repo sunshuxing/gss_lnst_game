@@ -21,7 +21,7 @@
 
 	</e:Group>
 	<e:Group width="74" height="28.79" x="213" y="865" anchorOffsetY="0" anchorOffsetX="0">
-		<e:Label id="tree_name" bold="true" y="3.0900000000001455" anchorOffsetX="0" anchorOffsetY="0" fontFamily="SimHei" textColor="0x7a6934" size="24" includeIn="havetree,friendtree" textAlign="center" text="" scaleX="1" scaleY="1" horizontalCenter="0"/>
+		<e:Label id="tree_name" bold="true" y="3.61" anchorOffsetX="0" anchorOffsetY="0" fontFamily="SimHei" textColor="0x7a6934" size="24" includeIn="havetree,friendtree" textAlign="center" text="" scaleX="1" scaleY="1" horizontalCenter="0"/>
 	</e:Group>
 
 
@@ -53,6 +53,7 @@
 	</e:Group>-->
 	<e:Image height="144" bottom="0" left="0" right="0" includeIn="havetree,friendtree" source="friend-bg" anchorOffsetY="0"/>
 	<e:Image width="164" height="144" bottom="0" left="0" includeIn="havetree,friendtree" source="friend-bg" anchorOffsetY="0"/>
+	<e:Image id="share_friend" x="601.38" y="665.66" anchorOffsetX="0" anchorOffsetY="0" includeIn="havetree" source="sharefriend" visible="false"/>
 	<e:Group id="self_tree" width="96" height="124" anchorOffsetX="0" anchorOffsetY="0" x="32" y="1213" includeIn="havetree,friendtree">
 		<e:Image width="96" height="96" y="-3" x="-3" source="friendbg" includeIn="havetree,friendtree" source.havetree="friendbgy" source.friendtree="friendbg"/>
 		<e:Image id="user_icon" mask="{icon_mask}" width="90" height="90" top="0" left="0" source=""/>
@@ -89,7 +90,7 @@
 
 	<e:Group id="gro_tree" width="415" height="389" x="190" y="503" anchorOffsetY="0" anchorOffsetX="0" locked="true"/>
 	<e:Group id="gro_prop" width="750" height="1344" x="0" y="0" anchorOffsetY="0" anchorOffsetX="0" includeIn="havetree,friendtree" locked="true"/>
-	<e:Group id="gro_love" width="103.03" height="81" x="606.49" y="806" includeIn="havetree,friendtree" anchorOffsetX="0" y.friendtree="1074" x.friendtree="5.09" locked="true">
+	<e:Group id="gro_love" width="103.03" height="81" x="606.49" y="847.27" includeIn="havetree,friendtree" anchorOffsetX="0" y.friendtree="1074" x.friendtree="5.09">
 		<e:Image id="img_love" x="60" y="47" source="love" anchorOffsetX="60" anchorOffsetY="59"/>
 		<e:Label id="love_num" fontFamily="Microsoft YaHei" y="35.05" x="27.29" width="65.67" textAlign="center" textColor="0xffffff" size="22" anchorOffsetX="0" anchorOffsetY="0" height="20.67"/>
 	</e:Group>

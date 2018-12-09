@@ -80,6 +80,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private distribution: eui.Label;
 	public huafei_red: eui.Rect;
 	private guide_img: eui.Image;
+	private share_friend:eui.Image;
 
 
 	/**
@@ -118,6 +119,8 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		this.img2.scrollRect = new egret.Rectangle(0, 0, 50, 50);
 		this.img1_bg.scrollRect = new egret.Rectangle(0, 0, 50, 50);
 		this.img2_bg.scrollRect = new egret.Rectangle(0, 0, 50, 50);
+		this.img1_bg.cacheAsBitmap = true;
+		this.img2_bg.cacheAsBitmap = true;
 		this.gro_top.y = this.height - SceneManager.instance._stage.height;
 		this.gro_top.touchThrough = true;
 		this.BarGroup.touchThrough = true;
@@ -141,7 +144,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		localStorage.setItem("isNewUser", "old")
 	}
 	private onComplete(): void {
-		console.log("onComplete");
 		this.addEventListener(PuticonEvent.PUTGRASS, this.putgrass, this);
 		this.addEventListener(PuticonEvent.PUTINSECT, this.putinsect, this);
 		this.addEventListener(PuticonEvent.LEAVEMSG, this.addBarrageMsg, this);
@@ -159,6 +161,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		this.self_tree.addEventListener(egret.TouchEvent.TOUCH_TAP, this.ToSelfTree, this);
 		this.gro_lq.addEventListener(egret.TouchEvent.TOUCH_TAP, this.lqfast, this);
 		this.pick_hand.addEventListener(egret.TouchEvent.TOUCH_TAP, this.PickFruit, this);
+		this.share_friend.addEventListener(egret.TouchEvent.TOUCH_TAP,this.sharefriend,this)
 		//偷水
 		this.steal_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.toushui, this);
 
@@ -520,7 +523,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 		//添加弹幕头像遮罩
 		bariconmask.x = 7;
-		bariconmask.y = 14;
+		bariconmask.y = 16;
 		bariconmask.width = 46;
 		bariconmask.height = 46;
 		bariconmask.ellipseWidth = 46;
@@ -587,7 +590,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 			//添加弹幕头像遮罩
 			bariconmask.x = 7;
-			bariconmask.y = 14;
+			bariconmask.y = 16;
 			bariconmask.width = 46;
 			bariconmask.height = 46;
 			bariconmask.ellipseWidth = 46;
@@ -649,7 +652,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			else {
 				this.sign_gro.visible = true;
 			}
-			console.log(data, "签到数据")
 		}
 		else {
 			this.sign_gro.visible = true;
@@ -721,11 +723,28 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		if (!addFriend) {
 			SceneManager.instance.weixinUtil.shareData.shareUrl = url + "&addFriend=true"
 		}
+		if (this.gameTreedata && Number(this.gameTreedata.friendCanObtain) > 0) {
+			SceneManager.instance.weixinUtil.shareData.titles = "【果实熟了】快来、快来帮我摘水果。"
+			SceneManager.instance.weixinUtil.shareData.describes = "离免费收获一箱水果，只差最后一步啦！"
+		} else {
+			SceneManager.instance.weixinUtil.shareData.titles = "【果说说农场】邀请你一起种水果，亲手种，免费送到家"
+			SceneManager.instance.weixinUtil.shareData.describes = "种上一棵树，经营一座农场，开启舌尖上的旅行--果说说"
+		}
+		SceneManager.instance.weixinUtil._openShare();
+	}
+
+
+	private sharefriend(){
+		SceneManager.addJump();
+		let url = SceneManager.instance.weixinUtil.shareData.shareUrl
+		let addFriend = MyRequest.geturlstr("addFriend", url)
+		if (!addFriend) {
+			SceneManager.instance.weixinUtil.shareData.shareUrl = url + "&addFriend=true"
+		}
 		SceneManager.instance.weixinUtil.shareData.titles = "【果实熟了】快来、快来帮我摘水果。"
 		SceneManager.instance.weixinUtil.shareData.describes = "离免费收获一箱水果，只差最后一步啦！"
 		SceneManager.instance.weixinUtil._openShare();
 	}
-
 	/**
 	 * 沒有果樹
 	 */
@@ -738,7 +757,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	//查询可领取果树成功
 	private requestGetTree(data): void {
 		var treedata = data;
-		console.log(treedata.data, "领取果树信息")
 		let euiArr: eui.ArrayCollection = new eui.ArrayCollection(treedata.data);
 
 		this.list_seed.dataProvider = euiArr;
@@ -797,7 +815,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	//获取种子成功
 	private requestreceiveTree(data): void {
 		var Data = data;
-		console.log(Data)
 		this.setState("havetree");
 		this.getOwnTree();
 		let baoxiang = new BaoxiangScene();
@@ -827,7 +844,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			this.cloud2.visible = true;
 			this.cloud3.visible = true;
 		}
-		console.log("数据", data);
 		if (this.currentState == "havetree") {
 			this.gro_love.touchEnabled = true;
 			this.gro_love.touchChildren = true;
@@ -977,6 +993,12 @@ class MainScene extends eui.Component implements eui.UIComponent {
 					this.loadLeaveMsg = false;
 					this.getLeaveMsgTemplate()
 				}
+				if(Number(treedata.data.friendCanObtain)>0){
+					this.share_friend.visible = true;
+				}
+				else{
+					this.share_friend.visible = false;
+				}
 			}
 		}
 		else {
@@ -1011,7 +1033,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	//查询自己的道具成功后处理
 	private Req_getOwnProp(data): void {
 		var Data = data;
-		console.log(Data, "自己道具数据")
 		let loveNum = Help.getPropById(Data.data, 2) ? Help.getPropById(Data.data, 2).num : "0"
 		//显示自己道具数值
 		this.love_num.textFlow = <Array<egret.ITextElement>>[					//爱心值数量
@@ -1069,7 +1090,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		this.gro_prop.removeChildren();
 		var Data = data;
 		this.showtreeprop(Data.data);					//显示虫和草
-		console.log(Data, "果园数据")
 	}
 
 
@@ -1086,7 +1106,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private Req_getTreeLanguage(data): void {
 		var Data = data;
 		this.treelanguagedata = Data.data
-		console.log(this.treelanguagedata, "树语数据")
 	}
 
 
@@ -1122,7 +1141,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		if(!reload){
 			this.info1scr();
 		}
-		console.log(Data, "顶部消息数据")
 	}
 
 	private hasTopMsg = true;
@@ -1146,7 +1164,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			//如果第一页都没有数据，就是没数据
 			this.hasSysMsg = false;
 		}
-		console.log(Data, "系统消息数据")
 		if(!reload){
 			this.getTopMsg();
 		}
@@ -1163,7 +1180,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private Req_getFriends(data): void {
 		var Data = data;
 		this.friendList = Data.data;
-		console.log(Data, "好友列表数据")
 		let friend_data = Data.data;
 		let friend_user = []
 		for (let i = 0; i < friend_data.length; i++) {
@@ -1175,7 +1191,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			};
 			MyRequest._post("manage/image/getWechatImg", params, this, this.Req_getWechatImg.bind(this), this.onGetIOError, true);
 		}
-		console.log(friend_user, "好友用户id数据")
 	}
 	private Req_getWechatImg(data) {
 		Help.savefriendIcon(data.data);
@@ -1290,9 +1305,13 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			text = text.substring(0, text.length - 1)
 			this.love_num.text = (String(Number(text) + Number(Data.data.loveCount))) + "%"
 		} else {
-			SceneManager.addNotice("清除成功,每日爱心值已达上限！")
+			if(this.gameTreedata.id == Help.getOwnData().id){
+				SceneManager.addNotice("清除成功")
+			}
+			else{
+				SceneManager.addNotice("清除成功,每日爱心值已达上限！")
+			}
 		}
-		console.log(Data, "除去果园道具数据")
 	}
 
 	private canPost = true;
@@ -1343,6 +1362,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			this.kettleTwn();			//使用水滴之后更新在动画中完成
 		}
 		else if (propId == 2) {
+			egret.Tween.removeTweens(this.img_love);
 			Help.useLoveTwn();
 			// let content = "您的爱心值已兑换成长值！"
 			// let btn = "确定"
@@ -1356,7 +1376,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		else {
 			this.getOwnTree();
 		}
-		console.log("使用道具消息:", Data)
 	}
 
 	private pickafter() {
@@ -1424,7 +1443,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			.to({ y: -130, rotation: 0 }, 500)
 			.to({ y: 80, x: 100 }, 500)
 		this.getTreeInfoByid(this.gameTreedata.id)
-		console.log("好友浇水数据:", Data)
 		let text: string = this.love_num.text;
 		text = text.substring(0, text.length - 1);
 		this.love_num.text = (String(Number(text) + Number(data.data.loveCount))) + "%";
@@ -1442,7 +1460,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 	private Req_getTreeInfo(data): void {
 		if (data) {
-			if (data.data.friendCanObtain > 0) {
+			if (Number(data.data.friendCanObtain) > 0) {
 				this.checkHelpTakeFruit(data.data.id);
 			}
 			else {
@@ -1453,7 +1471,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			var Data = data;
 			Help.saveTreeUserData(Data.data);
 			SceneManager.addtreePrompt("欢迎来到我的农场！")
-			console.log("果树数据:", Data.data)
 			this.init(Data.data);
 		}
 	}
@@ -1495,7 +1512,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		text = text.substring(0, text.length - 1);
 		this.love_num.text = (String(Number(text) + Number(data.data.loveCount))) + "%";
 		this.getTreeInfoByid(this.gameTreedata.id);
-		console.log(data, "帮摘果")
 	}
 
 	//偷水请求	stealUser：被偷的用户    treeUserId：用户果树id

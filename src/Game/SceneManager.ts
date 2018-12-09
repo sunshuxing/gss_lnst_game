@@ -195,10 +195,13 @@ class SceneManager {
     // }
 
     public static treetimer:egret.Timer = new egret.Timer(3000,1);
-    private static treeprompt:TreePrompt = new TreePrompt();
+    private static treeprompt:TreePrompt
     public static treepromptgro:eui.Group = new eui.Group();
 
     static addtreePrompt(info: string){
+        if(!this.treeprompt){
+            this.treeprompt = new TreePrompt();
+        }
         this.treepromptgro.width = 750;
         this.treepromptgro.height = 1344;
         this.treepromptgro.touchThrough = true;

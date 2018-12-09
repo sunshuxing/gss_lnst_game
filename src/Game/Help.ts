@@ -75,7 +75,6 @@ class Help{
 
     public static pushInfoarr(arr,Infoarr:any[]){
         for(let i=0;i<arr.length;i++){
-            console.log(i);
             Infoarr.push(arr[i]);
         }
         return Infoarr;
@@ -369,6 +368,7 @@ class Help{
         .to({x:615,y:730},500)
         .to({x:306,y:1138,scaleY:0.5,scaleX:0.5},1200).call(
             ()=>{SceneManager.sceneManager.mainScene.removeChild(img_love);
+                 SceneManager.addNotice("已成功兑换成长值");
                  SceneManager.sceneManager.mainScene.getOwnTree();
                  SceneManager.sceneManager.mainScene.enabled = true;},this); 
     }

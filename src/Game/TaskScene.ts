@@ -180,7 +180,6 @@ class TaskScene extends eui.Component implements eui.UIComponent {
                 func(hasFinish)
             }
         }
-        console.log("构建数据", this.taskdata)
         this.init();//构建好数据后初始化
     }
     private canPost = true;
@@ -417,7 +416,15 @@ class taskList_item extends eui.ItemRenderer {
                 break;
             case 'Invitation_friend': {
                 SceneManager.instance.taskScene.dispatchEventWith(MaskEvent.REMOVED_FROM_STAGE)   //使用manager获取场景并触发事件
-                this.tojump(true)
+                this.tojump(true);
+                if (Help.getOwnData() && Number(Help.getOwnData().friendCanObtain) > 0) {
+                    SceneManager.instance.weixinUtil.shareData.titles = "【果实熟了】快来、快来帮我摘水果。"
+                    SceneManager.instance.weixinUtil.shareData.describes = "离免费收获一箱水果，只差最后一步啦！"
+                } else {
+                    SceneManager.instance.weixinUtil.shareData.titles = "【果说说农场】邀请你一起种水果，亲手种，免费送到家"
+                    SceneManager.instance.weixinUtil.shareData.describes = "种上一棵树，经营一座农场，开启舌尖上的旅行--果说说"
+                }
+                SceneManager.instance.weixinUtil._openShare();
             }
                 break;
             case 'share_orchard': {

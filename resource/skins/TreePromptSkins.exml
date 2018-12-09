@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="TreePromptSkins" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
 	<e:Group width="100%" height="100%" x="0" y="0">
-		<e:Image id="background" y="0" anchorOffsetX="0" source="treeprobg1" x="0" scaleX="1" scaleY="1" width="100%" scale9Grid="16,11,25,40"/>
-		<e:Image id="background2" source="treeprobg2" scaleX="1" scaleY="1" y="60" horizontalCenter="0"/>
-		<e:Label id="tree_label" text="同一阿斯兰的看见啊" y="18" anchorOffsetX="0" verticalAlign="middle" textAlign="center" size="24" fontFamily="Microsoft YaHei" horizontalCenter="0" textColor="0x832201" x="0" scaleX="1" scaleY="1" lineSpacing="10"/>
+		<e:Image id="background" y="0" anchorOffsetX="0" source="treeprobg1" x="0" scaleX="1" scaleY="1" width="100%" scale9Grid="19,11,22,40"/>
+		<e:Image id="background2" source="treeprobg2" scaleX="1" scaleY="1" y="62" horizontalCenter="0"/>
+		<e:Label id="tree_label" text="" y="18" anchorOffsetX="0" verticalAlign="middle" textAlign="center" size="28" fontFamily="Microsoft YaHei" horizontalCenter="0" x="0" scaleX="1" scaleY="1" lineSpacing="10" textColor="0x1f6436"/>
 		<e:layout>
 			<e:BasicLayout/>
 		</e:layout>

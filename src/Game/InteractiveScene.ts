@@ -48,7 +48,6 @@ class InteractiveScene extends eui.Component implements eui.UIComponent{
 	private Req_getLeaveMsgTemplate(data):void{
 		var Data = data;
         this.UpdateTemplate(Data.data);
-		console.log(Data,"留言模板数据")
 	}
 
     //留言        //treeUserId 用户果树id   templateId 留言模板id
@@ -66,7 +65,6 @@ class InteractiveScene extends eui.Component implements eui.UIComponent{
         let evt:PuticonEvent = new PuticonEvent(PuticonEvent.LEAVEMSG);
         evt.templateId = templeteId;
         SceneManager.sceneManager.mainScene.dispatchEvent(evt);
-		console.log(Data,"留言")
 	}
 
     //点击留言列表事件
@@ -124,7 +122,6 @@ class InteractiveScene extends eui.Component implements eui.UIComponent{
 		var Data = data;
         this.parent.dispatchEvent(PutType);
         this.closeScene()
-		console.log(Data,"放置果园道具数据")
 	}
 
     //添加弹幕

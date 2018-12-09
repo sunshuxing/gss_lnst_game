@@ -21,7 +21,7 @@ class TreePrompt extends eui.Component implements eui.UIComponent{
     }
 
 	public setPrompt(content){
-		this.tree_label.maxWidth = 240;
+		this.tree_label.maxWidth = 340;
 		this.tree_label.text = content;
 		this.width = this.tree_label.width + 40;
 		this.background.height = this.tree_label.height+40;

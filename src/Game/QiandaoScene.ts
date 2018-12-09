@@ -45,7 +45,6 @@ class SigninScene extends eui.Component implements eui.UIComponent {
     private Req_SignIn(data): void {
         SceneManager.sceneManager.mainScene.sign_gro.visible = false;
         var Data = data;
-        console.log(Data, "签到数据")
         if (Data.status == 0) {
             if (!this.qiandao_data.data) {
                 this.renderingInit(0)
@@ -75,7 +74,6 @@ class SigninScene extends eui.Component implements eui.UIComponent {
             SceneManager.addNotice("签到成功！获得" + data.propName + data.propNum + info, 2000);
             let evt:PuticonEvent = new PuticonEvent(PuticonEvent.TASKFINSHED);
             SceneManager.instance.mainScene.dispatchEvent(evt)
-            this.closeScene();
         }
         else {
             console.log(Data, "错误")
@@ -90,7 +88,6 @@ class SigninScene extends eui.Component implements eui.UIComponent {
     //查询签到奖励规则成功的处理
     private Req_getSignReward(data): void {
         var Data = data;
-        console.log(Data, "签到奖励数据")
     }
 
 

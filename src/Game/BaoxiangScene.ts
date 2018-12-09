@@ -26,7 +26,6 @@ class BaoxiangScene extends eui.Component implements eui.UIComponent{
 	}
 
 	public seticon(data){
-		console.log(data,"道具数据")
 		var Data = data.data
 		for(let i=0;i<Data.length;i++){
 			if(Data[i].id == 1){
