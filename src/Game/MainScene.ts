@@ -348,7 +348,10 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			let info = ""
 			if (this.infodata[this.n].type == "0") {
 				info = userName + "的" + treeName + stageName + "了！"
-			} else {
+			}else if(this.infodata[this.n].type == "100"){
+				info = userName + "的" + treeName + "正在配送！"
+			}
+			else if(this.infodata[this.n].type == "1"){
 				info = userName + "领取了" + treeName + "！"
 			}
 			if (systemEmpty && this.onlyFlag) {//如果为空，则使用系统的框来循环
