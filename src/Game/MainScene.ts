@@ -425,6 +425,10 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		if (this.sysinfodata && this.sysinfodata.length > 0) {
 			if (this.m >= this.sysinfodata.length) {
 				this.m = 0;
+				if (this.hasSysMsg) {
+					this.getSystemMsg(true)
+				}
+				return
 			}
 			this.img2.texture = RES.getRes("gamelogo")
 			this.str2.text = Help.getcharlength(this.sysinfodata[this.m].title, 12);
