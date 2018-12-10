@@ -248,12 +248,18 @@ class dynList_item extends eui.ItemRenderer {
 			}
 		}
 		else if (this.data.type == 4) {
+			let info = ""
+			if (Number(this.data.num) > 0) {
+				info = "帮你的小树浇了" + this.data.num + "g水"
+			} else {
+				info = "来帮你浇水啦，每日帮浇水已达上限，没有获得成长值哦"
+			}
 			this.dyn_toother.visible = true;
 			this.dyn_icon.texture = RES.getRes("dyn-bf-icon");
 			this.dyn_bg.texture = RES.getRes("dyn-bf-bg");
 			this.dyn_label.textFlow = Array<egret.ITextElement>(
 				{ text: Help.getcharlength(this.data.mainUserName, 4), style: { "href": "event:" + this.data.mainUser, "underline": true } }
-				, { text: "帮你的小树浇了10g水" }
+				, { text: info }
 			);
 			this.dyn_des.text = "拜访TA";
 			if (this.data.mainUserIcon) {
@@ -348,9 +354,9 @@ class dynList_item extends eui.ItemRenderer {
 			this.dyn_bg.texture = RES.getRes("dyn-dd-bg");
 			let info = ""
 			if (this.data.num > 0) {
-				info = "帮你摘了" + this.data.num + "个果子哦!";
+				info = "帮你摘了" + this.data.num + "个果子哦";
 			} else {
-				info = "手气不佳，没有帮您摘到果子哦！"
+				info = "手气不佳，没有帮您摘到果子哦"
 			}
 			this.dyn_label.textFlow = Array<egret.ITextElement>(
 				{ text: Help.getcharlength(this.data.mainUserName, 4), style: { "href": "event:" + this.data.mainUser, "underline": true } }
