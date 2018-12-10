@@ -71,6 +71,10 @@
 		<e:Image width="80" height="80" x="27" y="16" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1" source="addfriend"/>
 		<e:Label text="添加好友" y="96" anchorOffsetY="0" left="0" right="0" height="44" verticalAlign="middle" textAlign="center" size="24" fontFamily="Microsoft YaHei"/>
 	</e:Group>
+	<e:Group id="gro_love" width="103.03" height="81" x="606.49" y="847.27" includeIn="havetree,friendtree" anchorOffsetX="0" y.friendtree="1074" x.friendtree="5.09">
+		<e:Image id="img_love" x="60" y="47" source="love" anchorOffsetX="60" anchorOffsetY="59"/>
+		<e:Label id="love_num" fontFamily="Microsoft YaHei" y="35.05" x="27.29" width="65.67" textAlign="center" textColor="0xffffff" size="22" anchorOffsetX="0" anchorOffsetY="0" height="20.67"/>
+	</e:Group>
 	<e:Group id="gro_kettle" width="170" height="157.33" y="986" anchorOffsetY="0" anchorOffsetX="0" right="26" includeIn="havetree">
 		<e:Image x="40" y="45" source="kettlebg"/>
 		<e:Image id="img_kettle" x="102" y="85" anchorOffsetX="70" anchorOffsetY="58" source="kettle"/>
@@ -90,10 +94,7 @@
 
 	<e:Group id="gro_tree" width="415" height="389" x="190" y="503" anchorOffsetY="0" anchorOffsetX="0" locked="true"/>
 	<e:Group id="gro_prop" width="750" height="1344" x="0" y="0" anchorOffsetY="0" anchorOffsetX="0" includeIn="havetree,friendtree" locked="true"/>
-	<e:Group id="gro_love" width="103.03" height="81" x="606.49" y="847.27" includeIn="havetree,friendtree" anchorOffsetX="0" y.friendtree="1074" x.friendtree="5.09">
-		<e:Image id="img_love" x="60" y="47" source="love" anchorOffsetX="60" anchorOffsetY="59"/>
-		<e:Label id="love_num" fontFamily="Microsoft YaHei" y="35.05" x="27.29" width="65.67" textAlign="center" textColor="0xffffff" size="22" anchorOffsetX="0" anchorOffsetY="0" height="20.67"/>
-	</e:Group>
+
 	<e:Image id="pick_hand" x="462" y="630" source="pickhand" visible="false"/>
 	<e:Label id="pick_label" text="可摘果" x="460" y="736" fontFamily="SimHei" size="32" bold="true" textColor="0xffffff" visible="false"/>
 	<e:ProgressBar id="progress" width="350.78" height="49.65" y="1021.46" skinName="ProgressSkins" includeIn="havetree,friendtree" x="209.94" anchorOffsetX="0" anchorOffsetY="0"/>

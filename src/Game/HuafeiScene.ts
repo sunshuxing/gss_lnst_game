@@ -29,20 +29,20 @@ class HuafeiScene extends eui.Component implements eui.UIComponent{
 
     private useyouji(){
         if(Number(this.youji_num.text) >= 1){
-            if(Help.getOwnData().stageObj.fitFeritilizer == 4){
+            // if(Help.getOwnData().stageObj.fitFeritilizer == 4){
                 this.useProp(4,1);
-            }
-            else{
-                let prompt = new PromptHuafei();
-                let tishi = "(使用"+this.gethuafei(Help.getOwnData().stageObj.fitFeritilizer)+"能使小树更快生长!)";
-                let label = "使用的化肥不适合当前阶段";
-                let btn = "使用"
-                prompt.x = 85;
-                prompt.y = 430;
-                prompt.setUse(1);
-                prompt.setPrompt(label,tishi,btn);                
-                SceneManager.sceneManager._stage.addChild(prompt);
-            }
+            // }
+            // else{
+            //     let prompt = new PromptHuafei();
+            //     let tishi = "(使用"+this.gethuafei(Help.getOwnData().stageObj.fitFeritilizer)+"能使小树更快生长!)";
+            //     let label = "使用的化肥不适合当前阶段";
+            //     let btn = "使用"
+            //     prompt.x = 85;
+            //     prompt.y = 430;
+            //     prompt.setUse(1);
+            //     prompt.setPrompt(label,tishi,btn);                
+            //     SceneManager.sceneManager._stage.addChild(prompt);
+            // }
         }
         else{
             this.colseScene()
@@ -55,20 +55,20 @@ class HuafeiScene extends eui.Component implements eui.UIComponent{
 
     private usefuhe(){
         if(Number(this.fuhe_num.text) >= 1){
-            if(Help.getOwnData().stageObj.fitFeritilizer == 5){
+            // if(Help.getOwnData().stageObj.fitFeritilizer == 5){
                 this.useProp(5,2);
-            }
-            else{
-                let prompt = new PromptHuafei();
-                let tishi = "(使用"+this.gethuafei(Help.getOwnData().stageObj.fitFeritilizer)+"能使小树更快生长!)"
-                let label = "该化肥不是最佳施用阶段";
-                let btn = "使用"
-                prompt.x = 85;
-                prompt.y = 430;
-                prompt.setUse(2);
-                prompt.setPrompt(label,tishi,btn);
-                SceneManager.sceneManager._stage.addChild(prompt)
-            }
+        //     }
+        //     else{
+        //         let prompt = new PromptHuafei();
+        //         let tishi = "(使用"+this.gethuafei(Help.getOwnData().stageObj.fitFeritilizer)+"能使小树更快生长!)"
+        //         let label = "该化肥不是最佳施用阶段";
+        //         let btn = "使用"
+        //         prompt.x = 85;
+        //         prompt.y = 430;
+        //         prompt.setUse(2);
+        //         prompt.setPrompt(label,tishi,btn);
+        //         SceneManager.sceneManager._stage.addChild(prompt)
+        //     }
         }
         else{
             this.colseScene()
@@ -81,20 +81,20 @@ class HuafeiScene extends eui.Component implements eui.UIComponent{
 
     private useshuirong(){
         if(Number(this.shuirong_num.text) >= 1){
-            if(Help.getOwnData().stageObj.fitFeritilizer == 6){
+            // if(Help.getOwnData().stageObj.fitFeritilizer == 6){
                 this.useProp(6,3);
-            }
-            else{
-                let prompt = new PromptHuafei();
-                let tishi = "(使用"+this.gethuafei(Help.getOwnData().stageObj.fitFeritilizer)+"能使小树更快生长!)"
-                let label = "使用的化肥不适合当前阶段";
-                let btn = "使用"
-                prompt.x = 85;
-                prompt.y = 430;
-                prompt.setUse(3);
-                prompt.setPrompt(label,tishi,btn);
-                SceneManager.sceneManager._stage.addChild(prompt);
-            }
+            // }
+            // else{
+            //     let prompt = new PromptHuafei();
+            //     let tishi = "(使用"+this.gethuafei(Help.getOwnData().stageObj.fitFeritilizer)+"能使小树更快生长!)"
+            //     let label = "使用的化肥不适合当前阶段";
+            //     let btn = "使用"
+            //     prompt.x = 85;
+            //     prompt.y = 430;
+            //     prompt.setUse(3);
+            //     prompt.setPrompt(label,tishi,btn);
+            //     SceneManager.sceneManager._stage.addChild(prompt);
+            // }
         }
          else{
             this.colseScene()

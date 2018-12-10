@@ -95,7 +95,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	//好友果园
 	private hudong_btn: eui.Image;			//互动按钮
 	private friendUser: string;				//好友
-	private timer: egret.Timer = new egret.Timer(17000, 1);		//计时器
 
 	// private webSocket:egret.WebSocket; 	//网络连接
 	private n = 0;
@@ -361,7 +360,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 				let params = {
 					users: this.infodata[this.n].mainUser
 				}
-				MyRequest._post("manage/image/getWechatImg", params, this, this.Req_WechatImg.bind(this, this.infodata[this.n].mainUser, this.img2), this.onGetIOError, true);
+				MyRequest._post("game/getWechatImg", params, this, this.Req_WechatImg.bind(this, this.infodata[this.n].mainUser, this.img2), this.onGetIOError);
 				this.n++;
 				this.str2.text = Help.getcharlength(info, 12);
 				var rect: egret.Rectangle = this.str2.scrollRect;
@@ -389,7 +388,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 				let params = {
 					users: this.infodata[this.n].mainUser
 				}
-				MyRequest._post("manage/image/getWechatImg", params, this, this.Req_WechatImg.bind(this, this.infodata[this.n].mainUser, this.img1), this.onGetIOError, true);
+				MyRequest._post("game/getWechatImg", params, this, this.Req_WechatImg.bind(this, this.infodata[this.n].mainUser, this.img1), this.onGetIOError);
 				this.str1.text = Help.getcharlength(info, 12);
 				this.n++;
 				var rect: egret.Rectangle = this.str1.scrollRect;
@@ -517,7 +516,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			let params = {
 				users: data.user
 			}
-			MyRequest._post("manage/image/getWechatImg", params, this, this.Req_WechatImg.bind(this, data.user, barragicon), this.onGetIOError, true);
+			MyRequest._post("game/getWechatImg", params, this, this.Req_WechatImg.bind(this, data.user, barragicon), this.onGetIOError);
 		}
 		barragegroup.addChild(barragicon);
 
@@ -543,9 +542,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 		//弹幕飘动
 		egret.Tween.get(barragegroup)
-			.to({ x: -430 }, 8000)
-		this.timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, this.removeBarrage, this);
-		this.timer.start();
+			.to({ x: -430 }, 8000).call(()=>{this.BarGroup.removeChild(barragegroup)},this)
 	}
 
 
@@ -579,12 +576,11 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			barragicon.y = 16;
 			barragicon.width = 46;
 			barragicon.height = 46;
-			// barragicon.texture = RES.getRes(TestData.leaveMsgUserdata[i].mainUserIcon);
 			if (dataList[i].mainUserIcon) {
 				let params = {
 					users: dataList[i].mainUser
 				}
-				MyRequest._post("manage/image/getWechatImg", params, this, this.Req_WechatImg.bind(this, dataList[i].mainUser, barragicon), this.onGetIOError, true);
+				MyRequest._post("game/getWechatImg", params, this, this.Req_WechatImg.bind(this, dataList[i].mainUser, barragicon), this.onGetIOError);
 			}
 			barragegroup.addChild(barragicon);
 
@@ -602,7 +598,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			barragetext.x = 78;
 			barragetext.y = 28;
 			barragetext.size = 24;
-			// barragetext.text = TestdataHelp.getleaveMsgById(TestData.leaveMsgUserdata[i].templateId);
 			barragetext.text = this.getLeaveMsgByTemplateId(dataList[i].templateId)
 			barragetext.textColor = 0x0F3B00;
 			barragetext.fontFamily = "SimHei";
@@ -613,11 +608,9 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			if (barragegroup) {
 				egret.Tween.get(barragegroup)
 					.wait(i * 3000)
-					.to({ x: -430 }, 8000)
+					.to({ x: -430 }, 8000).call(()=>{this.BarGroup.removeChild(barragegroup);console.log("1")},this)
 			}
 		}
-		this.timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, this.removeBarrage, this);
-		this.timer.start();
 	}
 
 	/**
@@ -663,7 +656,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 	//移除弹幕容器
 	private removeBarrage() {
-		this.timer.reset()
 		this.BarGroup.removeChildren()
 	}
 
@@ -959,7 +951,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 				let params = {
 					users: treedata.data.user
 				}
-				MyRequest._post("manage/image/getWechatImg", params, this, this.Req_WechatImg.bind(this, treedata.data.user, this.user_icon), this.onGetIOError, true);
+				MyRequest._post("game/getWechatImg", params, this, this.Req_WechatImg.bind(this, treedata.data.user, this.user_icon), this.onGetIOError);
 				if (treedata.data.stageObj.canHarvest == "true") {
 					this.progress1.maximum = treedata.data.exchangeNum;							//装箱需要的果子总数
 					this.progress1.minimum = 0;
@@ -1008,7 +1000,14 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	}
 
 	private Req_WechatImg(icon, image: eui.Image, data) {
-		let imgUrl = Config.picurl + data.data[icon];
+		if(!data){
+			return;
+		}
+		data = data.data;
+		if( data && typeof data === "string"){
+			data = JSON.parse(data)
+		}
+		let imgUrl = Config.picurl + data[icon];
 		HttpRequest.imageloader(imgUrl, image);
 	}
 
@@ -1181,19 +1180,28 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		var Data = data;
 		this.friendList = Data.data;
 		let friend_data = Data.data;
+		
 		let friend_user = []
 		for (let i = 0; i < friend_data.length; i++) {
 			friend_user.push(friend_data[i].friendUser)
 		}
 		if (friend_user && friend_user.length > 0) {
+			
 			let params = {
 				users: friend_user.join(",")
 			};
-			MyRequest._post("manage/image/getWechatImg", params, this, this.Req_getWechatImg.bind(this), this.onGetIOError, true);
+			MyRequest._post("game/getWechatImg", params, this, this.Req_getWechatImg.bind(this), this.onGetIOError);
 		}
 	}
 	private Req_getWechatImg(data) {
-		Help.savefriendIcon(data.data);
+		if(!data){
+			return;
+		}
+		data = data.data;
+		if( data && typeof data === "string"){
+			data = JSON.parse(data)
+		}
+		Help.savefriendIcon(data);
 		Help.saveUserFriendData(this.friendList);
 		this.friendlistUpdate(this.friendList);
 	}
@@ -1813,7 +1821,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		let params = {
 			users: userId
 		}
-		MyRequest._post("manage/image/getWechatImg", params, this, this.Req_WechatImg.bind(this, userId, this.dynamic_image), this.onGetIOError, true);
+		MyRequest._post("game/getWechatImg", params, this, this.Req_WechatImg.bind(this, userId, this.dynamic_image), this.onGetIOError);
 		var timer: egret.Timer = new egret.Timer(2000, 1);
 		timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, () => {
 			egret.Tween.get(this.dynamic)

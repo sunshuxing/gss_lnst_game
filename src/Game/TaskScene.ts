@@ -265,6 +265,7 @@ class TaskScene extends eui.Component implements eui.UIComponent {
 
 
 class taskList_item extends eui.ItemRenderer {
+    private old_data:any;
     private bg_task: eui.Image;              //任务背景
     private icon_task: eui.Image;            //任务icon
     private name_task: eui.Label;            //任务名称

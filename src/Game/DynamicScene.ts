@@ -64,7 +64,7 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 			let params = {
 				users: dyndata_user.join(",")
 			};
-			MyRequest._post("manage/image/getWechatImg", params, this, this.Req_getWechatImg.bind(this), this.onGetIOError, true);
+			MyRequest._post("game/getWechatImg", params, this, this.Req_getWechatImg.bind(this), this.onGetIOError);
 		}
 		dyndata = this.initData(dyndata)
 		this.scr_dyn.addEventListener(eui.UIEvent.CHANGE_END, this.asdas, this)
@@ -77,7 +77,14 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 	}
 
 	private Req_getWechatImg(data) {
-		Help.savedynIcon(data.data);
+		if(!data){
+			return;
+		}
+		data = data.data;
+		if( data && typeof data === "string"){
+			data = JSON.parse(data)
+		}
+		Help.savedynIcon(data);
 		this.list_dyn.dataProvider = this.euiArr;
 		this.list_dyn.itemRenderer = dynList_item;
 	}

@@ -7,16 +7,12 @@ class MyRequest {
      * _success 请求成功回调事件
      * _err 请求失败回调
      */
-    public static _post(_url: string, _params: Object, _this: Object, _success: Function, _err: Function, loadService?: Boolean): void {
+    public static _post(_url: string, _params: Object, _this: Object, _success: Function, _err: Function): void {
         let request = new egret.HttpRequest();
         let _paramStr = "";
         request.responseType = egret.HttpResponseType.TEXT;
         request.withCredentials = true;
-        if (loadService) {
-            request.open(Config.imgServer + _url, egret.HttpMethod.POST);
-        } else {
-            request.open(Config.wxhttpServer + _url, egret.HttpMethod.POST);
-        }
+        request.open(Config.wxhttpServer + _url, egret.HttpMethod.POST);
         request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
         if (_params) {
             _paramStr = WeixinUtil.prototype.urlEncode(_params, null, null, null)
