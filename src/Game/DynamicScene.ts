@@ -12,12 +12,12 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 	private perNum = 1;
 	private isLastPage = "false";
 	private treeUserId;
-	private euiArr: eui.ArrayCollection = new eui.ArrayCollection();
+	// private euiArr: eui.ArrayCollection = new eui.ArrayCollection();
 
 	protected childrenCreated(): void {
 		super.childrenCreated();
 		this.addEventListener(PuticonEvent.TOFRIEND, this.closeScene, this);
-		this.addEventListener(MaskEvent.INITEUIARR, () => { this.euiArr.removeAll(); this.list_dyn.scrollV = 0; this.perNum = 1 }, this);
+		// this.addEventListener(MaskEvent.INITEUIARR, () => { this.euiArr.removeAll(); this.list_dyn.scrollV = 0; this.perNum = 1 }, this);
 		this.btn_close.addEventListener(egret.TouchEvent.TOUCH_TAP, this.closeScene, this)
 		this.scr_dyn.verticalScrollBar = null;
 		this.scr_dyn.bounces = null;
@@ -25,17 +25,17 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 	}
 
 	private asdas() {
-		if (this.list_dyn.scrollV == this.list_dyn.contentHeight - this.list_dyn.height) {
+		// if (this.list_dyn.scrollV == this.list_dyn.contentHeight - this.list_dyn.height) {
 
-			if (this.isLastPage == "false") {
-				this.perNum = this.perNum + 1;
-				this.searchDynamic(this.treeUserId);
-			}
-			else {
-				this.euiArr.addItem({ state: true, createDate: "2018-11-30 10:41:44" });
-				this.scr_dyn.removeEventListener(eui.UIEvent.CHANGE_END, this.asdas, this);
-			}
-		}
+		// 	if (this.isLastPage == "false") {
+		// 		this.perNum = this.perNum + 1;
+		// 		this.searchDynamic(this.treeUserId);
+		// 	}
+		// 	else {
+		// 		this.euiArr.addItem({ state: true, createDate: "2018-11-30 10:41:44" });
+		// 		this.scr_dyn.removeEventListener(eui.UIEvent.CHANGE_END, this.asdas, this);
+		// 	}
+		// }
 	}
 
 	//查询动态
@@ -44,7 +44,7 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 		let params = {
 			treeUserId: treeUserId,
 			pageNo: this.perNum,
-			numPerPage: 10
+			numPerPage: 10000
 		};
 		MyRequest._post("game/searchDynamic", params, this, this.Req_searchDynamic.bind(this), this.onGetIOError)
 	}
@@ -60,23 +60,21 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 				dyndata_user = this.uniq(dyndata_user);
 			}
 		}
+		dyndata = this.initData(dyndata)
+		this.scr_dyn.addEventListener(eui.UIEvent.CHANGE_END, this.asdas, this)
+		let euiArr = new eui.ArrayCollection(dyndata)
 		if (dyndata_user && dyndata_user.length > 0) {
 			let params = {
 				users: dyndata_user.join(",")
 			};
-			MyRequest._post("game/getWechatImg", params, this, this.Req_getWechatImg.bind(this), this.onGetIOError);
-		}
-		dyndata = this.initData(dyndata)
-		this.scr_dyn.addEventListener(eui.UIEvent.CHANGE_END, this.asdas, this)
-		for (let i = 0; i < dyndata.length; i++) {
-			this.euiArr.addItem(dyndata[i])
+			MyRequest._post("game/getWechatImg", params, this, this.Req_getWechatImg.bind(this,euiArr), this.onGetIOError);
 		}
 		// this.euiArr.addItem({state:true,createDate:"2018-11-30 10:41:44"});
-		this.line.height = this.euiArr.length * 300;
+		this.line.height = euiArr.length * 300;
 		this.isLastPage = Data.data.isLastPage;
 	}
 
-	private Req_getWechatImg(data) {
+	private Req_getWechatImg(euiArr:eui.ArrayCollection,data) {
 		if(!data){
 			return;
 		}
@@ -85,7 +83,8 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 			data = JSON.parse(data)
 		}
 		Help.savedynIcon(data);
-		this.list_dyn.dataProvider = this.euiArr;
+		euiArr.addItem({ state: true, createDate: "2018-11-30 10:41:44" });
+		this.list_dyn.dataProvider = euiArr;
 		this.list_dyn.itemRenderer = dynList_item;
 	}
 
@@ -151,9 +150,9 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 
 	//关闭该场景
 	private closeScene() {
-		this.perNum = 1;
-		this.euiArr.removeAll();
-		this.list_dyn.scrollV = 0;
+		// this.perNum = 1;
+		// this.euiArr.removeAll();
+		// this.list_dyn.scrollV = 0;
 		let Removemask: MaskEvent = new MaskEvent(MaskEvent.REMOVEMASK);
 		this.parent.dispatchEvent(Removemask);
 		SceneManager.toMainScene();
@@ -234,7 +233,7 @@ class dynList_item extends eui.ItemRenderer {
 			this.dyn_bg.texture = RES.getRes("dyn-bf-bg");
 			this.dyn_label.textFlow = Array<egret.ITextElement>(
 				{ text: Help.getcharlength(this.data.mainUserName, 4), style: { "href": "event:" + this.data.mainUser, "underline": true } }
-				, { text: "拜访你的果园" }
+				, { text: "拜访你的农场" }
 			);
 			this.dyn_des.text = "拜访TA";
 			if (this.data.mainUserIcon) {
