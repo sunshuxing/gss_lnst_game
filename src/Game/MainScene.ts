@@ -607,6 +607,14 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			barragetext.fontFamily = "SimHei";
 			barragegroup.addChild(barragetext);
 
+			barragegroup.addEventListener(egret.TouchEvent.TOUCH_TAP,()=>{
+				if(Help.getfriendData() && this.currentState == "havetree"){
+					if(Help.getfriendtreeUseridByUser(dataList[i].mainUser)){
+					this.getTreeInfoByid(Help.getfriendtreeUseridByUser(dataList[i].mainUser));
+					}
+				}
+			},this)
+
 
 			//弹幕飘动
 			if (barragegroup) {
@@ -1207,9 +1215,9 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	//查询好友列表成功后处理
 	private Req_getFriends(data): void {
 		var Data = data;
+		Help.savefriendData(data.data);
 		this.friendList = Data.data;
 		let friend_data = Data.data;
-		
 		let friend_user = []
 		for (let i = 0; i < friend_data.length; i++) {
 			friend_user.push(friend_data[i].friendUser)
@@ -1250,44 +1258,18 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 
 	private toOther(evt: PuticonEvent) {
-		Help.passAnm()
-		this.progress.slideDuration = 0;
-		this.progress.value = 0;
-		SceneManager.treepromptgro.removeChildren();
-		SceneManager.treetimer.reset();
 		var id = evt.userid;
 		this.getTreeInfoByid(id);
+		
 	}
 
 
 	private toOtherTree() {
 		//查询好友果树数据
 		if (this.friend_list.selectedItem.treeUserId != this.gameTreedata.id && this.friend_list.selectedItem.treeUserId) {
-			Help.passAnm()
-			SceneManager.treepromptgro.removeChildren();
-			this.progress.slideDuration = 0;
-			this.progress.value = 0;
-			this.setState("friendtree");
 			this.friendUser = this.friend_list.selectedItem.friendUser		//好友
 			let friendTreeUserId = this.friend_list.selectedItem.treeUserId;
-			SceneManager.treepromptgro.removeChildren();
-			SceneManager.treetimer.reset();
 			this.getTreeInfoByid(friendTreeUserId);
-			//查询是否可以偷水
-			this.checkSteal(friendTreeUserId)
-			if (this.loadLeaveMsg) {
-				this.nowTreeUserId = friendTreeUserId
-				this.getLeaveMsgTemplate()
-			} else {
-				this.nowTreeUserId = friendTreeUserId
-				this.getTreeLeaveMsg(friendTreeUserId)
-			}
-			//推送拜访消息
-			let data = {
-				userId: this.friendUser,
-				treeUserId: friendTreeUserId
-			}
-			MyRequest._post("game/visit", data, this, null, null)
 		}
 		if (!this.friend_list.selectedItem.treeUserId) {
 			//分享弹窗
@@ -1430,6 +1412,8 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	//回到自己果园
 	private ToSelfTree() {
 		if (this.currentState != "havetree") {
+			SceneManager.treepromptgro.removeChildren();
+			SceneManager.treetimer.reset();
 			this.progress.slideDuration = 0;
 			this.progress.value = 0;
 			this.getOwnTree();
@@ -1494,12 +1478,12 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		let params = {
 			treeUserId: treeUserId
 		};
-		MyRequest._post("game/getTreeInfo", params, this, this.Req_getTreeInfo.bind(this), this.onGetIOError);
+		MyRequest._post("game/getTreeInfo", params, this, this.Req_getTreeInfo.bind(this,treeUserId), this.onGetIOError);
 	}
 
 	//查询果树数据后处理
 
-	private Req_getTreeInfo(data): void {
+	private Req_getTreeInfo(treeUserId,data): void {
 		if (data) {
 			if (Number(data.data.friendCanObtain) > 0) {
 				this.checkHelpTakeFruit(data.data.id);
@@ -1510,9 +1494,32 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			}
 			this.setState("friendtree");
 			var Data = data;
+			let index = Help.getContains(this.friendList,Help.getfriendByid(treeUserId));
+			this.friend_list.selectedIndex = index;
 			Help.saveTreeUserData(Data.data);
-			SceneManager.addtreePrompt("欢迎来到我的农场！")
 			this.init(Data.data);
+			Help.passAnm()
+			this.progress.slideDuration = 0;
+			this.progress.value = 0;
+			SceneManager.treepromptgro.removeChildren();
+			SceneManager.treetimer.reset();
+			SceneManager.addtreePrompt("欢迎来到我的农场！")
+			//查询是否可以偷水
+			this.checkSteal(treeUserId)
+			if (this.loadLeaveMsg) {
+				this.nowTreeUserId = treeUserId
+				this.getLeaveMsgTemplate()
+			} else {
+				this.nowTreeUserId = treeUserId
+				this.getTreeLeaveMsg(treeUserId)
+			}
+			//推送拜访消息
+			let params = {
+				userId: this.friendUser,
+				treeUserId: treeUserId
+			}
+			MyRequest._post("game/visit", params, this, null, null)
+			
 		}
 	}
 

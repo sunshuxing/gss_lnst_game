@@ -4,7 +4,8 @@ class Help{
     private static UserFriendData
     private static OwnData              //自己果树数据
     private static friendIcon          //好友头像
-    private static dynIcon              //动态头像
+    private static dynIcon              //动态头像  
+    private static friendData:Array<Friend>           //好友数据
 
     //保存用户果树数据
     public static saveTreeUserData(data){
@@ -22,6 +23,42 @@ class Help{
     //获取好友头像数据
     public static getfriendIcon(){
         return this.friendIcon;
+    }
+
+    //保存好友数据
+    public static savefriendData(data){
+        this.friendData = data;
+    }
+    //获取好友数据
+    public static getfriendData(){
+        console.log(this.friendData,"好友数据")
+        return this.friendData;
+    }
+
+    /**
+     *  通过用户id获取朋友果树id
+     */
+    public static getfriendtreeUseridByUser(User){
+        if(this.friendData){
+            for(let i=0;i<this.friendData.length;i++){
+                if(this.friendData[i].friendUser == User){
+                    return this.friendData[i].treeUserId;
+                }
+            }
+        }
+    }
+
+    /**
+     * 通过果树id获取朋友数据
+     */
+    public static getfriendByid(treeid){
+        if(this.friendData){
+            for(let i=0;i<this.friendData.length;i++){
+                if(this.friendData[i].treeUserId == treeid){
+                    return this.friendData[i];
+                }
+            }
+        }
     }
 
     //保存动态头像数据
@@ -50,6 +87,19 @@ class Help{
     public static getUserFriendData(){
         return this.UserFriendData;
     }
+
+
+    //根据元素获取数组下标
+    public static getContains(arrays, obj) {
+        var i = arrays.length;
+        while (i--) {
+            if (arrays[i] === obj) {
+                return i;
+            }
+        }
+        return false;
+    }
+
 
     /**
      * 通过用户获得果树id

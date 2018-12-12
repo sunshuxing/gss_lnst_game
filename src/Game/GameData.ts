@@ -117,6 +117,7 @@ declare class Friend {
     friendUserIcon: any;             //朋友头像
     friendTreeIcon: any;             //朋友种树的图标
     createDate: any;                 //创建时间
+    treeUserId: any;
 }
 
 
