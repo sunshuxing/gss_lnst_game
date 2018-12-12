@@ -436,14 +436,17 @@ class taskList_item extends eui.ItemRenderer {
             }
                 break;
             case 'any_order': {
+                sessionStorage.setItem("taskCode",code);
                 location.href = Config.webHome + "view/game-browse-goods.html?listType=2"
             }
                 break;
             case 'specifiy_order': {
+                sessionStorage.setItem("taskCode",code);
                 location.href = Config.webHome + "view/game-browse-goods.html?listType=0"
             }
                 break;
             case 'order_water': {
+                sessionStorage.setItem("taskCode",code);
                 location.href = Config.webHome + "view/index.html"
             }
                 break;
