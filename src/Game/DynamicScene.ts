@@ -260,6 +260,7 @@ class dynList_item extends eui.ItemRenderer {
 			} else {
 				info = "来帮你浇水啦，每日帮浇水已达上限，没有获得成长值哦"
 			}
+			this.dyn_bg.height = this.dyn_label.height+92;
 			this.dyn_toother.visible = true;
 			this.dyn_icon.texture = RES.getRes("dyn-bf-icon");
 			this.dyn_bg.texture = RES.getRes("dyn-bf-bg");
@@ -308,7 +309,7 @@ class dynList_item extends eui.ItemRenderer {
 			this.dyn_bg.texture = RES.getRes("dyn-dd-bg");
 			this.dyn_label.textFlow = Array<egret.ITextElement>(
 				{ text: Help.getcharlength(this.data.mainUserName, 4), style: { "href": "event:" + this.data.mainUser, "underline": true } }
-				, { text: "给你放了虫子" }
+				, { text: "给你放了杂草" }
 			);
 			this.dyn_des.text = "给TA捣蛋";
 			if (this.data.mainUserIcon) {
@@ -321,7 +322,7 @@ class dynList_item extends eui.ItemRenderer {
 			this.dyn_bg.texture = RES.getRes("dyn-dd-bg");
 			this.dyn_label.textFlow = Array<egret.ITextElement>(
 				{ text: Help.getcharlength(this.data.mainUserName, 4), style: { "href": "event:" + this.data.mainUser, "underline": true } }
-				, { text: "给你放了杂草" }
+				, { text: "给你放了虫子" }
 			);
 			this.dyn_des.text = "给TA捣蛋";
 			if (this.data.mainUserIcon) {
@@ -368,7 +369,7 @@ class dynList_item extends eui.ItemRenderer {
 				{ text: Help.getcharlength(this.data.mainUserName, 4), style: { "href": "event:" + this.data.mainUser, "underline": true } }
 				, { text: info }
 			);
-			this.dyn_des.text = "去TA果园";
+			this.dyn_des.text = "去TA农场";
 			if (this.data.mainUserIcon) {
 				HttpRequest.imageloader(Config.picurl + Help.getdynIcon()[this.data.mainUser], this.user_icon);
 			}
@@ -382,7 +383,6 @@ class dynList_item extends eui.ItemRenderer {
 				HttpRequest.imageloader(Config.picurl + Help.getdynIcon()[this.data.mainUser], this.user_icon);
 			}
 		}
-
 
 	}
 

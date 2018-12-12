@@ -1,9 +1,12 @@
 class JumpScene extends eui.Component implements eui.UIComponent{
-	public constructor() {
+	public constructor(image:string) {
 		super();
 		this.addEventListener(eui.UIEvent.COMPLETE,this.onComplete,this);
 		this.skinName = "resource/skins/TaskJumpSkins.exml";
+		this.share_img.texture = RES.getRes(image);
 	}
+
+	private share_img:eui.Image;
 
 	private onComplete(){
 		this.addEventListener(egret.TouchEvent.TOUCH_TAP,this.remove,this)

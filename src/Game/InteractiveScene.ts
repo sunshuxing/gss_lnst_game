@@ -97,14 +97,14 @@ class InteractiveScene extends eui.Component implements eui.UIComponent{
     private putgrass(){
         let PutGrass:PuticonEvent = new PuticonEvent(PuticonEvent.PUTGRASS);
         var treeUserId = Help.getTreeUserData().id;
-        this.puticon(treeUserId,0,PutGrass)
+        this.puticon(treeUserId,1,PutGrass)
     }
 
     //放虫
     private putinsect(){
         let PutInsect:PuticonEvent = new PuticonEvent(PuticonEvent.PUTINSECT);
         var treeUserId = Help.getTreeUserData().id;
-        this.puticon(treeUserId,1,PutInsect)
+        this.puticon(treeUserId,0,PutInsect)
 
     }
 

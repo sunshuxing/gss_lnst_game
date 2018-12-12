@@ -24,7 +24,6 @@ class SceneManager {
         this.signinScene = new SigninScene()
         this.huafeiScene = new HuafeiScene()
         this.weixinUtil = new WeixinUtil()
-        this.jumpMark = new JumpScene()
         this.friendSign = MyRequest.geturlstr("friendSign")
     }
 
@@ -134,10 +133,11 @@ class SceneManager {
     static toTaskScene() {
         this.instance.removeOther(this.instance.taskScene)
         // 把互动场景添加到主场景中
+        this.instance.taskScene.y = 1208
         this.instance.mainScene.addChild(this.instance.taskScene)
         this.instance.taskScene.taskDataInit();
+        this.instance.taskScene.cacheAsBitmap = true;   
         egret.Tween.get(this.instance.taskScene)
-            .set(this.instance.taskScene.y = 1208)
             .to({ y: 0 }, 500);
     }
 
@@ -150,7 +150,7 @@ class SceneManager {
         this.instance.dynamicScene.searchDynamic(treeUserId)
         this.instance.mainScene.addChild(this.instance.dynamicScene)
         egret.Tween.get(this.instance.dynamicScene)
-            .set(this.instance.dynamicScene.y = 1208)
+            .set({y:1208})
             .to({ y: 0 }, 500);
     }
 
@@ -234,8 +234,9 @@ class SceneManager {
         this.instance._stage.addChild(prompt);
     }
 
-    static addJump() {
-       this.instance._stage.addChild(this.instance.jumpMark);
+    static addJump(image:string) {
+        this.instance.jumpMark = new JumpScene(image)
+        this.instance._stage.addChild(this.instance.jumpMark);
     }
 
     static async guiedResource(){

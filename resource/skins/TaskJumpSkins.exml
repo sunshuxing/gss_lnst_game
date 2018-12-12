@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="TaskJumpSkins" width="750" height="1344" xmlns:e="http://ns.egret.com/eui">
+<e:Skin class="TaskJumpSkins" width="750" height="1344" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
 	<e:Image width="750" height="1344" anchorOffsetX="0" anchorOffsetY="0" source="panel-bg" scale9Grid="4,4,24,24" alpha="0.9" top="0"/>
-	<e:Image x="0" source="share_png" y="28"/>
+	<e:Image id="share_img" y="28" left="0" source=""/>
 </e:Skin>

@@ -46,7 +46,7 @@ class PromptShare extends eui.Component implements eui.UIComponent{
         if(this.parent){
             this.parent.removeChild(this);
             SceneManager.sceneManager.mainScene.enabled = true;
-            SceneManager.addJump();
+            SceneManager.addJump("share_pick");
             let url = SceneManager.instance.weixinUtil.shareData.shareUrl
             let addFriend = MyRequest.geturlstr("addFriend", url)
             if (!addFriend) {

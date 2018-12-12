@@ -417,7 +417,7 @@ class taskList_item extends eui.ItemRenderer {
                 break;
             case 'Invitation_friend': {
                 SceneManager.instance.taskScene.dispatchEventWith(MaskEvent.REMOVED_FROM_STAGE)   //使用manager获取场景并触发事件
-                this.tojump(true);
+                this.tojump(true,"share_tree_png");
                 let url = SceneManager.instance.weixinUtil.shareData.shareUrl
 		        let addFriend = MyRequest.geturlstr("addFriend", url)
                 if (Help.getOwnData() && Number(Help.getOwnData().friendCanObtain) > 0) {
@@ -432,7 +432,7 @@ class taskList_item extends eui.ItemRenderer {
                 break;
             case 'share_orchard': {
                 SceneManager.instance.taskScene.dispatchEventWith(MaskEvent.REMOVED_FROM_STAGE)   //使用manager获取场景并触发事件
-                this.tojump(true)
+                this.tojump(true,"share_png")
             }
                 break;
             case 'any_order': {
@@ -441,6 +441,10 @@ class taskList_item extends eui.ItemRenderer {
                 break;
             case 'specifiy_order': {
                 location.href = Config.webHome + "view/game-browse-goods.html?listType=0"
+            }
+                break;
+            case 'order_water': {
+                location.href = Config.webHome + "view/index.html"
             }
                 break;
         }
@@ -456,11 +460,11 @@ class taskList_item extends eui.ItemRenderer {
     }
 
     //跳转场景
-    private tojump(needCloseTask: boolean) {
+    private tojump(needCloseTask: boolean,image:string) {
         if (needCloseTask) {
             SceneManager.instance.taskScene.dispatchEventWith(MaskEvent.REMOVEMASK)
         }
-        SceneManager.addJump();
+        SceneManager.addJump(image);
     }
 
     //获得背景图片
@@ -479,6 +483,9 @@ class taskList_item extends eui.ItemRenderer {
         }
         if (code == "specifiy_order") {
             return "task-bg-fen"
+        }
+        if (code == "order_water"){
+            return "task-light-bule_png"
         }
 
     }

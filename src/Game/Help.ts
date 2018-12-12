@@ -123,6 +123,7 @@ class Help{
 
     //摘果动画
     public static pickTwn(num){
+        SceneManager.sceneManager.mainScene.enabled = false;
         let timer:egret.Timer = new egret.Timer(150,num);
         timer.addEventListener(egret.TimerEvent.TIMER,this.fruitTwn,this);
         timer.start();

@@ -542,7 +542,11 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 		//弹幕飘动
 		egret.Tween.get(barragegroup)
-			.to({ x: -430 }, 8000).call(()=>{this.BarGroup.removeChild(barragegroup)},this)
+			.to({ x: -430 }, 8000).call(()=>{
+				if(barragegroup.parent){
+					this.BarGroup.removeChild(barragegroup)
+				}
+			},this)
 	}
 
 
@@ -608,7 +612,11 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			if (barragegroup) {
 				egret.Tween.get(barragegroup)
 					.wait(i * 3000)
-					.to({ x: -430 }, 8000).call(()=>{this.BarGroup.removeChild(barragegroup);console.log("1")},this)
+					.to({ x: -430 }, 8000).call(()=>{
+						if(barragegroup.parent){
+							this.BarGroup.removeChild(barragegroup)
+						}
+				},this)
 			}
 		}
 	}
@@ -698,6 +706,8 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 	//添加透明遮罩
 	private addmask() {
+		this.bg_mask.height = SceneManager.sceneManager._stage.height;
+		this.bg_mask.y = this.height - SceneManager.sceneManager._stage.height;
 		this.bg_mask.visible = true;
 	}
 
@@ -709,7 +719,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	//添加好友
 
 	private addfriend() {
-		SceneManager.addJump();
+		SceneManager.addJump("share_addfriend_png");
 		let url = SceneManager.instance.weixinUtil.shareData.shareUrl
 		let addFriend = MyRequest.geturlstr("addFriend", url)
 		if (!addFriend) {
@@ -727,7 +737,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 
 	private sharefriend(){
-		SceneManager.addJump();
+		SceneManager.addJump("share_pick_png");
 		let url = SceneManager.instance.weixinUtil.shareData.shareUrl
 		let addFriend = MyRequest.geturlstr("addFriend", url)
 		if (!addFriend) {
@@ -917,6 +927,28 @@ class MainScene extends eui.Component implements eui.UIComponent {
 				this.pick_label.visible = false;
 			}
 		}
+		if (data.stageObj.canHarvest == "true") {
+					this.progress1.maximum = data.exchangeNum;							//装箱需要的果子总数
+					this.progress1.minimum = 0;
+					this.progress1.value = data.obtainFruitNum; 						//当前收获果子树
+					this.progress1.visible = true;
+					this.pick_num.visible = true;
+					this.distribution.visible = true;
+					this.distribution_label.visible = true;
+					this.distribution_label.text = data.obtainFruitNum + "个";
+					this.fruit_img.visible = true;
+					this.fruit_num.visible = true;
+					HttpRequest.imageloader(Config.picurl + data.goodsIcon, this.fruit_img);
+					this.fruit_num.text = data.exchangeNum + "个";
+				}
+				else {
+					this.progress1.visible = false;
+					this.pick_num.visible = false;
+					this.distribution.visible = false;
+					this.distribution_label.visible = false;
+					this.fruit_img.visible = false;
+					this.fruit_num.visible = false;
+				}
 	}
 
 	//查询自己果树回调
@@ -955,9 +987,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 				if (treedata.data.stageObj.canHarvest == "true") {
 					this.progress1.maximum = treedata.data.exchangeNum;							//装箱需要的果子总数
 					this.progress1.minimum = 0;
-					// if(treedata.data.obtainFruitNum>treedata.data.exchangeNum){
-					// 	this.progress1.value = treedata.data.exchangeNum;
-					// }
 					this.progress1.value = treedata.data.obtainFruitNum; 						//当前收获果子树
 					this.progress1.visible = true;
 					this.pick_num.visible = true;
@@ -1262,7 +1291,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		}
 		if (!this.friend_list.selectedItem.treeUserId) {
 			//分享弹窗
-			SceneManager.addJump()
+			SceneManager.addJump("share_tree_png")
 		}
 
 	}
@@ -1344,10 +1373,12 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		};
 		if (this.canPost) {
 			this.canPost = false;
+			this.img_kettle.touchEnabled = false;
 			MyRequest._post("game/useProp", params, this, this.Req_useProp.bind(this, propId), this.postErr.bind(this,propId));
 		}
 	}
 	private postErr(propId?) {
+		this.img_kettle.touchEnabled = true;
 		this.canPost = true;
 		if(propId == "3"){
 			let jumpPrompt = new PromptHuafei(()=>{location.href = Config.webHome + "view/game-browse-goods.html?listType=0"})
@@ -1363,6 +1394,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 	//使用道具成功后处理
 	private Req_useProp(propId, data): void {
+		this.img_kettle.touchEnabled = true;
 		this.canPost = true;
 		this.progress.slideDuration = 6000;
 		var Data = data;
@@ -1392,6 +1424,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		proshare.y = 430;
 		SceneManager.sceneManager._stage.addChild(proshare);
 		this.getOwnTree()
+		SceneManager.sceneManager.mainScene.enabled = true;
 	}
 
 	//回到自己果园
@@ -1515,11 +1548,15 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 	//帮摘果之后请求
 	private Req_friendpick(data) {
-		Help.helppickTwn(data.data);
-		let text: string = this.love_num.text;
-		text = text.substring(0, text.length - 1);
-		this.love_num.text = (String(Number(text) + Number(data.data.loveCount))) + "%";
-		this.getTreeInfoByid(this.gameTreedata.id);
+		Help.pickTwn(5);
+		Help.pickTwnupdata(()=>{
+			Help.helppickTwn(data.data);
+			let text: string = this.love_num.text;
+			text = text.substring(0, text.length - 1);
+			this.love_num.text = (String(Number(text) + Number(data.data.loveCount))) + "%";
+			this.getTreeInfoByid(this.gameTreedata.id);
+			SceneManager.sceneManager.mainScene.enabled = true;
+		})
 	}
 
 	//偷水请求	stealUser：被偷的用户    treeUserId：用户果树id
