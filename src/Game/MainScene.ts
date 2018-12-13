@@ -81,6 +81,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	public huafei_red: eui.Rect;
 	private guide_img: eui.Image;
 	private share_friend:eui.Image;
+	private scr_seed:eui.Scroller;
 
 
 	/**
@@ -88,7 +89,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	 */
 	private seed_btn: eui.Image;             //领取按钮
 	private seed_id;						//种子id
-	private seed_value;
 
 
 
@@ -124,12 +124,10 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		this.gro_top.touchThrough = true;
 		this.BarGroup.touchThrough = true;
 		this.friend_scr.horizontalScrollBar = null;
+		this.scr_seed.verticalScrollBar = null;
 		this.cloud1.y = this.height - SceneManager.instance._stage.height - 62;
 		this.cloud2.y = this.height - SceneManager.instance._stage.height + 119;
 		this.cloud3.y = this.height - SceneManager.instance._stage.height - 7;
-
-		//沒有果樹
-		this.seed_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.getSeed, this)
 	}
 
 	public initData() {
@@ -767,6 +765,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 	//查询可领取果树成功
 	private requestGetTree(data): void {
+		console.log(data,"可领取果树数据")
 		var treedata = data;
 		let euiArr: eui.ArrayCollection = new eui.ArrayCollection(treedata.data);
 
@@ -777,9 +776,9 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	}
 
 	private onChange(e: eui.PropertyEvent): void {
-		this.seed_value = this.list_seed.selectedItem.id;
-		//获取点击消息
-		console.log(this.seed_value)
+		console.log(this.list_seed.selectedItem)
+		let seed_des = new SeedDescription(this.list_seed.selectedItem);
+		this.addChild(seed_des);
 	}
 
 	//请求错误
@@ -814,24 +813,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	}
 
 
-	//获取种子
-	private getSeed() {
-		let params = {
-			treeId: this.seed_value,
-			friendSign: SceneManager.instance.friendSign	//分享标识，如果有，则是通过分享进入
-		};
-		MyRequest._post("game/receiveTree", params, this, this.requestreceiveTree.bind(this), this.onGetIOError)
-	}
-
-	//获取种子成功
-	private requestreceiveTree(data): void {
-		var Data = data;
-		this.setState("havetree");
-		this.getOwnTree();
-		let baoxiang = new BaoxiangScene();
-		baoxiang.seticon(data);
-		this.addChild(baoxiang);
-	}
 
 
 	//查询自己的果树

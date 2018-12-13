@@ -123,7 +123,7 @@
 
 	<e:Image width="750" height="100%" x="0" y="0" alpha="0.8" includeIn="notree" source="panel-bg" scale9Grid="4,4,24,24"/>
 	<e:Image x="42.5" y="296" width="665" height="744" includeIn="notree" source="seed-main-bg_png"/>
-	<e:Scroller width="430" height="466" x="154" y="476" anchorOffsetX="0" anchorOffsetY="0" includeIn="notree">
+	<e:Scroller id="scr_seed" width="430" height="466" x="154" y="476" anchorOffsetX="0" anchorOffsetY="0" includeIn="notree">
 		<e:List id="list_seed" itemRendererSkinName="SeedListskins">
 			<e:layout>
 				<e:TileLayout/>
@@ -131,6 +131,6 @@
 		</e:List>
 	</e:Scroller>
 
-	<e:Image id="seed_btn" y="1100" horizontalCenter="0.5" width="287" height="109" includeIn="notree" source="seed-btn"/>
+
 
 </e:Skin>

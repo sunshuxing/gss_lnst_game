@@ -433,5 +433,13 @@ class Help{
                     .to({x:label.width},28.7*label.width);
     }
 
+
+
+    //截屏功能
+    public static Screencapture(DisplayObject){
+        var renderTexture:egret.RenderTexture = new egret.RenderTexture();
+        renderTexture.drawToTexture(DisplayObject);
+        renderTexture.saveToFile("image/png", "a/down.png", new egret.Rectangle(20, 20, 200, 200));
+    }
 }
 	

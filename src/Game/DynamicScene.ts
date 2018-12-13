@@ -35,9 +35,7 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 	}
 
 	private asdas() {
-		console.log(this.list_dyn.scrollV , this.list_dyn.contentHeight ,this.list_dyn.height ,this.scr_dyn.height)
 		if (this.list_dyn.scrollV == this.list_dyn.contentHeight - this.list_dyn.height) {
-			console.log("到底")
 			if (this.isLastPage == "false") {
 				this.perNum = this.perNum + 1;
 				this.searchDynamic(this.treeUserId);
