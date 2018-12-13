@@ -22,6 +22,9 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 				this.perNum = 1;
 				this.euiArr.removeAll();
 				this.list_dyn.scrollV = 0;
+				if(this.perNum == 1){
+					this.map={}
+				}
 			}
 			,this);
 		this.btn_close.addEventListener(egret.TouchEvent.TOUCH_TAP, this.closeScene, this)
@@ -48,6 +51,7 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 	//查询动态
 	public searchDynamic(treeUserId) {
 		this.treeUserId = treeUserId
+		
 		let params = {
 			treeUserId: treeUserId,
 			pageNo: this.perNum,
@@ -69,7 +73,7 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 		let dyn_data = this.initData(dyndata)
 		this.scr_dyn.addEventListener(eui.UIEvent.CHANGE_END, this.asdas, this)
 		for(let i=0;i<dyn_data.length;i++){
-			this.euiArr.addItem(dyndata[i])
+			this.euiArr.addItem(dyn_data[i])
 		}
 		if(Data.data.isLastPage == "true"){
 			this.euiArr.addItem({ state: true, createDate: "2018-11-30 10:41:44" });
@@ -113,16 +117,16 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 	}
 
 
+	private map: { [key: string]: boolean } = {};//创建一个map,用于存放时间
 	private initData(data: Array<Dynamic>): Array<Dynamic> {
 		if (!data) {
 			return null;
 		}
-		let map: { [key: string]: boolean } = {};//创建一个map
 		for (let a = 0; a < data.length; a++) {
 			let time = data[a].createDate.split(" ")[0];	//取出日期
-			let hasTime = map[time]
+			let hasTime = this.map[time]
 			if (!hasTime) {
-				map[time] = true
+				this.map[time] = true
 				data[a].showDate = true;
 			} else {
 				data[a].showDate = false;
@@ -165,6 +169,9 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 	private closeScene() {
 		this.perNum = 1;
 		this.euiArr.removeAll();
+		if(this.perNum == 1){
+			this.map={}
+		}
 		this.list_dyn.scrollV = 0;
 		let Removemask: MaskEvent = new MaskEvent(MaskEvent.REMOVEMASK);
 		this.parent.dispatchEvent(Removemask);
