@@ -610,7 +610,8 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			barragegroup.addEventListener(egret.TouchEvent.TOUCH_TAP,()=>{
 				if(Help.getfriendData() && this.currentState == "havetree"){
 					if(Help.getfriendtreeUseridByUser(dataList[i].mainUser)){
-					this.getTreeInfoByid(Help.getfriendtreeUseridByUser(dataList[i].mainUser));
+						Help.passAnm();
+						this.getTreeInfoByid(Help.getfriendtreeUseridByUser(dataList[i].mainUser));
 					}
 				}
 			},this)
@@ -1259,6 +1260,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 	private toOther(evt: PuticonEvent) {
 		var id = evt.userid;
+		Help.passAnm()
 		this.getTreeInfoByid(id);
 		
 	}
@@ -1269,6 +1271,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		if (this.friend_list.selectedItem.treeUserId != this.gameTreedata.id && this.friend_list.selectedItem.treeUserId) {
 			this.friendUser = this.friend_list.selectedItem.friendUser		//好友
 			let friendTreeUserId = this.friend_list.selectedItem.treeUserId;
+			Help.passAnm()
 			this.getTreeInfoByid(friendTreeUserId);
 		}
 		if (!this.friend_list.selectedItem.treeUserId) {
@@ -1498,7 +1501,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			this.friend_list.selectedIndex = index;
 			Help.saveTreeUserData(Data.data);
 			this.init(Data.data);
-			Help.passAnm()
 			this.progress.slideDuration = 0;
 			this.progress.value = 0;
 			SceneManager.treepromptgro.removeChildren();
