@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="DynamicListSkins" width="694" height="80" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" states="day,noday,nomore" height.day="160" height.noday="140" height.nomore="80">
+<e:Skin class="DynamicListSkins" width="694" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" states="day,noday,nomore" height.nomore="80">
 	<e:Image width="66" height="82" includeIn="noday" x="1" y="17" anchorOffsetX="0" anchorOffsetY="0" source="white-bg"/>
 
 	<e:Label text="没有更多动态了~" includeIn="nomore" size="24" textColor="0xcccccc" fontFamily="Microsoft YaHei" x="254" y="23.04"/>
@@ -10,10 +10,10 @@
 	<e:Image width="66" height="83" includeIn="day" x="0" y="63" anchorOffsetX="0" anchorOffsetY="0" source="white-bg"/>
 	<e:Image id="user_icon" width="60" height="60" x="2" y="74" mask="{img_rec}" y.noday="28" includeIn="day,noday" y.day="74" source=""/>
     <e:Rect id="img_rec" width="60" height="60" x="2" y="74" ellipseWidth="60" ellipseHeight="60" y.noday="28" includeIn="day,noday" y.day="74" anchorOffsetY.day="0" height.day="60"/>
-	<e:Image id="dyn_bg" bottom.nomore="0" width="612" height="170" y.noday="20" x.noday="82" includeIn="day,noday" x.day="82" y.day="40" source.noday="dyn-bf-bg" scale9Grid.noday="43,68,17,7" source.day="dyn-bf-bg" scale9Grid.day="45,68,14,7" source="dyn-bf-bg" scale9Grid="43,66,15,9" height.day="120" height.noday="120"/>
-	<e:Label id="dyn_label" text="谁谁谁拜访了你的果园。" x="152" y="96" size="28" fontFamily="SimHei" textColor="0xeb4f58" y.noday="46" includeIn="day,noday" y.day="66" anchorOffsetX.day="0" width.day="506" anchorOffsetY.day="0" width.noday="506" width="506" x.noday="155" x.day="155" />
-	<e:Label id="dyn_time" text="9：20" x="152" y="178" size="24" fontFamily="Arial" textColor="0x999999" y.noday="96" includeIn="day,noday" y.day="124" x.day="154" x.noday="153"/>
-	<e:Group id="dyn_toother" y="174" anchorOffsetY="0" anchorOffsetX="0" right="24" y.noday="97" includeIn="day,noday" x.day="556" x.noday="556" y.day="123" right.noday="27" right.day="22">
+	<e:Image id="dyn_bg" bottom.nomore="0" width="612" height.nomore="170" x.noday="82" includeIn="day,noday" x.day="82" source.noday="dyn-bf-bg" scale9Grid.noday="43,68,17,7" source.day="dyn-bf-bg" scale9Grid.day="45,68,14,7" source="dyn-bf-bg" scale9Grid="43,66,15,9" top.day="40" top.noday="20"/>
+	<e:Label id="dyn_label" text="谁谁谁拜访了你的果园。" x="152" y.nomore="96" size="28" fontFamily="SimHei" textColor="0xeb4f58" includeIn="day,noday" anchorOffsetX.day="0" width.day="506" anchorOffsetY.day="0" width.noday="506" width="506" x.noday="155" x.day="155"  top.day="66" top.noday="46" lineSpacing="14"/>
+	<e:Label id="dyn_time" text="9：20" x="152" y.nomore="178" size="24" fontFamily="Arial" textColor="0x999999" includeIn="day,noday" x.day="154" x.noday="153" bottom.noday="15" bottom.day="13"/>
+	<e:Group id="dyn_toother" y.nomore="174" anchorOffsetY="0" anchorOffsetX="0" right="24" includeIn="day,noday" x.day="556" x.noday="556" right.noday="27" right.day="22" bottom.noday="15" bottom.day="13">
 		<e:Label id="dyn_des" text="拜访TA" y="0" textColor="0xeb4f58" size="24" fontFamily="SimHei" anchorOffsetX="0" anchorOffsetY="0" right="0"/>
 		<e:Image id="dyn_icon" right="0" verticalCenter="0" source="dyn-bf-icon" source.day="dyn-bf-icon" source.noday="dyn-bf-icon"/>
 		<e:layout>
