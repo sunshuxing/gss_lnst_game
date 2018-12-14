@@ -302,7 +302,7 @@ class dynList_item extends eui.ItemRenderer {
 			this.dyn_bg.texture = RES.getRes("dyn-dd-bg");
 			this.dyn_label.textFlow = Array<egret.ITextElement>(
 				{ text: Help.getcharlength(this.data.mainUserName, 4), style: { "href": "event:" + this.data.mainUser, "underline": true } }
-				, { text: "给你放了杂草爱神的箭熬枯受淡卡刷卡的哈桑单卡的很卡仕达" }
+				, { text: "给你放了杂草" }
 			);
 			this.dyn_des.text = "给TA捣蛋";
 		}
