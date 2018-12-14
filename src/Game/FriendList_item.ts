@@ -20,7 +20,7 @@ class FriendList_item extends eui.ItemRenderer{
 		HttpRequest.imageloader(Config.picurl+Help.getfriendIcon()[user],this.friend_icon,user);
 		this.friend_name.text = Help.getcharlength(this.data.friendUserName,2);
 		if(this.data.friendTreeIcon){
-			HttpRequest.imageloader(Config.picurl+this.data.friendTreeIcon,this.tree_icon,this.data.friendUser);
+			HttpRequest.imageloader(Config.picurl+this.data.friendTreeIcon,this.tree_icon);
 		}else{
 			this.tree_icon.texture = RES.getRes("shuidi")
 		}
