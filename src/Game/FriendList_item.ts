@@ -17,10 +17,10 @@ class FriendList_item extends eui.ItemRenderer{
 	// 当数据改变时，更新视图
 	protected dataChanged() {
 		let user = this.data.friendUser
-		HttpRequest.imageloader(Config.picurl+Help.getfriendIcon()[user],this.friend_icon);
+		HttpRequest.imageloader(Config.picurl+Help.getfriendIcon()[user],this.friend_icon,user);
 		this.friend_name.text = Help.getcharlength(this.data.friendUserName,2);
 		if(this.data.friendTreeIcon){
-			HttpRequest.imageloader(Config.picurl+this.data.friendTreeIcon,this.tree_icon);
+			HttpRequest.imageloader(Config.picurl+this.data.friendTreeIcon,this.tree_icon,this.data.friendUser);
 		}else{
 			this.tree_icon.texture = RES.getRes("shuidi")
 		}

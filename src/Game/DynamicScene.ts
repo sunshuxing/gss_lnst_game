@@ -147,16 +147,6 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 	}
 
 
-	//数组排序
-	private arrsort(arr) {
-		for (let i = 0; i < arr.length; i++) {
-			for (let j = 0; j < arr.length - i - 1; j++) {
-				let t = arr[j];
-				arr[j] = arr[j + 1];
-				arr[j + 1] = t;
-			}
-		}
-	}
 
 	private onComplete(): void {
 		console.log("onComplete");
@@ -228,22 +218,23 @@ class dynList_item extends eui.ItemRenderer {
 		// 	this.dyn_toother.y = this.dyn_toother.y + 35 * lineNum
 		// }
 		this.dyn_time.text = Help.getTime(this.data.createDate, "hours");
+		if(this.data.type == 7){
+			this.user_icon.texture = RES.getRes("gamelogo")
+		}else if (this.data.mainUserIcon) {
+				HttpRequest.imageloader(Config.picurl + Help.getdynIcon()[this.data.mainUser], this.user_icon,this.data.mainUser);
+		}
 		if (this.data.type == 0) {
 			this.dyn_toother.visible = false;
 			this.dyn_label.text = "我的" + this.data.treeName + this.data.stageName + "了!";
 			this.dyn_des.text = "";
 			this.dyn_bg.texture = RES.getRes("dyn-ly-xt");
-			HttpRequest.imageloader(Config.picurl + Help.getdynIcon()[this.data.mainUser], this.user_icon);
 		}
 		else if (this.data.type == 1) {
 			this.dyn_toother.visible = false;
 			this.dyn_label.text = Help.getcharlength(this.data.mainUserName, 4) + "领取了" + this.data.treeName + "!";
 			this.dyn_des.text = "";
 			this.dyn_bg.texture = RES.getRes("dyn-ly-xt");
-			if (this.data.mainUserIcon) {
-				HttpRequest.imageloader(Config.picurl + Help.getdynIcon()[this.data.mainUser], this.user_icon);
-
-			}
+			
 		}
 		else if (this.data.type == 2) {
 			this.dyn_toother.visible = true;
@@ -254,9 +245,6 @@ class dynList_item extends eui.ItemRenderer {
 				, { text: "拜访你的农场" }
 			);
 			this.dyn_des.text = "拜访TA";
-			if (this.data.mainUserIcon) {
-				HttpRequest.imageloader(Config.picurl + Help.getdynIcon()[this.data.mainUser], this.user_icon);
-			}
 		}
 		else if (this.data.type == 3) {
 			this.dyn_toother.visible = true;
@@ -267,9 +255,6 @@ class dynList_item extends eui.ItemRenderer {
 				, { text: "来偷水"+this.data.num+"g" }
 			);
 			this.dyn_des.text = "拜访TA";
-			if (this.data.mainUserIcon) {
-				HttpRequest.imageloader(Config.picurl + Help.getdynIcon()[this.data.mainUser], this.user_icon);
-			}
 		}
 		else if (this.data.type == 4) {
 			let info = ""
@@ -287,9 +272,6 @@ class dynList_item extends eui.ItemRenderer {
 				, { text: info }
 			);
 			this.dyn_des.text = "拜访TA";
-			if (this.data.mainUserIcon) {
-				HttpRequest.imageloader(Config.picurl + Help.getdynIcon()[this.data.mainUser], this.user_icon);
-			}
 		}
 		else if (this.data.type == 5) {
 			this.dyn_toother.visible = true;
@@ -300,18 +282,12 @@ class dynList_item extends eui.ItemRenderer {
 				, { text: "给你留言" }
 			);
 			this.dyn_des.text = "给TA留言";
-			if (this.data.mainUserIcon) {
-				HttpRequest.imageloader(Config.picurl + Help.getdynIcon()[this.data.mainUser], this.user_icon);
-			}
 		}
 		else if (this.data.type == 6) {
 			this.dyn_toother.visible = false;
 			this.dyn_bg.texture = RES.getRes("dyn-ly-xt");
 			this.dyn_label.text = Help.getcharlength(this.data.mainUserName, 4) + "签到";
 			this.dyn_des.text = "";
-			if (this.data.mainUserIcon) {
-				HttpRequest.imageloader(Config.picurl + Help.getdynIcon()[this.data.mainUser], this.user_icon);
-			}
 
 		}
 		else if (this.data.type == 7) {
@@ -319,7 +295,6 @@ class dynList_item extends eui.ItemRenderer {
 			this.dyn_bg.texture = RES.getRes("dyn-ly-xt");
 			this.dyn_label.text = "您获得了" + this.data.num + "个" + this.getpropname(this.data.propType);
 			this.dyn_des.text = "";
-			this.user_icon.texture = RES.getRes("gamelogo")
 		}
 		else if (this.data.type == 10) {
 			this.dyn_toother.visible = true;
@@ -330,9 +305,6 @@ class dynList_item extends eui.ItemRenderer {
 				, { text: "给你放了杂草爱神的箭熬枯受淡卡刷卡的哈桑单卡的很卡仕达" }
 			);
 			this.dyn_des.text = "给TA捣蛋";
-			if (this.data.mainUserIcon) {
-				HttpRequest.imageloader(Config.picurl + Help.getdynIcon()[this.data.mainUser], this.user_icon);
-			}
 		}
 		else if (this.data.type == 11) {
 			this.dyn_toother.visible = true;
@@ -343,9 +315,6 @@ class dynList_item extends eui.ItemRenderer {
 				, { text: "给你放了虫子" }
 			);
 			this.dyn_des.text = "给TA捣蛋";
-			if (this.data.mainUserIcon) {
-				HttpRequest.imageloader(Config.picurl + Help.getdynIcon()[this.data.mainUser], this.user_icon);
-			}
 		}
 		else if (this.data.type == 20) {
 			this.dyn_toother.visible = true;
@@ -356,9 +325,6 @@ class dynList_item extends eui.ItemRenderer {
 				, { text: "帮你除草" }
 			);
 			this.dyn_des.text = "拜访TA";
-			if (this.data.mainUserIcon) {
-				HttpRequest.imageloader(Config.picurl + Help.getdynIcon()[this.data.mainUser], this.user_icon);
-			}
 		}
 		else if (this.data.type == 21) {
 			this.dyn_toother.visible = true;
@@ -369,9 +335,6 @@ class dynList_item extends eui.ItemRenderer {
 				, { text: "帮你除虫" }
 			);
 			this.dyn_des.text = "拜访TA";
-			if (this.data.mainUserIcon) {
-				HttpRequest.imageloader(Config.picurl + Help.getdynIcon()[this.data.mainUser], this.user_icon);
-			}
 		}
 		else if (this.data.type == 50) {
 			this.dyn_toother.visible = true;
@@ -388,18 +351,12 @@ class dynList_item extends eui.ItemRenderer {
 				, { text: info }
 			);
 			this.dyn_des.text = "去TA农场";
-			if (this.data.mainUserIcon) {
-				HttpRequest.imageloader(Config.picurl + Help.getdynIcon()[this.data.mainUser], this.user_icon);
-			}
 		}
 		else if (this.data.type == 100) {
 			this.dyn_toother.visible = false;
 			this.dyn_label.text = Help.getcharlength(this.data.mainUserName, 4) + "兑换了水果";
 			this.dyn_des.text = "";
 			this.dyn_bg.texture = RES.getRes("dyn-ly-xt");
-			if (this.data.mainUserIcon) {
-				HttpRequest.imageloader(Config.picurl + Help.getdynIcon()[this.data.mainUser], this.user_icon);
-			}
 		}
 
 		this.dyn_bg.height = this.dyn_label.height+92;

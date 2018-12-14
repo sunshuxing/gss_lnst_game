@@ -1,8 +1,12 @@
 class HttpRequest {
-
+    public static map: { [key: string]: egret.Texture } = {};//创建一个map,用于存放用户头像，减少加载
     //加载网络图片
-    public static imageloader(url, image) {
+    public static imageloader(url, image,user?:string) {
         try {
+            if(user && this.map[user]){
+                image.texture = this.map[user];
+                return;
+            }
             let imgLoader = new egret.ImageLoader();
             imgLoader.crossOrigin = "anonymous";// 跨域请求
             if(url == Config.picurl || url == Config.picurl+"undefined"){
@@ -14,6 +18,9 @@ class HttpRequest {
                     let texture = new egret.Texture();
                     texture.bitmapData = evt.currentTarget.data;
                     image.texture = texture;
+                    if(user && !this.map[user]){//保存用户初次头像
+                        this.map[user] = texture;
+                    }
                 }
             }, this);
         } catch (e) { console.log("图片加载错误",e) }

@@ -1018,7 +1018,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		}
 	}
 
-	private Req_WechatImg(icon, image: eui.Image, data) {
+	private Req_WechatImg(user, image: eui.Image, data) {
 		if(!data){
 			return;
 		}
@@ -1026,8 +1026,8 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		if( data && typeof data === "string"){
 			data = JSON.parse(data)
 		}
-		let imgUrl = Config.picurl + data[icon];
-		HttpRequest.imageloader(imgUrl, image);
+		let imgUrl = Config.picurl + data[user];
+		HttpRequest.imageloader(imgUrl, image,user);
 	}
 
 	//更新果树树
