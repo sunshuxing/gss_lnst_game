@@ -1451,7 +1451,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			.wait(1200)
 			.to({ y: -130, rotation: 0 }, 500)
 			.to({ y: 80, x: 100 }, 500)
-		this.getTreeInfoByid(this.gameTreedata.id)
 		let text: string = this.love_num.text;
 		text = text.substring(0, text.length - 1);
 		this.love_num.text = (String(Number(text) + Number(data.data.loveCount))) + "%";
@@ -1481,9 +1480,9 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			let index = Help.getContains(this.friendList,Help.getfriendByid(treeUserId));
 			this.friend_list.selectedIndex = index;
 			Help.saveTreeUserData(Data.data);
-			this.init(Data.data);
 			this.progress.slideDuration = 0;
 			this.progress.value = 0;
+			this.init(Data.data);
 			SceneManager.treepromptgro.removeChildren();
 			SceneManager.treetimer.reset();
 			SceneManager.addtreePrompt("欢迎来到我的农场！")
@@ -1703,6 +1702,8 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private waterVis(data?) {
 		if (data) {
 			Help.helpwaterLove(data);
+			this.progress.slideDuration = 6000;
+			this.getTreeInfoByid(this.gameTreedata.id)
 			this.img_water.visible = false;
 		}
 		else {

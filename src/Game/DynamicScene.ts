@@ -31,6 +31,8 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 		this.scr_dyn.verticalScrollBar = null;
 		this.scr_dyn.bounces = null;
 		this.list_dyn.useVirtualLayout = false;
+		this.list_dyn.dataProvider = this.euiArr;
+		this.list_dyn.itemRenderer = dynList_item;
 		console.log("childrenCreated");
 	}
 
@@ -68,8 +70,25 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 				this.dyndata_user = this.uniq(this.dyndata_user);
 			}
 		}
+		if (this.dyndata_user && this.dyndata_user.length > 0) {
+			let params = {
+				users: this.dyndata_user.join(",")
+			};
+			MyRequest._post("game/getWechatImg", params, this, this.Req_getWechatImg.bind(this,Data), this.onGetIOError);
+		}
+	}
+
+	private Req_getWechatImg(Data,data) {
+		if(!data){
+			return;
+		}
+		data = data.data;
+		if( data && typeof data === "string"){
+			data = JSON.parse(data)
+		}
+		Help.savedynIcon(data);
+		let dyndata = Data.data.list;
 		let dyn_data = this.initData(dyndata)
-		this.scr_dyn.addEventListener(eui.UIEvent.CHANGE_END, this.asdas, this)
 		for(let i=0;i<dyn_data.length;i++){
 			this.euiArr.addItem(dyn_data[i])
 		}
@@ -79,28 +98,9 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 		else{
 			this.scr_dyn.addEventListener(eui.UIEvent.CHANGE_END, this.asdas, this)	
 		}
-		if (this.dyndata_user && this.dyndata_user.length > 0) {
-			let params = {
-				users: this.dyndata_user.join(",")
-			};
-			MyRequest._post("game/getWechatImg", params, this, this.Req_getWechatImg.bind(this,this.euiArr), this.onGetIOError);
-		}
 		// this.euiArr.addItem({state:true,createDate:"2018-11-30 10:41:44"});
 		this.line.height = this.euiArr.length * 300;
 		this.isLastPage = Data.data.isLastPage;
-	}
-
-	private Req_getWechatImg(euiArr:eui.ArrayCollection,data) {
-		if(!data){
-			return;
-		}
-		data = data.data;
-		if( data && typeof data === "string"){
-			data = JSON.parse(data)
-		}
-		Help.savedynIcon(data);
-		this.list_dyn.dataProvider = euiArr;
-		this.list_dyn.itemRenderer = dynList_item;
 	}
 
 	//数组去重
