@@ -185,7 +185,7 @@ class WeixinUtil {
             this.isMember = response.data.isMember == "true" ? true : false;
             if (needShare) {
                 this._getShareData(response);//***
-                this.shareData.iconUrl = "http://www.guoss.net/test/wefruitmall/images/game_share.png";
+                this.shareData.iconUrl = "http://www.guoss.net/wefruitmall/images/game_share.png";
                 this.shareData.titles = "【果说说农场】你的专属农场，亲手种，包邮送到家！";
                 that._openShare();
             }
