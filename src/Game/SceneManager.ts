@@ -10,7 +10,7 @@ class SceneManager {
     public friendSign: string                    //转发用户的标识，可以用于奖励道具
     public weixinUtil: WeixinUtil                //微信操作类
     private webSocket: GameWebSocket                  //推送类
-
+    private userid = MyRequest.geturlstr("friendSign");   
     public connectTime:number = 0;                  //重连次数
     private interval                            //定时器
     public  jumpMark: JumpScene                       //分享遮罩
@@ -54,10 +54,22 @@ class SceneManager {
                 }
                 MyRequest._post("game/addFriend", data, this, this.loadFirend.bind(this), null)
             }
+        }else{
+            if (this.friendSign != this.weixinUtil.login_user_id) {
+                //如果分享的用户和当前用户不一样
+                this.mainScene.getFriends(this.userid)
+                this.userid = null;
+            }
         }
     }
     private loadFirend() {
-        this.mainScene.getFriends();  //加好友成功需要刷新好友列表
+        if(WeixinUtil.prototype._friendSign == MyRequest.geturlstr("friendSign")){
+            this.mainScene.getFriends();  //加好友成功需要刷新好友列表
+        }
+        else{
+            this.mainScene.getFriends(this.userid)
+            this.userid = null;
+        }
     }
 
     /**

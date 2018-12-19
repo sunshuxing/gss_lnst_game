@@ -365,23 +365,23 @@ class dynList_item extends eui.ItemRenderer {
 
 
 	private getpropname(data) {
-		if (data == 0) {
+		if (data == 1) {
 			return "水滴"
-		}
-		else if (data == 1) {
-			return "果篮"
 		}
 		else if (data == 2) {
 			return "爱心值"
 		}
 		else if (data == 3) {
-			return "化肥"
+			return "果篮"
 		}
 		else if (data == 4) {
-			return "成长值"
+			return "有机肥"
 		}
 		else if (data == 5) {
-			return "果子"
+			return "复合肥"
+		}
+		else if (data == 6) {
+			return "水溶肥"
 		}
 	}
 

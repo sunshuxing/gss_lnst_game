@@ -88,12 +88,12 @@ class GameWebSocket extends egret.DisplayObjectContainer {
                     }
                     break;
                     case "help" : {
-                        info = "来果园帮忙了哦！"
+                        info = "来农场帮忙了哦！"
                         SceneManager.instance.mainScene.getTreeProp(Help.getOwnData().id);
                     }
                     break;
                     case "water" : {
-                        info = "来果园帮浇水了哦！"
+                        info = "来农场帮浇水了哦！"
                         SceneManager.instance.mainScene.getOwnTree();
                     }
                     break;

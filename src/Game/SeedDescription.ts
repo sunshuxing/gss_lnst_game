@@ -17,7 +17,9 @@ class SeedDescription extends eui.Component implements eui.UIComponent{
     private scr_seed_info:eui.Scroller;
 
 	private onComplete(){
-        this.seed_namespec.text = this.seed_data.fruitName+"/"+this.seed_data.specName;
+        this.seed_info.maxWidth = 300;
+        this.delivery_info.maxWidth = 300;
+        this.seed_namespec.text = this.seed_data.fruitName+"\n"+"规格:"+this.seed_data.specName;
         this.seed_info.text = this.seed_data.treeInfo;
         this.delivery_info.text = this.seed_data.deliveryInfo;
         this.seed_name.text = this.seed_data.name;
