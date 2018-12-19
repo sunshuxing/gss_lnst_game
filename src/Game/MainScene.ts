@@ -428,9 +428,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		if (this.sysinfodata && this.sysinfodata.length > 0) {
 			if (this.m >= this.sysinfodata.length) {
 				this.m = 0;
-				if (this.hasSysMsg) {
-					this.getSystemMsg()
-				}
 				return
 			}
 			this.img2.texture = RES.getRes("gamelogo")
@@ -1181,20 +1178,17 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		if(reload){
 			this.m = 0;
 		}
-		MyRequest._post("game/getSystemInfo", null, this, this.Req_getSystemMsg.bind(this,reload), this.onGetIOError)
+		MyRequest._post("game/getSystemInfo", null, this, this.Req_getSystemMsg.bind(this), this.onGetIOError)
 	}
 
 	//查询系统消息成功后处理
-	private Req_getSystemMsg(reload,data): void {
+	private Req_getSystemMsg(data): void {
 		var Data = data;
 		this.sysinfodata = Data.data;
 
 		if (this.sysinfodata.length == 0) {
 			//如果第一页都没有数据，就是没数据
 			this.hasSysMsg = false;
-		}
-		if(!reload){
-			this.info2scr();
 		}
 	}
 
