@@ -330,7 +330,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	}
 
 
-	private onlyFlag: boolean = true; 	//只有用户推送的情况需要的标记
+	private onlyFlag: boolean = false; 	//只有用户推送的情况需要的标记
 	// 推送滚动1
 	public info1scr() {
 		if (this.infodata && this.infodata.length) {
@@ -354,7 +354,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			else if(this.infodata[this.n].type == "1"){
 				info = userName + "领取了" + treeName + "！"
 			}
-			if (systemEmpty && this.onlyFlag) {//如果为空，则使用系统的框来循环
+			if (systemEmpty && !this.onlyFlag) {//如果为空，则使用系统的框来循环
 				let params = {
 					users: this.infodata[this.n].mainUser
 				}
@@ -381,7 +381,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 					.to({ y: 0 }, 1000)
 					.wait(2000)
 					.to({ y: 50 }, 1000);
-				this.onlyFlag = false;
+				this.onlyFlag = true;
 			} else {
 				let params = {
 					users: this.infodata[this.n].mainUser
@@ -409,7 +409,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 					.to({ y: 0 }, 1000)
 					.wait(2000)
 					.to({ y: 50 }, 1000);
-				this.onlyFlag = true
+				this.onlyFlag = false
 			}
 
 		}
