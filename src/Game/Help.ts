@@ -436,10 +436,11 @@ class Help{
 
 
     //截屏功能
-    public static Screencapture(DisplayObject){
+    public static Screencapture(DisplayObject:eui.Group){
         var renderTexture:egret.RenderTexture = new egret.RenderTexture();
         renderTexture.drawToTexture(DisplayObject);
-        renderTexture.saveToFile("image/png", "a/down.png", new egret.Rectangle(20, 20, 200, 200));
+        let capture = renderTexture.toDataURL("image/png",new egret.Rectangle(0,0,DisplayObject.width,DisplayObject.height));
+        console.log(capture,"截屏")
     }
 }
 	

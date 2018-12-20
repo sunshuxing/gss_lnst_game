@@ -82,6 +82,8 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private guide_img: eui.Image;
 	private share_friend:eui.Image;
 	private scr_seed:eui.Scroller;
+	private hasCheck = false;			//是否检查过好友
+	private btn_store:eui.Image;
 
 
 	/**
@@ -167,6 +169,11 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		this.gro_love.addEventListener(egret.TouchEvent.TOUCH_TAP, this.loveTouch, this);
 		this.friend_kettle.addEventListener(egret.TouchEvent.TOUCH_TAP, this.friend_water, this)
 		this.guide_img.addEventListener(egret.TouchEvent.TOUCH_TAP, this.toGuide, this);
+		this.btn_store.addEventListener(egret.TouchEvent.TOUCH_TAP,this.tostroe,this)
+	}
+
+	private tostroe(){
+		location.href = Config.webHome + "view/index.html"
 	}
 
 	private toGuide() {
@@ -975,7 +982,10 @@ class MainScene extends eui.Component implements eui.UIComponent {
 					SceneManager.addtreePrompt("我的果实长好啦，快使用篮子将果子摘下来吧！")
 				}
 				this.setState("havetree");
-				SceneManager.sceneManager.checkAddFriend()
+				if(!this.hasCheck){
+					SceneManager.sceneManager.checkAddFriend();
+					this.hasCheck = true;	
+				}
 				this.user_name.text = Help.getcharlength(treedata.data.userName, 3);
 				let params = {
 					users: treedata.data.user
@@ -1598,13 +1608,13 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		let n = 0;
 		let m = 0;
 		for (let i = 0; i < data.length; i++) {
-			if (data[i].propType == 0) {
+			if (data[i].propType == 1) {
 				n++
 				if (n < 4) {
 					this.putgrass(data[i].id, n);
 				}
 			}
-			if (data[i].propType == 1) {
+			if (data[i].propType == 0) {
 				m++
 				if (m < 4) {
 					this.putinsect(data[i].id, m);
@@ -1715,7 +1725,12 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 	//水滴动画
 	private waterTwn(data?) {
-		this.img_water.visible = true;
+		if(data && this.currentState == "friendtree"){
+			this.img_water.visible = true;	
+		}
+		else if(!data && this.currentState == "havetree"){
+			this.img_water.visible = true;
+		}
 		egret.Tween.get(this.img_water)
 			.set({ y: 860, x: 386, alpha: 1 })
 			.to({ y: 900, x: 366, alpha: 0.2 }, 500)
@@ -1742,7 +1757,11 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 	// 水壶冷却展现
 	private tettleEad() {
-		this.getOwnTree();
+		if(this.currentState == "havetree"){
+			this.getOwnTree();
+		}else if(this.currentState == "friendtree"){
+			this.img_water.visible = false;
+		}
 		this.gro_kettle.visible = false;
 		this.showtime(this.a);
 		this.gro_lq.visible = true;
@@ -1827,18 +1846,18 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		let icon = new eui.Image();
 		if (type == 1) {
 			icon.texture = RES.getRes("youji");
-			icon.x = 77;
-			icon.y = 892;
+			icon.x = 68;
+			icon.y = 884;
 		}
 		else if (type == 2) {
 			icon.texture = RES.getRes("fuhe");
-			icon.x = 144;
-			icon.y = 1005;
+			icon.x = 177.5;
+			icon.y = 976;
 		}
 		else if (type == 3) {
 			icon.texture = RES.getRes("shuirong");
-			icon.x = 169;
-			icon.y = 1129;
+			icon.x = 212;
+			icon.y = 1096;
 		}
 		icon.anchorOffsetX = icon.width / 2;
 		icon.anchorOffsetY = icon.height / 2;

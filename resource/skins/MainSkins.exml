@@ -30,19 +30,20 @@
 	<e:Image id="tree" horizontalCenter="27.5" includeIn="havetree,friendtree" bottom="401"  anchorOffsetY="0" anchorOffsetX="0" source="" />
 	<e:Group id="BarGroup" anchorOffsetX="0" anchorOffsetY="0" left="0" right="0" top="0" bottom="0" locked="true"/>
 	<e:Image id="tu" y="889.05" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="30" source="tu"/>
-	<e:Image id="btn_signin" x="24" y="790" includeIn="havetree" source="signin" anchorOffsetX="0" anchorOffsetY="0"/>
-	<e:Group id="sign_gro" width="67" height="29" x="83" y="781" anchorOffsetX="0" anchorOffsetY="0" includeIn="havetree" visible="false">
+	<e:Image id="btn_signin" x="24" y="752.09" includeIn="havetree" source="signin" anchorOffsetX="0" anchorOffsetY="0"/>
+	<e:Group id="sign_gro" width="67" height="29" x="83" y="746.15" anchorOffsetX="0" anchorOffsetY="0" includeIn="havetree">
 		<e:Image x="0" y="1" source="taskprompt" scaleX="1" scaleY="1"/>
 		<e:Label text="可签到" size="18" verticalCenter="-2" horizontalCenter="0" fontFamily="Microsoft YaHei"/>
 	</e:Group>
-	<e:Image id="btn_dynamic" x="24" y="669.33" includeIn="havetree" source="dynamic" anchorOffsetX="0" anchorOffsetY="0"/>
-	<e:Image id="btn_task" x="24" y="908" includeIn="havetree" source="task-icon" anchorOffsetX="0" anchorOffsetY="0"/>
-	<e:Group id="task_gro" width="67" height="29" x="79" y="903" anchorOffsetX="0" anchorOffsetY="0" includeIn="havetree" visible="false">
+	<e:Image id="btn_dynamic" x="24" y="629.9" includeIn="havetree" source="dynamic" anchorOffsetX="0" anchorOffsetY="0"/>
+	<e:Image id="btn_task" x="24" y="868.54" includeIn="havetree" source="task-icon" anchorOffsetX="0" anchorOffsetY="0"/>
+	<e:Group id="task_gro" width="67" height="29" x="79" y="865.07" anchorOffsetX="0" anchorOffsetY="0" includeIn="havetree">
 		<e:Image x="0" y="1" source="taskprompt" scaleX="1" scaleY="1"/>
 		<e:Label text="可领取" size="18" verticalCenter="-2" horizontalCenter="0" fontFamily="Microsoft YaHei"/>
 	</e:Group>
-	<e:Image id="btn_fertilizer" x="24" y="1027.34" includeIn="havetree" source="huafei" anchorOffsetX="0" anchorOffsetY="0"/>
-	<e:Rect id="huafei_red" width="20" height="20" x="83.03" y="1031" ellipseWidth="20" ellipseHeight="20" fillColor="0xfc0f0f" includeIn="havetree" visible="false"/>
+	<e:Image id="btn_fertilizer" x="24" y="982" includeIn="havetree" source="huafei" anchorOffsetX="0" anchorOffsetY="0"/>
+	<e:Image id="btn_store" x="25.88" y="1094.38" anchorOffsetX="0" anchorOffsetY="0" source="store"/>
+	<e:Rect id="huafei_red" width="20" height="20" x="83.03" y="982.5" ellipseWidth="20" ellipseHeight="20" fillColor="0xfc0f0f" includeIn="havetree" visible="false"/>
 
 
 

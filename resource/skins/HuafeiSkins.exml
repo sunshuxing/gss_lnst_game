@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="HuafeiSkins" width="750" height="1344" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Image id="youji_btn" x="34" y="892" anchorOffsetX="0" anchorOffsetY="0" source="youji"/>
-	<e:Image id="fuhe_btn" x="144" y="958" source="fuhe"/>
-	<e:Image id="shuirong_btn" x="169" y="1082" source="shuirong"/>
-	<e:Image x="85" y="968" anchorOffsetX="0" anchorOffsetY="0" source="huafeinum"/>
-    <e:Image x="197.68" y="1035.04" anchorOffsetX="0" anchorOffsetY="0" source="huafeinum"/>
-    <e:Image x="229.09" y="1160.79" anchorOffsetX="0" anchorOffsetY="0" source="huafeinum"/>
-	<e:Label id="youji_num" text="1" x="87.48" y="970.48" width="40" height="20" size="20" textAlign="center"/>
-	<e:Label id="fuhe_num" text="1" x="200.48" y="1038" width="40" height="20" size="20" textAlign="center"/>
-	<e:Label id="shuirong_num" text="1" x="231.48" y="1163.52" width="40" height="20" size="20" textAlign="center"/>
+	<e:Image id="youji_btn" x="25" y="837" anchorOffsetX="0" anchorOffsetY="0" source="youji"/>
+	<e:Image id="fuhe_btn" x="135" y="929" source="fuhe"/>
+	<e:Image id="shuirong_btn" x="169" y="1049" source="shuirong"/>
+	<e:Image x="84" y="907" anchorOffsetX="0" anchorOffsetY="0" source="huafeinum"/>
+    <e:Image x="196.68" y="1000.04" anchorOffsetX="0" anchorOffsetY="0" source="huafeinum"/>
+    <e:Image x="229.09" y="1121.79" anchorOffsetX="0" anchorOffsetY="0" source="huafeinum"/>
+	<e:Label id="youji_num" text="1" x="86.48" y="909.48" width="40" height="20" size="20" textAlign="center"/>
+	<e:Label id="fuhe_num" text="1" x="199.48" y="1003" width="40" height="20" size="20" textAlign="center"/>
+	<e:Label id="shuirong_num" text="1" x="231.48" y="1123.52" width="40" height="20" size="20" textAlign="center"/>
 </e:Skin>

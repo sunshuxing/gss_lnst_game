@@ -107,6 +107,10 @@ class GameWebSocket extends egret.DisplayObjectContainer {
                         SceneManager.instance.mainScene.getOwnTree();
                     }
                     break;
+                    case "unEnoughBasket" : {
+                        info = "提醒你果篮不够！"
+                    }
+                    break;
                 }
                 let userName = pushMsg.userName;
                 let userId = pushMsg.userId;
