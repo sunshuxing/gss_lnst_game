@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="MainSkins" height="1344" xmlns:e="http://ns.egret.com/eui" width="750" xmlns:w="http://ns.egret.com/wing" states="havetree,notree,friendtree" >
 	<w:Config id="166c801a431"/>
-	<e:Image id="bg" width="750" x="0"  width.havetree="100%"  bottom="0" source="bg-day_png"/>
-	<e:Image id="cloud1" x="-63.38" y="-62" includeIn="havetree,friendtree" source="cloud1"/>
-	<e:Image id="cloud3" x="332" y="-7" includeIn="havetree,friendtree" source="cloud1"/>
-	<e:Image id="cloud2" x="-3" y="119"  includeIn="havetree,friendtree" source="cloud2"/>
+	<e:Group id="gro_fastpic" width="750" height="1334" bottom="0">
+		<e:Image id="bg" width="750" x="0" width.havetree="100%" bottom="0" source="bg-day_png" y="0" scaleX="1" scaleY="1"/>
+		<e:Image id="cloud1" x="-63.38" y="-72" includeIn="havetree,friendtree" source="cloud1" scaleX="1" scaleY="1"/>
+		<e:Image id="cloud3" x="332" y="-17" includeIn="havetree,friendtree" source="cloud1" scaleX="1" scaleY="1"/>
+		<e:Image id="cloud2" x="-3" y="109" includeIn="havetree,friendtree" source="cloud2" scaleX="1" scaleY="1"/>
+		<e:Group width="74" height="28.79" x="213" y="858.04" anchorOffsetY="0" anchorOffsetX="0" scaleX="1" scaleY="1">
+			<e:Label id="tree_name" bold="true" y="3.61" anchorOffsetX="0" anchorOffsetY="0" fontFamily="SimHei" textColor="0x7a6934" size="24" includeIn="havetree,friendtree" textAlign="center" text="" scaleX="1" scaleY="1" horizontalCenter="0"/>
+		</e:Group>
+		<e:Image id="logo" x="81" y="381" anchorOffsetX="75" anchorOffsetY="75" width="152" height="152" source="" scaleX="1" scaleY="1"/>
+		<e:Label id="garden_name" rotation="353.59" size="24" textAlign="right" fontFamily="Microsoft YaHei" includeIn="havetree,friendtree" bold="true" anchorOffsetX="0" anchorOffsetY="0" y="497.31" x="116" width="120" height="28.96" textColor="0x6e5422" text="" scaleX="1" scaleY="1"/>
+		<e:Image id="tree" horizontalCenter="27.5" includeIn="havetree,friendtree" bottom="401" anchorOffsetY="0" anchorOffsetX="0" source="" x="403" y="933" scaleX="1" scaleY="1"/>
+		<e:Image id="tu" y="879.05" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="30" source="tu" x="312" scaleX="1" scaleY="1"/>
+	</e:Group>
+
+
+
+
 	<e:Group id="gro_top" width="529.03" height="172" y="0" anchorOffsetY="0" anchorOffsetX="0" x="187">
 		<e:Image x="-22" y="-34" includeIn="havetree,friendtree" scaleX="1" scaleY="1" source="toppai"/>
 		<e:Group id="info1" width="372" height="50" x="20" y="47" includeIn="havetree,friendtree" scaleX="1" scaleY="1">
@@ -20,29 +33,27 @@
 		<e:Image id="guide_img" x="479.03" y="39.52" source="guide_png" includeIn="havetree,friendtree" scaleX="1" scaleY="1"/>
 
 	</e:Group>
-	<e:Group width="74" height="28.79" x="213" y="868.04" anchorOffsetY="0" anchorOffsetX="0">
-		<e:Label id="tree_name" bold="true" y="3.61" anchorOffsetX="0" anchorOffsetY="0" fontFamily="SimHei" textColor="0x7a6934" size="24" includeIn="havetree,friendtree" textAlign="center" text="" scaleX="1" scaleY="1" horizontalCenter="0"/>
-	</e:Group>
 
 
-	<e:Image id="logo" x="80" y="390" anchorOffsetX="75" anchorOffsetY="75"  width="152" height="152" source=""/>
-	<e:Label id="garden_name"  rotation="353.59" size="24" textAlign="right" fontFamily="Microsoft YaHei" includeIn="havetree,friendtree" bold="true" anchorOffsetX="0" anchorOffsetY="0" y="507.31" x="116" width="120" height="28.96" textColor="0x6e5422" text=""/>
-	<e:Image id="tree" horizontalCenter="27.5" includeIn="havetree,friendtree" bottom="401"  anchorOffsetY="0" anchorOffsetX="0" source="" />
+
+
+
+
 	<e:Group id="BarGroup" anchorOffsetX="0" anchorOffsetY="0" left="0" right="0" top="0" bottom="0" locked="true"/>
-	<e:Image id="tu" y="889.05" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="30" source="tu"/>
+
 	<e:Image id="btn_signin" x="24" y="752.09" includeIn="havetree" source="signin" anchorOffsetX="0" anchorOffsetY="0"/>
-	<e:Group id="sign_gro" width="67" height="29" x="83" y="746.15" anchorOffsetX="0" anchorOffsetY="0" includeIn="havetree">
+	<e:Group id="sign_gro" width="67" height="29" x="83" y="746.15" anchorOffsetX="0" anchorOffsetY="0" includeIn="havetree" visible="false">
 		<e:Image x="0" y="1" source="taskprompt" scaleX="1" scaleY="1"/>
 		<e:Label text="可签到" size="18" verticalCenter="-2" horizontalCenter="0" fontFamily="Microsoft YaHei"/>
 	</e:Group>
 	<e:Image id="btn_dynamic" x="24" y="629.9" includeIn="havetree" source="dynamic" anchorOffsetX="0" anchorOffsetY="0"/>
 	<e:Image id="btn_task" x="24" y="868.54" includeIn="havetree" source="task-icon" anchorOffsetX="0" anchorOffsetY="0"/>
-	<e:Group id="task_gro" width="67" height="29" x="79" y="865.07" anchorOffsetX="0" anchorOffsetY="0" includeIn="havetree">
+	<e:Group id="task_gro" width="67" height="29" x="79" y="865.07" anchorOffsetX="0" anchorOffsetY="0" includeIn="havetree" visible="false">
 		<e:Image x="0" y="1" source="taskprompt" scaleX="1" scaleY="1"/>
 		<e:Label text="可领取" size="18" verticalCenter="-2" horizontalCenter="0" fontFamily="Microsoft YaHei"/>
 	</e:Group>
 	<e:Image id="btn_fertilizer" x="24" y="982" includeIn="havetree" source="huafei" anchorOffsetX="0" anchorOffsetY="0"/>
-	<e:Image id="btn_store" x="25.88" y="1094.38" anchorOffsetX="0" anchorOffsetY="0" source="store"/>
+	<e:Image id="btn_store" x="25.88" y="1094.38" anchorOffsetX="0" anchorOffsetY="0" source="store_png" includeIn="havetree"/>
 	<e:Rect id="huafei_red" width="20" height="20" x="83.03" y="982.5" ellipseWidth="20" ellipseHeight="20" fillColor="0xfc0f0f" includeIn="havetree" visible="false"/>
 
 
@@ -109,7 +120,7 @@
 	<e:Label id="progress_label" text="" includeIn="havetree" x="212.66" y="1074.43" anchorOffsetX="0" width="340.66" size="22" textAlign="center" fontFamily="Microsoft YaHei" textColor="0x000000"/>
 	<e:Image id="img_water" width="88" height="84" x="386" y="860" anchorOffsetX="0" anchorOffsetY="0" source="water" visible="false"/>
 
-	<e:Group id="dynamic" anchorOffsetX="0" anchorOffsetY="0"   width="230" height="80" x="133" includeIn="havetree" y="674" visible="false">
+	<e:Group id="dynamic" anchorOffsetX="0" anchorOffsetY="0"   width="230" height="80" x="115" includeIn="havetree" y="622" visible="false">
 		<e:Image id="dynamic_bg" x.havetree="1.15" y.havetree="0.99" scale9Grid.havetree="88,10,52,60" includeIn="havetree" x="8.15" y="1.99" source="dynamic_bg"/>
 		<e:Image id="dynamic_image" width="50" height="50" anchorOffsetX="0" anchorOffsetY="0" includeIn="havetree" scaleX="1" scaleY="1" x="44.09" y="16.99"/>
 		<e:Label id="dynamic_info" text="动态啊啊" includeIn="havetree" size="25" x="110" y="29.49" bold="true"/>

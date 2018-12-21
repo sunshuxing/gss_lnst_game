@@ -84,6 +84,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private scr_seed:eui.Scroller;
 	private hasCheck = false;			//是否检查过好友
 	private btn_store:eui.Image;
+	private gro_fastpic:eui.Group;		//快照区域
 
 
 	/**
@@ -953,9 +954,13 @@ class MainScene extends eui.Component implements eui.UIComponent {
 				}
 	}
 
+	private OwntreeStage
+	private Oldneedtake
+
 	//查询自己果树回调
 	private requestgetOwnTree(data): void {
 		var treedata = data;
+		console.log(treedata,"自己果树数据")
 		let treeUser: TreeUserData = treedata.data;
 		Help.saveOwnData(treedata.data);					//保存自己果树数据
 		Help.saveTreeUserData(treedata.data);				//保存果树数据
@@ -1027,6 +1032,21 @@ class MainScene extends eui.Component implements eui.UIComponent {
 				else{
 					this.share_friend.visible = false;
 				}
+
+				if((this.OwntreeStage && this.OwntreeStage != treedata.data.stage)||(this.Oldneedtake && this.Oldneedtake != treedata.data.needTake)){
+					let jumpPrompt = new PromptHuafei(()=>{
+						Help.Screencapture(this.gro_fastpic,treedata.data);
+					})
+					let label = "你的果树到了"+ +"";
+					let tishi = "(快去让朋友看看吧！)"
+					let btn = "去分享";
+					jumpPrompt.x = 85;
+					jumpPrompt.y = 430;
+					jumpPrompt.setPrompt(label,tishi,btn);
+					SceneManager.sceneManager._stage.addChild(jumpPrompt)
+				}
+				this.OwntreeStage = treedata.data.stage;
+				this.Oldneedtake = treedata.data.needTake;
 			}
 		}
 		else {
@@ -1538,8 +1558,10 @@ class MainScene extends eui.Component implements eui.UIComponent {
 				userId: this.friendUser,
 				treeUserId: treeUserId
 			}
-			MyRequest._post("game/visit", params, this, null, null)
-			
+			if(this.currentState == "friendtree"){
+				Help.removebuling();
+				MyRequest._post("game/visit", params, this, null, null)
+			}		
 		}
 	}
 

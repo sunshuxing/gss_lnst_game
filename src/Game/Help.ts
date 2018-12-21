@@ -7,6 +7,11 @@ class Help{
     private static dynIcon              //动态头像  
     private static friendData:Array<Friend>           //好友数据
 
+    private static buling = new eui.Image();
+    private static bulingstar1 = new eui.Image();
+    private static bulingstar2 = new eui.Image();
+    private static bulingstar3 = new eui.Image();
+    private static bulingstar4 = new eui.Image();
     //保存用户果树数据
     public static saveTreeUserData(data){
         this.TreeUserData = data;
@@ -416,13 +421,98 @@ class Help{
         SceneManager.sceneManager.mainScene.addChild(img_love);
         SceneManager.sceneManager.mainScene.enabled = false;
         egret.Tween.get(img_love)
-        .to({x:615,y:730},500)
-        .to({x:306,y:1138,scaleY:0.5,scaleX:0.5},1200).call(
+        .to({x:365,y:900,scaleY:0.5,scaleX:0.5},1200).call(
             ()=>{SceneManager.sceneManager.mainScene.removeChild(img_love);
                  SceneManager.addNotice("已成功兑换成长值");
                  SceneManager.sceneManager.mainScene.getOwnTree();
-                 SceneManager.sceneManager.mainScene.enabled = true;},this); 
+                 this.lovebuling();
+                 SceneManager.sceneManager.mainScene.enabled = true;},this)
+        .wait(5000).call(()=>{
+            this.removebuling();
+        },this)         
+
     }
+
+    public static removebuling(){
+        if(this.buling.parent){
+            this.buling.parent.removeChild(this.buling)
+        }
+        if(this.bulingstar1.parent){
+            this.bulingstar1.parent.removeChild(this.bulingstar1)
+        }
+        if(this.bulingstar2.parent){
+            this.bulingstar2.parent.removeChild(this.bulingstar2)
+        }
+        if(this.bulingstar3.parent){
+            this.bulingstar3.parent.removeChild(this.bulingstar3)
+        }
+        if(this.bulingstar4.parent){
+            this.bulingstar4.parent.removeChild(this.bulingstar4)
+        }
+    }
+
+    //爱心动画
+    private static lovebuling(){
+        this.buling.texture = RES.getRes("bulingbg_png")
+        this.buling.x = 90;
+        this.buling.y = 440;
+        SceneManager.sceneManager.mainScene.addChild(this.buling);
+        this.bulingstar1.texture = RES.getRes("bulingstar_png")
+        this.bulingstar1.x = 270;
+        this.bulingstar1.y = 620;
+        SceneManager.sceneManager.mainScene.addChild(this.bulingstar1);
+        this.bulingstar2.texture = RES.getRes("bulingstar_png")
+        this.bulingstar2.rotation = 20;
+        this.bulingstar2.width = 44 
+        this.bulingstar2.height = 54
+        this.bulingstar2.x = 370;
+        this.bulingstar2.y = 590;
+        SceneManager.sceneManager.mainScene.addChild(this.bulingstar2); 
+        this.bulingstar3.texture = RES.getRes("bulingstar_png")
+        this.bulingstar3.x = 480;
+        this.bulingstar3.y = 540;
+        SceneManager.sceneManager.mainScene.addChild(this.bulingstar3); 
+        this.bulingstar4.texture = RES.getRes("bulingstar_png")
+        this.bulingstar4.rotation = 330;
+        this.bulingstar4.width = 44;
+        this.bulingstar4.height = 54;
+        this.bulingstar4.x = 530;
+        this.bulingstar4.y = 620;
+        SceneManager.sceneManager.mainScene.addChild(this.bulingstar4);
+
+        egret.Tween.get(this.bulingstar1)
+        .to({alpha:0.8},100).call(()=>{
+            egret.Tween.get(this.bulingstar2,{loop:true})
+            .to({alpha:0},800)
+            .wait(300)
+            .to({alpha:1},800)
+        },this)
+        .to({alpha:0.6},100)
+        .to({alpha:0.4},100)
+        .to({alpha:0.2},100).call(()=>{
+             egret.Tween.get(this.bulingstar3,{loop:true})
+            .to({alpha:0},700)
+            .wait(100)
+            .to({alpha:1},700)
+        },this)
+        .to({alpha:0},100)
+        .to({alpha:0.2},100)
+        .to({alpha:0.4},100).call(()=>{
+             egret.Tween.get(this.bulingstar4,{loop:true})
+            .to({alpha:0},400)
+            .wait(100)
+            .to({alpha:1},400)
+        },this)
+        .to({alpha:0.6},100)
+        .to({alpha:0.8},100)
+        .to({alpha:1},100).call(()=>{
+             egret.Tween.get(this.bulingstar1,{loop:true})
+            .to({alpha:1},500)
+            .wait(200)
+            .to({alpha:0},500)
+        },this)
+    }
+
 
     //果树名称过长滚动
     public static labelRect(label:eui.Label){
@@ -436,11 +526,56 @@ class Help{
 
 
     //截屏功能
-    public static Screencapture(DisplayObject:eui.Group){
+    public static Screencapture(DisplayObject:eui.Group,data){
         var renderTexture:egret.RenderTexture = new egret.RenderTexture();
+        // let buling = new eui.Image();
+        // buling.texture = RES.getRes("");
+        // buling.x = 148;
+        // buling.y = DisplayObject.height - buling.height - 588;
+        // DisplayObject.addChild(buling);
+        let erweima = new eui.Image();
+        erweima.texture = RES.getRes("erweima_png");
+        erweima.y = DisplayObject.height - erweima.height;
+        DisplayObject.addChild(erweima);
         renderTexture.drawToTexture(DisplayObject);
         let capture = renderTexture.toDataURL("image/png",new egret.Rectangle(0,0,DisplayObject.width,DisplayObject.height));
-        console.log(capture,"截屏")
+        // if(buling.parent){
+        //     buling.parent.removeChild(buling)
+        // }
+        if(erweima.parent){
+            erweima.parent.removeChild(erweima)
+        }
+        let treeUserId = data.id;
+        let treeId = data.treeId;
+        let stage = data.stage;
+        let params = {
+            imgData:capture,
+            treeUserId:treeUserId,
+            treeId:treeId,
+            stage:stage
+        }
+        MyRequest._post("game/uploadBase64Img", params, this, this.Req_uploadBase64Img.bind(this), this.onGetIOError);
+    }
+
+    private static onGetIOError(){
+        console.log("错误回调")
+    }
+
+
+    private static Req_uploadBase64Img(data){
+        console.log(data,"Base64");
+        let imagename = data.data.imgName;
+
+        // let jumpPrompt = new PromptHuafei(()=>{
+		// 				location.href = Config.webHome + "view/game-browse-goods.html?" + data
+		// 			})
+		// 			let label = "你的果树到了"+ +"";
+		// 			let tishi = "(快去让朋友看看吧！)"
+		// 			let btn = "去分享";
+		// 			jumpPrompt.x = 85;
+		// 			jumpPrompt.y = 430;
+		// 			jumpPrompt.setPrompt(label,tishi,btn);
+		// 			SceneManager.sceneManager._stage.addChild(jumpPrompt)
     }
 }
 	
