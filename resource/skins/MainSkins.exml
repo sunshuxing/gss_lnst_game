@@ -11,7 +11,7 @@
 		</e:Group>
 		<e:Image id="logo" x="81" y="381" anchorOffsetX="75" anchorOffsetY="75" width="152" height="152" source="" scaleX="1" scaleY="1"/>
 		<e:Label id="garden_name" rotation="353.59" size="24" textAlign="right" fontFamily="Microsoft YaHei" includeIn="havetree,friendtree" bold="true" anchorOffsetX="0" anchorOffsetY="0" y="497.31" x="116" width="120" height="28.96" textColor="0x6e5422" text="" scaleX="1" scaleY="1"/>
-		<e:Image id="tree" horizontalCenter="27.5" includeIn="havetree,friendtree" bottom="401" anchorOffsetY="0" anchorOffsetX="0" source="" x="403" y="933" scaleX="1" scaleY="1"/>
+		<e:Image id="tree" horizontalCenter="27.5" includeIn="havetree,friendtree" bottom="401" anchorOffsetY="0" anchorOffsetX="0" x="403" y="933" scaleX="1" scaleY="1" source=""/>
 		<e:Image id="tu" y="879.05" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="30" source="tu" x="312" scaleX="1" scaleY="1"/>
 	</e:Group>
 
