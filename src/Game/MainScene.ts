@@ -744,7 +744,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 				SceneManager.instance.weixinUtil.shareData.titles = "【果实熟了】快来、快来帮我摘水果。"
 				SceneManager.instance.weixinUtil.shareData.describes = "离免费收获一箱水果，只差最后一步啦！"
 			} else {
-				SceneManager.instance.weixinUtil.shareData.titles = "【果说说农场】邀请你一起种水果，亲手种，免费送到家"
+				SceneManager.instance.weixinUtil.shareData.titles = "【说说农场】邀请你一起种水果，亲手种，免费送到家"
 				SceneManager.instance.weixinUtil.shareData.describes = "种上一棵树，经营一座农场，开启舌尖上的旅行--果说说"
 			}
 			SceneManager.instance.weixinUtil._openShare();
@@ -752,9 +752,9 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		} else {//小程序处理
 			let info
 			if (this.gameTreedata && Number(this.gameTreedata.friendCanObtain) > 0) {
-				info = "【果实熟了】快来、快来帮我摘水果。离免费收获一箱水果，只差最后一步啦！"
+				info = "【果实熟了】快来、快来帮我摘水果。"
 			} else {
-				info = "【果说说农场】邀请你一起种水果，亲手种，免费送到家。种上一棵树，经营一座农场，开启舌尖上的旅行--果说说"
+				info = "【说说农场】一起种水果，亲手种，免费送到家。"
 			}
 			let data = {
 				addFriend: true,
@@ -777,7 +777,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			SceneManager.instance.weixinUtil.shareData.describes = "离免费收获一箱水果，只差最后一步啦！"
 			SceneManager.instance.weixinUtil._openShare();
 		} else {
-			let info = "【果实熟了】快来、快来帮我摘水果。离免费收获一箱水果，只差最后一步啦！"
+			let info = "【果实熟了】快来、快来帮我摘水果。"
 			let data = {
 				addFriend: true,
 				title: info

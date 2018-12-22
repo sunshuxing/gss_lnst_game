@@ -433,9 +433,9 @@ class taskList_item extends eui.ItemRenderer {
                 } else {
                     let info
                     if (Help.getOwnData() && Number(Help.getOwnData().friendCanObtain) > 0) {
-                        info = "【果实熟了】快来、快来帮我摘水果。离免费收获一箱水果，只差最后一步啦！"
+                        info = "【果实熟了】快来、快来帮我摘水果。"
                     } else {
-                        info = "【果说说农场】邀请你一起种水果，亲手种，免费送到家。种上一棵树，经营一座农场，开启舌尖上的旅行--果说说"
+                        info = "【说说农场】一起种水果，亲手种，免费送到家。"
                     }
                     let data = {
                         addFriend: true,

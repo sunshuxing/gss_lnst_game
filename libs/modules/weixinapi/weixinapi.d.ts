@@ -295,7 +295,57 @@ declare class wx {
       * @param body
       */
      static chooseWXPay( body:Object ):void;
+     
+     static miniProgram:MiniProgram
 
+}
+
+///////////////////////////////// 微信小程序web-view操作类
+
+declare class MiniProgram{
+  /**
+   * 获取当前环境
+   * @param callback 回调函数（回调函数参数e.miniprogram=true则是在小程序环境下运行）
+   */
+  public getEnv( callback:Function ):void
+
+  /**
+   * 关闭当前页面，返回上一页面或多级页面。
+   * @param object{delta:1,success?,fail?,complete?} 后面的都是回调函数
+   */
+  public navigateBack( object:Object ):void
+  /**
+   * 跳转到 tabBar 页面，并关闭其他所有非 tabBar 页面
+   * @param object{url:'',success?,fail?,complete?} 后面的都是回调函数
+   */
+  public switchTab( object:Object ):void
+  /**
+   * 保留当前页面，跳转到应用内的某个页面。
+   * @param object{url:'',success?,fail?,complete?} 后面的都是回调函数
+   */
+  public navigateTo( object:Object ):void
+  /**
+   * 关闭所有页面，打开到应用内的某个页面
+   * @param object{url:'',success?,fail?,complete?} 后面的都是回调函数
+   */
+  public reLaunch( object:Object ):void
+  /**
+   * 关闭当前页面，跳转到应用内的某个页面。但是不允许跳转到 tabbar 页面。
+   * @param object{url:'',success?,fail?,complete?} 后面的都是回调函数
+   */
+  public redirectTo( object:Object ):void
+  /**
+   * 参数自定义
+   */
+  public postMessage( object:DMiniProgram ):void
+
+}
+
+/**
+ * 和小程序的交互对象
+ */
+declare class DMiniProgram{
+    data:any;           //消息内容（随着data.type更改）
 }
 
 ///////////////////////////////// 常用API的参数结构类
