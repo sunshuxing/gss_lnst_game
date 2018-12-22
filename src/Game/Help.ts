@@ -563,7 +563,6 @@ class Help{
 
 
     private static Req_uploadBase64Img(data){
-        console.log(data,"Base64");
         let imagename = data.data.imgName;
 
         // let jumpPrompt = new PromptHuafei(()=>{

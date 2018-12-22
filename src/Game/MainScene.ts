@@ -80,11 +80,11 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private distribution: eui.Label;
 	public huafei_red: eui.Rect;
 	private guide_img: eui.Image;
-	private share_friend:eui.Image;
-	private scr_seed:eui.Scroller;
+	private share_friend: eui.Image;
+	private scr_seed: eui.Scroller;
 	private hasCheck = false;			//是否检查过好友
-	private btn_store:eui.Image;
-	private gro_fastpic:eui.Group;		//快照区域
+	private btn_store: eui.Image;
+	private gro_fastpic: eui.Group;		//快照区域
 
 
 	/**
@@ -161,7 +161,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		this.self_tree.addEventListener(egret.TouchEvent.TOUCH_TAP, this.ToSelfTree, this);
 		this.gro_lq.addEventListener(egret.TouchEvent.TOUCH_TAP, this.lqfast, this);
 		this.pick_hand.addEventListener(egret.TouchEvent.TOUCH_TAP, this.PickFruit, this);
-		this.share_friend.addEventListener(egret.TouchEvent.TOUCH_TAP,this.sharefriend,this)
+		this.share_friend.addEventListener(egret.TouchEvent.TOUCH_TAP, this.sharefriend, this)
 		//偷水
 		this.steal_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.toushui, this);
 
@@ -170,10 +170,10 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		this.gro_love.addEventListener(egret.TouchEvent.TOUCH_TAP, this.loveTouch, this);
 		this.friend_kettle.addEventListener(egret.TouchEvent.TOUCH_TAP, this.friend_water, this)
 		this.guide_img.addEventListener(egret.TouchEvent.TOUCH_TAP, this.toGuide, this);
-		this.btn_store.addEventListener(egret.TouchEvent.TOUCH_TAP,this.tostroe,this)
+		this.btn_store.addEventListener(egret.TouchEvent.TOUCH_TAP, this.tostroe, this)
 	}
 
-	private tostroe(){
+	private tostroe() {
 		location.href = Config.webHome + "view/index.html"
 	}
 
@@ -356,10 +356,10 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			let info = ""
 			if (this.infodata[this.n].type == "0") {
 				info = userName + "的" + treeName + stageName + "了！"
-			}else if(this.infodata[this.n].type == "100"){
+			} else if (this.infodata[this.n].type == "100") {
 				info = userName + "的" + treeName + "正在配送！"
 			}
-			else if(this.infodata[this.n].type == "1"){
+			else if (this.infodata[this.n].type == "1") {
 				info = userName + "领取了" + treeName + "！"
 			}
 			if (systemEmpty && !this.onlyFlag) {//如果为空，则使用系统的框来循环
@@ -373,7 +373,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 				egret.Tween.get(rect)
 					.set({ y: -50 })
 					.to({ y: 0 }, 1000)
-					.wait(2000).call(this.info2scr.bind(this,true), this)
+					.wait(2000).call(this.info2scr.bind(this, true), this)
 					.to({ y: 50 }, 1000);
 
 				var rect1: egret.Rectangle = this.img2.scrollRect;
@@ -401,7 +401,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 				egret.Tween.get(rect)
 					.set({ y: -50 })
 					.to({ y: 0 }, 1000)
-					.wait(2000).call(this.info2scr.bind(this,true), this)
+					.wait(2000).call(this.info2scr.bind(this, true), this)
 					.to({ y: 50 }, 1000);
 
 				var rect1: egret.Rectangle = this.img1.scrollRect;
@@ -431,8 +431,8 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	/**
 	 * 推送滚动2 flag 是否调用滚动1
 	 * 
-	* */		
-	public info2scr(flag?:boolean) {
+	* */
+	public info2scr(flag?: boolean) {
 		if (this.sysinfodata && this.sysinfodata.length > 0) {
 			if (this.m >= this.sysinfodata.length) {
 				this.m = 0;
@@ -461,7 +461,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 				.wait(2000)
 				.to({ y: 50 }, 1000);
 		}
-		else if(this.hasTopMsg && flag) {
+		else if (this.hasTopMsg && flag) {
 			this.info1scr()
 		}
 	}
@@ -547,11 +547,11 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 		//弹幕飘动
 		egret.Tween.get(barragegroup)
-			.to({ x: -430 }, 8000).call(()=>{
-				if(barragegroup.parent){
+			.to({ x: -430 }, 8000).call(() => {
+				if (barragegroup.parent) {
 					this.BarGroup.removeChild(barragegroup)
 				}
-			},this)
+			}, this)
 	}
 
 
@@ -612,25 +612,25 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			barragetext.fontFamily = "SimHei";
 			barragegroup.addChild(barragetext);
 
-			barragegroup.addEventListener(egret.TouchEvent.TOUCH_TAP,()=>{
-				if(Help.getfriendData() && this.currentState == "havetree"){
-					if(Help.getfriendtreeUseridByUser(dataList[i].mainUser)){
+			barragegroup.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
+				if (Help.getfriendData() && this.currentState == "havetree") {
+					if (Help.getfriendtreeUseridByUser(dataList[i].mainUser)) {
 						Help.passAnm();
 						this.getTreeInfoByid(Help.getfriendtreeUseridByUser(dataList[i].mainUser));
 					}
 				}
-			},this)
+			}, this)
 
 
 			//弹幕飘动
 			if (barragegroup) {
 				egret.Tween.get(barragegroup)
 					.wait(i * 3000)
-					.to({ x: -430 }, 8000).call(()=>{
-						if(barragegroup.parent){
+					.to({ x: -430 }, 8000).call(() => {
+						if (barragegroup.parent) {
 							this.BarGroup.removeChild(barragegroup)
 						}
-				},this)
+					}, this)
 			}
 		}
 	}
@@ -734,32 +734,56 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 	private addfriend() {
 		SceneManager.addJump("share_addfriend_png");
-		let url = SceneManager.instance.weixinUtil.shareData.shareUrl
-		let addFriend = MyRequest.geturlstr("addFriend", url)
-		if (!addFriend) {
-			SceneManager.instance.weixinUtil.shareData.shareUrl = url + "&addFriend=true"
+		if (!SceneManager.instance.isMiniprogram) {//不是小程序的处理方式
+			let url = SceneManager.instance.weixinUtil.shareData.shareUrl
+			let addFriend = MyRequest.geturlstr("addFriend", url)
+			if (!addFriend) {
+				SceneManager.instance.weixinUtil.shareData.shareUrl = url + "&addFriend=true"
+			}
+			if (this.gameTreedata && Number(this.gameTreedata.friendCanObtain) > 0) {
+				SceneManager.instance.weixinUtil.shareData.titles = "【果实熟了】快来、快来帮我摘水果。"
+				SceneManager.instance.weixinUtil.shareData.describes = "离免费收获一箱水果，只差最后一步啦！"
+			} else {
+				SceneManager.instance.weixinUtil.shareData.titles = "【果说说农场】邀请你一起种水果，亲手种，免费送到家"
+				SceneManager.instance.weixinUtil.shareData.describes = "种上一棵树，经营一座农场，开启舌尖上的旅行--果说说"
+			}
+			SceneManager.instance.weixinUtil._openShare();
+
+		} else {//小程序处理
+			let info
+			if (this.gameTreedata && Number(this.gameTreedata.friendCanObtain) > 0) {
+				info = "【果实熟了】快来、快来帮我摘水果。离免费收获一箱水果，只差最后一步啦！"
+			} else {
+				info = "【果说说农场】邀请你一起种水果，亲手种，免费送到家。种上一棵树，经营一座农场，开启舌尖上的旅行--果说说"
+			}
+			let data = {
+				addFriend: true,
+				title: info
+			}
+			SceneManager.instance.weixinUtil.toPostMessageShare(0, data)
 		}
-		if (this.gameTreedata && Number(this.gameTreedata.friendCanObtain) > 0) {
-			SceneManager.instance.weixinUtil.shareData.titles = "【果实熟了】快来、快来帮我摘水果。"
-			SceneManager.instance.weixinUtil.shareData.describes = "离免费收获一箱水果，只差最后一步啦！"
-		} else {
-			SceneManager.instance.weixinUtil.shareData.titles = "【果说说农场】邀请你一起种水果，亲手种，免费送到家"
-			SceneManager.instance.weixinUtil.shareData.describes = "种上一棵树，经营一座农场，开启舌尖上的旅行--果说说"
-		}
-		SceneManager.instance.weixinUtil._openShare();
 	}
 
 
-	private sharefriend(){
+	private sharefriend() {
 		SceneManager.addJump("share_pick_png");
-		let url = SceneManager.instance.weixinUtil.shareData.shareUrl
-		let addFriend = MyRequest.geturlstr("addFriend", url)
-		if (!addFriend) {
-			SceneManager.instance.weixinUtil.shareData.shareUrl = url + "&addFriend=true"
+		if (!SceneManager.instance.isMiniprogram) {//不是小程序的处理方式
+			let url = SceneManager.instance.weixinUtil.shareData.shareUrl
+			let addFriend = MyRequest.geturlstr("addFriend", url)
+			if (!addFriend) {
+				SceneManager.instance.weixinUtil.shareData.shareUrl = url + "&addFriend=true"
+			}
+			SceneManager.instance.weixinUtil.shareData.titles = "【果实熟了】快来、快来帮我摘水果。"
+			SceneManager.instance.weixinUtil.shareData.describes = "离免费收获一箱水果，只差最后一步啦！"
+			SceneManager.instance.weixinUtil._openShare();
+		} else {
+			let info = "【果实熟了】快来、快来帮我摘水果。离免费收获一箱水果，只差最后一步啦！"
+			let data = {
+				addFriend: true,
+				title: info
+			}
+			SceneManager.instance.weixinUtil.toPostMessageShare(0, data)
 		}
-		SceneManager.instance.weixinUtil.shareData.titles = "【果实熟了】快来、快来帮我摘水果。"
-		SceneManager.instance.weixinUtil.shareData.describes = "离免费收获一箱水果，只差最后一步啦！"
-		SceneManager.instance.weixinUtil._openShare();
 	}
 	/**
 	 * 沒有果樹
@@ -772,11 +796,11 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 	//查询可领取果树成功
 	private requestGetTree(data): void {
-		console.log(data,"可领取果树数据")
+		console.log(data, "可领取果树数据")
 		var treedata = data;
 		let tree_data = [];
-		for(let i=0;i<treedata.data.length;i++){
-			if(treedata.data[i].id != "9e4aa73901a44f33b6e806881f406bac"){
+		for (let i = 0; i < treedata.data.length; i++) {
+			if (treedata.data[i].id != "9e4aa73901a44f33b6e806881f406bac") {
 				tree_data.push(treedata.data[i]);
 			}
 		}
@@ -789,7 +813,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	}
 
 	private onChange(e: eui.PropertyEvent): void {
-		console.log(this.list_seed.selectedItem)
 		let seed_des = new SeedDescription(this.list_seed.selectedItem);
 		this.addChild(seed_des);
 	}
@@ -920,7 +943,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 					{ text: "了" }
 				]
 			}
-			if(data.stageObj.isLast == "true" && data.growthValue == data.stageObj.energy){
+			if (data.stageObj.isLast == "true" && data.growthValue == data.stageObj.energy) {
 				this.progress_label.textFlow = <Array<egret.ITextElement>>[
 					{ text: "快让朋友来帮摘果吧！" },
 				]
@@ -931,27 +954,27 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			}
 		}
 		if (data.stageObj.canHarvest == "true") {
-					this.progress1.maximum = data.exchangeNum;							//装箱需要的果子总数
-					this.progress1.minimum = 0;
-					this.progress1.value = data.obtainFruitNum; 						//当前收获果子树
-					this.progress1.visible = true;
-					this.pick_num.visible = true;
-					this.distribution.visible = true;
-					this.distribution_label.visible = true;
-					this.distribution_label.text = data.obtainFruitNum + "个";
-					this.fruit_img.visible = true;
-					this.fruit_num.visible = true;
-					HttpRequest.imageloader(Config.picurl + data.goodsIcon, this.fruit_img);
-					this.fruit_num.text = data.exchangeNum + "个";
-				}
-				else {
-					this.progress1.visible = false;
-					this.pick_num.visible = false;
-					this.distribution.visible = false;
-					this.distribution_label.visible = false;
-					this.fruit_img.visible = false;
-					this.fruit_num.visible = false;
-				}
+			this.progress1.maximum = data.exchangeNum;							//装箱需要的果子总数
+			this.progress1.minimum = 0;
+			this.progress1.value = data.obtainFruitNum; 						//当前收获果子树
+			this.progress1.visible = true;
+			this.pick_num.visible = true;
+			this.distribution.visible = true;
+			this.distribution_label.visible = true;
+			this.distribution_label.text = data.obtainFruitNum + "个";
+			this.fruit_img.visible = true;
+			this.fruit_num.visible = true;
+			HttpRequest.imageloader(Config.picurl + data.goodsIcon, this.fruit_img);
+			this.fruit_num.text = data.exchangeNum + "个";
+		}
+		else {
+			this.progress1.visible = false;
+			this.pick_num.visible = false;
+			this.distribution.visible = false;
+			this.distribution_label.visible = false;
+			this.fruit_img.visible = false;
+			this.fruit_num.visible = false;
+		}
 	}
 
 	private OwntreeStage
@@ -960,7 +983,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	//查询自己果树回调
 	private requestgetOwnTree(data): void {
 		var treedata = data;
-		console.log(treedata,"自己果树数据")
+		console.log(treedata, "自己果树数据")
 		let treeUser: TreeUserData = treedata.data;
 		Help.saveOwnData(treedata.data);					//保存自己果树数据
 		Help.saveTreeUserData(treedata.data);				//保存果树数据
@@ -987,9 +1010,9 @@ class MainScene extends eui.Component implements eui.UIComponent {
 					SceneManager.addtreePrompt("我的果实长好啦，快使用篮子将果子摘下来吧！")
 				}
 				this.setState("havetree");
-				if(!this.hasCheck){
+				if (!this.hasCheck) {
 					SceneManager.sceneManager.checkAddFriend();
-					this.hasCheck = true;	
+					this.hasCheck = true;
 				}
 				this.user_name.text = Help.getcharlength(treedata.data.userName, 3);
 				let params = {
@@ -1026,23 +1049,23 @@ class MainScene extends eui.Component implements eui.UIComponent {
 					this.loadLeaveMsg = false;
 					this.getLeaveMsgTemplate()
 				}
-				if(Number(treedata.data.friendCanObtain)>0){
+				if (Number(treedata.data.friendCanObtain) > 0) {
 					this.share_friend.visible = true;
 				}
-				else{
+				else {
 					this.share_friend.visible = false;
 				}
 
-				if((this.OwntreeStage && this.OwntreeStage != treedata.data.stage)||(this.Oldneedtake && this.Oldneedtake != treedata.data.needTake)){
-					let jumpPrompt = new PromptHuafei(()=>{
-						Help.Screencapture(this.gro_fastpic,treedata.data);
+				if ((this.OwntreeStage && this.OwntreeStage != treedata.data.stage) || (this.Oldneedtake && this.Oldneedtake != treedata.data.needTake)) {
+					let jumpPrompt = new PromptHuafei(() => {
+						Help.Screencapture(this.gro_fastpic, treedata.data);
 					})
-					let label = "你的果树到了"+ +"";
+					let label = "你的果树到了" + +"";
 					let tishi = "(快去让朋友看看吧！)"
 					let btn = "去分享";
 					jumpPrompt.x = 85;
 					jumpPrompt.y = 430;
-					jumpPrompt.setPrompt(label,tishi,btn);
+					jumpPrompt.setPrompt(label, tishi, btn);
 					SceneManager.sceneManager._stage.addChild(jumpPrompt)
 				}
 				this.OwntreeStage = treedata.data.stage;
@@ -1056,15 +1079,15 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	}
 
 	private Req_WechatImg(user, image: eui.Image, data) {
-		if(!data){
+		if (!data) {
 			return;
 		}
 		data = data.data;
-		if( data && typeof data === "string"){
+		if (data && typeof data === "string") {
 			data = JSON.parse(data)
 		}
 		let imgUrl = Config.picurl + data[user];
-		HttpRequest.imageloader(imgUrl, image,user);
+		HttpRequest.imageloader(imgUrl, image, user);
 	}
 
 	//更新果树树
@@ -1168,8 +1191,8 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private topPage: number = 0		//当前页面
 
 	//查询顶部消息
-	public getTopMsg(reload?:Boolean) {
-		if(reload){
+	public getTopMsg(reload?: Boolean) {
+		if (reload) {
 			this.topPage = 0
 			this.n = 0;
 		}
@@ -1177,11 +1200,11 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		let data = {
 			pageNo: this.topPage
 		}
-		MyRequest._post("game/getTopInfo", data, this, this.Req_getTopMsg.bind(this,reload), this.onGetIOError)
+		MyRequest._post("game/getTopInfo", data, this, this.Req_getTopMsg.bind(this, reload), this.onGetIOError)
 	}
 
 	//查询顶部消息成功后处理
-	private Req_getTopMsg(reload,data): void {
+	private Req_getTopMsg(reload, data): void {
 		var Data = data;
 		let maxPage = parseInt(Data.data.lastPage)
 		if (this.topPage == maxPage) {
@@ -1193,7 +1216,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			//如果第一页都没有数据，就是没数据
 			this.hasTopMsg = false;
 		}
-		if(!reload){
+		if (!reload) {
 			this.info1scr();
 		}
 	}
@@ -1203,8 +1226,8 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 
 	//查询系统消息
-	public getSystemMsg(reload?:Boolean) {
-		if(reload){
+	public getSystemMsg(reload?: Boolean) {
+		if (reload) {
 			this.m = 0;
 		}
 		MyRequest._post("game/getSystemInfo", null, this, this.Req_getSystemMsg.bind(this), this.onGetIOError)
@@ -1224,12 +1247,12 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 	//查询好友列表
 	public getFriends(userid?) {
-		MyRequest._post("game/getFriends", null, this, this.Req_getFriends.bind(this,userid), this.onGetIOError);
+		MyRequest._post("game/getFriends", null, this, this.Req_getFriends.bind(this, userid), this.onGetIOError);
 	}
 
 	private friendList;
 	//查询好友列表成功后处理
-	private Req_getFriends(userid,data): void {
+	private Req_getFriends(userid, data): void {
 		var Data = data;
 		Help.savefriendData(data.data);
 		this.friendList = Data.data;
@@ -1239,29 +1262,29 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			friend_user.push(friend_data[i].friendUser)
 		}
 		if (friend_user && friend_user.length > 0) {
-			
+
 			let params = {
 				users: friend_user.join(",")
 			};
-			MyRequest._post("game/getWechatImg", params, this, this.Req_getWechatImg.bind(this,userid), this.onGetIOError);
+			MyRequest._post("game/getWechatImg", params, this, this.Req_getWechatImg.bind(this, userid), this.onGetIOError);
 		}
 	}
-	private Req_getWechatImg(userid,data) {
-		if(!data){
+	private Req_getWechatImg(userid, data) {
+		if (!data) {
 			return;
 		}
 		data = data.data;
-		if( data && typeof data === "string"){
+		if (data && typeof data === "string") {
 			data = JSON.parse(data)
 		}
 		Help.savefriendIcon(data);
 		Help.saveUserFriendData(this.friendList);
-		this.friendlistUpdate(this.friendList,userid);
+		this.friendlistUpdate(this.friendList, userid);
 	}
 
 	//更新好友列表
-	private friendlistUpdate(data,userid?) {
-		console.log(data,"好友数据")
+	private friendlistUpdate(data, userid?) {
+		console.log(data, "好友数据")
 		// 转成eui数据
 		let euiArr: eui.ArrayCollection = new eui.ArrayCollection(data);
 		// 把list_hero数据源设置成euiArr
@@ -1279,14 +1302,14 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		var id = evt.userid;
 		Help.passAnm()
 		this.getTreeInfoByid(id);
-		
+
 	}
 
 
-	private touser(userid){
-		if(this.currentState != "notree"){
+	private touser(userid) {
+		if (this.currentState != "notree") {
 			let treeid = Help.getfriendtreeUseridByUser(userid);
-			if(treeid){
+			if (treeid) {
 				this.getTreeInfoByid(treeid);
 			}
 		}
@@ -1354,10 +1377,10 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			text = text.substring(0, text.length - 1)
 			this.love_num.text = (String(Number(text) + Number(Data.data.loveCount))) + "%"
 		} else {
-			if(this.gameTreedata.id == Help.getOwnData().id){
+			if (this.gameTreedata.id == Help.getOwnData().id) {
 				SceneManager.addNotice("清除成功")
 			}
-			else{
+			else {
 				SceneManager.addNotice("清除成功,每日爱心值已达上限！")
 			}
 		}
@@ -1386,24 +1409,24 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		if (this.canPost) {
 			this.canPost = false;
 			this.img_kettle.touchEnabled = false;
-			MyRequest._post("game/useProp", params, this, this.Req_useProp.bind(this, propId), this.postErr.bind(this,propId));
+			MyRequest._post("game/useProp", params, this, this.Req_useProp.bind(this, propId), this.postErr.bind(this, propId));
 		}
 	}
 	private postErr(propId?) {
 		this.img_kettle.touchEnabled = true;
 		this.canPost = true;
-		if(propId == "3"){
-			let jumpPrompt = new PromptHuafei(()=>{
-				sessionStorage.setItem("taskCode","specifiy_order");
+		if (propId == "3") {
+			let jumpPrompt = new PromptHuafei(() => {
+				sessionStorage.setItem("taskCode", "specifiy_order");
 				location.href = Config.webHome + "view/game-browse-goods.html?listType=0"
 			})
 			let label = "你的篮子装不下了";
 			let tishi = "(指定商品下单，获取新果篮)"
 			let btn = "确定";
 			jumpPrompt.x = 85;
-            jumpPrompt.y = 430;
-			jumpPrompt.setPrompt(label,tishi,btn);
-        	SceneManager.sceneManager._stage.addChild(jumpPrompt)
+			jumpPrompt.y = 430;
+			jumpPrompt.setPrompt(label, tishi, btn);
+			SceneManager.sceneManager._stage.addChild(jumpPrompt)
 		}
 	}
 
@@ -1510,12 +1533,12 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		let params = {
 			treeUserId: treeUserId
 		};
-		MyRequest._post("game/getTreeInfo", params, this, this.Req_getTreeInfo.bind(this,treeUserId), this.onGetIOError);
+		MyRequest._post("game/getTreeInfo", params, this, this.Req_getTreeInfo.bind(this, treeUserId), this.onGetIOError);
 	}
 
 	//查询果树数据后处理
 
-	private Req_getTreeInfo(treeUserId,data): void {
+	private Req_getTreeInfo(treeUserId, data): void {
 		if (data) {
 			if (Number(data.data.friendCanObtain) > 0) {
 				this.checkHelpTakeFruit(data.data.id);
@@ -1526,14 +1549,14 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			}
 			this.setState("friendtree");
 			var Data = data;
-			let index = Help.getContains(this.friendList,Help.getfriendByid(treeUserId));
+			let index = Help.getContains(this.friendList, Help.getfriendByid(treeUserId));
 			this.friend_list.selectedIndex = index;
-			if(index*110>this.friend_list.width-10){
-				if(index*110<=(this.friend_list.contentWidth-this.friend_list.width)){
-					this.friend_list.scrollH = index*110;
+			if (index * 110 > this.friend_list.width - 10) {
+				if (index * 110 <= (this.friend_list.contentWidth - this.friend_list.width)) {
+					this.friend_list.scrollH = index * 110;
 				}
-				else{
-					this.friend_list.scrollH = this.friend_list.contentWidth-this.friend_list.width;
+				else {
+					this.friend_list.scrollH = this.friend_list.contentWidth - this.friend_list.width;
 				}
 			}
 			Help.saveTreeUserData(Data.data);
@@ -1558,10 +1581,10 @@ class MainScene extends eui.Component implements eui.UIComponent {
 				userId: this.friendUser,
 				treeUserId: treeUserId
 			}
-			if(this.currentState == "friendtree"){
+			if (this.currentState == "friendtree") {
 				Help.removebuling();
 				MyRequest._post("game/visit", params, this, null, null)
-			}		
+			}
 		}
 	}
 
@@ -1598,7 +1621,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	//帮摘果之后请求
 	private Req_friendpick(data) {
 		Help.pickTwn(5);
-		Help.pickTwnupdata(()=>{
+		Help.pickTwnupdata(() => {
 			Help.helppickTwn(data.data);
 			let text: string = this.love_num.text;
 			text = text.substring(0, text.length - 1);
@@ -1747,10 +1770,10 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 	//水滴动画
 	private waterTwn(data?) {
-		if(data && this.currentState == "friendtree"){
-			this.img_water.visible = true;	
+		if (data && this.currentState == "friendtree") {
+			this.img_water.visible = true;
 		}
-		else if(!data && this.currentState == "havetree"){
+		else if (!data && this.currentState == "havetree") {
 			this.img_water.visible = true;
 		}
 		egret.Tween.get(this.img_water)
@@ -1779,9 +1802,9 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 	// 水壶冷却展现
 	private tettleEad() {
-		if(this.currentState == "havetree"){
+		if (this.currentState == "havetree") {
 			this.getOwnTree();
-		}else if(this.currentState == "friendtree"){
+		} else if (this.currentState == "friendtree") {
 			this.img_water.visible = false;
 		}
 		this.gro_kettle.visible = false;

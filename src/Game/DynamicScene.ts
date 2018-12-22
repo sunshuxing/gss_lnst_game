@@ -33,7 +33,6 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 		this.list_dyn.useVirtualLayout = false;
 		this.list_dyn.dataProvider = this.euiArr;
 		this.list_dyn.itemRenderer = dynList_item;
-		console.log("childrenCreated");
 	}
 
 	private asdas() {
@@ -149,7 +148,6 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 
 
 	private onComplete(): void {
-		console.log("onComplete");
 	}
 
 

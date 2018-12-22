@@ -265,7 +265,7 @@ class TaskScene extends eui.Component implements eui.UIComponent {
 
 
 class taskList_item extends eui.ItemRenderer {
-    private old_data:any;
+    private old_data: any;
     private bg_task: eui.Image;              //任务背景
     private icon_task: eui.Image;            //任务icon
     private name_task: eui.Label;            //任务名称
@@ -341,7 +341,7 @@ class taskList_item extends eui.ItemRenderer {
     // 当数据改变时，更新视图
     protected dataChanged() {
         this.bg_task.texture = RES.getRes(this.getbgBycode(this.data.code));
-        HttpRequest.imageloader(Config.picurl+this.data.icon,this.icon_task);
+        HttpRequest.imageloader(Config.picurl + this.data.icon, this.icon_task);
         this.name_task.text = this.data.name;
         this.description_task.text = "赠送" + this.data.rewardRule.name + "," + this.getlimitTime(this.data.limitTime);
         // this.can_finish.texture = RES.getRes(this.getbtnBycode(this.data.code));
@@ -417,36 +417,51 @@ class taskList_item extends eui.ItemRenderer {
                 break;
             case 'Invitation_friend': {
                 SceneManager.instance.taskScene.dispatchEventWith(MaskEvent.REMOVED_FROM_STAGE)   //使用manager获取场景并触发事件
-                this.tojump(true,"share_tree_png");
+                this.tojump(true, "share_tree_png");
                 let url = SceneManager.instance.weixinUtil.shareData.shareUrl
-		        let addFriend = MyRequest.geturlstr("addFriend", url)
-                if (Help.getOwnData() && Number(Help.getOwnData().friendCanObtain) > 0) {
-                    SceneManager.instance.weixinUtil.shareData.titles = "【果实熟了】快来、快来帮我摘水果。"
-                    SceneManager.instance.weixinUtil.shareData.describes = "离免费收获一箱水果，只差最后一步啦！"
+                let addFriend = MyRequest.geturlstr("addFriend", url)
+
+                if (!SceneManager.instance.isMiniprogram) {//不是小程序的处理方式
+                    if (Help.getOwnData() && Number(Help.getOwnData().friendCanObtain) > 0) {
+                        SceneManager.instance.weixinUtil.shareData.titles = "【果实熟了】快来、快来帮我摘水果。"
+                        SceneManager.instance.weixinUtil.shareData.describes = "离免费收获一箱水果，只差最后一步啦！"
+                    } else {
+                        SceneManager.instance.weixinUtil.shareData.titles = "【果说说农场】邀请你一起种水果，亲手种，免费送到家"
+                        SceneManager.instance.weixinUtil.shareData.describes = "种上一棵树，经营一座农场，开启舌尖上的旅行--果说说"
+                    }
+                    SceneManager.instance.weixinUtil._openShare();
                 } else {
-                    SceneManager.instance.weixinUtil.shareData.titles = "【果说说农场】邀请你一起种水果，亲手种，免费送到家"
-                    SceneManager.instance.weixinUtil.shareData.describes = "种上一棵树，经营一座农场，开启舌尖上的旅行--果说说"
+                    let info
+                    if (Help.getOwnData() && Number(Help.getOwnData().friendCanObtain) > 0) {
+                        info = "【果实熟了】快来、快来帮我摘水果。离免费收获一箱水果，只差最后一步啦！"
+                    } else {
+                        info = "【果说说农场】邀请你一起种水果，亲手种，免费送到家。种上一棵树，经营一座农场，开启舌尖上的旅行--果说说"
+                    }
+                    let data = {
+                        addFriend: true,
+                        title: info
+                    }
+                    SceneManager.instance.weixinUtil.toPostMessageShare(0, data)
                 }
-                SceneManager.instance.weixinUtil._openShare();
             }
                 break;
             case 'share_orchard': {
                 SceneManager.instance.taskScene.dispatchEventWith(MaskEvent.REMOVED_FROM_STAGE)   //使用manager获取场景并触发事件
-                this.tojump(true,"share_png")
+                this.tojump(true, "share_png")
             }
                 break;
             case 'any_order': {
-                sessionStorage.setItem("taskCode",code);
+                sessionStorage.setItem("taskCode", code);
                 location.href = Config.webHome + "view/game-browse-goods.html?listType=2"
             }
                 break;
             case 'specifiy_order': {
-                sessionStorage.setItem("taskCode",code);
+                sessionStorage.setItem("taskCode", code);
                 location.href = Config.webHome + "view/game-browse-goods.html?listType=0"
             }
                 break;
             case 'order_water': {
-                sessionStorage.setItem("taskCode",code);
+                sessionStorage.setItem("taskCode", code);
                 location.href = Config.webHome + "view/index.html"
             }
                 break;
@@ -463,7 +478,7 @@ class taskList_item extends eui.ItemRenderer {
     }
 
     //跳转场景
-    private tojump(needCloseTask: boolean,image:string) {
+    private tojump(needCloseTask: boolean, image: string) {
         if (needCloseTask) {
             SceneManager.instance.taskScene.dispatchEventWith(MaskEvent.REMOVEMASK)
         }
@@ -487,7 +502,7 @@ class taskList_item extends eui.ItemRenderer {
         if (code == "specifiy_order") {
             return "task-bg-fen"
         }
-        if (code == "order_water"){
+        if (code == "order_water") {
             return "task-light-bule_png"
         }
 

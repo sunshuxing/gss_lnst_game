@@ -17,7 +17,6 @@ class BaoxiangScene extends eui.Component implements eui.UIComponent{
 		this.bgTwn();
 		this.currentState = "close"
 		this.bx.y = this.height - SceneManager.sceneManager._stage.height;
-        console.log("onComplete")
     }
 
 	private bgTwn(){

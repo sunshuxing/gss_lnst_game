@@ -15,7 +15,6 @@ class SeedList_item extends eui.ItemRenderer{
 	}
 	// 当数据改变时，更新视图
 	protected dataChanged() {
-        console.log(Config.picurl+this.data.seedIcon)
         this.icon.width = 60;
         this.icon.height = 60; 
 		HttpRequest.imageloader(Config.picurl+this.data.seedIcon,this.icon);

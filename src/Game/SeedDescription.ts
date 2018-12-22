@@ -23,8 +23,6 @@ class SeedDescription extends eui.Component implements eui.UIComponent{
         this.seed_info.text = this.seed_data.treeInfo;
         this.delivery_info.text = this.seed_data.deliveryInfo;
         this.seed_name.text = this.seed_data.name;
-        
-        console.log("onComplete")
     }
 
     protected childrenCreated(): void {
@@ -33,7 +31,6 @@ class SeedDescription extends eui.Component implements eui.UIComponent{
         this.scr_delivery_info.verticalScrollBar = null;
         this.btn_cancel.addEventListener(egret.TouchEvent.TOUCH_TAP,this.remove,this);
         this.btn_determine.addEventListener(egret.TouchEvent.TOUCH_TAP,this.determine,this);
-		console.log("childrenCreated");
 	}
 
 
