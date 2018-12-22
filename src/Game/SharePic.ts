@@ -4,7 +4,7 @@ class SharePic extends eui.Component implements eui.UIComponent{
 		this.addEventListener(eui.UIEvent.COMPLETE,this.onComplete,this);
 		this.skinName = "resource/skins/SharePicSkins.exml";
         this.action = func;
-        if(data.stageObj.canHarvest == "true"){
+        if(data.needTake == "true"){
             this.share_label.text = "我的"+data.treeName+"结果了!"
         }
         else{

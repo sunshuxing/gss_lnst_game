@@ -564,8 +564,24 @@ class Help{
 
     private static Req_uploadBase64Img(data){
         let imagename = data.data.imgName;
-        let param = WeixinUtil.prototype.urlEncode(imagename,null,null,null)
-        location.href = Config.webHome + "view/longTapShare.html" + param;
+        console.log(imagename,"name")
+        if(!SceneManager.instance.isMiniprogram){
+            let param = WeixinUtil.prototype.urlEncode(imagename,"imgName",null,null)
+            location.href = Config.webHome + "view/longTapShare.html?" + param;
+            console.log(param,"ImageName")
+        }
+        else{
+            SceneManager.addJump("sharetextfriend_png");
+            let info = "快来看看我的果树吧！"
+			let data = {
+				addFriend: true,
+				title: info,
+                imageUrl: Config.picurl+imagename
+			}
+			SceneManager.instance.weixinUtil.toPostMessageShare(0, data)
+            console.log(Config.picurl+imagename,"imageUrl")
+        }
+
     }
 }
 	

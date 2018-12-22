@@ -2,20 +2,14 @@ class PromptJump extends eui.Component implements eui.UIComponent{
 	public constructor() {
 		super();
 		this.addEventListener(eui.UIEvent.COMPLETE,this.onComplete,this);
-		this.skinName = "resource/skins/PromptSkins.exml";
+		this.skinName = "resource/skins/PeisongSkins.exml";
 	}
 
-	private prompt_label:eui.Label;			//提示内容
-    private btn_label:eui.Label;            //按钮文字
     private prompt_btn:eui.Group;           //提示按钮
-    private prompt_ti:eui.Label;            //
 
     protected childrenCreated():void{
 		super.childrenCreated();
         this.prompt_btn.addEventListener(egret.TouchEvent.TOUCH_TAP,this.remove,this)
-        this.prompt_label.text = "您已可以兑换水果！";
-        this.btn_label.text = "去兑换";
-        this.prompt_ti.text = "";
     }
 
 

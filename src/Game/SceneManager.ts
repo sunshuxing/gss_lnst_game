@@ -249,7 +249,7 @@ class SceneManager {
     }
 
     static addJump(image:string) {
-        this.instance.jumpMark = new JumpScene(image)
+        this.instance.jumpMark = new JumpScene(image,SceneManager.instance.isMiniprogram)
         this.instance._stage.addChild(this.instance.jumpMark);
     }
 

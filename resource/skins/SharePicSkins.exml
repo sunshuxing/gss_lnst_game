@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="SharePicSkins" width="750" height="1344" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
 	<e:Image width="100%" height="100%" x="0" y="0" source="panel-bg" scale9Grid="4,4,24,24" alpha="0.8"/>
-	<e:Image x="0" source="sharepicbg_png" y="135"/>
-	<e:Image y="280" source="sharetop_png" horizontalCenter="0"/>
-	<e:Image y="414" source="sharemidbg_png" horizontalCenter="0"/>
-	<e:Image id="img_tree" width="284" height="296" y="484" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="2"/>
-	<e:Image x="204" y="488" source="sharebuling_png"/>
-	<e:Label id="share_label" text="我的苹果树结果了!" y="878" anchorOffsetX="0" width="380" anchorOffsetY="0" height="66" verticalAlign="middle" textAlign="center" size="36" fontFamily="Microsoft YaHei" horizontalCenter="0"/>
-	<e:Image id="btn_share" y="1055" source="sharepicbtn_png" x="410"/>
-	<e:Image id="btn_cancel" x="126" y="1055" source="sharepicdr_png"/>
+	<e:Image x="0" source="sharepicbg_png" y="43"/>
+	<e:Image y="124" source="sharetop_png" horizontalCenter="0.5"/>
+	<e:Image y="270" source="sharemidbg_png" horizontalCenter="0.5"/>
+	<e:Image id="img_tree" width="284" height="296" y="340" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="2"/>
+	<e:Image x="222" y="352" source="sharebuling_png"/>
+	<e:Label id="share_label" text="" y="732" anchorOffsetX="0" width="380" anchorOffsetY="0" height="66" verticalAlign="middle" textAlign="center" size="36" fontFamily="Microsoft YaHei" horizontalCenter="0"/>
+	<e:Image id="btn_share" y="888" source="sharepicbtn_png" x="410"/>
+	<e:Image id="btn_cancel" x="126" y="888" source="sharepicdr_png"/>
 </e:Skin>

@@ -733,7 +733,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	//添加好友
 
 	private addfriend() {
-		SceneManager.addJump("share_addfriend_png");
+		SceneManager.addJump("sharetextwater_png");
 		if (!SceneManager.instance.isMiniprogram) {//不是小程序的处理方式
 			let url = SceneManager.instance.weixinUtil.shareData.shareUrl
 			let addFriend = MyRequest.geturlstr("addFriend", url)
@@ -766,7 +766,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 
 	private sharefriend() {
-		SceneManager.addJump("share_pick_png");
+		SceneManager.addJump("sharetextpick_png");
 		if (!SceneManager.instance.isMiniprogram) {//不是小程序的处理方式
 			let url = SceneManager.instance.weixinUtil.shareData.shareUrl
 			let addFriend = MyRequest.geturlstr("addFriend", url)
@@ -995,8 +995,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 				image.texture = RES.getRes("bg-day_png");
 				image.height = 1344;
 				let prompt = new PromptJump();
-				prompt.x = 85;
-				prompt.y = 430;
 				SceneManager.sceneManager._stage.addChild(image);
 				SceneManager.sceneManager._stage.addChild(prompt);
 			} else {
@@ -1079,7 +1077,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private treeUpdate(data: TreeUserData) {
 		if (data.needTake == "true") {
 			HttpRequest.imageloader(Config.picurl + data.stageObj.harvestImage, this.tree, null, () => {
-				if ((Number(data.stage) >= 5) && (this.OwntreeStage && this.OwntreeStage != data.stage) || (this.Oldneedtake && this.Oldneedtake != data.needTake)) {
+				if (this.currentState == "havetree"&&(Number(data.stage) >= 5) && (this.OwntreeStage && this.OwntreeStage != data.stage) || (this.Oldneedtake && this.Oldneedtake != data.needTake)) {
 					let share = new SharePic(() => {
 						Help.Screencapture(this.gro_fastpic, data);
 					}, data)
@@ -1090,7 +1088,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			}, this);
 		} else {
 			HttpRequest.imageloader(Config.picurl + data.stageObj.stageImage, this.tree, null, () => {
-				if ((Number(data.stage) >= 5) && (this.OwntreeStage && this.OwntreeStage != data.stage) || (this.Oldneedtake && this.Oldneedtake != data.needTake)) {
+				if (this.currentState == "havetree"&&(Number(data.stage) >= 5) && (this.OwntreeStage && this.OwntreeStage != data.stage) || (this.Oldneedtake && this.Oldneedtake != data.needTake)) {
 					let share = new SharePic(() => {
 						Help.Screencapture(this.gro_fastpic, data);
 					}, data)
@@ -1327,7 +1325,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		}
 		if (!this.friend_list.selectedItem.treeUserId) {
 			//分享弹窗
-			SceneManager.addJump("share_tree_png")
+			SceneManager.addJump("sharetexttree_png")
 		}
 
 	}

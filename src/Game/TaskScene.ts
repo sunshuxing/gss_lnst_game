@@ -417,7 +417,7 @@ class taskList_item extends eui.ItemRenderer {
                 break;
             case 'Invitation_friend': {
                 SceneManager.instance.taskScene.dispatchEventWith(MaskEvent.REMOVED_FROM_STAGE)   //使用manager获取场景并触发事件
-                this.tojump(true, "share_tree_png");
+                this.tojump(true, "sharetexttree_png");
                 let url = SceneManager.instance.weixinUtil.shareData.shareUrl
                 let addFriend = MyRequest.geturlstr("addFriend", url)
 
