@@ -175,7 +175,7 @@ class WeixinUtil {
         if (data && data.titles) {
             title = data.titles
         } else {
-            title = "【果说说农场】你的专属农场，亲手种，包邮送到家！种上一棵树，恋上一座城，开启舌尖上的旅行--果说说"
+            title = "【说说农场】你的专属农场，亲手种，包邮送到家"
         }
         data.titles = title;
         data.friendSign = localStorage.getItem("friendSign");    //自身标识

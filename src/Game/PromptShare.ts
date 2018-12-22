@@ -58,7 +58,7 @@ class PromptShare extends eui.Component implements eui.UIComponent {
                 SceneManager.instance.weixinUtil._openShare();
             }
         } else {
-            let info = "【果实熟了】快来、快来帮我摘水果。离免费收获一箱水果，只差最后一步啦！"
+            let info = "【果实熟了】快来、快来帮我摘水果。"
             let data = {
                 addFriend: true,
                 title: info
