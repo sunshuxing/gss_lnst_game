@@ -455,7 +455,7 @@ class Help{
     private static lovebuling(){
         this.buling.texture = RES.getRes("bulingbg_png")
         this.buling.x = 90;
-        this.buling.y = 440;
+        this.buling.y = 480;
         SceneManager.sceneManager.mainScene.addChild(this.buling);
         this.bulingstar1.texture = RES.getRes("bulingstar_png")
         this.bulingstar1.x = 270;
@@ -564,17 +564,8 @@ class Help{
 
     private static Req_uploadBase64Img(data){
         let imagename = data.data.imgName;
-
-        // let jumpPrompt = new PromptHuafei(()=>{
-		// 				location.href = Config.webHome + "view/game-browse-goods.html?" + data
-		// 			})
-		// 			let label = "你的果树到了"+ +"";
-		// 			let tishi = "(快去让朋友看看吧！)"
-		// 			let btn = "去分享";
-		// 			jumpPrompt.x = 85;
-		// 			jumpPrompt.y = 430;
-		// 			jumpPrompt.setPrompt(label,tishi,btn);
-		// 			SceneManager.sceneManager._stage.addChild(jumpPrompt)
+        let param = WeixinUtil.prototype.urlEncode(imagename,null,null,null)
+        location.href = Config.webHome + "view/longTapShare.html" + param;
     }
 }
 	
