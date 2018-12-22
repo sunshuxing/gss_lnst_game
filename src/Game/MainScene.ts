@@ -856,7 +856,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		MyRequest._post("game/getOwnTree", null, this, this.requestgetOwnTree.bind(this), this.onGetIOError);
 	}
 
-	private init(data) {
+	private init(data,isOther:Boolean) {
 		let now = new Date();
 		let hour = now.getHours();
 		if (hour > 17 || hour < 6) {
@@ -907,7 +907,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		this.progress.minimum = 0;						//进度条最小值
 		this.nowprogressvalue = Number(data.growthValue);
 		this.getTreeLanguage(data);						//获取当前阶段树语
-		this.treeUpdate(data);							//果树显示
+		this.treeUpdate(data,isOther);							//果树显示
 		this.gameTreedata = data;						//当前用户果树数据
 		this.getTreeProp(data.id);						//查询当前果园道具和显示
 		if (this.currentState == "havetree") {
@@ -1040,7 +1040,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 					this.fruit_num.visible = false;
 				}
 				this.getOwnProp();
-				this.init(treedata.data);
+				this.init(treedata.data,false);
 				if (this.loadLeaveMsg) {//如果需要加载留言
 					this.nowTreeUserId = treedata.data.id;
 					this.ownTreeUserId = treedata.data.id;
@@ -1074,28 +1074,36 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	}
 
 	//更新果树树
-	private treeUpdate(data: TreeUserData) {
+	private treeUpdate(data: TreeUserData,isOther) {
 		if (data.needTake == "true") {
 			HttpRequest.imageloader(Config.picurl + data.stageObj.harvestImage, this.tree, null, () => {
-				if (this.currentState == "havetree"&&(Number(data.stage) >= 5) && (this.OwntreeStage && this.OwntreeStage != data.stage) || (this.Oldneedtake && this.Oldneedtake != data.needTake)) {
+				if (!isOther&&(Number(data.stage) >= 5) && (this.OwntreeStage && this.OwntreeStage != data.stage) || (this.Oldneedtake && this.Oldneedtake != data.needTake)) {
 					let share = new SharePic(() => {
 						Help.Screencapture(this.gro_fastpic, data);
 					}, data)
 					SceneManager.sceneManager._stage.addChild(share)
 				}
-				this.OwntreeStage = data.stage;
-				this.Oldneedtake = data.needTake;
+				if(!isOther){
+					this.OwntreeStage = data.stage;
+					this.Oldneedtake = data.needTake;
+					console.log(this.OwntreeStage,"OwntreeStage");
+					console.log(this.Oldneedtake,"Oldneedtake")
+				}
 			}, this);
 		} else {
 			HttpRequest.imageloader(Config.picurl + data.stageObj.stageImage, this.tree, null, () => {
-				if (this.currentState == "havetree"&&(Number(data.stage) >= 5) && (this.OwntreeStage && this.OwntreeStage != data.stage) || (this.Oldneedtake && this.Oldneedtake != data.needTake)) {
+				if (!isOther&&(Number(data.stage) >= 5) && (this.OwntreeStage && this.OwntreeStage != data.stage) || (this.Oldneedtake && this.Oldneedtake != data.needTake)) {
 					let share = new SharePic(() => {
 						Help.Screencapture(this.gro_fastpic, data);
 					}, data)
 					SceneManager.sceneManager._stage.addChild(share)
 				}
-				this.OwntreeStage = data.stage;
-				this.Oldneedtake = data.needTake;
+				if(!isOther){
+					this.OwntreeStage = data.stage;
+					this.Oldneedtake = data.needTake;
+					console.log(this.OwntreeStage,"OwntreeStage");
+					console.log(this.Oldneedtake,"Oldneedtake")
+				}
 			}, this);
 		}
 		Help.getTreeHWBystage(data.stage, this.tree);
@@ -1562,7 +1570,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			this.friendUser = Data.data.user
 			this.progress.slideDuration = 0;
 			this.progress.value = 0;
-			this.init(Data.data);
+			this.init(Data.data,true);
 			SceneManager.treepromptgro.removeChildren();
 			SceneManager.treetimer.reset();
 			SceneManager.addtreePrompt("欢迎来到我的农场！")
