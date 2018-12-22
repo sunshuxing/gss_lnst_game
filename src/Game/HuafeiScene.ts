@@ -20,7 +20,6 @@ class HuafeiScene extends eui.Component implements eui.UIComponent{
     }
 
     private onComplete():void{
-        console.log("onComplete");
         this.youji_btn.addEventListener(egret.TouchEvent.TOUCH_TAP,this.useyouji,this);
         this.fuhe_btn.addEventListener(egret.TouchEvent.TOUCH_TAP,this.usefuhe,this)
         this.shuirong_btn.addEventListener(egret.TouchEvent.TOUCH_TAP,this.useshuirong,this)

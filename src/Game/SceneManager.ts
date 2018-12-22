@@ -15,6 +15,8 @@ class SceneManager {
     private interval                            //定时器
     public  jumpMark: JumpScene                       //分享遮罩
 
+    public isMiniprogram:Boolean;                //当前是否是小程序运行
+
 
     constructor() {
         this.mainScene = new MainScene()

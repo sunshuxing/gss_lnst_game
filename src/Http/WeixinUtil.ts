@@ -27,7 +27,7 @@ class WeixinUtil {
             iconUrl: "",
             success: function () {
                 let evt: MaskEvent = new MaskEvent(MaskEvent.SHARECLOSE);
-		        SceneManager.instance.jumpMark.dispatchEvent(evt);
+                SceneManager.instance.jumpMark.dispatchEvent(evt);
                 console.log("success share")
             }
         }
@@ -119,12 +119,7 @@ class WeixinUtil {
         }
         if (location.href.split("?").length >= 2) {
             var uri = location.href.split("?")[0];
-            var id = this.geturlstr("id");
-            if (!id) {
-                this.shareData.shareUrl = uri + "?friendSign=" + friendSign;//分享id
-            } else {
-                this.shareData.shareUrl = uri + "?friendSign=" + friendSign + "&id=" + id;//分享id
-            }
+            this.shareData.shareUrl = uri + "?friendSign=" + friendSign;//分享id
         } else {
             this.shareData.shareUrl = href + "?friendSign=" + friendSign;//分享id
         }
@@ -139,22 +134,22 @@ class WeixinUtil {
      * jsApiList    
      * isOverdue    是否是过期请求，如果是，则code不发送到后台
      */
-    public _commWxInit(serverUrl: string, mustLogin: string, callback: Function, needShare: boolean, jsApiList, isOverdue:boolean) {
+    public _commWxInit(serverUrl: string, mustLogin: string, callback: Function, needShare: boolean, jsApiList, isOverdue: boolean) {
         let code = "";
         let _url = location.href
-        if(!isOverdue){
+        if (!isOverdue) {
             code = this._commGetValueFromUrlByKey("code");
-        }else{
+        } else {
             //如果请求过期，并且url还包含code、state都要删除
             let code = this.geturlstr("code")
             let state = this.geturlstr("state")
-            let contant = location.href.charAt((location.href.indexOf("code")-1))  //code前面的字符 ？或者&如果是&则要删除
-            if(contant == "&"){
-                _url = _url.replace("&code="+code,"")
-            }else{
-                _url = _url.replace("code="+code,"")
+            let contant = location.href.charAt((location.href.indexOf("code") - 1))  //code前面的字符 ？或者&如果是&则要删除
+            if (contant == "&") {
+                _url = _url.replace("&code=" + code, "")
+            } else {
+                _url = _url.replace("code=" + code, "")
             }
-            _url = _url.replace("&state="+state,"")
+            _url = _url.replace("&state=" + state, "")
         }
         var data = {
             pageUrl: _url,
@@ -172,6 +167,22 @@ class WeixinUtil {
         request.addEventListener(egret.IOErrorEvent.IO_ERROR, this.onGetIOError, this);
     }
 
+    /**
+     * 向小程序推送分享
+     */
+    public toPostMessageShare(type, data) {
+        let title = ""
+        if (data && data.titles) {
+            title = data.titles
+        } else {
+            title = "【果说说农场】你的专属农场，亲手种，包邮送到家！种上一棵树，恋上一座城，开启舌尖上的旅行--果说说"
+        }
+        data.titles = title;
+        data.friendSign = localStorage.getItem("friendSign");    //自身标识
+        data.type = type
+        wx.miniProgram.postMessage({ data })
+    }
+
     public onGetComplete(callback, needShare, jsApiList, event: egret.Event) {
         let that = this
         var request = <egret.HttpRequest>event.currentTarget;
@@ -182,12 +193,22 @@ class WeixinUtil {
             localStorage.setItem("sessionid", response.data.sessionId);//放入sessionid
             this.login_user_id = response.data.unionId;
             localStorage.setItem("isMember", response.data.isMember);//存放是否是会员的标志
+            localStorage.setItem("friendSign", response.data.unionId)
             this.isMember = response.data.isMember == "true" ? true : false;
             if (needShare) {
-                this._getShareData(response);//***
-                this.shareData.iconUrl = "http://www.guoss.net/wefruitmall/images/game_share.png";
-                this.shareData.titles = "【果说说农场】你的专属农场，亲手种，包邮送到家！";
-                that._openShare();
+                //判断是否是在小程序web-view中，如果是，则不能使用默认的分享
+                wx.miniProgram.getEnv(function (e) {
+                    if (e.miniprogram) {
+                        SceneManager.instance.isMiniprogram = true
+                        //通知小程序分享
+                        that.toPostMessageShare(0, {})
+                    } else {
+                        that._getShareData(response);//***
+                        that.shareData.iconUrl = "http://www.guoss.net/wefruitmall/images/game_share.png";
+                        that.shareData.titles = "【果说说农场】你的专属农场，亲手种，包邮送到家！";
+                        that._openShare();
+                    }
+                })
             }
             if (callback && typeof callback === 'function') {//回调函数
                 callback(response);//需要在回调函数中初始化shareData
@@ -216,7 +237,7 @@ class WeixinUtil {
             });
         }
         else if (response.status == 2) {
-            console.log("sessionId", response.data.sessionId)
+            console.log("请求过期sessionId", response.data.sessionId)
             // localStorage.setItem("sessionid",response.data.sessionId);//放入sessionid
         }
     }
@@ -237,7 +258,7 @@ class WeixinUtil {
     public urlEncode(param, key, encode, inside) {
         if (param == null) return ''
         let paramStr = ''
-        const t = typeof  (param)
+        const t = typeof (param)
         if (t == 'string' || t == 'number' || t == 'boolean') {
             paramStr += '&' + key + '=' + ((encode == null || encode) ? encodeURIComponent(param) : param)
         } else {

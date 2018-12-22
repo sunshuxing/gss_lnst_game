@@ -734,32 +734,56 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 	private addfriend() {
 		SceneManager.addJump("share_addfriend_png");
-		let url = SceneManager.instance.weixinUtil.shareData.shareUrl
-		let addFriend = MyRequest.geturlstr("addFriend", url)
-		if (!addFriend) {
-			SceneManager.instance.weixinUtil.shareData.shareUrl = url + "&addFriend=true"
+		if (!SceneManager.instance.isMiniprogram) {//不是小程序的处理方式
+			let url = SceneManager.instance.weixinUtil.shareData.shareUrl
+			let addFriend = MyRequest.geturlstr("addFriend", url)
+			if (!addFriend) {
+				SceneManager.instance.weixinUtil.shareData.shareUrl = url + "&addFriend=true"
+			}
+			if (this.gameTreedata && Number(this.gameTreedata.friendCanObtain) > 0) {
+				SceneManager.instance.weixinUtil.shareData.titles = "【果实熟了】快来、快来帮我摘水果。"
+				SceneManager.instance.weixinUtil.shareData.describes = "离免费收获一箱水果，只差最后一步啦！"
+			} else {
+				SceneManager.instance.weixinUtil.shareData.titles = "【果说说农场】邀请你一起种水果，亲手种，免费送到家"
+				SceneManager.instance.weixinUtil.shareData.describes = "种上一棵树，经营一座农场，开启舌尖上的旅行--果说说"
+			}
+			SceneManager.instance.weixinUtil._openShare();
+
+		} else {//小程序处理
+			let info
+			if (this.gameTreedata && Number(this.gameTreedata.friendCanObtain) > 0) {
+				info = "【果实熟了】快来、快来帮我摘水果。离免费收获一箱水果，只差最后一步啦！"
+			} else {
+				info = "【果说说农场】邀请你一起种水果，亲手种，免费送到家。种上一棵树，经营一座农场，开启舌尖上的旅行--果说说"
+			}
+			let data = {
+				addFriend: true,
+				title: info
+			}
+			SceneManager.instance.weixinUtil.toPostMessageShare(0, data)
 		}
-		if (this.gameTreedata && Number(this.gameTreedata.friendCanObtain) > 0) {
-			SceneManager.instance.weixinUtil.shareData.titles = "【果实熟了】快来、快来帮我摘水果。"
-			SceneManager.instance.weixinUtil.shareData.describes = "离免费收获一箱水果，只差最后一步啦！"
-		} else {
-			SceneManager.instance.weixinUtil.shareData.titles = "【果说说农场】邀请你一起种水果，亲手种，免费送到家"
-			SceneManager.instance.weixinUtil.shareData.describes = "种上一棵树，经营一座农场，开启舌尖上的旅行--果说说"
-		}
-		SceneManager.instance.weixinUtil._openShare();
 	}
 
 
 	private sharefriend() {
 		SceneManager.addJump("share_pick_png");
-		let url = SceneManager.instance.weixinUtil.shareData.shareUrl
-		let addFriend = MyRequest.geturlstr("addFriend", url)
-		if (!addFriend) {
-			SceneManager.instance.weixinUtil.shareData.shareUrl = url + "&addFriend=true"
+		if (!SceneManager.instance.isMiniprogram) {//不是小程序的处理方式
+			let url = SceneManager.instance.weixinUtil.shareData.shareUrl
+			let addFriend = MyRequest.geturlstr("addFriend", url)
+			if (!addFriend) {
+				SceneManager.instance.weixinUtil.shareData.shareUrl = url + "&addFriend=true"
+			}
+			SceneManager.instance.weixinUtil.shareData.titles = "【果实熟了】快来、快来帮我摘水果。"
+			SceneManager.instance.weixinUtil.shareData.describes = "离免费收获一箱水果，只差最后一步啦！"
+			SceneManager.instance.weixinUtil._openShare();
+		} else {
+			let info = "【果实熟了】快来、快来帮我摘水果。离免费收获一箱水果，只差最后一步啦！"
+			let data = {
+				addFriend: true,
+				title: info
+			}
+			SceneManager.instance.weixinUtil.toPostMessageShare(0, data)
 		}
-		SceneManager.instance.weixinUtil.shareData.titles = "【果实熟了】快来、快来帮我摘水果。"
-		SceneManager.instance.weixinUtil.shareData.describes = "离免费收获一箱水果，只差最后一步啦！"
-		SceneManager.instance.weixinUtil._openShare();
 	}
 	/**
 	 * 沒有果樹
@@ -789,7 +813,6 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	}
 
 	private onChange(e: eui.PropertyEvent): void {
-		console.log(this.list_seed.selectedItem)
 		let seed_des = new SeedDescription(this.list_seed.selectedItem);
 		this.addChild(seed_des);
 	}

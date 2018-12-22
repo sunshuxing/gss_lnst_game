@@ -21,11 +21,9 @@ class InteractiveScene extends eui.Component implements eui.UIComponent{
         this.list_barrage.addEventListener(eui.ItemTapEvent.ITEM_TAP, this.addbarrage, this)
         this.list_barrage.addEventListener(eui.ItemTapEvent.ITEM_TAP,this.listTouch,this);
         this.scr_barrage.verticalScrollBar = null;
-		console.log("childrenCreated");
 	}
 
 	private onComplete():void{
-        console.log("onComplete");
     }
 
 
