@@ -1,8 +1,9 @@
 class SharePic extends eui.Component implements eui.UIComponent{
-	public constructor(func:Function,data) {
+	public constructor(func?:Function,data?) {
 		super();
 		this.addEventListener(eui.UIEvent.COMPLETE,this.onComplete,this);
 		this.skinName = "resource/skins/SharePicSkins.exml";
+        this.sharedata = data;
         this.action = func;
         if(data.needTake == "true"){
             this.share_label.text = "我的"+data.treeName+"结果了!"
@@ -18,6 +19,7 @@ class SharePic extends eui.Component implements eui.UIComponent{
     private btn_share:eui.Image;
     private btn_cancel:eui.Image;
     public minsharegro:eui.Group;
+    private sharedata
 
     protected childrenCreated():void{
 		super.childrenCreated();
@@ -41,11 +43,17 @@ class SharePic extends eui.Component implements eui.UIComponent{
     }
 
     private goshare(){
+        if(this.action){
+            this.action(); 
+        }
+        else{
+            Help.Screencapture(this.minsharegro, this.sharedata);
+        }
+        console.log(this.minsharegro)
         SceneManager.sceneManager.mainScene.enabled = true;
         if(this.parent){
             this.parent.removeChild(this);
         }
-        this.action();
     }
 }
 

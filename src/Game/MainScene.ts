@@ -1092,11 +1092,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 						SceneManager.sceneManager._stage.addChild(share)
 					}
 					else {
-						let share = new SharePic(() => {
-							if (SharePic.prototype.minsharegro) {
-								Help.Screencapture(SharePic.prototype.minsharegro, data);
-							}
-						}, data)
+						let share = new SharePic(null,data)
 						SceneManager.sceneManager._stage.addChild(share)
 					}
 				}
@@ -1115,11 +1111,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 						SceneManager.sceneManager._stage.addChild(share)
 					}
 					else {
-						let share = new SharePic(() => {
-							if (SharePic.prototype.minsharegro) {
-								Help.Screencapture(SharePic.prototype.minsharegro, data);
-							}
-						}, data)
+						let share = new SharePic(null,data)
 						SceneManager.sceneManager._stage.addChild(share)
 					}
 				}

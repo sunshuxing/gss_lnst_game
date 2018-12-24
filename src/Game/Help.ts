@@ -576,6 +576,7 @@ class Help{
             }
         }
         else{
+            renderTexture.drawToTexture(DisplayObject);
             capture = renderTexture.toDataURL("image/png",new egret.Rectangle(0,0,DisplayObject.width,DisplayObject.height));
         }
         let treeUserId = data.id;
