@@ -483,7 +483,7 @@ class taskList_item extends eui.ItemRenderer {
             case 'order_water': {
                 if (SceneManager.instance.isMiniprogram) {
                     //小程序端口taskCode要做参数发送
-                    wx.miniProgram.navigateTo({
+                    wx.miniProgram.switchTab({
                         url: "/pages/gssIndex/index?taskCode=" + code
                     })
                 } else {
