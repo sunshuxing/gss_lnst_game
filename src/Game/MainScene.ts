@@ -1448,6 +1448,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		if (propId == "3") {
 			let jumpPrompt = new PromptHuafei(() => {
 				if (SceneManager.instance.isMiniprogram) {
+					SceneManager.instance.weixinUtil.toPostMessageShare(2, null)
 					//小程序端口taskCode要做参数发送
 					wx.miniProgram.navigateTo({
 						url: "/pages/game/browseGoods?taskCode=" + "specifiy_order"

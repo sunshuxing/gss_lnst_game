@@ -414,6 +414,7 @@ class taskList_item extends eui.ItemRenderer {
         switch (code) {
             case 'browse_goods': {
                 if (SceneManager.instance.isMiniprogram) {
+                    SceneManager.instance.weixinUtil.toPostMessageShare(2, null)
                     wx.miniProgram.navigateTo({
                         url: "/pages/game/browseGoods?listType=1&isFinished=false"
                     })
@@ -460,6 +461,7 @@ class taskList_item extends eui.ItemRenderer {
                 break;
             case 'any_order': {
                 if (SceneManager.instance.isMiniprogram) {
+                    SceneManager.instance.weixinUtil.toPostMessageShare(2, null)
                     //小程序端口taskCode要做参数发送
                     wx.miniProgram.navigateTo({
                         url: "/pages/game/browseGoods?listType=2&taskCode=" + code
@@ -473,6 +475,7 @@ class taskList_item extends eui.ItemRenderer {
                 break;
             case 'specifiy_order': {
                 if (SceneManager.instance.isMiniprogram) {
+                    SceneManager.instance.weixinUtil.toPostMessageShare(2, null)
                     //小程序端口taskCode要做参数发送
                     wx.miniProgram.navigateTo({
                         url: "/pages/game/browseGoods?listType=0&taskCode=" + code
@@ -513,7 +516,6 @@ class taskList_item extends eui.ItemRenderer {
                         url: "/pages/game/browseGoods?listType=1&isFinished=true"
                     })
                 } else {
-                    sessionStorage.setItem("fromgame","true");
                     location.href = Config.webHome + "view/game-browse-goods.html?listType=1&isFinished=true"
                 }
             }

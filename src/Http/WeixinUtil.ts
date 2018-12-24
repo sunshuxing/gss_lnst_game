@@ -172,6 +172,9 @@ class WeixinUtil {
      */
     public toPostMessageShare(type, data) {
         let title = ""
+        if(!data){
+            data = {}
+        }
         if (data && data.titles) {
             title = data.titles
         } else {
