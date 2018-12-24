@@ -486,7 +486,7 @@ class taskList_item extends eui.ItemRenderer {
                     let data = {
                         taskCode: code
                     }
-                    SceneManager.instance.weixinUtil.toPostMessageShare(0, data)
+                    SceneManager.instance.weixinUtil.toPostMessageShare(1, data)
                     wx.miniProgram.switchTab({
                         url: "/pages/gssIndex/index"
                     })
