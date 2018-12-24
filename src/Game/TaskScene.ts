@@ -31,6 +31,7 @@ class TaskScene extends eui.Component implements eui.UIComponent {
      * 
      */
     private clickCommonProblem() {
+        sessionStorage.setItem("fromgame","true");
         location.href = Config.webHome + "view/common-problem.html"
     }
 
@@ -417,6 +418,7 @@ class taskList_item extends eui.ItemRenderer {
                         url: "/pages/game/borwseGoods?listType=1&isFinished=false"
                     })
                 } else {
+                    sessionStorage.setItem("fromgame","true");
                     location.href = Config.webHome + "view/game-browse-goods.html?listType=1&isFinished=false"
                 }
             }
@@ -463,6 +465,7 @@ class taskList_item extends eui.ItemRenderer {
                         url: "/pages/game/borwseGoods?listType=2&taskCode=" + code
                     })
                 } else {
+                    sessionStorage.setItem("fromgame","true");
                     sessionStorage.setItem("taskCode", code);
                     location.href = Config.webHome + "view/game-browse-goods.html?listType=2"
                 }
@@ -475,6 +478,7 @@ class taskList_item extends eui.ItemRenderer {
                         url: "/pages/game/borwseGoods?listType=0&taskCode=" + code
                     })
                 } else {
+                    sessionStorage.setItem("fromgame","true");
                     sessionStorage.setItem("taskCode", code);
                     location.href = Config.webHome + "view/game-browse-goods.html?listType=0"
                 }
@@ -491,6 +495,7 @@ class taskList_item extends eui.ItemRenderer {
                         url: "/pages/gssIndex/index"
                     })
                 } else {
+                    sessionStorage.setItem("fromgame","true");
                     sessionStorage.setItem("taskCode", code);
                     location.href = Config.webHome + "view/index.html"
                 }
@@ -508,6 +513,7 @@ class taskList_item extends eui.ItemRenderer {
                         url: "/pages/game/borwseGoods?listType=1&isFinished=true"
                     })
                 } else {
+                    sessionStorage.setItem("fromgame","true");
                     location.href = Config.webHome + "view/game-browse-goods.html?listType=1&isFinished=true"
                 }
             }

@@ -533,17 +533,50 @@ class Help{
         // buling.x = 148;
         // buling.y = DisplayObject.height - buling.height - 588;
         // DisplayObject.addChild(buling);
-        let erweima = new eui.Image();
-        erweima.texture = RES.getRes("erweima_png");
-        erweima.y = DisplayObject.height - erweima.height;
-        DisplayObject.addChild(erweima);
-        renderTexture.drawToTexture(DisplayObject);
-        let capture = renderTexture.toDataURL("image/png",new egret.Rectangle(0,0,DisplayObject.width,DisplayObject.height));
-        // if(buling.parent){
-        //     buling.parent.removeChild(buling)
-        // }
-        if(erweima.parent){
-            erweima.parent.removeChild(erweima)
+        let capture
+        if(!SceneManager.instance.isMiniprogram){
+            let toppai = new eui.Image();
+            toppai.texture = RES.getRes("toppaisnow_png");
+            toppai.x = 165;
+            toppai.y = 150;
+            let toptext = new eui.Label();
+            toptext.y = toppai.y + 98;
+            toptext.x = toppai.x + 57;
+            toptext.size = 30;
+            toptext.fontFamily="Microsoft YaHei";
+            toptext.height = 40;
+            toptext.width = 340;
+            toptext.verticalAlign = "middle";
+            toptext.textAlign="center";
+            if(data.needTake == "true"){
+                toptext.text = "我的"+data.treeName+"结果了!"
+            }
+            else{
+                toptext.text = "我的"+data.treeName+data.stageObj.name+"了!"
+            }
+            let erweima = new eui.Image();
+            erweima.texture = RES.getRes("erweima_png");
+            erweima.y = DisplayObject.height - erweima.height;
+            DisplayObject.addChild(toppai);
+            DisplayObject.addChild(toptext);
+            DisplayObject.addChild(erweima);
+            renderTexture.drawToTexture(DisplayObject);
+            capture = renderTexture.toDataURL("image/png",new egret.Rectangle(0,0,DisplayObject.width,DisplayObject.height));
+            // if(buling.parent){
+            //     buling.parent.removeChild(buling)
+            // }
+            if(erweima.parent){
+                erweima.parent.removeChild(erweima)
+            }
+            if(toppai.parent){
+                toppai.parent.removeChild(toppai)
+            }
+            if(toptext.parent){
+                toptext.parent.removeChild(toptext)
+            }
+        }
+        else{
+            capture = renderTexture.toDataURL("image/png",new egret.Rectangle(0,0,DisplayObject.width,DisplayObject.height));
         }
         let treeUserId = data.id;
         let treeId = data.treeId;

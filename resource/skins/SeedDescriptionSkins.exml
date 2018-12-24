@@ -9,7 +9,12 @@
 	<e:Label text="实物兑换" x="180" y="440" anchorOffsetY="0" height="60" anchorOffsetX="0" width="60" size="28" textColor="0x66402e" bold="true" fontFamily="Microsoft YaHei"/>
     <e:Label text="生长周期" x="180" y="621" anchorOffsetY="0" height="60" anchorOffsetX="0" width="60" size="28" textColor="0x66402e" bold="true" fontFamily="Microsoft YaHei"/>
     <e:Label text="配送信息" x="180" y="830" anchorOffsetY="0" height="60" anchorOffsetX="0" width="60" size="28" textColor="0x66402e" bold="true" fontFamily="Microsoft YaHei"/>
-	<e:Label id="seed_namespec" text="丑苹果 / 4-5斤装" x="270" y="439" anchorOffsetX="0" width="300" anchorOffsetY="0" height="59" textAlign="left" verticalAlign="middle" size="24" fontFamily="Microsoft YaHei" textColor="0xffdda7" lineSpacing="10"/>
+	<e:Scroller id="scr_namespec" width="300" height="69" x="270" y="436" anchorOffsetY="0">
+		<e:Group>
+			<e:Label id="seed_namespec" text="" anchorOffsetX="0" width="300" anchorOffsetY="0" textAlign="left" verticalAlign="middle" size="24" fontFamily="Microsoft YaHei" textColor="0xffdda7" lineSpacing="10" scaleX="1" scaleY="1"/>
+		</e:Group>
+	</e:Scroller>
+
 	<e:Scroller id="scr_seed_info" width="300" height="83" x="270" y="610" anchorOffsetX="0">
 		<e:Group>
 			<e:Label id="seed_info" text="1." x="0" y="0" anchorOffsetX="0" anchorOffsetY="0" textAlign="left" verticalAlign="middle" textColor="0xffdda7" size="24" fontFamily="Microsoft YaHei" scaleX="1" scaleY="1" lineSpacing="10"/>

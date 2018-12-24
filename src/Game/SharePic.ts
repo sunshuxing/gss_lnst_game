@@ -17,6 +17,7 @@ class SharePic extends eui.Component implements eui.UIComponent{
     private share_label:eui.Label;
     private btn_share:eui.Image;
     private btn_cancel:eui.Image;
+    public minsharegro:eui.Group;
 
     protected childrenCreated():void{
 		super.childrenCreated();

@@ -175,6 +175,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 
 	private tostroe() {
 		if (!SceneManager.instance.isMiniprogram) {
+			sessionStorage.setItem("fromgame", "true");
 			location.href = Config.webHome + "view/index.html"
 		} else {
 			wx.miniProgram.switchTab({
@@ -867,13 +868,13 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		let hour = now.getHours();
 		if (hour > 17 || hour < 6) {
 			this.logo.texture = RES.getRes("logo-night")
-			this.bg.texture = RES.getRes("bg-night_png");
+			this.bg.texture = RES.getRes("bgsnownight_png");
 			this.cloud1.visible = false;
 			this.cloud2.visible = false;
 			this.cloud3.visible = false;
 		} else if (hour < 18 || hour > 5) {
 			this.logo.texture = RES.getRes("logo")
-			this.bg.texture = RES.getRes("bg-day_png");
+			this.bg.texture = RES.getRes("bgsnow_png");
 			this.cloud1.visible = true;
 			this.cloud2.visible = true;
 			this.cloud3.visible = true;
@@ -1084,31 +1085,47 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		if (data.needTake == "true") {
 			HttpRequest.imageloader(Config.picurl + data.stageObj.harvestImage, this.tree, null, () => {
 				if (!isOther && (Number(data.stage) >= 5) && (this.OwntreeStage && this.OwntreeStage != data.stage) || ((this.Oldneedtake && this.Oldneedtake != data.needTake))) {
-					let share = new SharePic(() => {
-						Help.Screencapture(this.gro_fastpic, data);
-					}, data)
-					SceneManager.sceneManager._stage.addChild(share)
+					if (!SceneManager.instance.isMiniprogram) {
+						let share = new SharePic(() => {
+							Help.Screencapture(this.gro_fastpic, data);
+						}, data)
+						SceneManager.sceneManager._stage.addChild(share)
+					}
+					else {
+						let share = new SharePic(() => {
+							if (SharePic.prototype.minsharegro) {
+								Help.Screencapture(SharePic.prototype.minsharegro, data);
+							}
+						}, data)
+						SceneManager.sceneManager._stage.addChild(share)
+					}
 				}
 				if (!isOther) {
 					this.OwntreeStage = data.stage;
 					this.Oldneedtake = data.needTake;
-					console.log(this.OwntreeStage, "OwntreeStage");
-					console.log(this.Oldneedtake, "Oldneedtake")
 				}
 			}, this);
 		} else {
 			HttpRequest.imageloader(Config.picurl + data.stageObj.stageImage, this.tree, null, () => {
 				if (!isOther && (Number(data.stage) >= 5) && (this.OwntreeStage && this.OwntreeStage != data.stage) || ((this.Oldneedtake && this.Oldneedtake != data.needTake))) {
-					let share = new SharePic(() => {
-						Help.Screencapture(this.gro_fastpic, data);
-					}, data)
-					SceneManager.sceneManager._stage.addChild(share)
+					if (!SceneManager.instance.isMiniprogram) {
+						let share = new SharePic(() => {
+							Help.Screencapture(this.gro_fastpic, data);
+						}, data)
+						SceneManager.sceneManager._stage.addChild(share)
+					}
+					else {
+						let share = new SharePic(() => {
+							if (SharePic.prototype.minsharegro) {
+								Help.Screencapture(SharePic.prototype.minsharegro, data);
+							}
+						}, data)
+						SceneManager.sceneManager._stage.addChild(share)
+					}
 				}
 				if (!isOther) {
 					this.OwntreeStage = data.stage;
 					this.Oldneedtake = data.needTake;
-					console.log(this.OwntreeStage, "OwntreeStage");
-					console.log(this.Oldneedtake, "Oldneedtake")
 				}
 			}, this);
 		}
@@ -1436,6 +1453,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 						url: "/pages/game/borwseGoods?taskCode=" + "specifiy_order"
 					})
 				} else {
+					sessionStorage.setItem("fromgame", "true");
 					sessionStorage.setItem("taskCode", "specifiy_order");
 					location.href = Config.webHome + "view/game-browse-goods.html?listType=0"
 				}
