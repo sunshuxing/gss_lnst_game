@@ -1433,7 +1433,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 				if (SceneManager.instance.isMiniprogram) {
 					//小程序端口taskCode要做参数发送
 					wx.miniProgram.navigateTo({
-						url: "/pages/game/borwseGoods?taskCode=" + "specifiy_order"
+						url: "/pages/game/browseGoods?taskCode=" + "specifiy_order"
 					})
 				} else {
 					sessionStorage.setItem("taskCode", "specifiy_order");
