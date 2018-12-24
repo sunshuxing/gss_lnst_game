@@ -415,7 +415,7 @@ class taskList_item extends eui.ItemRenderer {
             case 'browse_goods': {
                 if (SceneManager.instance.isMiniprogram) {
                     wx.miniProgram.navigateTo({
-                        url: "/pages/game/borwseGoods?listType=1&isFinished=false"
+                        url: "/pages/game/browseGoods?listType=1&isFinished=false"
                     })
                 } else {
                     sessionStorage.setItem("fromgame","true");
@@ -462,7 +462,7 @@ class taskList_item extends eui.ItemRenderer {
                 if (SceneManager.instance.isMiniprogram) {
                     //小程序端口taskCode要做参数发送
                     wx.miniProgram.navigateTo({
-                        url: "/pages/game/borwseGoods?listType=2&taskCode=" + code
+                        url: "/pages/game/browseGoods?listType=2&taskCode=" + code
                     })
                 } else {
                     sessionStorage.setItem("fromgame","true");
@@ -475,7 +475,7 @@ class taskList_item extends eui.ItemRenderer {
                 if (SceneManager.instance.isMiniprogram) {
                     //小程序端口taskCode要做参数发送
                     wx.miniProgram.navigateTo({
-                        url: "/pages/game/borwseGoods?listType=0&taskCode=" + code
+                        url: "/pages/game/browseGoods?listType=0&taskCode=" + code
                     })
                 } else {
                     sessionStorage.setItem("fromgame","true");
@@ -510,7 +510,7 @@ class taskList_item extends eui.ItemRenderer {
                 if (SceneManager.instance.isMiniprogram) {
                     //小程序端口taskCode要做参数发送
                     wx.miniProgram.navigateTo({
-                        url: "/pages/game/borwseGoods?listType=1&isFinished=true"
+                        url: "/pages/game/browseGoods?listType=1&isFinished=true"
                     })
                 } else {
                     sessionStorage.setItem("fromgame","true");
