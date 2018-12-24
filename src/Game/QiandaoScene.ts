@@ -72,7 +72,7 @@ class SigninScene extends eui.Component implements eui.UIComponent {
             }
             //显示签到成功奖励
             SceneManager.addNotice("签到成功！获得" + data.propName + data.propNum + info, 2000);
-            let evt:PuticonEvent = new PuticonEvent(PuticonEvent.TASKFINSHED);
+            let evt: PuticonEvent = new PuticonEvent(PuticonEvent.TASKFINSHED);
             SceneManager.instance.mainScene.dispatchEvent(evt)
         }
         else {
@@ -138,7 +138,9 @@ class SigninScene extends eui.Component implements eui.UIComponent {
         } else {
             this.currentState = "today-un-sign"
         }
-        if (!hasData || !isContinue || this.qiandao_data.data.continueDay == 0) {
+        //判断什么时候显示所有未签到样式（没有签过到、没有连续、连续天数为0、连续签到且已经签到7天且当天是第8天）
+        if (!hasData || !isContinue || this.qiandao_data.data.continueDay == 0 ||
+            (!todaySigned && isContinue && this.qiandao_data.data.continueDay == 7)) {
             this.renderingInit(0)
         } else {
             this.renderingInit(this.qiandao_data.data.continueDay);
