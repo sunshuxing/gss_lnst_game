@@ -412,7 +412,13 @@ class taskList_item extends eui.ItemRenderer {
     private completetask(code) {
         switch (code) {
             case 'browse_goods': {
-                location.href = Config.webHome + "view/game-browse-goods.html?listType=1&isFinished=false"
+                if (SceneManager.instance.isMiniprogram) {
+                    wx.miniProgram.navigateTo({
+                        url: "/pages/game/borwseGoods?listType=1&isFinished=false"
+                    })
+                } else {
+                    location.href = Config.webHome + "view/game-browse-goods.html?listType=1&isFinished=false"
+                }
             }
                 break;
             case 'Invitation_friend': {
@@ -451,18 +457,39 @@ class taskList_item extends eui.ItemRenderer {
             }
                 break;
             case 'any_order': {
-                sessionStorage.setItem("taskCode", code);
-                location.href = Config.webHome + "view/game-browse-goods.html?listType=2"
+                if (SceneManager.instance.isMiniprogram) {
+                    //小程序端口taskCode要做参数发送
+                    wx.miniProgram.navigateTo({
+                        url: "/pages/game/borwseGoods?listType=2&taskCode=" + code
+                    })
+                } else {
+                    sessionStorage.setItem("taskCode", code);
+                    location.href = Config.webHome + "view/game-browse-goods.html?listType=2"
+                }
             }
                 break;
             case 'specifiy_order': {
-                sessionStorage.setItem("taskCode", code);
-                location.href = Config.webHome + "view/game-browse-goods.html?listType=0"
+                if (SceneManager.instance.isMiniprogram) {
+                    //小程序端口taskCode要做参数发送
+                    wx.miniProgram.navigateTo({
+                        url: "/pages/game/borwseGoods?listType=0&taskCode=" + code
+                    })
+                } else {
+                    sessionStorage.setItem("taskCode", code);
+                    location.href = Config.webHome + "view/game-browse-goods.html?listType=0"
+                }
             }
                 break;
             case 'order_water': {
-                sessionStorage.setItem("taskCode", code);
-                location.href = Config.webHome + "view/index.html"
+                if (SceneManager.instance.isMiniprogram) {
+                    //小程序端口taskCode要做参数发送
+                    wx.miniProgram.navigateTo({
+                        url: "/pages/gssIndex/index?taskCode=" + code
+                    })
+                } else {
+                    sessionStorage.setItem("taskCode", code);
+                    location.href = Config.webHome + "view/index.html"
+                }
             }
                 break;
         }
@@ -471,7 +498,14 @@ class taskList_item extends eui.ItemRenderer {
     private look(code) {
         switch (code) {
             case 'browse_goods': {
-                location.href = Config.webHome + "view/game-browse-goods.html?listType=1&isFinished=true"
+                if (SceneManager.instance.isMiniprogram) {
+                    //小程序端口taskCode要做参数发送
+                    wx.miniProgram.navigateTo({
+                        url: "/pages/game/borwseGoods?listType=1&isFinished=true"
+                    })
+                } else {
+                    location.href = Config.webHome + "view/game-browse-goods.html?listType=1&isFinished=true"
+                }
             }
                 break;
         }
