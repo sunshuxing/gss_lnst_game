@@ -58,18 +58,19 @@ class Main extends eui.UILayer {
     }
 
     private async runGame() {
-        // WeixinUtil.prototype._commWxInit(Config.wxhttpServer,"1",null,true,null);
+        let that = this
+        WeixinUtil.getInstance()._commWxInit(Config.wxhttpServer, "1", () => {
+            that.mainInit()
+        }, true, null, false)
+
+    }
+
+    private async mainInit() {
         await this.loadResource()
         this.createGameScene();
-        SceneManager.instance.weixinUtil._commWxInit(Config.wxhttpServer,"1",()=>{
-           SceneManager.instance.mainScene.initData();
-           SceneManager.instance.initWebSocket()
-        },true,null,false)
+        SceneManager.instance.initWebSocket()
+        SceneManager.instance.mainScene.initData();
         const result = await RES.getResAsync("description_json")
-        await platform.login();
-        const userInfo = await platform.getUserInfo();
-        console.log(userInfo);
-
     }
 
 
@@ -78,14 +79,14 @@ class Main extends eui.UILayer {
             await RES.loadConfig("resource/default.res.json", "resource/");//加载配置表
             await this.loadTheme();
             await RES.loadGroup("loading");//加载loading组
-            const loadingView=new LoadingUI();//创建loadingUI实例
+            const loadingView = new LoadingUI();//创建loadingUI实例
             this.stage.addChild(loadingView);
-            if(!localStorage.getItem("isNewUser")){
+            if (!localStorage.getItem("isNewUser")) {
                 await RES.loadGroup("preload", 0, loadingView);//加载默认preload组资源,并执行loadingView
                 await RES.loadGroup("guide")
-                const guideView=new guideUI();//创建loadingUI实例
+                const guideView = new guideUI();//创建loadingUI实例
                 this.stage.addChild(guideView);
-            }else{
+            } else {
                 await RES.loadGroup("preload", 0, loadingView);//加载默认preload组资源,并执行loadingView
             }
             this.stage.removeChild(loadingView);
@@ -118,5 +119,5 @@ class Main extends eui.UILayer {
         // 调用SceneManager的静态方法
         SceneManager.toMainScene()
     }
-    
+
 }

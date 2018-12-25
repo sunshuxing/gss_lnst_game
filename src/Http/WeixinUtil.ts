@@ -1,5 +1,7 @@
 class WeixinUtil {
 
+    private static weixinUtil: WeixinUtil;
+
     public _commGetValueFromUrlByKey(name) {
         let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
         let r = window.location.search.substr(1).match(reg);
@@ -31,6 +33,16 @@ class WeixinUtil {
                 console.log("success share")
             }
         }
+    }
+
+    /**
+     * 获得工具类实例
+     */
+    public static getInstance():WeixinUtil {
+        if (!this.weixinUtil) {
+            this.weixinUtil = new WeixinUtil();
+        }
+        return this.weixinUtil;
     }
 
     /**
@@ -134,7 +146,7 @@ class WeixinUtil {
      * jsApiList    
      * isOverdue    是否是过期请求，如果是，则code不发送到后台
      */
-    public _commWxInit(serverUrl: string, mustLogin: string, callback: Function, needShare: boolean, jsApiList, isOverdue: boolean) {
+    async  _commWxInit(serverUrl: string, mustLogin: string, callback: Function, needShare: boolean, jsApiList, isOverdue: boolean) {
         let code = "";
         let _url = location.href
         if (!isOverdue) {
@@ -172,7 +184,7 @@ class WeixinUtil {
      */
     public toPostMessageShare(type, data) {
         let title = ""
-        if(!data){
+        if (!data) {
             data = {}
         }
         if (data && data.titles) {

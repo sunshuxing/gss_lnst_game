@@ -391,7 +391,7 @@ class dynList_item extends eui.ItemRenderer {
 		let evt: PuticonEvent = new PuticonEvent(PuticonEvent.TOFRIEND);
 		evt.userid = userid;
 		SceneManager.sceneManager.mainScene.dispatchEvent(evt);
-		SceneManager.sceneManager.dynamicScene.dispatchEvent(evt);
+		SceneManager.sceneManager.getDynamicScene().dispatchEvent(evt);
 	}
 
 

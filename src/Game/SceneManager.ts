@@ -10,23 +10,46 @@ class SceneManager {
     public friendSign: string                    //转发用户的标识，可以用于奖励道具
     public weixinUtil: WeixinUtil                //微信操作类
     private webSocket: GameWebSocket                  //推送类
-    private userid = MyRequest.geturlstr("friendSign");   
-    public connectTime:number = 0;                  //重连次数
+    private userid = MyRequest.geturlstr("friendSign");
+    public connectTime: number = 0;                  //重连次数
     private interval                            //定时器
-    public  jumpMark: JumpScene                       //分享遮罩
+    public jumpMark: JumpScene                       //分享遮罩
 
-    public isMiniprogram:Boolean;                //当前是否是小程序运行
+    public isMiniprogram: Boolean;                //当前是否是小程序运行
 
 
     constructor() {
         this.mainScene = new MainScene()
-        this.interactiveScene = new InteractiveScene()
-        this.taskScene = new TaskScene()
-        this.dynamicScene = new DynamicScene()
-        this.signinScene = new SigninScene()
-        this.huafeiScene = new HuafeiScene()
-        this.weixinUtil = new WeixinUtil()
+        this.weixinUtil = WeixinUtil.getInstance();
         this.friendSign = MyRequest.geturlstr("friendSign")
+    }
+
+    public getTaskScene(): TaskScene {
+        if (!this.taskScene) {
+            this.taskScene = new TaskScene()
+        }
+        return this.taskScene;
+    }
+
+    public getDynamicScene(): DynamicScene {
+        if (!this.dynamicScene) {
+            this.dynamicScene = new DynamicScene();
+        }
+        return this.dynamicScene;
+    }
+
+    public getSigninScene(): SigninScene {
+        if (!this.signinScene) {
+            this.signinScene = new SigninScene()
+        }
+        return this.signinScene;
+    }
+
+    public getHuafeiScene(): HuafeiScene {
+        if (!this.huafeiScene) {
+            this.huafeiScene = new HuafeiScene();
+        }
+        return this.huafeiScene;
     }
 
 	/**
@@ -56,7 +79,7 @@ class SceneManager {
                 }
                 MyRequest._post("game/addFriend", data, this, this.loadFirend.bind(this), null)
             }
-        }else{
+        } else {
             if (this.friendSign != this.weixinUtil.login_user_id) {
                 //如果分享的用户和当前用户不一样
                 this.mainScene.getFriends(this.userid)
@@ -65,10 +88,10 @@ class SceneManager {
         }
     }
     private loadFirend() {
-        if(WeixinUtil.prototype._friendSign == MyRequest.geturlstr("friendSign")){
+        if (WeixinUtil.prototype._friendSign == MyRequest.geturlstr("friendSign")) {
             this.mainScene.getFriends();  //加好友成功需要刷新好友列表
         }
-        else{
+        else {
             this.mainScene.getFriends(this.userid)
             this.userid = null;
         }
@@ -80,7 +103,7 @@ class SceneManager {
      * stage 要展示的舞台对象
      * time 显示持续时间（1000为1秒），不传默认1.5秒
      */
-    static addNotice(msg: string, time?,msgflow?) {
+    static addNotice(msg: string, time?, msgflow?) {
 
         let notice: Notice = new Notice();
 
@@ -92,7 +115,7 @@ class SceneManager {
             this.instance._stage.removeChild(notice)
         }
             , this);
-        notice.msgInfo(msg,msgflow);
+        notice.msgInfo(msg, msgflow);
         this.instance._stage.addChild(notice);
         timer.start();
     }
@@ -102,12 +125,13 @@ class SceneManager {
      * @param scene 不需要删除的场景
      */
     private removeOther(scene) {
+        this.huafeiScene = this.getHuafeiScene()
         let arr = [this.interactiveScene, this.taskScene, this.dynamicScene, this.signinScene, this.huafeiScene]
         arr.forEach((item) => {
             if (scene === item) {
                 return
             }
-            if (item.parent) {
+            if (item && item.parent) {
                 this.mainScene.removeChild(item)
             }
         })
@@ -133,6 +157,9 @@ class SceneManager {
      * 互动场景
      */
     static toInteractiveScene() {
+        if (!this.instance.interactiveScene) {
+            this.instance.interactiveScene = new InteractiveScene();
+        }
         this.instance.removeOther(this.instance.interactiveScene)
         // 把互动场景添加到主场景中
         this.instance.mainScene.addChild(this.instance.interactiveScene)
@@ -141,16 +168,18 @@ class SceneManager {
             .to({ y: 0 }, 500);
     }
 
+
     /**
      * 任务场景
      */
     static toTaskScene() {
+        this.instance.taskScene = this.instance.getTaskScene()
         this.instance.removeOther(this.instance.taskScene)
         // 把互动场景添加到主场景中
         this.instance.taskScene.y = 1208
         this.instance.mainScene.addChild(this.instance.taskScene)
         this.instance.taskScene.taskDataInit();
-        this.instance.taskScene.cacheAsBitmap = true;   
+        this.instance.taskScene.cacheAsBitmap = true;
         egret.Tween.get(this.instance.taskScene)
             .to({ y: 0 }, 500);
     }
@@ -158,13 +187,14 @@ class SceneManager {
     /**
      * 动态场景
      */
-    static toDynamicScene(treeUserId:string) {
+    static toDynamicScene(treeUserId: string) {
+        this.instance.dynamicScene = this.instance.getDynamicScene()
         this.instance.removeOther(this.instance.dynamicScene)
         // 把互动场景添加到主场景中
         this.instance.dynamicScene.searchDynamic(treeUserId)
         this.instance.mainScene.addChild(this.instance.dynamicScene)
         egret.Tween.get(this.instance.dynamicScene)
-            .set({y:1208})
+            .set({ y: 1208 })
             .to({ y: 0 }, 500);
     }
 
@@ -173,9 +203,10 @@ class SceneManager {
      * 签到场景
      */
     static toSigninScene() {
+        this.instance.signinScene = this.instance.getSigninScene()
         this.instance.removeOther(this.instance.signinScene)
         // 把互动场景添加到主场景中
-        this.instance.signinScene.y = (this.instance.mainScene.height - this.instance.signinScene.height)/2;
+        this.instance.signinScene.y = (this.instance.mainScene.height - this.instance.signinScene.height) / 2;
         this.instance.mainScene.addChild(this.instance.signinScene)
     }
 
@@ -208,12 +239,12 @@ class SceneManager {
     //     timer.start();
     // }
 
-    public static treetimer:egret.Timer = new egret.Timer(3000,1);
-    private static treeprompt:TreePrompt
-    public static treepromptgro:eui.Group = new eui.Group();
+    public static treetimer: egret.Timer = new egret.Timer(3000, 1);
+    private static treeprompt: TreePrompt
+    public static treepromptgro: eui.Group = new eui.Group();
 
-    static addtreePrompt(info: string){
-        if(!this.treeprompt){
+    static addtreePrompt(info: string) {
+        if (!this.treeprompt) {
             this.treeprompt = new TreePrompt();
         }
         this.treepromptgro.width = 750;
@@ -222,14 +253,14 @@ class SceneManager {
         this.instance.mainScene.addChild(this.treepromptgro);
         this.treetimer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, () => {
             this.treepromptgro.removeChildren()
-        } , this);
+        }, this);
         this.treeprompt.x = 400;
         this.treeprompt.setPrompt(info);
-        
-         if(Help.getTreeUserData().stage == "1"){
+
+        if (Help.getTreeUserData().stage == "1") {
             this.treeprompt.y = 900;
         }
-        else{
+        else {
             this.treeprompt.y = 580;
         }
         this.treepromptgro.addChild(this.treeprompt);
@@ -248,12 +279,12 @@ class SceneManager {
         this.instance._stage.addChild(prompt);
     }
 
-    static addJump(image:string) {
-        this.instance.jumpMark = new JumpScene(image,SceneManager.instance.isMiniprogram)
+    static addJump(image: string) {
+        this.instance.jumpMark = new JumpScene(image, SceneManager.instance.isMiniprogram)
         this.instance._stage.addChild(this.instance.jumpMark);
     }
 
-    static async guiedResource(){
+    static async guiedResource() {
         try {
             const loadingView = new guideLoading();
             this.instance.mainScene.addChild(loadingView)
@@ -268,13 +299,13 @@ class SceneManager {
             console.error(e);
         }
     }
-    
+
     public initWebSocket() {
         let user = this.weixinUtil.login_user_id
         let url = Config.socketHome + "?userId=" + user;
         this.webSocket = new GameWebSocket(url)
         let that = this
-        if(!this.interval){
+        if (!this.interval) {
             this.interval = setInterval(() => {
                 if (this.webSocket.connected()) {
                     that.webSocket.sendData("1")

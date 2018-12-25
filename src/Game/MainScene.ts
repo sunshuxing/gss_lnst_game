@@ -721,7 +721,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private mask_touch() {
 		this.bg_mask.visible = false;
 		let evt: MaskEvent = new MaskEvent(MaskEvent.INITEUIARR);
-		SceneManager.sceneManager.dynamicScene.dispatchEvent(evt);
+		SceneManager.sceneManager.getDynamicScene().dispatchEvent(evt);
 		SceneManager.toMainScene();
 	}
 
@@ -1005,7 +1005,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 				SceneManager.sceneManager._stage.addChild(image);
 				SceneManager.sceneManager._stage.addChild(prompt);
 			} else {
-				SceneManager.sceneManager.taskScene.taskDataInit(this.checktask);
+				SceneManager.sceneManager.getTaskScene().taskDataInit(this.checktask);
 				if (treedata.data.needTake == "false") {
 					this.noHarvest = false;
 				} else if (treedata.data.needTake == "true" && !this.noHarvest) {
@@ -1092,7 +1092,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 						SceneManager.sceneManager._stage.addChild(share)
 					}
 					else {
-						let share = new SharePic(null,data)
+						let share = new SharePic(null, data)
 						SceneManager.sceneManager._stage.addChild(share)
 					}
 				}
@@ -1111,7 +1111,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 						SceneManager.sceneManager._stage.addChild(share)
 					}
 					else {
-						let share = new SharePic(null,data)
+						let share = new SharePic(null, data)
 						SceneManager.sceneManager._stage.addChild(share)
 					}
 				}
@@ -1440,10 +1440,9 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		if (propId == "3") {
 			let jumpPrompt = new PromptHuafei(() => {
 				if (SceneManager.instance.isMiniprogram) {
-					SceneManager.instance.weixinUtil.toPostMessageShare(2, null)
 					//小程序端口taskCode要做参数发送
 					wx.miniProgram.navigateTo({
-						url: "/pages/game/browseGoods?taskCode=" + "specifiy_order"
+						url: "/pages/game/browseGoods?listType=0&taskCode=specifiy_order&backGame=true"
 					})
 				} else {
 					sessionStorage.setItem("fromgame", "true");

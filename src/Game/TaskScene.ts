@@ -143,10 +143,10 @@ class TaskScene extends eui.Component implements eui.UIComponent {
                                         //创建一个定时器，当任务被隐藏后刷新、完成直接领取任务
                                         this.hasTimer = true;
                                         setTimeout(() => {
-                                            let isHide = !SceneManager.instance.mainScene.contains(SceneManager.instance.taskScene)//判断任务列表是否被隐藏
+                                            let isHide = !SceneManager.instance.mainScene.contains(SceneManager.instance.getTaskScene())//判断任务列表是否被隐藏
                                             this.hasTimer = false;
                                             if (isHide) {
-                                                SceneManager.instance.taskScene.taskDataInit(SceneManager.instance.mainScene.checktask)
+                                                SceneManager.instance.getTaskScene().taskDataInit(SceneManager.instance.mainScene.checktask)
                                             }
                                         }, parseInt(nowTask.intervalCancleTime) - new Date().getTime())
 
@@ -334,7 +334,7 @@ class taskList_item extends eui.ItemRenderer {
             info = "袋"
         }
         SceneManager.addNotice("获得" + data.propName + data.propNum + info, 2000)
-        SceneManager.instance.taskScene.taskDataInit(SceneManager.instance.mainScene.checktask)
+        SceneManager.instance.getTaskScene().taskDataInit(SceneManager.instance.mainScene.checktask)
         let evt: PuticonEvent = new PuticonEvent(PuticonEvent.TASKFINSHED);
         SceneManager.instance.mainScene.dispatchEvent(evt)
     }
@@ -347,7 +347,7 @@ class taskList_item extends eui.ItemRenderer {
         this.description_task.text = "赠送" + this.data.rewardRule.name + "," + this.getlimitTime(this.data.limitTime);
         // this.can_finish.texture = RES.getRes(this.getbtnBycode(this.data.code));
         this.currentState = this.getItemBtnStatus(this.data.btnStatus, this.data.code)
-        let parent = SceneManager.instance.taskScene
+        let parent = SceneManager.instance.getTaskScene()
         if (this.data.btnStatus == 3) {
             //以500毫秒的速度执行（可以避免方法执行速度慢会影响展示效果的情况）
             var time = 1000;
@@ -374,7 +374,7 @@ class taskList_item extends eui.ItemRenderer {
                     that.interval_time.text = text + "后可领取"
                 }
             }, time);
-            SceneManager.instance.taskScene.timerList.push(timer)
+            SceneManager.instance.getTaskScene().timerList.push(timer)
         }
     }
 
@@ -414,7 +414,6 @@ class taskList_item extends eui.ItemRenderer {
         switch (code) {
             case 'browse_goods': {
                 if (SceneManager.instance.isMiniprogram) {
-                    SceneManager.instance.weixinUtil.toPostMessageShare(2, null)
                     wx.miniProgram.navigateTo({
                         url: "/pages/game/browseGoods?listType=1&isFinished=false"
                     })
@@ -425,7 +424,7 @@ class taskList_item extends eui.ItemRenderer {
             }
                 break;
             case 'Invitation_friend': {
-                SceneManager.instance.taskScene.dispatchEventWith(MaskEvent.REMOVED_FROM_STAGE)   //使用manager获取场景并触发事件
+                SceneManager.instance.getTaskScene().dispatchEventWith(MaskEvent.REMOVED_FROM_STAGE)   //使用manager获取场景并触发事件
                 this.tojump(true, "sharetexttree_png");
                 let url = SceneManager.instance.weixinUtil.shareData.shareUrl
                 let addFriend = MyRequest.geturlstr("addFriend", url)
@@ -455,16 +454,15 @@ class taskList_item extends eui.ItemRenderer {
             }
                 break;
             case 'share_orchard': {
-                SceneManager.instance.taskScene.dispatchEventWith(MaskEvent.REMOVED_FROM_STAGE)   //使用manager获取场景并触发事件
+                SceneManager.instance.getTaskScene().dispatchEventWith(MaskEvent.REMOVED_FROM_STAGE)   //使用manager获取场景并触发事件
                 this.tojump(true, "share_png")
             }
                 break;
             case 'any_order': {
                 if (SceneManager.instance.isMiniprogram) {
-                    SceneManager.instance.weixinUtil.toPostMessageShare(2, null)
                     //小程序端口taskCode要做参数发送
                     wx.miniProgram.navigateTo({
-                        url: "/pages/game/browseGoods?listType=2&taskCode=" + code
+                        url: "/pages/game/browseGoods?listType=2&backGame=true&taskCode=" + code
                     })
                 } else {
                     sessionStorage.setItem("fromgame","true");
@@ -475,10 +473,9 @@ class taskList_item extends eui.ItemRenderer {
                 break;
             case 'specifiy_order': {
                 if (SceneManager.instance.isMiniprogram) {
-                    SceneManager.instance.weixinUtil.toPostMessageShare(2, null)
                     //小程序端口taskCode要做参数发送
                     wx.miniProgram.navigateTo({
-                        url: "/pages/game/browseGoods?listType=0&taskCode=" + code
+                        url: "/pages/game/browseGoods?listType=0&backGame=true&taskCode=" + code
                     })
                 } else {
                     sessionStorage.setItem("fromgame","true");
@@ -511,7 +508,6 @@ class taskList_item extends eui.ItemRenderer {
         switch (code) {
             case 'browse_goods': {
                 if (SceneManager.instance.isMiniprogram) {
-                    //小程序端口taskCode要做参数发送
                     wx.miniProgram.navigateTo({
                         url: "/pages/game/browseGoods?listType=1&isFinished=true"
                     })
@@ -526,7 +522,7 @@ class taskList_item extends eui.ItemRenderer {
     //跳转场景
     private tojump(needCloseTask: boolean, image: string) {
         if (needCloseTask) {
-            SceneManager.instance.taskScene.dispatchEventWith(MaskEvent.REMOVEMASK)
+            SceneManager.instance.getTaskScene().dispatchEventWith(MaskEvent.REMOVEMASK)
         }
         SceneManager.addJump(image);
     }
