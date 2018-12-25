@@ -69,7 +69,7 @@ class Main extends eui.UILayer {
         await this.loadResource()
         this.createGameScene();
         SceneManager.instance.initWebSocket()
-        SceneManager.instance.mainScene.initData();
+        SceneManager.instance.getMainScene().initData();
         const result = await RES.getResAsync("description_json")
     }
 

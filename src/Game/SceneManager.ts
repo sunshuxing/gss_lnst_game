@@ -2,13 +2,13 @@ class SceneManager {
     public _stage: egret.DisplayObjectContainer // 设置所有场景所在的舞台(根)
 
     public mainScene: MainScene                  //主场景
-    public interactiveScene: InteractiveScene    //互动场景
-    public taskScene: TaskScene                  //任务场景
-    public dynamicScene: DynamicScene            //动态场景
-    public signinScene: SigninScene              //领取种子场景
-    public huafeiScene: HuafeiScene              //化肥场景
-    public friendSign: string                    //转发用户的标识，可以用于奖励道具
-    public weixinUtil: WeixinUtil                //微信操作类
+    private interactiveScene: InteractiveScene    //互动场景
+    private taskScene: TaskScene                  //任务场景
+    private dynamicScene: DynamicScene            //动态场景
+    private signinScene: SigninScene              //领取种子场景
+    private huafeiScene: HuafeiScene              //化肥场景
+    private friendSign: string                    //转发用户的标识，可以用于奖励道具
+    private weixinUtil: WeixinUtil                //微信操作类
     private webSocket: GameWebSocket                  //推送类
     private userid = MyRequest.geturlstr("friendSign");
     public connectTime: number = 0;                  //重连次数
@@ -19,9 +19,14 @@ class SceneManager {
 
 
     constructor() {
-        this.mainScene = new MainScene()
         this.weixinUtil = WeixinUtil.getInstance();
         this.friendSign = MyRequest.geturlstr("friendSign")
+    }
+    public getMainScene():MainScene{
+        if(!this.mainScene){
+            this.mainScene = new MainScene();
+        }
+        return this.mainScene;
     }
 
     public getTaskScene(): TaskScene {
@@ -141,6 +146,7 @@ class SceneManager {
      * 主场景
      */
     static toMainScene() {
+        this.instance.mainScene = this.instance.getMainScene()
         let stage: egret.DisplayObjectContainer = this.instance._stage // (根) 舞台
         let mainScene = SceneManager.instance.mainScene; // 主场景
         mainScene.y = stage.height - mainScene.height;
