@@ -7,8 +7,8 @@ class SceneManager {
     private dynamicScene: DynamicScene            //动态场景
     private signinScene: SigninScene              //领取种子场景
     private huafeiScene: HuafeiScene              //化肥场景
-    private friendSign: string                    //转发用户的标识，可以用于奖励道具
-    private weixinUtil: WeixinUtil                //微信操作类
+    public friendSign: string                    //转发用户的标识，可以用于奖励道具
+    public weixinUtil: WeixinUtil                //微信操作类
     private webSocket: GameWebSocket                  //推送类
     private userid = MyRequest.geturlstr("friendSign");
     public connectTime: number = 0;                  //重连次数

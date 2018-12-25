@@ -3,10 +3,10 @@
 	<e:Image width="100%" height="100%" x="0" y="0" source="panel-bg" scale9Grid="4,4,24,24" alpha="0.8"/>
 	<e:Image x="0" source="sharepicbg_png" y="43"/>
 	<e:Image y="124" source="sharetop_png" horizontalCenter="0.5"/>
-	<e:Group id="minsharegro" width="500" height="600" x="121.67" y="261" anchorOffsetX="0" anchorOffsetY="0">
+	<e:Group id="minsharegro" width="800" height="560" y="261" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="0">
 		<e:Image y="9" source="sharemidbg_png" horizontalCenter="0.5" x="4.3300000000000125" scaleX="1" scaleY="1"/>
 		<e:Image id="img_tree" width="284" height="296" y="79" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="2" x="113.33000000000001" scaleX="1" scaleY="1"/>
-		<e:Image x="100.33000000000001" y="91" source="sharebuling_png" scaleX="1" scaleY="1"/>
+		<e:Image x="228.32" y="91" source="sharebuling_png" scaleX="1" scaleY="1"/>
 		<e:Label id="share_label" text="" y="471" anchorOffsetX="0" width="380" anchorOffsetY="0" height="66" verticalAlign="middle" textAlign="center" size="36" fontFamily="Microsoft YaHei" horizontalCenter="0" x="63.33000000000001" scaleX="1" scaleY="1"/>
 	</e:Group>
 	<e:Image id="btn_share" y="888" source="sharepicbtn_png" x="410"/>
