@@ -807,9 +807,7 @@ class MainScene extends eui.Component implements eui.UIComponent {
 		var treedata = data;
 		let tree_data = [];
 		for (let i = 0; i < treedata.data.length; i++) {
-			if (treedata.data[i].id != "9e4aa73901a44f33b6e806881f406bac") {
-				tree_data.push(treedata.data[i]);
-			}
+			tree_data.push(treedata.data[i]);
 		}
 		let euiArr: eui.ArrayCollection = new eui.ArrayCollection(tree_data);
 
@@ -1084,8 +1082,9 @@ class MainScene extends eui.Component implements eui.UIComponent {
 	private treeUpdate(data: TreeUserData, isOther) {
 		if (data.needTake == "true") {
 			HttpRequest.imageloader(Config.picurl + data.stageObj.harvestImage, this.tree, null, () => {
-				if (!isOther && (Number(data.stage) >= 5) && (this.OwntreeStage && this.OwntreeStage != data.stage) || ((this.Oldneedtake && this.Oldneedtake != data.needTake))) {
+				if (!isOther && (Number(data.stage) >= 5) && ((this.OwntreeStage && this.OwntreeStage != data.stage) || (this.Oldneedtake && this.Oldneedtake != data.needTake))) {
 					if (!SceneManager.instance.isMiniprogram) {
+						console.log("2")
 						let share = new SharePic(() => {
 							Help.Screencapture(this.gro_fastpic, data);
 						}, data)
@@ -1103,8 +1102,9 @@ class MainScene extends eui.Component implements eui.UIComponent {
 			}, this);
 		} else {
 			HttpRequest.imageloader(Config.picurl + data.stageObj.stageImage, this.tree, null, () => {
-				if (!isOther && (Number(data.stage) >= 5) && (this.OwntreeStage && this.OwntreeStage != data.stage) || ((this.Oldneedtake && this.Oldneedtake != data.needTake))) {
+				if (!isOther && (Number(data.stage) >= 5) && ((this.OwntreeStage && this.OwntreeStage != data.stage) || (this.Oldneedtake && this.Oldneedtake != data.needTake))) {
 					if (!SceneManager.instance.isMiniprogram) {
+						console.log("1")
 						let share = new SharePic(() => {
 							Help.Screencapture(this.gro_fastpic, data);
 						}, data)

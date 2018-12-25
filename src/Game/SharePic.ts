@@ -43,8 +43,8 @@ class SharePic extends eui.Component implements eui.UIComponent{
     }
 
     private goshare(){
-        if(this.action){
-            this.action(); 
+        if(!SceneManager.instance.isMiniprogram){
+            this.action()
         }
         else{
             Help.Screencapture(this.minsharegro, this.sharedata);

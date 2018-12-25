@@ -206,6 +206,7 @@ class WeixinUtil {
                         //通知小程序分享
                         that.toPostMessageShare(0, {})
                     } else {
+                        SceneManager.instance.isMiniprogram = false
                         that._getShareData(response);//***
                         that.shareData.iconUrl = "http://www.guoss.net/wefruitmall/images/game_share.png";
                         that.shareData.titles = "【果说说农场】你的专属农场，亲手种，包邮送到家！";
