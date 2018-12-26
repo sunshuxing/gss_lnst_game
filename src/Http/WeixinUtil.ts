@@ -38,7 +38,7 @@ class WeixinUtil {
     /**
      * 获得工具类实例
      */
-    public static getInstance():WeixinUtil {
+    public static getInstance(): WeixinUtil {
         if (!this.weixinUtil) {
             this.weixinUtil = new WeixinUtil();
         }
@@ -139,7 +139,6 @@ class WeixinUtil {
     }
     /**
      * 微信初始化
-     * serverUrl    服务端地址
      * mustLogin    是否必须登陆
      * callback     登陆成功回调
      * needShare    是否开启分享
@@ -147,8 +146,10 @@ class WeixinUtil {
      * isOverdue    是否是过期请求，如果是，则code不发送到后台
      */
     async  _commWxInit(serverUrl: string, mustLogin: string, callback: Function, needShare: boolean, jsApiList, isOverdue: boolean) {
-        let code = "";
+        //判断是否是在小程序web-view中，如果是，则不能使用默认的分享
+        let that = this
         let _url = location.href
+        let code = ""
         if (!isOverdue) {
             code = this._commGetValueFromUrlByKey("code");
         } else {
@@ -163,20 +164,45 @@ class WeixinUtil {
             }
             _url = _url.replace("&state=" + state, "")
         }
+        wx.miniProgram.getEnv(function (e) {
+            if (e.miniprogram) {
+                SceneManager.instance.isMiniprogram = true
+                //检查是否有登陆标识或者session
+                let memberNum = that._commGetValueFromUrlByKey("memberNum")
+                let data = {
+                    memberNum: "",
+                    pageUrl: _url
+                }
+                if (memberNum || sessionStorage.getItem("memberNum")) {
+                    console.log("使用memberNum登陆")
+                    data.memberNum = memberNum ? memberNum : sessionStorage.getItem("memberNum");
+                    sessionStorage.setItem("memberNum", data.memberNum)
+                    MyRequest._post("tokenHandle/webLogin", data, that, that.onGetComplete.bind(that, callback, needShare, jsApiList), that.onGetIOError)
+                } else {
+                    console.log("旧版登陆")
+                    //支持旧版登陆，不然更新上去旧的小程序无法使用
+                    that.webH5Login(code, _url, mustLogin, callback, needShare, jsApiList, isOverdue)
+                }
+            } else {
+                SceneManager.instance.isMiniprogram = false
+                //如果是h5页面，不是web-view则使用默认跳转验证登陆
+                that.webH5Login(code, _url, mustLogin, callback, needShare, jsApiList, isOverdue)
+            }
+        })
+
+
+
+    }
+    /**
+     * 使用微信JSSDK网页授权登陆
+     */
+    private webH5Login(code: string, _url: string, mustLogin: string, callback: Function, needShare: boolean, jsApiList, isOverdue: boolean): void {
         var data = {
             pageUrl: _url,
             mustLogin: mustLogin,
             code: code
         }
-        var request = new egret.HttpRequest();
-        request.responseType = egret.HttpResponseType.TEXT;
-        request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        // request.setRequestHeader("SESSION", "application/x-www-form-urlencoded");
-        request.open(serverUrl + 'tokenHandle/takeWxJsapiSignature', egret.HttpMethod.POST);
-        request.withCredentials = true;
-        request.send(this.urlEncode(data, null, null, null));
-        request.addEventListener(egret.Event.COMPLETE, this.onGetComplete.bind(this, callback, needShare, jsApiList), this);
-        request.addEventListener(egret.IOErrorEvent.IO_ERROR, this.onGetIOError, this);
+        MyRequest._post("tokenHandle/takeWxJsapiSignature", data, this, this.onGetComplete.bind(this, callback, needShare, jsApiList), this.onGetIOError)
     }
 
     /**
@@ -198,38 +224,34 @@ class WeixinUtil {
         wx.miniProgram.postMessage({ data })
     }
 
-    public onGetComplete(callback, needShare, jsApiList, event: egret.Event) {
+    public onGetComplete(callback, needShare, jsApiList, data) {
         let that = this
-        var request = <egret.HttpRequest>event.currentTarget;
-        var response = JSON.parse(request.response)
-        if (response.status == 3) {//强制登录,重定向鉴权
-            location.replace(response.data);
-        } else if (response.status == 0) {
-            localStorage.setItem("sessionid", response.data.sessionId);//放入sessionid
-            this.login_user_id = response.data.unionId;
-            localStorage.setItem("isMember", response.data.isMember);//存放是否是会员的标志
-            localStorage.setItem("friendSign", response.data.unionId)
-            this.isMember = response.data.isMember == "true" ? true : false;
+        if (data.status == 3) {//强制登录,重定向鉴权
+            location.replace(data.data);
+        } else if (data.status == 0) {
+            localStorage.setItem("sessionid", data.data.sessionId);//放入sessionid
+            this.login_user_id = data.data.unionId;
+            localStorage.setItem("isMember", data.data.isMember);//存放是否是会员的标志
+            localStorage.setItem("friendSign", data.data.unionId)
+            this.isMember = data.data.isMember == "true" ? true : false;
             if (needShare) {
                 //判断是否是在小程序web-view中，如果是，则不能使用默认的分享
-                wx.miniProgram.getEnv(function (e) {
-                    if (e.miniprogram) {
-                        SceneManager.instance.isMiniprogram = true
-                        //通知小程序分享
-                        that.toPostMessageShare(0, {})
-                    } else {
-                        SceneManager.instance.isMiniprogram = false
-                        that._getShareData(response);//***
-                        that.shareData.iconUrl = "http://www.guoss.net/wefruitmall/images/game_share.png";
-                        that.shareData.titles = "【果说说农场】你的专属农场，亲手种，包邮送到家！";
-                        that._openShare();
-                    }
-                })
+                if (SceneManager.instance.isMiniprogram) {
+                    SceneManager.instance.isMiniprogram = true
+                    //通知小程序分享
+                    that.toPostMessageShare(0, {})
+                } else {
+                    SceneManager.instance.isMiniprogram = false
+                    that._getShareData(data);//***
+                    that.shareData.iconUrl = "http://www.guoss.net/wefruitmall/images/game_share.png";
+                    that.shareData.titles = "【果说说农场】你的专属农场，亲手种，包邮送到家！";
+                    that._openShare();
+                }
             }
             if (callback && typeof callback === 'function') {//回调函数
-                callback(response);//需要在回调函数中初始化shareData
+                callback(data);//需要在回调函数中初始化shareData
             }
-            var wxJsapiSignature = response.data;
+            var wxJsapiSignature = data.data;
             var apiList = null;
             if (jsApiList && typeof jsApiList === 'object' && jsApiList.length != 0) {
                 apiList = jsApiList;
@@ -252,9 +274,9 @@ class WeixinUtil {
                 wx.hideOptionMenu;
             });
         }
-        else if (response.status == 2) {
-            console.log("请求过期sessionId", response.data.sessionId)
-            // localStorage.setItem("sessionid",response.data.sessionId);//放入sessionid
+        else if (data.status == 2) {
+            console.log("请求过期sessionId", data.data.sessionId)
+            // localStorage.setItem("sessionid",data.data.sessionId);//放入sessionid
         }
     }
 

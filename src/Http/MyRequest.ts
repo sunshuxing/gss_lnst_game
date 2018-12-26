@@ -38,7 +38,7 @@ class MyRequest {
                     MyRequest._post(_url, _params, _this, _success, _err);//网页过期后，只能重新向微信请求（会刷新页面），暂时没法执行到此处
                 }, true, null, true)
             }
-            else if (data.status == 0) {
+            else if (data.status == 0 || data.status == 3) {//公众号微信登陆状态3为正常响应，需要跳转微信登陆
                 if (_success) {
                     if (_success)
                         _success.call(_this, data);
