@@ -62,6 +62,9 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 	//查询动态信息成功后处理
 	private Req_searchDynamic(data): void {
 		var Data = data;
+		if(this.perNum == 1){
+			localStorage.setItem("dyn_red", data.data.list[0].id);
+		}
 		var dyndata = Data.data.list;
 		for (let i = 0; i < dyndata.length; i++) {
 			if (dyndata[i].mainUser != "") {

@@ -11,7 +11,6 @@ class GameWebSocket extends egret.DisplayObjectContainer {
     private stateText: egret.TextField;
     private text: string = "TestWebSocket";
 
-
     private socket: egret.WebSocket;
 
     private initWebSocket(url: string): void {
@@ -129,6 +128,19 @@ class GameWebSocket extends egret.DisplayObjectContainer {
                     //删除遮罩
                     let evt: MaskEvent = new MaskEvent(MaskEvent.SHARECLOSE);
                     SceneManager.instance.jumpMark.dispatchEvent(evt);
+                }
+                if (SceneManager.instance.isDistribution) {
+                    let params = {
+                        treeUserId: Help.getOwnData().id,
+                        treeId: Help.getOwnData().treeId
+                    };
+                    let _str = WeixinUtil.prototype.urlEncode(params, null, null, null);
+                    window.location.href = Config.webHome + "/view/game-exchange.html?" + _str;
+                }
+                if(SceneManager.instance.isPresent){
+                    SceneManager.instance.isPresent = false;
+                    let orderId = Sharepresent.prototype.orderId;
+                    location.href = Config.webHome +"confirm.html?orderid=" + orderId;
                 }
             }
         }

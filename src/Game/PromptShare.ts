@@ -58,6 +58,33 @@ class PromptShare extends eui.Component implements eui.UIComponent {
                 SceneManager.instance.weixinUtil._openShare();
             }
         } else {
+            // let sharegroup = new eui.Group();
+            // sharegroup.width = 500;
+            // sharegroup.height = 400;
+            // let bg = new eui.Image();
+            // bg.texture = RES.getRes("sharebg_jpg");
+            // sharegroup.addChild(bg);
+            // let img = new eui.Image();
+            // img.horizontalCenter = 0;
+            // img.width = 275;
+            // img.height = 275;
+            // img.y = 49;
+            // HttpRequest.imageloader(Config.picurl + Help.getOwnData().stageObj.stageImage, img, null, () => {
+            //     sharegroup.addChild(img);
+            //     let name = new eui.Label();
+            //     name.y = 247;
+            //     name.horizontalCenter = -87;
+            //     name.textColor = 0x7a6934;
+            //     name.fontFamily = "Microsoft YaHei";
+            //     name.bold = true;
+            //     name.size = 16;
+            //     name.text = Help.getOwnData().treeName;
+            //     sharegroup.addChild(name);
+            //     name.textAlign = "center";
+            //     name.verticalAlign = "middle";
+            //     Help.Screencapture(sharegroup, Help.getOwnData(), true)
+            // }, this)
+
             let info = "【果实熟了】快来、快来帮我摘水果。"
             let data = {
                 addFriend: true,

@@ -209,19 +209,24 @@ class Help{
 
 
     //获取日期时间
-    public static getTime(date,Type){
+    public static getTime(date,Type?:string){
         //如果createDate为后台传入的Date类型，这里直接转化为毫秒数
         date = date.replace(new RegExp(/-/gm), "/"); //将所有的'-'转为'/'即可
         let time = new Date(date);
-        if(Type == "day"){
-            return time.getMonth()+1+"."+time.getDate();
-        }else if(Type == "hours"){
-            if(time.getMinutes()<10){
-                return time.getHours()+":0"+time.getMinutes();
+        if(Type){
+            if(Type == "day"){
+                return time.getMonth()+1+"."+time.getDate();
+            }else if(Type == "hours"){
+                if(time.getMinutes()<10){
+                    return time.getHours()+":0"+time.getMinutes();
+                }
+                else{
+                    return time.getHours()+":"+time.getMinutes();
+                }
             }
-            else{
-                return time.getHours()+":"+time.getMinutes();
-            }
+        }
+        else {
+            return date
         }
     }
 
@@ -526,7 +531,7 @@ class Help{
 
 
     //截屏功能
-    public static Screencapture(DisplayObject:eui.Group,data){
+    public static Screencapture(DisplayObject:eui.Group,data,isPick?:boolean){
         var renderTexture:egret.RenderTexture = new egret.RenderTexture();
         // let buling = new eui.Image();
         // buling.texture = RES.getRes("");
@@ -549,7 +554,7 @@ class Help{
             toptext.verticalAlign = "middle";
             toptext.textAlign="center";
             if(data.needTake == "true"){
-                toptext.text = "我的"+data.treeName+"结果了!"
+                toptext.text = "我的"+data.treeName+"果子成熟了!"
             }
             else{
                 toptext.text = "我的"+data.treeName+data.stageObj.name+"了!"
@@ -588,7 +593,7 @@ class Help{
             treeId:treeId,
             stage:stage
         }
-        MyRequest._post("game/uploadBase64Img", params, this, this.Req_uploadBase64Img.bind(this), this.onGetIOError);
+        MyRequest._post("game/uploadBase64Img", params, this, this.Req_uploadBase64Img.bind(this,isPick), this.onGetIOError);
     }
 
     private static onGetIOError(){
@@ -596,7 +601,7 @@ class Help{
     }
 
 
-    private static Req_uploadBase64Img(data){
+    private static Req_uploadBase64Img(isPick,data){
         let imagename = data.data.imgName;
         console.log(imagename,"name")
         if(!SceneManager.instance.isMiniprogram){
@@ -605,8 +610,19 @@ class Help{
             console.log(param,"ImageName")
         }
         else{
-            SceneManager.addJump("sharetextfriend_png");
-            let info = "快来看看我的果树吧！"
+            let info
+            if(isPick){
+                SceneManager.addJump("sharetextwater_png");
+                if (Help.getOwnData() && Number(Help.getOwnData().friendCanObtain) > 0) {
+				    info = "【果实熟了】快来、快来帮我摘水果。"
+                } else {
+                    info = "【说说农场】一起种水果，亲手种，免费送到家。"
+                }
+            }
+            else{
+                SceneManager.addJump("sharetextfriend_png");
+                info = "快来看看我的果树吧！"
+            }
 			let data = {
 				addFriend: true,
 				title: info,

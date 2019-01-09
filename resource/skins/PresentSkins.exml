@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="PresentSkins" width="750" height="1344" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image width="100%" height="100%" x="0" y="0" source="panel-bg" scale9Grid="4,4,24,24" alpha="0.8"/>
+	<e:Image x="0" source="sharepicbg_png" y="43"/>
+	<e:Image y="212" anchorOffsetX="0" anchorOffsetY="0" source="presentbg_png" horizontalCenter="0"/>
+	<e:Image id="present_img" y="302" horizontalCenter="0" source=""/>
+	<e:Label id="present_label1" text="" y="648" anchorOffsetX="0" anchorOffsetY="0" size="28" fontFamily="Microsoft YaHei" horizontalCenter="1" textColor="0xba171d"/>
+	<e:Label id="present_label2" text="" y="690" horizontalCenter="0" size="20" fontFamily="Microsoft YaHei" textColor="0x383838"/>
+	<e:Image y="126" source="colorbar_png" horizontalCenter="0"/>
+	<e:Image id="btn_share" y="888" source="sharepicbtn_png" horizontalCenter="0"/>
+</e:Skin>

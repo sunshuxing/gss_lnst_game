@@ -1,6 +1,8 @@
 class SceneManager {
     public _stage: egret.DisplayObjectContainer // 设置所有场景所在的舞台(根)
 
+
+    public isDistribution: boolean;                 //是否配送
     public mainScene: MainScene                  //主场景
     private interactiveScene: InteractiveScene    //互动场景
     private taskScene: TaskScene                  //任务场景
@@ -16,6 +18,7 @@ class SceneManager {
     public jumpMark: JumpScene                       //分享遮罩
 
     public isMiniprogram: Boolean;                //当前是否是小程序运行
+    public isPresent: boolean;
 
 
     constructor() {
@@ -202,6 +205,7 @@ class SceneManager {
         egret.Tween.get(this.instance.dynamicScene)
             .set({ y: 1208 })
             .to({ y: 0 }, 500);
+        SceneManager.sceneManager.mainScene.dyn_red.visible = false;
     }
 
 

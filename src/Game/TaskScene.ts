@@ -31,7 +31,7 @@ class TaskScene extends eui.Component implements eui.UIComponent {
      * 
      */
     private clickCommonProblem() {
-        sessionStorage.setItem("fromgame","true");
+        sessionStorage.setItem("fromgame", "true");
         location.href = Config.webHome + "view/common-problem.html"
     }
 
@@ -418,7 +418,7 @@ class taskList_item extends eui.ItemRenderer {
                         url: "/pages/game/browseGoods?listType=1&isFinished=false"
                     })
                 } else {
-                    sessionStorage.setItem("fromgame","true");
+                    sessionStorage.setItem("fromgame", "true");
                     location.href = Config.webHome + "view/game-browse-goods.html?listType=1&isFinished=false"
                 }
             }
@@ -426,10 +426,10 @@ class taskList_item extends eui.ItemRenderer {
             case 'Invitation_friend': {
                 SceneManager.instance.getTaskScene().dispatchEventWith(MaskEvent.REMOVED_FROM_STAGE)   //使用manager获取场景并触发事件
                 this.tojump(true, "sharetexttree_png");
-                let url = SceneManager.instance.weixinUtil.shareData.shareUrl
-                let addFriend = MyRequest.geturlstr("addFriend", url)
 
                 if (!SceneManager.instance.isMiniprogram) {//不是小程序的处理方式
+                    let url = SceneManager.instance.weixinUtil.shareData.shareUrl
+                    let addFriend = MyRequest.geturlstr("addFriend", url)
                     if (Help.getOwnData() && Number(Help.getOwnData().friendCanObtain) > 0) {
                         SceneManager.instance.weixinUtil.shareData.titles = "【果实熟了】快来、快来帮我摘水果。"
                         SceneManager.instance.weixinUtil.shareData.describes = "离免费收获一箱水果，只差最后一步啦！"
@@ -450,6 +450,32 @@ class taskList_item extends eui.ItemRenderer {
                         title: info
                     }
                     SceneManager.instance.weixinUtil.toPostMessageShare(0, data)
+                    // let sharegroup = new eui.Group();
+                    // sharegroup.width = 500;
+                    // sharegroup.height = 400;
+                    // let bg = new eui.Image();
+                    // bg.texture = RES.getRes("sharebg_jpg");
+                    // sharegroup.addChild(bg);
+                    // let img = new eui.Image();
+                    // img.horizontalCenter = 0;
+                    // img.width = 275;
+                    // img.height = 275;
+                    // img.y = 49;
+                    // HttpRequest.imageloader(Config.picurl + Help.getOwnData().stageObj.stageImage, img, null, () => {
+                    //     sharegroup.addChild(img);
+                    //     let name = new eui.Label();
+                    //     name.y = 247;
+                    //     name.horizontalCenter = -87;
+                    //     name.textColor = 0x7a6934;
+                    //     name.fontFamily = "Microsoft YaHei";
+                    //     name.bold = true;
+                    //     name.size = 16;
+                    //     name.text = Help.getOwnData().treeName;
+                    //     sharegroup.addChild(name);
+                    //     name.textAlign = "center";
+                    //     name.verticalAlign = "middle";
+                    //     Help.Screencapture(sharegroup, Help.getOwnData(), true)
+                    // }, this)
                 }
             }
                 break;
@@ -465,7 +491,7 @@ class taskList_item extends eui.ItemRenderer {
                         url: "/pages/game/browseGoods?listType=2&backGame=true&taskCode=" + code
                     })
                 } else {
-                    sessionStorage.setItem("fromgame","true");
+                    sessionStorage.setItem("fromgame", "true");
                     sessionStorage.setItem("taskCode", code);
                     location.href = Config.webHome + "view/game-browse-goods.html?listType=2"
                 }
@@ -478,7 +504,7 @@ class taskList_item extends eui.ItemRenderer {
                         url: "/pages/game/browseGoods?listType=0&backGame=true&taskCode=" + code
                     })
                 } else {
-                    sessionStorage.setItem("fromgame","true");
+                    sessionStorage.setItem("fromgame", "true");
                     sessionStorage.setItem("taskCode", code);
                     location.href = Config.webHome + "view/game-browse-goods.html?listType=0"
                 }
@@ -495,7 +521,7 @@ class taskList_item extends eui.ItemRenderer {
                         url: "/pages/gssIndex/index"
                     })
                 } else {
-                    sessionStorage.setItem("fromgame","true");
+                    sessionStorage.setItem("fromgame", "true");
                     sessionStorage.setItem("taskCode", code);
                     location.href = Config.webHome + "view/index.html"
                 }
