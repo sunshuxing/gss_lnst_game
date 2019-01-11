@@ -526,6 +526,22 @@ class taskList_item extends eui.ItemRenderer {
                     location.href = Config.webHome + "view/index.html"
                 }
             }
+            case 'order_seed': {
+                if (SceneManager.instance.isMiniprogram) {
+                    //小程序端口taskCode要做参数发送
+                    let data = {
+                        taskCode: code
+                    }
+                    SceneManager.instance.weixinUtil.toPostMessageShare(1, data)
+                    wx.miniProgram.switchTab({
+                        url: "/pages/gssIndex/index"
+                    })
+                } else {
+                    sessionStorage.setItem("fromgame", "true");
+                    sessionStorage.setItem("taskCode", code);
+                    location.href = Config.webHome + "view/index.html"
+                }
+            }
                 break;
         }
     }
