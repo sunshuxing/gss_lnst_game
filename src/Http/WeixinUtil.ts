@@ -163,6 +163,7 @@ class WeixinUtil {
                 _url = _url.replace("code=" + code, "")
             }
             _url = _url.replace("&state=" + state, "")
+            code = ""//code过期时不能再传code，需要置空
         }
         wx.miniProgram.getEnv(function (e) {
             if (e.miniprogram) {

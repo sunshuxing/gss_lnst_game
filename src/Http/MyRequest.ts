@@ -25,7 +25,7 @@ class MyRequest {
             var request = <egret.HttpRequest>event.currentTarget;
             var data = JSON.parse(request.response);
             if (data.status == 1) {//错误
-                console.log("错误:", data.msg)
+                console.log(_url+" 接口错误:", data.msg)
                 SceneManager.addNotice(data.msg)
                 if (_err) {
                     _err.call(_this, data);
