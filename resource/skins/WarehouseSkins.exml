@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="WarehouseSkins" width="668" height="976" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image x="0" y="0" source="warehousebg_png"/>
+	<e:Image id="close_btn" y="898" source="close1" horizontalCenter="0"/>
+	<e:Label id="propname" text="篮子" x="212" y="105" textColor="0x7c6b5b" size="36" fontFamily="SimHei" bold="true"/>
+	<e:Label id="propdisc" text="详情详情详情详情详情详情" x="213" y="170" anchorOffsetX="0" width="402" anchorOffsetY="0" height="99" textColor="0x7c6b5b" fontFamily="SimHei"/>
+	<e:Group width="135" height="135" x="46" y="118" anchorOffsetX="0" anchorOffsetY="0">
+		<e:Image id="propimg" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1" verticalCenter="0" horizontalCenter="0"/>
+	</e:Group>
+	<e:Scroller width="600" height="417.27" y="382.73" anchorOffsetY="0" anchorOffsetX="0" horizontalCenter="0">
+		<e:List id="warehouselist" itemRendererSkinName="WarehouseListSkins">
+			<e:layout>
+				<e:TileLayout requestedColumnCount="4" verticalGap="20" horizontalGap="11" paddingLeft="2"/>
+			</e:layout>
+		</e:List>
+	</e:Scroller>
+</e:Skin>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="SeedRewardSkins" width="660" height="497" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image source="rewardbg_png" x="0" bottom="0"/>
+	<e:Scroller width="500" height="181" x="80" y="178">
+		<e:List id="reward_list" itemRendererSkinName="SeedRewardListSkins">
+			<e:layout>
+				<e:TileLayout horizontalAlign="center" horizontalGap="35" verticalGap="0" requestedRowCount="1" columnAlign="justifyUsingWidth" columnWidth="141"/>
+			</e:layout>
+			<e:ArrayCollection>
+				<e:Array>
+					<e:Object/>
+					<e:Object/>
+					<e:Object/>
+				</e:Array>
+			</e:ArrayCollection>
+		</e:List>
+	</e:Scroller>
+	<e:Image id="reward_btn" y="375" anchorOffsetX="0" anchorOffsetY="0" source="rewardbtn_png" horizontalCenter="0"/>
+</e:Skin>

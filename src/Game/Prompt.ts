@@ -1,38 +1,34 @@
-class Prompt extends eui.Component implements eui.UIComponent{
-	public constructor() {
-		super();
-		this.addEventListener(eui.UIEvent.COMPLETE,this.onComplete,this);
-		this.skinName = "resource/skins/PromptSkins.exml";
-	}
+class Prompt extends eui.Component implements eui.UIComponent {
+    public constructor() {
+        super();
+        this.addEventListener(eui.UIEvent.COMPLETE, this.onComplete, this);
+        this.skinName = "resource/skins/PromptSkins.exml";
+    }
 
-	private prompt_label:eui.Label;			//提示内容
-    private btn_label:eui.Label;            //按钮文字
-    private prompt_btn:eui.Group;           //提示按钮
-    private prompt_ti:eui.Label;            //
+    private prompt_label: eui.Label;			//提示内容
+    private btn_label: eui.Label;            //按钮文字
+    private prompt_btn: eui.Group;           //提示按钮
+    private prompt_ti: eui.Label;            //
 
-    protected childrenCreated():void{
-		super.childrenCreated();
-        this.prompt_btn.addEventListener(egret.TouchEvent.TOUCH_TAP,this.remove,this)
+    protected childrenCreated(): void {
+        super.childrenCreated();
+        this.prompt_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.remove, this)
     }
 
 
-    private onComplete():void{
-        SceneManager.sceneManager.mainScene.enabled = false;
+    private onComplete(): void {
     }
 
-	public setPrompt(content,btn,tishi){
-		this.prompt_label.text = content;
+    public setPrompt(content, btn, tishi) {
+        this.prompt_label.text = content;
         this.btn_label.text = btn;
         this.prompt_ti.text = tishi;
-	}
+    }
 
-    private remove(){
-        if(this.parent){
-        SceneManager.sceneManager.mainScene.enabled = true;
-           this.parent.removeChild(this);
-           let Removemask:MaskEvent = new MaskEvent(MaskEvent.REMOVEMASK);
-           SceneManager.sceneManager.mainScene.dispatchEvent(Removemask);
-           SceneManager.toMainScene();
+    private remove() {
+        if (this.parent) {
+            NewHelp.removemask()
+            this.parent.removeChild(this);
         }
     }
 }

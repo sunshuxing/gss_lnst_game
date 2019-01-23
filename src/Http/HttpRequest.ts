@@ -34,10 +34,10 @@ class HttpRequest {
                 }
             }, this);
             if (_this) {
-                        success.call(_this)
-                    } else {
-                        success
-                    }
+                success.call(_this)
+            } else {
+                success
+            }
         } catch (e) { console.log("图片加载错误", e) }
     }
 

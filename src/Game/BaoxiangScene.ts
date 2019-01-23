@@ -56,6 +56,8 @@ class BaoxiangScene extends eui.Component implements eui.UIComponent{
 			this.currentState = "open"
 		}
 		else if(this.currentState == "open"&&this.parent){
+			NewHelp.removemask();
+			NewHelp.updateprop();
 			this.parent.removeChild(this);
 		}
 	}

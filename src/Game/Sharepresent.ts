@@ -60,7 +60,8 @@ class Sharepresent extends eui.Component implements eui.UIComponent{
             let orderId  = this.orderId;
             SceneManager.addJump("sharetextpick_png");
             if (!SceneManager.instance.isMiniprogram) {//不是小程序的处理方式
-                SceneManager.instance.weixinUtil.shareData.titles = "【礼包惊喜】快来、快来帮我摘水果。"
+                SceneManager.instance.weixinUtil.shareData.iconUrl = "http://www.guoss.net/wefruitmall/images/game_share1.png"
+                SceneManager.instance.weixinUtil.shareData.titles = "【礼包惊喜】获得一个惊喜大礼包。"
                 SceneManager.instance.weixinUtil.shareData.describes = "离免费收获一箱水果，只差最后一步啦！"
                 if(orderId){
                     SceneManager.instance.weixinUtil.shareData.success = function(){
@@ -72,10 +73,11 @@ class Sharepresent extends eui.Component implements eui.UIComponent{
                 if(orderId){
                     SceneManager.instance.isPresent = true;
                 }
-                let info = "【礼包惊喜】快来、快来帮我摘水果。"
+                let info = "【礼包惊喜】获得一个惊喜大礼包。"
                 let data = {
                     addFriend: true,
-                    title: info
+                    title: info,
+                    imageUrl: "http://www.guoss.net/wefruitmall/images/game_share1.jpg"
                 }
                 SceneManager.instance.weixinUtil.toPostMessageShare(0, data)
             }    

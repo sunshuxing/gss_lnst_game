@@ -47,13 +47,33 @@ class SeedDescription extends eui.Component implements eui.UIComponent {
 
     //获取种子成功
     private requestreceiveTree(data): void {
-        this.remove();
+        console.log("领取种子", data)
+        if (this.parent.parent) {
+            this.parent.parent.removeChild(this.parent)
+        }
         var Data = data;
-        SceneManager.sceneManager.mainScene.currentState = "havetree"
-        SceneManager.sceneManager.mainScene.getOwnTree();
-        let baoxiang = new BaoxiangScene();
-        baoxiang.seticon(data);
-        SceneManager.sceneManager.mainScene.addChild(baoxiang);
+        if (SceneManager.instance.landId == 1) {
+            SceneManager.sceneManager.newmainScene.getOwnTree();
+        }
+        else if (SceneManager.instance.landId == 2) {
+            SceneManager.sceneManager.newmain2Scene.getOwnTree();
+        }
+        if (!Datamanager.getPropdata()) {                 //该用户为新用户
+            let baoxiang = new BaoxiangScene();
+            baoxiang.seticon(data);
+            SceneManager.sceneManager._stage.addChild(baoxiang);
+        }
+        else {
+            if (Datamanager.getPropNumByid(3)) {         //该用户有果篮 
+                let reward = new SeedRewardScene(data.data);
+                SceneManager.sceneManager._stage.addChild(reward);
+            }
+            else {                                       //该用户为新用户
+                let baoxiang = new BaoxiangScene();
+                baoxiang.seticon(data);
+                SceneManager.sceneManager._stage.addChild(baoxiang);
+            }
+        }
     }
 
 

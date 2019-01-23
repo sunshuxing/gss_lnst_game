@@ -32,38 +32,15 @@ class PromptHuafei extends eui.Component implements eui.UIComponent{
         this.label_btn.text = btn;
 	}
 
-    public setUse(type){
-        if(type == 1){
-                this.use = ()=>{
-                this.remove();
-                SceneManager.sceneManager.getHuafeiScene().useProp(type+3,type)
-            }
-        }
-        if(type == 2){
-                this.use = ()=>{
-                this.remove();
-                SceneManager.sceneManager.getHuafeiScene().useProp(type+3,type)
-            }
-        }
-        if(type == 3){
-                this.use = ()=>{
-                this.remove();
-                SceneManager.sceneManager.getHuafeiScene().useProp(type+3,type)
-            }
-        }
-    }
-
     private onComplete():void{
-        SceneManager.sceneManager.mainScene.enabled = false;
+        SceneManager.sceneManager.StageItems.enabled = false;
     }
 
     private remove(){
        if(this.parent){
-           SceneManager.sceneManager.mainScene.enabled = true;
+           SceneManager.sceneManager.StageItems.enabled = true;
            this.parent.removeChild(this);
-           let Removemask:MaskEvent = new MaskEvent(MaskEvent.REMOVEMASK);
-           SceneManager.sceneManager.mainScene.dispatchEvent(Removemask);
-           SceneManager.toMainScene();
+           NewHelp.removemask();
        }
     }
 

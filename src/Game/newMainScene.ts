@@ -1,0 +1,468 @@
+class newMainScene extends eui.Component implements eui.UIComponent {
+    public constructor() {
+        super();
+        this.addEventListener(eui.UIEvent.COMPLETE, this.onComplete, this);
+        this.skinName = "resource/skins/MainSceneSkins.exml";
+    }
+
+    private bg: eui.Image;                  //场景背景
+    private logo: eui.Image;   			    //风车图片
+    public tree: eui.Image;				    //果树图片
+    private garden_name: eui.Label;		    //果园名称
+    private tree_name: eui.Label;		    //果树名称
+    private gro_fastpic: eui.Group;         //快照区域
+    private gro_tree: eui.Group;             //果树点击区域
+    public progress: eui.ProgressBar         //果树成长进度条
+    public progress_label: eui.Label;        //果树成长进度条说明文字
+    private progress1: eui.ProgressBar;	     //果子进度条
+    public pick_num: eui.Label;			    //篮子数量
+    private distribution: eui.Label;         //篮子文字
+    private distribution_label: eui.Label    //当前果子个数
+    private fruit_img: eui.Image;             //果实图片
+    private fruit_num: eui.Label;             //所需果实总个数
+    private gro_progress1: eui.Group;          //收果进度条组
+    private tocaiyuan: eui.Button;              //去菜园按钮
+    private present1: eui.Image;			//礼包点击区域
+	private present2: eui.Image;			//
+
+    protected childrenCreated(): void {
+        super.childrenCreated();
+    }
+
+    private onComplete(): void {
+        SceneManager.instance.landId = 1;                       //当前土地id为1
+        MyRequest._post("fruit/getNowDateTime", null, this, this.Req_getNowDateTime.bind(this), null)		//获取服务器当前时间
+        this.showinit();
+        this.logorot();
+        this.gro_tree.addEventListener(egret.TouchEvent.TOUCH_TAP, this.treeTouch, this);
+        this.tocaiyuan.addEventListener(egret.TouchEvent.TOUCH_TAP, this.toCaiyuan, this);
+
+    }
+
+
+    /**
+     * 去菜园按钮
+     */
+    private toCaiyuan() {
+        SceneManager.instance.landId = 2;
+        SceneManager.toNewMain2Scene();
+        if (SceneManager.sceneManager.StageItems.currentState == "havetree") {            //自己农场
+            SceneManager.sceneManager.newmain2Scene.getOwnTree();
+        }
+        else if (SceneManager.sceneManager.StageItems.currentState == "friendtree") {         //好友农场
+            if (Datamanager.getnowfrienddata().trees[SceneManager.instance.landId - 1]) {
+                let friendtreedataid = Datamanager.getnowfrienddata().trees[SceneManager.instance.landId - 1].id;
+                NewHelp.getTreeInfoByid(friendtreedataid);
+            }
+            else {
+                SceneManager.sceneManager.newmain2Scene.updateBytreedata(null);
+                NewHelp.addmask();
+                let invite = new Invitefriend();
+                SceneManager.sceneManager._stage.addChild(invite);
+            }
+        }
+        Help.passAnm();
+    }
+
+    /**
+     * 果树图片点击事件
+     */
+    private treeTouch() {
+        this.gro_tree.touchEnabled = false;
+        egret.Tween.get(this.tree)
+            .to({ scaleX: 1.05, scaleY: 1.05 }, 200)
+            .wait(150)
+            .to({ scaleX: 1, scaleY: 1 }, 200)
+            .to({ scaleX: 1.02, scaleY: 1.02 }, 200)
+            .to({ scaleX: 1, scaleY: 1 }, 200).call(() => {
+                this.gro_tree.touchEnabled = true;
+            }, this);
+
+        // 所有树语中随机一个
+        if (Datamanager.gettreelanguagedata()) {
+            let n = Help.random_num(0, Datamanager.gettreelanguagedata().length - 1)
+            SceneManager.treepromptgro.removeChildren();
+            SceneManager.treetimer.reset();
+            SceneManager.addtreePrompt(Datamanager.gettreelanguagedata()[n].msg);
+        }
+    }
+
+    /**
+     * 查询自己果树
+     */
+    public getOwnTree() {
+        // landId :1  果园    landId:2   菜园
+        let params = {
+            landId: SceneManager.instance.landId
+        }
+        MyRequest._post("game/getOwnTree", params, this, this.requestgetOwnTree.bind(this), null);
+    }
+
+
+    //查询自己果园果树回调
+    private requestgetOwnTree(data): void {
+        SceneManager.sceneManager.StageItems.currentState = "havetree"              //表现为自己果园
+        console.log("自己果树", data)
+        let treedata = data.data[0];
+        Datamanager.saveOwnguoyuandata(treedata);               //保存自己果园果树数据
+        Datamanager.saveNowtreedata(treedata);                  //保存当前果树数据
+        NewHelp.showpickgro(treedata);                          //是否显示摘果按钮
+        this.datainit(treedata);                                //数据初始化显示
+        if (treedata) {
+            if (Number(treedata.friendCanObtain) > 0) {                                             //判断是否显示邀请帮摘果按钮
+                SceneManager.sceneManager.StageItems.share_friend.visible = true;
+            }
+            else {
+                SceneManager.sceneManager.StageItems.share_friend.visible = false;
+            }
+        }
+        else {
+            SceneManager.sceneManager.StageItems.share_friend.visible = false;
+            NewHelp.getseed()                                           //领取种子   
+        }
+    }
+
+    /**
+     * 由果树信息更新显示(好友)
+     */
+    public updateBytreedata(data) {
+        console.log("好友果树数据", data);
+        SceneManager.sceneManager.StageItems.currentState = "friendtree";
+        Datamanager.saveNowtreedata(data);                                              //保存当前果树数据
+        NewHelp.getfriendlike(data);                                                    //查询好友点赞数
+        NewHelp.checkSteal(data);                                                       //检查是否能偷水
+        this.datainit(data);                                                         //数据初始化显示
+        NewHelp.checkHelpTakeFruit(data);                                            //检查是否能帮摘果
+        // //好友列表定位
+        // let index = Help.getContains(Datamanager.getfriendsdata(), Datamanager.getfriendByid(data));
+        // let friend_list = SceneManager.sceneManager.StageItems.friend_list;
+        // friend_list.selectedIndex = index;
+        // if (index * 110 > friend_list.width - 10) {
+        //     if (index * 110 <= (friend_list.contentWidth - friend_list.width)) {
+        //         friend_list.scrollH = index * 110;
+        //     }
+        //     else {
+        //         friend_list.scrollH = friend_list.contentWidth - friend_list.width;
+        //     }
+        // }
+        this.progress.slideDuration = 0;
+        this.progress.value = 0;
+        //果树更新显示
+        SceneManager.treepromptgro.removeChildren();
+        SceneManager.treetimer.reset();
+        if (data) {
+            SceneManager.addtreePrompt("欢迎来到我的农场！")
+        }
+        Help.removebuling();                                                //移除果树爱心值兑换效果
+
+        if (data) {
+            //推送拜访消息
+            let params = {
+                userId: Datamanager.getnowfrienddata().friendUser
+            }
+            MyRequest._post("game/visit", params, this, null, null);
+        }
+
+        //   好友列表定位
+        let index = Help.getContains(Datamanager.getfriendsdata(), Datamanager.getnowfrienddata());
+        let friend_list = SceneManager.sceneManager.StageItems.friend_list;
+        friend_list.selectedIndex = index;
+        if (index * 110 > friend_list.width - 10) {
+            if (index * 110 <= (friend_list.contentWidth - friend_list.width)) {
+                friend_list.scrollH = index * 110;
+            }
+            else {
+                friend_list.scrollH = friend_list.contentWidth - friend_list.width;
+            }
+        }
+    }
+
+
+    /**
+     * 无关数据初始化显示
+     */
+    private showinit() {
+        let now = new Date();
+        let hour = now.getHours();
+        if (hour > 17 || hour < 6) {
+            this.logo.texture = RES.getRes("logo-night")            //风车图片
+            this.bg.texture = RES.getRes("bgsnownight_png");        //背景图片
+        } else if (hour < 18 || hour > 5) {
+            this.logo.texture = RES.getRes("logo")                  //风车图片
+            this.bg.texture = RES.getRes("bgsnow_png");             //背景图片
+        }
+    }
+
+    /**
+     * 数据初始化显示
+     */
+    private datainit(data) {
+        if (SceneManager.sceneManager.StageItems.currentState == "havetree") {    //自己果园
+            this.garden_name.text = Help.getcharlength(SceneManager.instance.weixinUtil.user_name, 4);
+        } else if (SceneManager.sceneManager.StageItems.currentState == "friendtree") {
+            this.garden_name.text = Help.getcharlength(Datamanager.getnowfrienddata().friendUserName, 4);			//果园名称
+        }
+        if (!data) {
+            this.tree_name.text = "";
+        } else {
+            this.tree_name.text = data.treeName;                                //果树名称
+        }
+        NewHelp.getTreeLanguage(data);                                          //获取并保存树语数据
+        this.treeupdate(data);                                                  //果树更新显示
+        NewHelp.progressupdate(data, this.progress);                            //成长值进度条更新显示
+        NewHelp.progresslabelupdate(data, this.progress_label);                 //成长进度条说明文字更新显示
+        this.progress1update(data);                                             //收果进度条更新显示
+        NewHelp.getTreeLeaveMsg(data);                                          //显示留言
+        NewHelp.getTreeProp(data);                                              //显示果园放置道具(虫草)
+    }
+
+    /**
+     * 收果进度条更新显示
+     * treedata:果树数据
+     */
+    private progress1update(treedata) {
+        if (!treedata) {
+            this.gro_progress1.visible = false;
+            return;
+        }
+        else {
+            if (SceneManager.sceneManager.StageItems.currentState == "havetree") {
+                this.pick_num.visible = true;
+            }
+            else {
+                this.pick_num.visible = false;
+            }
+            if (treedata.stageObj.canHarvest == "true") {
+                this.progress1.maximum = treedata.exchangeNum;							    //装箱需要的果子总数
+                this.progress1.minimum = 0;
+                this.progress1.value = treedata.obtainFruitNum; 						    //当前收获果子数
+                this.distribution_label.text = treedata.obtainFruitNum + "个";               //当前收果个数
+                HttpRequest.imageloader(Config.picurl + treedata.goodsIcon, this.fruit_img);
+                this.fruit_num.text = treedata.exchangeNum + "个";                          //所需要果子总个数
+                this.gro_progress1.visible = true;                                          //收果进度条组显示
+            }
+            else {
+                this.gro_progress1.visible = false;                                         //收果进度条隐藏
+            }
+        }
+    }
+
+
+    /**
+     * 果树更新显示
+     * data      果树数据
+     * isself    是否是自己果树
+     */
+    private OwntreeStage                            //果树阶段
+    private Oldneedtake                             //之前是否需要摘果
+    private treeupdate(data) {
+        if (!data) {
+            this.tree.visible = false;
+            return;
+        }
+        else {
+            this.tree.visible = true;
+            let isself: boolean;                                                           //判断是否是自己果树
+            if (SceneManager.sceneManager.StageItems.currentState == "havetree") {
+                isself = true;
+            }
+            else {
+                isself = false;
+            }
+            console.log(data, "更新果树的数据")
+            if (data.needTake == "true") {
+                HttpRequest.imageloader(Config.picurl + data.stageObj.harvestImage, this.tree, null, () => {
+                    if (isself && (Number(data.stage) >= 5) && ((this.OwntreeStage && this.OwntreeStage != data.stage) || (this.Oldneedtake && this.Oldneedtake != data.needTake))) {
+                        if (!SceneManager.instance.isMiniprogram) {                 //当前环境不是小程序
+                            let share = new SharePic(() => {
+                                Help.Screencapture(this.gro_fastpic, data);
+                            }, data)
+                            SceneManager.sceneManager._stage.addChild(share)
+                        }
+                        else {                                                      //当前环境是小程序
+                            let share = new SharePic(null, data)
+                            SceneManager.sceneManager._stage.addChild(share)
+                        }
+                    }
+                    if (isself) {
+                        this.OwntreeStage = data.stage;
+                        this.Oldneedtake = data.needTake;
+                    }
+                }, this);
+            }
+            else {
+                HttpRequest.imageloader(Config.picurl + data.stageObj.stageImage, this.tree, null, () => {
+                    if (isself && (Number(data.stage) >= 5) && ((this.OwntreeStage && this.OwntreeStage != data.stage) || (this.Oldneedtake && this.Oldneedtake != data.needTake))) {
+                        if (!SceneManager.instance.isMiniprogram) {
+                            console.log("1")
+                            let share = new SharePic(() => {
+                                Help.Screencapture(this.gro_fastpic, data);
+                            }, data)
+                            SceneManager.sceneManager._stage.addChild(share)
+                        }
+                        else {
+                            let share = new SharePic(null, data)
+                            SceneManager.sceneManager._stage.addChild(share)
+                        }
+                    }
+                    if (isself) {
+                        this.OwntreeStage = data.stage;
+                        this.Oldneedtake = data.needTake;
+                    }
+                }, this);
+            }
+            //果树图片显示更新
+            Help.getTreeHWBystage(data.stage, this.tree);
+        }
+    }
+
+//-----------------------------------------------------------------------------礼包----------------------------------------------------------------------------//
+   
+    private nowDate  					//当前时间
+
+    private Req_getNowDateTime(data) {
+		this.nowDate = data.data;
+		MyRequest._post("game/getSysReward", null, this, this.Req_getSysReward.bind(this), null)		//获取当前是否有礼包抽奖规则		
+	}
+
+	//点击礼包事件
+	private presenttouch() {
+		if (Help.getOwnData()) {
+			let params = {
+				treeUserId: Help.getOwnData().id
+			}
+			MyRequest._post("game/receiveSysReward", params, this, this.Req_receiveSysReward.bind(this), null)
+			this.present1.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.presenttouch, this);
+			this.present2.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.presenttouch, this);
+			console.log("点击礼包")
+		}
+	}
+
+
+	private startpresentTwn() {
+		if (!localStorage.getItem("present") || localStorage.getItem("present") == "true") {
+			egret.Tween.get(this.present1, { loop: true })
+				.to({ y: this.present1.y + 80 }, 1500)
+				.to({ y: this.present1.y }, 1500)
+			egret.Tween.get(this.present2, { loop: true })
+				.to({ rotation: -30 }, 100)
+				.to({ rotation: 0 }, 100)
+				.to({ rotation: 30 }, 100)
+				.to({ rotation: 0 }, 100)
+				.wait(500)
+			this.present1.touchEnabled = true;
+			this.present2.touchEnabled = true;
+		}
+	}
+
+	private stoppresentTwn() {
+		if (!localStorage.getItem("present") || localStorage.getItem("present") == "true") {
+			this.present1.y = 228;
+			this.present2.rotation = 0;
+			egret.Tween.removeTweens(this.present1)
+			egret.Tween.removeTweens(this.present2)
+			this.present1.touchEnabled = false;
+			this.present2.touchEnabled = false;
+		}
+	}
+
+	/**
+	 * 获取礼包规则回调
+	 */
+	private Req_getSysReward(data) {
+		console.log("礼包抽奖规则:", data);
+		let starttime			//活动开始时间
+		let endtime				//活动结束时间
+		let that = this
+		for (let i = 0; i < data.data.length; i++) {
+			starttime = data.data[i].startTime.replace(new RegExp(/-/gm), "/")
+			starttime = Date.parse(starttime)
+			endtime = data.data[i].endTime.replace(new RegExp(/-/gm), "/")
+			endtime = Date.parse(endtime)
+			console.log("开始时间：" + starttime, "结束时间:" + endtime)
+			if (starttime > this.nowDate) {
+				console.log("活动时间之前")
+				setTimeout(function () {
+					console.log("礼包点击动画和事件开始");
+					localStorage.setItem("present", "true");
+					that.startpresentTwn();
+				}, Number(starttime) - Number(this.nowDate));
+			}
+			if (endtime > this.nowDate) {
+				console.log("活动时间之间")
+				setTimeout(function () {
+					console.log("礼包点击动画和事件结束")
+					that.stoppresentTwn();
+					localStorage.setItem("present", "false");
+				}, Number(endtime) - Number(this.nowDate));
+			}
+			if (starttime < this.nowDate && endtime > this.nowDate) {
+				this.startpresentTwn();
+				localStorage.setItem("present", "true");
+				console.log("在活动时间内")
+			}
+			if (endtime < this.nowDate) {
+				console.log("在活动时间之后")
+			}
+		}
+	}
+
+	private addEvent() {
+		this.present1.addEventListener(egret.TouchEvent.TOUCH_TAP, this.presenttouch, this);
+		this.present2.addEventListener(egret.TouchEvent.TOUCH_TAP, this.presenttouch, this);
+	}
+
+	private Req_receiveSysReward(data) {
+		console.log("领取礼包数据:", data);
+		let info: string;				//文字
+		let imgname: string;				//图片名称
+		let orderId: any;				//礼包id
+		let info2: string;				//文字2
+		if (data.data.status == "0") {
+			if (data.data.giftType == "0") {
+				console.log("领取礼包")
+				orderId = data.data.orderId;
+				info = "恭喜您获得礼包！"
+				info2 = data.data.fruitInfo + "一件";
+			}
+			else {
+				info = "恭喜您获得礼包！"
+				info2 = "恭喜您获得" + data.data.reward.propName + "x" + data.data.reward.propNum;
+			}
+		}
+		else if (data.data.status == "1") {
+			info = "很遗憾,您没中奖哦~";
+			imgname = "presentimgsor_png"
+		}
+		else if (data.data.status == "2") {
+			info = "您已经领过了哦~";
+			imgname = "presentimgobtained_png"
+			this.stoppresentTwn();
+			localStorage.setItem("present", "false")
+		}
+		else if (data.data.status == "-1") {
+			info = "已抢光~";
+			imgname = "presentimgnomore_png"
+			this.stoppresentTwn();
+			localStorage.setItem("present", "false")
+		}
+		else if (data.data.status == "-2") {
+			info = "领礼包次数已达上限~";
+			imgname = "presentimgfull_png"
+			this.stoppresentTwn();
+			localStorage.setItem("present", "false")
+		}
+		let share = new Sharepresent(info, imgname, orderId, info2);
+		SceneManager.sceneManager._stage.addChild(share);
+
+		this.present1.addEventListener(egret.TouchEvent.TOUCH_TAP, this.presenttouch, this);
+		this.present2.addEventListener(egret.TouchEvent.TOUCH_TAP, this.presenttouch, this);
+	}
+
+
+    //风车动画
+    private logorot() {
+        egret.Tween.get(this.logo, { loop: true })
+            .to({ rotation: 360 }, 10000);
+    }
+}

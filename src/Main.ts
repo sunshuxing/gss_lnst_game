@@ -69,7 +69,8 @@ class Main extends eui.UILayer {
         await this.loadResource()
         this.createGameScene();
         SceneManager.instance.initWebSocket()
-        SceneManager.instance.getMainScene().initData();
+        Help.getland();
+        // SceneManager.instance.getMainScene().initData();
         const result = await RES.getResAsync("description_json")
     }
 
@@ -88,6 +89,7 @@ class Main extends eui.UILayer {
                 this.stage.addChild(guideView);
             } else {
                 await RES.loadGroup("preload", 0, loadingView);//加载默认preload组资源,并执行loadingView
+                RES.loadGroup("guide");
             }
             this.stage.removeChild(loadingView);
         }
@@ -117,7 +119,6 @@ class Main extends eui.UILayer {
         // 把this设置为场景管理器的根舞台
         SceneManager.instance.setStage(this)
         // 调用SceneManager的静态方法
-        SceneManager.toMainScene()
+        SceneManager.toWhereScene()
     }
-
 }

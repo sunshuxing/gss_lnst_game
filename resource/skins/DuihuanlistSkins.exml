@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="DuihuanlistSkins" width="571" height="113" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Group y="0" width="531" horizontalCenter="0">
+		<e:Image x="0" y="0" source="duihuanline_png" scale9Grid="15,0,18,113" anchorOffsetX="0" width="531"/>
+		<e:Group width="65" height="75" anchorOffsetX="0" anchorOffsetY="0" y="19" x="0">
+			<e:Image id="like" y="0" source="smalllove_png" horizontalCenter="0"/>
+			<e:Label id="likeneed" text="10/10" horizontalCenter="0" size="22" textColor="0x7c6b5b" bottom="0" fontFamily="Tahoma"/>
+		</e:Group>
+		<e:Image x="87.66" source="duihuanarr_png" y="32"/>
+		<e:Group id="prop_gro" width="203" height="75" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1" x="175" y="19">
+			<e:Image id="prop" source="smallshui_png" x="0" y="10"/>
+			<e:Label id="propname" text="水滴" size="22" textColor="0x7c6b5b" fontFamily="Tahoma" y="27" x="52"/>
+		</e:Group>
+		<e:Image id="duihuanbtn" source="duihuancan_png" y="23" right="11"/>
+	</e:Group>
+</e:Skin>

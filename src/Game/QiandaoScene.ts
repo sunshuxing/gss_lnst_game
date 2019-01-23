@@ -43,7 +43,7 @@ class SigninScene extends eui.Component implements eui.UIComponent {
      * 签到成功的处理
      */
     private Req_SignIn(data): void {
-        SceneManager.sceneManager.mainScene.sign_gro.visible = false;
+        SceneManager.sceneManager.StageItems.sign_gro.visible = false;
         var Data = data;
         if (Data.status == 0) {
             if (!this.qiandao_data.data) {
@@ -72,8 +72,7 @@ class SigninScene extends eui.Component implements eui.UIComponent {
             }
             //显示签到成功奖励
             SceneManager.addNotice("签到成功！获得" + data.propName + data.propNum + info, 2000);
-            let evt: PuticonEvent = new PuticonEvent(PuticonEvent.TASKFINSHED);
-            SceneManager.instance.mainScene.dispatchEvent(evt)
+            NewHelp.updateprop();
         }
         else {
             console.log(Data, "错误")
@@ -152,8 +151,12 @@ class SigninScene extends eui.Component implements eui.UIComponent {
 
     //关闭该场景
     private closeScene() {
-        let Removemask: MaskEvent = new MaskEvent(MaskEvent.REMOVEMASK);
-        this.parent.dispatchEvent(Removemask);
-        SceneManager.toMainScene();
+        // let Removemask: MaskEvent = new MaskEvent(MaskEvent.REMOVEMASK);
+        // this.parent.dispatchEvent(Removemask);
+        // SceneManager.toMainScene();
+        NewHelp.removemask();
+        if(this.parent){
+            this.parent.removeChild(this);
+        }
     }
 }

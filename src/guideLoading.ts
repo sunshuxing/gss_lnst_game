@@ -20,13 +20,13 @@ class guideLoading extends eui.Component {
         this.logo.height = 152;
         this.logo.anchorOffsetX = this.logo.width/2;
         this.logo.anchorOffsetY = this.logo.height/2;
-        this.logo.x = SceneManager.sceneManager.mainScene.width/2
-        this.logo.y = SceneManager.sceneManager.mainScene.height/2 - 80
+        this.logo.x = SceneManager.sceneManager._stage.width/2
+        this.logo.y = SceneManager.sceneManager._stage.height/2 - 80
         this.addChild(this.logo);
         this.addChild(this.textField);
-        this.textField.y = SceneManager.sceneManager.mainScene.height/2 + 62;
+        this.textField.y = SceneManager.sceneManager._stage.height/2 + 62;
         this.textField.width = 250;
-        this.textField.x = (SceneManager.sceneManager.mainScene.width - this.textField.width)/2;
+        this.textField.x = (SceneManager.sceneManager._stage.width - this.textField.width)/2;
         this.textField.size = 28;
         this.textField.bold = true;
         this.textField.textAlign = "center";

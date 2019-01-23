@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="ProblemSkins" width="750" height="1463" xmlns:e="http://ns.egret.com/eui"
+        xmlns:w="http://ns.egret.com/wing" states="normal,details,reward" >
+	<e:Rect width="750" height="1463" fillColor="0xffffff" x="0" y="0" />
+	<e:Image source="problembg_png" x="0" y="0" />
+	<e:Image y="148.54" source="problemtop_png" horizontalCenter="0.5" />
+	<e:Image width="670" height="720" y="540" anchorOffsetX="0" anchorOffsetY="0" source="bgyellow_png"
+	         scale9Grid="6,5,8,10" x="40" />
+	<e:Image id="submit_btn" x="76" y="1210" source="submit_btn_png"  includeIn="normal,details"/>
+	<e:Image id="next_btn" y="1210" source="next_btn_png" x="420"  includeIn="normal,details"/>
+	<e:Group width="133" height="133" x="90.96" y="186.11" anchorOffsetX="0" anchorOffsetY="0" y.reward="249.79">
+		<e:Image id="user_icon" mask="{icon_mask}" width="133" height="133" top="0" left="0" source=""/>
+		<e:Rect id="icon_mask" width="133" height="133" left="0" ellipseWidth="133" ellipseHeight="133" y="0"/>
+	</e:Group>
+	<e:Label text="恭喜你完成今天的题目！" includeIn="reward" x="257.43" y="280.73" anchorOffsetX="0" anchorOffsetY="0" size="36" fontFamily="SimHei" bold="true"/>
+	<e:Label id="reward_right" text="正确率：3/5" includeIn="reward" x="341.21" y="346.79" anchorOffsetX="0" anchorOffsetY="0" size="36" fontFamily="SimHei" bold="true"/>
+	<e:Group width="193" height="196" includeIn="reward" y="720" horizontalCenter="0.5">
+		<e:Image x="0" y="0" source="award_di_png"/>
+		<e:Image id="reward_img" horizontalCenter="0" verticalCenter="-13" source="youji"/>
+		<e:Label id="reward_num_label" text="" y="154.12" textColor="0xff960d" size="24" fontFamily="SimHei" horizontalCenter="0"/>
+	</e:Group>
+	<e:Image id="receive_btn" includeIn="reward" y="1210" source="receive_btn_png" horizontalCenter="0"/>
+	<e:Label id="problemnum" text="第一题" x="110" y="340" bold="true" fontFamily="SimHei" size="30"  includeIn="normal,details"/>
+	<e:Label id="problemlable" text="" x="250" y="340" anchorOffsetX="0" width="396" anchorOffsetY="0" height="102"
+	         fontFamily="SimHei" bold="true"  includeIn="normal,details"/>
+	<e:Label text="奖励：" x="256" y="245" size="24" fontFamily="SimHei" includeIn="normal,details"/>
+	<e:Label id="right_label" text="答对：0/5" x="256" y="203" size="24" fontFamily="SimHei" includeIn="normal,details"/>
+	<e:Scroller width="610" height="228" y="576" anchorOffsetX="0" horizontalCenter="0" anchorOffsetY="0" includeIn="normal">
+		<e:List id="problemlist" itemRendererSkinName="ProblemListSkins" anchorOffsetY="0" height="220">
+		<e:layout>
+			<e:TileLayout orientation="rows" horizontalAlign="center" columnAlign="justifyUsingWidth" requestedColumnCount="2" verticalGap="20"/>
+		</e:layout>
+		</e:List>
+	</e:Scroller>
+	<e:Scroller width="610" height="228" y="576" anchorOffsetX="0" horizontalCenter="0" anchorOffsetY="0" includeIn="details">
+		<e:List id="detailslist" itemRendererSkinName="ProblemListSkins" anchorOffsetY="0" height="220">
+		<e:layout>
+			<e:TileLayout orientation="rows" horizontalAlign="center" columnAlign="justifyUsingWidth" requestedColumnCount="2" verticalGap="20"/>
+		</e:layout>
+		</e:List>
+	</e:Scroller>
+	<e:Label id="reward_label" text="" x="332" y="245" anchorOffsetX="0" width="300" anchorOffsetY="0" height="80" size="24" fontFamily="SimHei" includeIn="normal,details"/>
+	<e:Rect id="listenable" width="626" height="266" y="560" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="0"
+	        fillAlpha="0"  includeIn="details"/>
+	<e:Group width="610" height="309.1" includeIn="details" y="852" x="70" anchorOffsetY="0">
+		<e:Scroller id="answer_scr" width="610" height="270" x="0" y="0">
+			<e:Group>
+				<e:Label id="answer_label" text="" includeIn="details" y="0" anchorOffsetX="0" anchorOffsetY="0" x="0" scaleX="1" scaleY="1" fontFamily="SimHei" textColor="0x8b4925" size="30" lineSpacing="15" width="610"/>
+			</e:Group>
+		</e:Scroller>
+		<e:Label id="timer_label" text="3秒后可继续" anchorOffsetX="0" anchorOffsetY="0" size="24" fontFamily="SimHei" textColor="0xff960d" right="50" bottom="0" includeIn="details"/>
+	</e:Group>
+</e:Skin>

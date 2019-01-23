@@ -79,7 +79,12 @@ class GameWebSocket extends egret.DisplayObjectContainer {
                         break;
                     case "makeTrouble": {
                         info = "来捣乱了！"
-                        SceneManager.instance.mainScene.getTreeProp(Help.getOwnData().id);
+                        if(SceneManager.instance.landId == 1){
+                            NewHelp.getTreeProp(Datamanager.getOwnguoyuandata());           //果园数据
+                        }
+                        else if(SceneManager.instance.landId == 2){                         //菜园数据
+                            NewHelp.getTreeProp(Datamanager.getOwncaiyuandata());
+                        }
                     }
                         break;
                     case "leaveMsg": {
@@ -88,22 +93,27 @@ class GameWebSocket extends egret.DisplayObjectContainer {
                         break;
                     case "help": {
                         info = "来农场帮忙了哦！"
-                        SceneManager.instance.mainScene.getTreeProp(Help.getOwnData().id);
+                        if(SceneManager.instance.landId == 1){
+                            NewHelp.getTreeProp(Datamanager.getOwnguoyuandata());           //果园数据
+                        }
+                        else if(SceneManager.instance.landId == 2){                         //菜园数据
+                            NewHelp.getTreeProp(Datamanager.getOwncaiyuandata());
+                        }
                     }
                         break;
                     case "water": {
                         info = "来农场帮浇水了哦！"
-                        SceneManager.instance.mainScene.getOwnTree();
+                        SceneManager.sceneManager.newmainScene.getOwnTree();
                     }
                         break;
                     case "thiefWater": {
                         info = "来偷水啦！"
-                        SceneManager.instance.mainScene.getOwnProp();
+                        NewHelp.updateprop();
                     }
                         break;
                     case "flushTake": {
                         info = "帮你摘果了哦！"
-                        SceneManager.instance.mainScene.getOwnTree();
+                        SceneManager.sceneManager.newmainScene.getOwnTree();
                     }
                         break;
                     case "unEnoughBasket": {
@@ -113,15 +123,15 @@ class GameWebSocket extends egret.DisplayObjectContainer {
                 }
                 let userName = pushMsg.userName;
                 let userId = pushMsg.userId;
-                SceneManager.instance.mainScene.showDynamicMsg(info, userName, userId)
+                NewHelp.showDynamicMsg(info, userName, userId)
             } else if (pushMsg.type == "0") {//顶部推送,暂时用刷新，实际直接构建数据即可
                 if (pushMsg.code == "systemInfo") {//系统推送
-                    SceneManager.instance.mainScene.getSystemMsg(true)
+                    SceneManager.sceneManager.StageItems.getSystemMsg(true)
                 } else if (pushMsg.code == "topInfo") {//成长周期推送
-                    SceneManager.instance.mainScene.getTopMsg(true)
+                    SceneManager.sceneManager.StageItems.getTopMsg(true)
                 }
             } else if (pushMsg.type == "2") {//刷新好友请求
-                SceneManager.instance.mainScene.getFriends();
+                SceneManager.sceneManager.StageItems.getFriends();
             } else if (pushMsg.type == "-1") {//关闭遮罩请求
                 console.log("推送关闭遮罩")
                 if (SceneManager.instance.jumpMark) {//如果有遮罩

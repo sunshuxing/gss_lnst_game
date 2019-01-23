@@ -1,30 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="SeedDescriptionSkins" width="750" height="1344" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Image horizontalCenter="0" verticalCenter="0" source="seed-description_png"/>
-	<e:Label id="btn_cancel" text="取消" x="172" y="1052" anchorOffsetX="0" width="180" anchorOffsetY="0" height="45" verticalAlign="middle" textAlign="center" size="24" fontFamily="Microsoft YaHei" bold="true"/>
-    <e:Label id="btn_determine" text="确定" x="400" y="1052" anchorOffsetX="0" width="180" anchorOffsetY="0" height="45" verticalAlign="middle" textAlign="center" fontFamily="Microsoft YaHei" size="24" bold="true"/>
-	<e:Label text="1" x="156" y="435" textColor="0x66402e" size="24"/>
-	<e:Label text="2" x="156" y="595" textColor="0x66402e" size="24"/>
-	<e:Label text="3" x="156" y="799" textColor="0x66402e" size="24"/>
-	<e:Label text="实物兑换" x="180" y="440" anchorOffsetY="0" height="60" anchorOffsetX="0" width="60" size="28" textColor="0x66402e" bold="true" fontFamily="Microsoft YaHei"/>
-    <e:Label text="生长周期" x="180" y="621" anchorOffsetY="0" height="60" anchorOffsetX="0" width="60" size="28" textColor="0x66402e" bold="true" fontFamily="Microsoft YaHei"/>
-    <e:Label text="配送信息" x="180" y="830" anchorOffsetY="0" height="60" anchorOffsetX="0" width="60" size="28" textColor="0x66402e" bold="true" fontFamily="Microsoft YaHei"/>
-	<e:Scroller id="scr_namespec" width="300" height="69" x="270" y="436" anchorOffsetY="0">
-		<e:Group>
+<e:Skin class="SeedDescriptionSkins" width="535" height="863" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Group width="535" height="863" x="0" y="0">
+		<e:Image horizontalCenter="0" verticalCenter="0" source="seed-description_png" x="0" y="0" scaleX="1" scaleY="1"/>
+		<e:Label id="btn_cancel" text="取消" x="64" y="811" anchorOffsetX="0" width="180" anchorOffsetY="0" height="45" verticalAlign="middle" textAlign="center" size="24" fontFamily="Microsoft YaHei" bold="true" scaleX="1" scaleY="1"/>
+		<e:Label id="btn_determine" text="确定" x="292" y="811" anchorOffsetX="0" width="180" anchorOffsetY="0" height="45" verticalAlign="middle" textAlign="center" fontFamily="Microsoft YaHei" size="24" bold="true" scaleX="1" scaleY="1"/>
+		<e:Label text="1" x="48" y="194" textColor="0x66402e" size="24" scaleX="1" scaleY="1"/>
+		<e:Label text="2" x="48" y="354" textColor="0x66402e" size="24" scaleX="1" scaleY="1"/>
+		<e:Label text="3" x="48" y="558" textColor="0x66402e" size="24" scaleX="1" scaleY="1"/>
+		<e:Label text="实物兑换" x="72" y="199" anchorOffsetY="0" height="60" anchorOffsetX="0" width="60" size="28" textColor="0x66402e" bold="true" fontFamily="Microsoft YaHei" scaleX="1" scaleY="1"/>
+		<e:Label text="生长周期" x="72" y="380" anchorOffsetY="0" height="60" anchorOffsetX="0" width="60" size="28" textColor="0x66402e" bold="true" fontFamily="Microsoft YaHei" scaleX="1" scaleY="1"/>
+		<e:Label text="配送信息" x="72" y="589" anchorOffsetY="0" height="60" anchorOffsetX="0" width="60" size="28" textColor="0x66402e" bold="true" fontFamily="Microsoft YaHei" scaleX="1" scaleY="1"/>
+		<e:Scroller id="scr_namespec" width="300" height="69" x="162" y="195" anchorOffsetY="0" scaleX="1" scaleY="1">
+			<e:Group>
 			<e:Label id="seed_namespec" text="" anchorOffsetX="0" width="300" anchorOffsetY="0" textAlign="left" verticalAlign="middle" size="24" fontFamily="Microsoft YaHei" textColor="0xffdda7" lineSpacing="10" scaleX="1" scaleY="1"/>
-		</e:Group>
-	</e:Scroller>
-
-	<e:Scroller id="scr_seed_info" width="300" height="83" x="270" y="610" anchorOffsetX="0">
-		<e:Group>
+			</e:Group>
+		</e:Scroller>
+		<e:Scroller id="scr_seed_info" width="300" height="83" x="162" y="369" anchorOffsetX="0" scaleX="1" scaleY="1">
+			<e:Group>
 			<e:Label id="seed_info" text="1." x="0" y="0" anchorOffsetX="0" anchorOffsetY="0" textAlign="left" verticalAlign="middle" textColor="0xffdda7" size="24" fontFamily="Microsoft YaHei" scaleX="1" scaleY="1" lineSpacing="10"/>
-		</e:Group>
-	</e:Scroller>
-	<e:Scroller id="scr_delivery_info" width="300" height="107" x="270" y="813">
-		<e:Group>
+			</e:Group>
+		</e:Scroller>
+		<e:Scroller id="scr_delivery_info" width="300" height="107" x="162" y="572" scaleX="1" scaleY="1">
+			<e:Group>
 			<e:Label id="delivery_info" text="" x="0" y="0" anchorOffsetX="0" anchorOffsetY="0" textAlign="left" verticalAlign="middle" textColor="0xffdda7" size="24" fontFamily="Microsoft YaHei" scaleX="1" scaleY="1" lineSpacing="10"/>
-		</e:Group>
-	</e:Scroller>
-	<e:Label id="seed_name" text="苹果" y="953" size="24" bold="true" textColor="0xe27e46" fontFamily="Microsoft YaHei" horizontalCenter="-3"/>
-	<e:Label text="兑换说明：过季水果会兑换当季水果" y="1005" anchorOffsetX="0" width="398" size="24" fontFamily="Microsoft YaHei" textColor="0x764a32" textAlign="center" horizontalCenter="0"/>
+			</e:Group>
+		</e:Scroller>
+		<e:Label id="seed_name" text="苹果" y="712" size="24" bold="true" textColor="0xe27e46" fontFamily="Microsoft YaHei" horizontalCenter="-3" x="240" scaleX="1" scaleY="1"/>
+		<e:Label text="兑换说明：过季水果会兑换当季水果" y="764" anchorOffsetX="0" width="398" size="24" fontFamily="Microsoft YaHei" textColor="0x764a32" textAlign="center" horizontalCenter="0" x="68" scaleX="1" scaleY="1"/>
+	</e:Group>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </e:Skin>

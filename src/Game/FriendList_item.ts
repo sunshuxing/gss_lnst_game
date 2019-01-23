@@ -19,11 +19,18 @@ class FriendList_item extends eui.ItemRenderer{
 		let user = this.data.friendUser
 		HttpRequest.imageloader(Config.picurl+Help.getfriendIcon()[user],this.friend_icon,user);
 		this.friend_name.text = Help.getcharlength(this.data.friendUserName,2);
-		if(this.data.friendTreeIcon){
-			HttpRequest.imageloader(Config.picurl+this.data.friendTreeIcon,this.tree_icon);
-		}else{
-			this.tree_icon.texture = RES.getRes("shuidi")
+		if(this.data.trees.length == 0){
+			this.tree_icon.texture = RES.getRes("shuidi");
+			this.tree_icon.visible = true;
 		}
+		else{
+			this.tree_icon.visible = false;
+		}
+		// if(this.data.friendTreeIcon){
+		// 	HttpRequest.imageloader(Config.picurl+this.data.friendTreeIcon,this.tree_icon);
+		// }else{
+		// 	this.tree_icon.texture = RES.getRes("shuidi")
+		// }
 	}
 
 }

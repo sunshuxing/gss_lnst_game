@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="DuihuanfriendlistSkins" width="60" height="60" xmlns:e="http://ns.egret.com/eui">
+    <e:Image id="friend_icon" width="60" height="60" mask="{icon_mask}" x="0" y="0" source="bg-day_png"/>
+	<e:Rect id="icon_mask" width="60" height="60" ellipseWidth="60" ellipseHeight="60" x="0" y="0"/>
+</e:Skin>

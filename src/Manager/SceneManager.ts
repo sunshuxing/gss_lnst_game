@@ -1,7 +1,7 @@
 class SceneManager {
     public _stage: egret.DisplayObjectContainer // 设置所有场景所在的舞台(根)
 
-
+    public landId: number                            //当前土地id
     public isDistribution: boolean;                 //是否配送
     public mainScene: MainScene                  //主场景
     private interactiveScene: InteractiveScene    //互动场景
@@ -19,17 +19,32 @@ class SceneManager {
 
     public isMiniprogram: Boolean;                //当前是否是小程序运行
     public isPresent: boolean;
+    public duihuanScene: DuihuanScene;
+    public warehouseScene: WarehouseScene;
 
+    //-----------------------------------------------------------------------------------------------------------------------------//
+    public newmainScene: newMainScene;
+    public StageItems: newStageItems;
+    public newmain2Scene: newMain2Scene;
 
+    
     constructor() {
         this.weixinUtil = WeixinUtil.getInstance();
         this.friendSign = MyRequest.geturlstr("friendSign")
     }
-    public getMainScene():MainScene{
-        if(!this.mainScene){
+
+    public getMainScene(): MainScene {
+        if (!this.mainScene) {
             this.mainScene = new MainScene();
         }
         return this.mainScene;
+    }
+
+    public getInteractiveScene(): InteractiveScene {
+        if (!this.interactiveScene) {
+            this.interactiveScene = new InteractiveScene()
+        }
+        return this.interactiveScene;
     }
 
     public getTaskScene(): TaskScene {
@@ -60,6 +75,21 @@ class SceneManager {
         return this.huafeiScene;
     }
 
+    public getDuihuanScene(): DuihuanScene {
+        if (!this.duihuanScene) {
+            this.duihuanScene = new DuihuanScene();
+        }
+        return this.duihuanScene;
+    }
+
+    public getWarehouseScene():WarehouseScene{
+        if (!this.warehouseScene) {
+            this.warehouseScene = new WarehouseScene();
+        }
+        return this.warehouseScene;
+    }
+
+
 	/**
      * 获取实例
      */
@@ -88,11 +118,11 @@ class SceneManager {
                 MyRequest._post("game/addFriend", data, this, this.loadFirend.bind(this), null)
             }
         } else {
-            if (this.friendSign != this.weixinUtil.login_user_id) {
-                //如果分享的用户和当前用户不一样
-                this.mainScene.getFriends(this.userid)
-                this.userid = null;
-            }
+            // if (this.friendSign != this.weixinUtil.login_user_id) {
+            //     //如果分享的用户和当前用户不一样
+            //     this.mainScene.getFriends(this.userid)
+            //     this.userid = null;
+            // }
         }
     }
     private loadFirend() {
@@ -146,6 +176,104 @@ class SceneManager {
     }
 
     /**
+     * 主场景（新）
+     */
+    static toNewMainScene() {
+        if (this.instance.newmain2Scene && this.instance.newmain2Scene.parent) {
+            this.instance.newmain2Scene.parent.removeChild(this.instance.newmain2Scene);
+        }
+        if (!this.instance.newmainScene) {
+            this.instance.newmainScene = new newMainScene();
+        }
+        if (!this.instance.StageItems) {
+            this.instance.StageItems = new newStageItems();
+        }
+        let stage: egret.DisplayObjectContainer = this.instance._stage // (根) 舞台
+        let newmainScene = SceneManager.instance.newmainScene; // 主场景
+        newmainScene.y = stage.height - newmainScene.height;
+        // 判断主场景是否有父级(如果有,说明已经被添加到了场景中)
+        if (!newmainScene.parent) {
+            // 未被添加到场景
+            // 把主场景添加到之前设置好的根舞台中
+            stage.addChild(newmainScene);
+        }
+        let newstageItems = SceneManager.instance.StageItems;   //
+        newstageItems.y = stage.height - newstageItems.height;
+        if (!newstageItems.parent) {
+            stage.addChild(newstageItems);
+        }
+        else if (stage.getChildIndex(newstageItems) < stage.getChildIndex(newmainScene)) {
+            stage.swapChildren(newstageItems, newmainScene);
+        }
+        // SceneManager.instance.removeOther(SceneManager.instance.mainScene)
+    }
+
+
+    /**
+     * 主场景2(新)
+     */
+    static toNewMain2Scene() {
+        if (this.instance.newmainScene && this.instance.newmainScene.parent) {
+            this.instance.newmainScene.parent.removeChild(this.instance.newmainScene);
+        }
+        if (!this.instance.newmain2Scene) {
+            this.instance.newmain2Scene = new newMain2Scene();
+        }
+        if (!this.instance.StageItems) {
+            this.instance.StageItems = new newStageItems();
+        }
+        let stage: egret.DisplayObjectContainer = this.instance._stage // (根) 舞台
+        let newmain2Scene = SceneManager.instance.newmain2Scene; // 主场景
+        newmain2Scene.y = stage.height - newmain2Scene.height;
+        // 判断主场景是否有父级(如果有,说明已经被添加到了场景中)
+        if (!newmain2Scene.parent) {
+            // 未被添加到场景
+            // 把主场景添加到之前设置好的根舞台中
+            stage.addChild(newmain2Scene);
+        }
+        let newstageItems = SceneManager.instance.StageItems;   //
+        newstageItems.y = stage.height - newstageItems.height;
+        if (!newstageItems.parent) {
+            stage.addChild(newstageItems);
+        }
+        else if (stage.getChildIndex(newstageItems) < stage.getChildIndex(newmain2Scene)) {
+            stage.swapChildren(newstageItems, newmain2Scene);
+        }
+
+    }
+
+    /**
+     * 判断进入哪个场景
+     */
+
+    static toWhereScene() {
+        MyRequest._post("game/getOwnTree", null, this, this.requestgetOwnTree.bind(this), null);
+    }
+
+    static requestgetOwnTree(data) {
+        console.log("所有果树数据", data)
+        if (data.data.length == 0) {                                      //两块地都没有数据
+            this.toNewMainScene();
+            this.instance.newmainScene.getOwnTree();
+        }
+        else if (data.data.length == 2) {                     //两块地都有数据
+            this.toNewMainScene();
+            this.instance.newmainScene.getOwnTree();
+        }
+        else if (data.data.length == 1) {                     //只有一块地有数据
+            if (data.data[0].landId == 1) {                   //果园有数据                      
+                this.toNewMainScene();
+                this.instance.newmainScene.getOwnTree();
+            }
+            else if (data.data[0].landId == 2) {              //菜园有数据
+                this.toNewMain2Scene();
+                this.instance.newmain2Scene.getOwnTree();
+            }
+        }
+    }
+
+
+    /**
      * 主场景
      */
     static toMainScene() {
@@ -163,6 +291,34 @@ class SceneManager {
     }
 
     /**
+     * 点赞兑换页面
+     */
+
+    static toDuihuanScene() {
+        if (!this.instance.duihuanScene) {
+            this.instance.duihuanScene = new DuihuanScene();
+        }
+        NewHelp.addmask();
+        this.instance._stage.addChild(this.instance.duihuanScene)
+    }
+
+    /**
+     * 仓库页面
+     */
+
+    static toWarehouseScene(){
+        if(!this.instance.warehouseScene){
+            this.instance.warehouseScene = new WarehouseScene();
+        }
+        else {
+            this.instance.warehouseScene.showprop();
+        }
+        NewHelp.addmask();
+        this.instance._stage.addChild(this.instance.warehouseScene);
+    }
+
+
+    /**
      * 互动场景
      */
     static toInteractiveScene() {
@@ -171,10 +327,13 @@ class SceneManager {
         }
         this.instance.removeOther(this.instance.interactiveScene)
         // 把互动场景添加到主场景中
-        this.instance.mainScene.addChild(this.instance.interactiveScene)
+        // this.instance.mainScene.addChild(this.instance.interactiveScene)
+        NewHelp.addmask();
+        this.instance._stage.addChild(this.instance.interactiveScene)
+        let new_y = this.instance._stage.height - this.instance.interactiveScene.height;
         egret.Tween.get(this.instance.interactiveScene)
             .set(this.instance.interactiveScene.y = 1208)
-            .to({ y: 0 }, 500);
+            .to({ y: new_y }, 500);
     }
 
 
@@ -186,26 +345,36 @@ class SceneManager {
         this.instance.removeOther(this.instance.taskScene)
         // 把互动场景添加到主场景中
         this.instance.taskScene.y = 1208
-        this.instance.mainScene.addChild(this.instance.taskScene)
+        // this.instance.mainScene.addChild(this.instance.taskScene)
+        NewHelp.addmask();
+        this.instance._stage.addChild(this.instance.taskScene)
         this.instance.taskScene.taskDataInit();
         this.instance.taskScene.cacheAsBitmap = true;
+        let new_y = this.instance._stage.height - this.instance.taskScene.height;
         egret.Tween.get(this.instance.taskScene)
-            .to({ y: 0 }, 500);
+            .to({ y: new_y }, 500);
     }
 
     /**
      * 动态场景
      */
-    static toDynamicScene(treeUserId: string) {
+    static toDynamicScene(treedata) {
+        if (!treedata) {
+            SceneManager.addNotice("您还没有种树哦！");
+            return;
+        }
         this.instance.dynamicScene = this.instance.getDynamicScene()
         this.instance.removeOther(this.instance.dynamicScene)
         // 把互动场景添加到主场景中
-        this.instance.dynamicScene.searchDynamic(treeUserId)
-        this.instance.mainScene.addChild(this.instance.dynamicScene)
+        this.instance.dynamicScene.searchDynamic(treedata.id)
+        NewHelp.addmask();
+        this.instance._stage.addChild(this.instance.dynamicScene)
+        // this.instance.mainScene.addChild(this.instance.dynamicScene)
+        let new_y = this.instance._stage.height - this.instance.dynamicScene.height;
         egret.Tween.get(this.instance.dynamicScene)
             .set({ y: 1208 })
-            .to({ y: 0 }, 500);
-        SceneManager.sceneManager.mainScene.dyn_red.visible = false;
+            .to({ y: new_y }, 500);
+        SceneManager.sceneManager.StageItems.dyn_red.visible = false;
     }
 
 
@@ -216,14 +385,21 @@ class SceneManager {
         this.instance.signinScene = this.instance.getSigninScene()
         this.instance.removeOther(this.instance.signinScene)
         // 把互动场景添加到主场景中
-        this.instance.signinScene.y = (this.instance.mainScene.height - this.instance.signinScene.height) / 2;
-        this.instance.mainScene.addChild(this.instance.signinScene)
+        this.instance.signinScene.y = (this.instance._stage.height - this.instance.signinScene.height) / 2;
+        NewHelp.addmask();
+        this.instance._stage.addChild(this.instance.signinScene)
+        // this.instance.mainScene.addChild(this.instance.signinScene)
     }
 
+
+    //化肥场景
     static tohuafeiScene() {
         this.instance.removeOther(this.instance.huafeiScene)
         // 把互动场景添加到主场景中
-        this.instance.mainScene.addChild(this.instance.huafeiScene)
+        // this.instance.mainScene.addChild(this.instance.huafeiScene)
+        NewHelp.addmask();
+        this.instance._stage.addChild(this.instance.huafeiScene)
+        SceneManager.sceneManager.StageItems.huafei_red.visible = false;
     }
 
 
@@ -260,18 +436,30 @@ class SceneManager {
         this.treepromptgro.width = 750;
         this.treepromptgro.height = 1344;
         this.treepromptgro.touchThrough = true;
-        this.instance.mainScene.addChild(this.treepromptgro);
+        this.instance.StageItems.addChild(this.treepromptgro);
         this.treetimer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, () => {
             this.treepromptgro.removeChildren()
         }, this);
-        this.treeprompt.x = 400;
+
         this.treeprompt.setPrompt(info);
 
-        if (Help.getTreeUserData().stage == "1") {
-            this.treeprompt.y = 900;
+        if (SceneManager.instance.landId == 1) {
+            this.treeprompt.x = 400;
+            if (Datamanager.getNowtreedata().stage == "1") {
+                this.treeprompt.y = 900;
+            }
+            else {
+                this.treeprompt.y = 580;
+            }
         }
-        else {
-            this.treeprompt.y = 580;
+        else if (SceneManager.instance.landId == 2) {
+            this.treeprompt.x = 350;
+            if (Datamanager.getNowtreedata().stage == "1") {
+                this.treeprompt.y = 1000;
+            }
+            else {
+                this.treeprompt.y = 700;
+            }
         }
         this.treepromptgro.addChild(this.treeprompt);
         this.treetimer.start();
@@ -282,6 +470,7 @@ class SceneManager {
      */
 
     static addPrompt(content, btn, ti) {
+        NewHelp.addmask()
         let prompt = new Prompt();
         prompt.x = 85;
         prompt.y = 430;
@@ -297,13 +486,13 @@ class SceneManager {
     static async guiedResource() {
         try {
             const loadingView = new guideLoading();
-            this.instance.mainScene.addChild(loadingView)
-            loadingView.y = this.instance.mainScene.height - loadingView.height
+            this.instance._stage.addChild(loadingView)
+            loadingView.y = this.instance._stage.height - loadingView.height
             await RES.loadGroup("guide", 0, loadingView)
-            this.instance.mainScene.removeChild(loadingView)
+            this.instance._stage.removeChild(loadingView)
             const guideView = new guideUI();
-            this.instance.mainScene.addChild(guideView);
-            guideView.y = this.instance.mainScene.height - guideView.height;
+            this.instance._stage.addChild(guideView);
+            guideView.y = this.instance._stage.height - guideView.height;
         }
         catch (e) {
             console.error(e);

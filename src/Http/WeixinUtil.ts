@@ -18,6 +18,8 @@ class WeixinUtil {
     public _friendSign;
 
     public sharedata: BodyMenuShareTimeline;
+
+    public user_name;
     /**
      * 初始化数据
      */
@@ -79,6 +81,10 @@ class WeixinUtil {
                 menuList: ['menuItem:share:appMessage', 'menuItem:share:timeline', 'menuItem:setFont', 'menuItem:copyUrl'] // 要显示的菜单项，所有menu项见附录3
             });
             let shareUrl = that.shareData.shareUrl;
+            let addFriend = MyRequest.geturlstr("addFriend", shareUrl)
+			if (!addFriend) {
+				shareUrl = shareUrl + "&addFriend=true"
+			}
             let titles = that.shareData.titles;
             let describes = that.shareData.describes;
             var iconUrl = that.shareData.iconUrl;
@@ -232,6 +238,7 @@ class WeixinUtil {
         } else if (data.status == 0) {
             localStorage.setItem("sessionid", data.data.sessionId);//放入sessionid
             this.login_user_id = data.data.unionId;
+            this.user_name = data.data.name;
             localStorage.setItem("isMember", data.data.isMember);//存放是否是会员的标志
             localStorage.setItem("friendSign", data.data.unionId)
             this.isMember = data.data.isMember == "true" ? true : false;

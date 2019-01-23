@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="MainSkins" height="1344" xmlns:e="http://ns.egret.com/eui" width="750" xmlns:w="http://ns.egret.com/wing" states="havetree,notree,friendtree" >
+<e:Skin class="MainSkins" height="1344" xmlns:e="http://ns.egret.com/eui" width="750" xmlns:w="http://ns.egret.com/wing" states="havetree,notree,friendtree,havetree_cai" >
 	<w:Config id="166c801a431"/>
-	<e:Group id="gro_fastpic" width="750" height="1334" bottom="0">
+	<e:Image includeIn="havetree_cai" x="0" source="bg-cai_png" bottom="0" visible="false"/>
+	<e:Group id="gro_fastpic" width="750" height="1334" bottom="0" includeIn="havetree,notree,friendtree">
 		<e:Image id="bg" width="750" x="0" width.havetree="100%" y="-79" scaleX="1" scaleY="1" source="bgsnow_png" height="1413"/>
 		<e:Image id="cloud1" x="-63.38" y="-65.35" includeIn="havetree,friendtree" scaleX="1" scaleY="1" source="cloudnew_png"/>
 		<e:Image id="cloud3" x="332" y="-17" includeIn="havetree,friendtree" scaleX="1" scaleY="1" source="cloudnew_png"/>
@@ -14,7 +15,8 @@
 		<e:Image id="tree" horizontalCenter="27.5" includeIn="havetree,friendtree" bottom="401" anchorOffsetY="0" anchorOffsetX="0" x="403" y="933" scaleX="1" scaleY="1" source=""/>
 		<e:Image id="tu" y="879.05" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="30" source="tu" x="312" scaleX="1" scaleY="1"/>
 	</e:Group>
-	<e:Image id="present1" x="300.2" y="297.3" anchorOffsetX="0" anchorOffsetY="0" source="toppresent_png"/>
+	<e:Image id="present1" x="300.2" y="297.3" anchorOffsetX="0" anchorOffsetY="0" source="toppresent_png" includeIn="havetree,notree,friendtree"/>
+	<e:Image id="present2" x="232.33" y="955" anchorOffsetX="37.33" anchorOffsetY="53.33" source="present2_png" includeIn="havetree,notree,friendtree"/>
 
 
 
@@ -34,14 +36,14 @@
 		<e:Image id="guide_img" x="479.03" y="39.52" includeIn="havetree,friendtree" scaleX="1" scaleY="1" source="ydsnow_png"/>
 
 	</e:Group>
-	<e:Image id="present2" x="232.33" y="955" anchorOffsetX="37.33" anchorOffsetY="53.33" source="present2_png"/>
 
 
 
 
 
 
-	<e:Group id="BarGroup" anchorOffsetX="0" anchorOffsetY="0" left="0" right="0" top="0" bottom="0" locked="true"/>
+
+	<e:Group id="BarGroup" anchorOffsetX="0" anchorOffsetY="0" left="0" right="0" top="0" bottom="0" includeIn="havetree,notree,friendtree"/>
 
 
 
@@ -60,6 +62,7 @@
 	<e:Image id="btn_fertilizer" x="24" y="982" includeIn="havetree" source="huafei" anchorOffsetX="0" anchorOffsetY="0"/>
 	<e:Image id="btn_store" x="25.88" y="1094.38" anchorOffsetX="0" anchorOffsetY="0" source="store_png" includeIn="havetree"/>
 	<e:Rect id="huafei_red" width="20" height="20" x="83.03" y="982.5" ellipseWidth="20" ellipseHeight="20" fillColor="0xfc0f0f" includeIn="havetree" visible="false"/>
+	<e:Image id="share_friend" x="601.38" y="665.66" anchorOffsetX="0" anchorOffsetY="0" includeIn="havetree" source="sharefriend"/>
 
 
 
@@ -71,7 +74,7 @@
 	</e:Group>-->
 	<e:Image height="144" bottom="0" left="0" right="0" includeIn="havetree,friendtree" source="friend-bg" anchorOffsetY="0"/>
 	<e:Image width="164" height="144" bottom="0" left="0" includeIn="havetree,friendtree" source="friend-bg" anchorOffsetY="0"/>
-	<e:Image id="share_friend" x="601.38" y="665.66" anchorOffsetX="0" anchorOffsetY="0" includeIn="havetree" source="sharefriend" visible="false"/>
+
 	<e:Group id="self_tree" width="96" height="124" anchorOffsetX="0" anchorOffsetY="0" x="32" y="1213" includeIn="havetree,friendtree">
 		<e:Image width="96" height="96" y="-3" x="-3" source="friendbg" includeIn="havetree,friendtree" source.havetree="friendbgy" source.friendtree="friendbg"/>
 		<e:Image id="user_icon" mask="{icon_mask}" width="90" height="90" top="0" left="0" source=""/>
@@ -110,11 +113,11 @@
 		<e:Label id="time_lq" text="00:00" x="25.08" y="99.6" anchorOffsetX="0" width="99.76" anchorOffsetY="0" height="30" textAlign="center" size="26"/>
 	</e:Group>
 
-	<e:Group id="gro_tree" width="415" height="389" x="190" y="503" anchorOffsetY="0" anchorOffsetX="0" locked="true"/>
+	<e:Group id="gro_tree" width="415" height="389" x="190" y="503" anchorOffsetY="0" anchorOffsetX="0" includeIn="havetree,notree,friendtree"/>
 	<e:Group id="gro_prop" width="750" height="1344" x="0" y="0" anchorOffsetY="0" anchorOffsetX="0" includeIn="havetree,friendtree" locked="true"/>
 
-	<e:Image id="pick_hand" x="462" y="630" source="pickhand" visible="false"/>
-	<e:Label id="pick_label" text="可摘果" x="460" y="736" fontFamily="SimHei" size="32" bold="true" textColor="0xffffff" visible="false"/>
+	<e:Image id="pick_hand" x="462" y="630" source="pickhand" includeIn="havetree,notree,friendtree"/>
+	<e:Label id="pick_label" text="可摘果" x="460" y="736" fontFamily="SimHei" size="32" bold="true" textColor="0xffffff" includeIn="havetree,notree,friendtree"/>
 	<e:ProgressBar id="progress" width="350.78" height="49.65" y="1021.46" skinName="ProgressSkins" includeIn="havetree,friendtree" x="209.94" anchorOffsetX="0" anchorOffsetY="0"/>
 	<e:ProgressBar id="progress1" includeIn="havetree,friendtree" x="135" y="1115.04" skinName="Progress1Skins" visible="false"/>
 	<e:Label id="distribution" text="果篮" x="148" y="1142" textColor="0x563b12" includeIn="havetree,friendtree" size="14" fontFamily="Microsoft YaHei" bold="true" visible="false"/>
@@ -124,7 +127,7 @@
 	<e:Image id="fruit_img" width="24" height="28" x="451" y="1142" anchorOffsetX="0" anchorOffsetY="0" includeIn="havetree,friendtree" visible="false"/>
 	<e:Label id="fruit_num" text="100个" x="444" y="1171" size="16" fontFamily="Microsoft YaHei" textColor="0xf3e911" includeIn="havetree,friendtree" visible="false"/>
 	<e:Label id="progress_label" text="" includeIn="havetree" x="212.66" y="1074.43" anchorOffsetX="0" width="340.66" size="22" textAlign="center" fontFamily="Microsoft YaHei" textColor="0x000000"/>
-	<e:Image id="img_water" width="88" height="84" x="386" y="860" anchorOffsetX="0" anchorOffsetY="0" source="water" visible="false"/>
+	<e:Image id="img_water" width="88" height="84" x="386" y="860" anchorOffsetX="0" anchorOffsetY="0" source="water" includeIn="havetree,notree,friendtree" visible.havetree="false" visible="false"/>
 
 	<e:Group id="dynamic" anchorOffsetX="0" anchorOffsetY="0"   width="230" height="80" x="115" includeIn="havetree" y="622" visible="false">
 		<e:Image id="dynamic_bg" x.havetree="1.15" y.havetree="0.99" scale9Grid.havetree="88,10,52,60" includeIn="havetree" x="8.15" y="1.99" source="dynamic_bg"/>
@@ -135,12 +138,19 @@
 
 
 	<e:Image id="hudong_btn" includeIn="friendtree" x="22.59" y="952.7" source="hudong"/>
-	<e:Image id="steal_btn" width="140" height="154" includeIn="friendtree" x="443" y="774" source="ketou" anchorOffsetX="0" anchorOffsetY="0" visible="false"/>
-	<e:Label id="steal_label" text="可偷水" x="460" y="902" textColor="0x2db7d8" bold="true" includeIn="friendtree" visible="false"/>
+	<e:Image id="steal_btn" width="140" height="154" includeIn="friendtree" x="443" y="774" source="ketou" anchorOffsetX="0" anchorOffsetY="0"/>
+	<e:Label id="steal_label" text="可偷水" x="460" y="902" textColor="0x2db7d8" bold="true" includeIn="friendtree"/>
 	<e:Image id="bg_mask" width="750" height="1420" x="0" source="panel-bg" alpha="0.8" scale9Grid="4,4,24,24" y="-76" visible="false"/>
+	<e:Image includeIn="havetree_cai" x="140" y="959" source="caiyuanpai_png" visible="false"/>
+	<e:Image includeIn="havetree_cai" x="393.64" y="777.4" source="ducknest_png" visible="false"/>
+	<e:Image includeIn="havetree_cai" x="443" y="398.34" source="warehouse_png" visible="false"/>
+	<e:Image includeIn="havetree_cai" x="408.81" y="265.24" source="billboard1_png" visible="false"/>
+	<e:Image includeIn="havetree_cai" x="0" y="308.32" source="game-store_png" visible="false"/>
+	<e:Image includeIn="havetree_cai" x="260" y="405.28" source="billboard2_png" visible="false"/>
+	<e:Image includeIn="havetree_cai" x="162.56" y="619.93" source="goguoyuan_png" visible="false"/>
 
-	<e:Image width="750" height="1420" x="0" alpha="0.8" includeIn="notree" source="panel-bg" scale9Grid="4,4,24,24" y="-76"/>
-	<e:Group id="seedlistgro" width="200" height="200" x="275" y="542">
+	<e:Image width="750" height="1420" x="0" alpha="0.8" includeIn="notree" source="panel-bg" scale9Grid="4,4,24,24" y="-76" visible="false"/>
+	<e:Group id="seedlistgro" width="200" height="200" x="275" y="542" includeIn="havetree,notree,friendtree" visible="false">
 		<e:Image x="-232.5" width="665" height="744" includeIn="notree" source="seed-main-bg_png" verticalCenter="0" y="-272" scaleX="1" scaleY="1"/>
 		<e:Scroller id="scr_seed" width="430" height="466" x="-121" y="-96" anchorOffsetX="0" anchorOffsetY="0" includeIn="notree" scaleX="1" scaleY="1">
 			<e:List id="list_seed" itemRendererSkinName="SeedListskins">

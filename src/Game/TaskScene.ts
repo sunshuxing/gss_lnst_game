@@ -38,9 +38,13 @@ class TaskScene extends eui.Component implements eui.UIComponent {
 
     //关闭该场景
     private closeScene() {
-        let Removemask: MaskEvent = new MaskEvent(MaskEvent.REMOVEMASK);
-        this.parent.dispatchEvent(Removemask);
-        SceneManager.toMainScene();
+        // let Removemask: MaskEvent = new MaskEvent(MaskEvent.REMOVEMASK);
+        // this.parent.dispatchEvent(Removemask);
+        // SceneManager.toMainScene();
+        NewHelp.removemask()
+        if(this.parent){
+            this.parent.removeChild(this);
+        }
         if (this.timerList && this.timerList.length > 0) {
             for (let a = 0; a < this.timerList.length; a++) {
                 clearInterval(this.timerList[a]);
@@ -143,10 +147,10 @@ class TaskScene extends eui.Component implements eui.UIComponent {
                                         //创建一个定时器，当任务被隐藏后刷新、完成直接领取任务
                                         this.hasTimer = true;
                                         setTimeout(() => {
-                                            let isHide = !SceneManager.instance.mainScene.contains(SceneManager.instance.getTaskScene())//判断任务列表是否被隐藏
+                                            let isHide = !SceneManager.instance._stage.contains(SceneManager.instance.getTaskScene())//判断任务列表是否被隐藏
                                             this.hasTimer = false;
                                             if (isHide) {
-                                                SceneManager.instance.getTaskScene().taskDataInit(SceneManager.instance.mainScene.checktask)
+                                                SceneManager.instance.getTaskScene().taskDataInit(SceneManager.instance.StageItems.checktask)
                                             }
                                         }, parseInt(nowTask.intervalCancleTime) - new Date().getTime())
 
@@ -334,9 +338,8 @@ class taskList_item extends eui.ItemRenderer {
             info = "袋"
         }
         SceneManager.addNotice("获得" + data.propName + data.propNum + info, 2000)
-        SceneManager.instance.getTaskScene().taskDataInit(SceneManager.instance.mainScene.checktask)
-        let evt: PuticonEvent = new PuticonEvent(PuticonEvent.TASKFINSHED);
-        SceneManager.instance.mainScene.dispatchEvent(evt)
+        SceneManager.instance.getTaskScene().taskDataInit(SceneManager.instance.StageItems.checktask)
+        NewHelp.updateprop();
     }
 
     // 当数据改变时，更新视图
@@ -574,19 +577,22 @@ class taskList_item extends eui.ItemRenderer {
         if (code == "browse_goods") {
             return "task-bg-blue"
         }
-        if (code == "share_orchard") {
+        else if (code == "share_orchard") {
             return "task-bg-red"
         }
-        if (code == "Invitation_friend") {
+        else if (code == "Invitation_friend") {
             return "task-bg-zi"
         }
-        if (code == "any_order") {
+        else if (code == "any_order") {
             return "task-bg-green"
         }
-        if (code == "specifiy_order") {
+        else if (code == "specifiy_order") {
             return "task-bg-fen"
         }
-        if (code == "order_water") {
+        else if (code == "order_water") {
+            return "task-light-bule_png"
+        }
+        else{
             return "task-light-bule_png"
         }
 

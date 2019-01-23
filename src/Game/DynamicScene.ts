@@ -162,9 +162,13 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 			this.map={}
 		}
 		this.list_dyn.scrollV = 0;
-		let Removemask: MaskEvent = new MaskEvent(MaskEvent.REMOVEMASK);
-		this.parent.dispatchEvent(Removemask);
-		SceneManager.toMainScene();
+		// let Removemask: MaskEvent = new MaskEvent(MaskEvent.REMOVEMASK);
+		// this.parent.dispatchEvent(Removemask);
+		// SceneManager.toMainScene();
+		NewHelp.removemask()
+        if(this.parent){
+            this.parent.removeChild(this);
+        }
 	}
 
 
@@ -386,15 +390,19 @@ class dynList_item extends eui.ItemRenderer {
 		}
 	}
 
-	// 去他人花园
+	// 去他人农场
 	private toother(user) {
-		var data = Help.getUserFriendData();
-		var userid = Help.getUserIdByUser(user, data);
+		console.log(user,"用户")
+		// var data = Help.getUserFriendData();
+		// var userid = Help.getUserIdByUser(user, data);
+		// Help.passAnm();
+		// let evt: PuticonEvent = new PuticonEvent(PuticonEvent.TOFRIEND);
+		// evt.userid = userid;
+		// SceneManager.sceneManager.mainScene.dispatchEvent(evt);
+		// SceneManager.sceneManager.getDynamicScene().dispatchEvent(evt);
+		let treeid = Datamanager.getfriendtreeUseridByUser(user);
+		NewHelp.getTreeInfoByid(treeid);
 		Help.passAnm();
-		let evt: PuticonEvent = new PuticonEvent(PuticonEvent.TOFRIEND);
-		evt.userid = userid;
-		SceneManager.sceneManager.mainScene.dispatchEvent(evt);
-		SceneManager.sceneManager.getDynamicScene().dispatchEvent(evt);
 	}
 
 

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="DuihuanSkins" width="667" height="862" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Group width="667" height="741" x="0" y="0">
+		<e:Image source="duihuanbg_png" x="0" y="0" scaleX="1" scaleY="1"/>
+		<e:Scroller id="duihuanscr" height="340" y="338.64" anchorOffsetX="0" anchorOffsetY="0" width="571" horizontalCenter="0">
+			<e:List id="duihuanlist" itemRendererSkinName="DuihuanlistSkins">
+				<e:ArrayCollection>
+					<e:Array>
+						<e:Object/>
+						<e:Object/>
+						<e:Object/>
+						<e:Object/>
+					</e:Array>
+				</e:ArrayCollection>
+			</e:List>
+		</e:Scroller>
+		<e:Scroller id="duihuanfriendscr" width="530" height="90" y="153.33" anchorOffsetY="0" anchorOffsetX="0" horizontalCenter="0">
+			<e:List id="duihuanfriendlist" itemRendererSkinName="DuihuanfriendlistSkins">
+				<e:ArrayCollection>
+					<e:Array>
+						<e:Object/>
+						<e:Object/>
+					</e:Array>
+				</e:ArrayCollection>
+				<e:layout>
+					<e:HorizontalLayout verticalAlign="middle" paddingLeft="0" paddingRight="0" gap="10"/>
+				</e:layout>
+			</e:List>
+		</e:Scroller>
+	</e:Group>
+	<e:Image id="close_btn" y="800" source="close1" horizontalCenter="0.5"/>
+</e:Skin>

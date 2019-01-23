@@ -1,12 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="HuafeiSkins" width="750" height="1344" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Image id="youji_btn" x="25" y="837" anchorOffsetX="0" anchorOffsetY="0" source="youji"/>
-	<e:Image id="fuhe_btn" x="135" y="929" source="fuhe"/>
-	<e:Image id="shuirong_btn" x="169" y="1049" source="shuirong"/>
-	<e:Image x="84" y="907" anchorOffsetX="0" anchorOffsetY="0" source="huafeinum"/>
-    <e:Image x="196.68" y="1000.04" anchorOffsetX="0" anchorOffsetY="0" source="huafeinum"/>
-    <e:Image x="229.09" y="1121.79" anchorOffsetX="0" anchorOffsetY="0" source="huafeinum"/>
-	<e:Label id="youji_num" text="1" x="86.48" y="909.48" width="40" height="20" size="20" textAlign="center"/>
-	<e:Label id="fuhe_num" text="1" x="199.48" y="1003" width="40" height="20" size="20" textAlign="center"/>
-	<e:Label id="shuirong_num" text="1" x="231.48" y="1123.52" width="40" height="20" size="20" textAlign="center"/>
+<e:Skin class="HuafeiSkins" width="559" height="195" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+
+
+
+
+
+
+
+
+
+	<e:Group width="559" height="195" anchorOffsetX="0" x="0" y="0">
+		<e:Image x="0" y="0" source="bag_png" scaleX="1" scaleY="1"/>
+		<e:Scroller id="prop_scr" width="559" height="195" x="0" y="0">
+			<e:Group>
+				<e:Group id="youji_btn" width="139" height="170" x="20" y="12" anchorOffsetY="0" anchorOffsetX="0" scaleX="1" scaleY="1">
+					<e:Image source="rewarddi_png" x="-1" y="-1"/>
+					<e:Image y="17" anchorOffsetX="0" anchorOffsetY="0" source="youji" horizontalCenter="0"/>
+					<e:Label text="有机肥" y="142" anchorOffsetX="0" size="24" textColor="0xc1885b" verticalAlign="middle" textAlign="center" fontFamily="SimHei" x="34"/>
+					<e:Image x="65" y="101" source="propnumbg_png"/>
+					<e:Label id="youji_num" text="" x="72" y="110" width="61" height="22" size="22" textAlign="center" anchorOffsetX="0" anchorOffsetY="0"/>
+				</e:Group>
+				<e:Group id="fuhe_btn" width="139" height="170" x="180" y="12" anchorOffsetY="0" anchorOffsetX="0" scaleX="1" scaleY="1">
+					<e:Image source="rewarddi_png" x="-1" y="-1"/>
+					<e:Image id="" y="17" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="0" source="fuhe"/>
+					<e:Label text="复合肥" y="142" anchorOffsetX="0" size="24" textColor="0xc1885b" verticalAlign="middle" textAlign="center" fontFamily="SimHei" x="34"/>
+					<e:Image x="65" y="101" source="propnumbg_png"/>
+					<e:Label id="fuhe_num" text="" x="72" y="110" width="61" height="22" size="22" textAlign="center" anchorOffsetX="0" anchorOffsetY="0"/>
+				</e:Group>
+				<e:Group id="shuirong_btn" width="139" height="170" x="340" y="12" anchorOffsetY="0" anchorOffsetX="0" scaleX="1" scaleY="1">
+					<e:Image source="rewarddi_png" x="-1" y="-1"/>
+					<e:Image id="" y="17" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="0" source="shuirong"/>
+					<e:Label text="水溶肥" y="142" anchorOffsetX="0" size="24" textColor="0xc1885b" verticalAlign="middle" textAlign="center" fontFamily="SimHei" x="34"/>
+					<e:Image x="65" y="101" source="propnumbg_png"/>
+					<e:Label id="shuirong_num" text="" x="72" y="110" width="61" height="22" size="22" textAlign="center" anchorOffsetX="0" anchorOffsetY="0"/>
+				</e:Group>
+				<e:Group id="grass_btn" width="139" height="170" x="500" y="12" anchorOffsetY="0" anchorOffsetX="0" scaleX="1" scaleY="1">
+					<e:Image source="rewarddi_png" x="-1" y="-1"/>
+					<e:Image id="" y="17" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="0" source="usedgrass_png"/>
+					<e:Label text="草" y="142" anchorOffsetX="0" size="24" textColor="0xc1885b" verticalAlign="middle" textAlign="center" fontFamily="SimHei" horizontalCenter="0"/>
+					<e:Image x="65" y="101" source="propnumbg_png"/>
+					<e:Label id="grass_num" text="1" x="72" y="110" width="61" height="22" size="22" textAlign="center" anchorOffsetX="0" anchorOffsetY="0"/>
+				</e:Group>
+				<e:Group id="insect_btn" width="139" height="170" x="660" y="12" anchorOffsetY="0" anchorOffsetX="0" scaleX="1" scaleY="1">
+					<e:Image source="rewarddi_png" x="-1" y="-1"/>
+					<e:Image id="" y="17" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="0" source="usedinsect_png"/>
+					<e:Label text="虫" y="142" anchorOffsetX="0" size="24" textColor="0xc1885b" verticalAlign="middle" textAlign="center" fontFamily="SimHei" horizontalCenter="0"/>
+					<e:Image x="65" y="101" source="propnumbg_png"/>
+					<e:Label id="insect_num" text="1" x="72" y="110" width="61" height="22" size="22" textAlign="center" anchorOffsetX="0" anchorOffsetY="0"/>
+				</e:Group>
+				<!--<e:Group id="duckfood_btn" width="139" height="170" x="820" y="12" anchorOffsetY="0" anchorOffsetX="0" scaleX="1" scaleY="1">
+					<e:Image source="rewarddi_png" x="-1" y="-1"/>
+					<e:Image id="" y="17" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="0" source="usedinsect_png"/>
+					<e:Label text="虫" y="142" anchorOffsetX="0" size="24" textColor="0xc1885b" verticalAlign="middle" textAlign="center" fontFamily="SimHei" horizontalCenter="0"/>
+					<e:Image x="65" y="101" source="propnumbg_png"/>
+					<e:Label id="" text="1" x="72" y="110" width="61" height="22" size="22" textAlign="center" anchorOffsetX="0" anchorOffsetY="0"/>
+				</e:Group>-->
+			</e:Group>
+		</e:Scroller>
+
+	</e:Group>
 </e:Skin>

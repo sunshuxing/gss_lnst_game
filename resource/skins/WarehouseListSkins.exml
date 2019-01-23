@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="WarehouseListSkins" width="141" height="141" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image source="rewarddi_png" x="0" y="0"/>
+	<e:Image id="propimg" source="" verticalCenter="0" horizontalCenter="0"/>
+	<e:Image source="propnumbg_png" x="67" y="102"/>
+	<e:Label id="propnum" text="1" x="72" y="108" anchorOffsetX="0" width="63" size="26" fontFamily="Microsoft YaHei" textAlign="center"/>
+</e:Skin>
