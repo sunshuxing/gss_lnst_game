@@ -1165,9 +1165,14 @@ class NewHelp {
 	 */
 	public static getTreeIdByLandId(frienddata, landId) {
 		let treedata = frienddata.trees;
-		for (let i = 0; i < treedata.length; i++) {
-			if (treedata[i].landId == landId) {
-				return treedata[i].id;
+		if (!treedata) {
+			return ""
+		}
+		else {
+			for (let i = 0; i < treedata.length; i++) {
+				if (treedata[i].landId == landId) {
+					return treedata[i].id;
+				}
 			}
 		}
 	}
@@ -1282,9 +1287,18 @@ class NewHelp {
 		data = data.data
 		if (data.canSteal == "true") {//可以偷水
 			SceneManager.sceneManager.StageItems.gro_steal.visible = true;
-			egret.Tween.get(SceneManager.sceneManager.StageItems.steal_btn, { loop: true })
-				.to({ y: SceneManager.sceneManager.StageItems.steal_btn.y + 8 }, 1000)
-				.to({ y: SceneManager.sceneManager.StageItems.steal_btn.y }, 1000)
+			if (SceneManager.instance.landId == 1) {
+				egret.Tween.get(SceneManager.sceneManager.StageItems.steal_btn, { loop: true })
+					.set({ y: 781 })
+					.to({ y: 789 }, 1000)
+					.to({ y: 781 }, 1000)
+			}
+			else if (SceneManager.instance.landId == 2) {
+				egret.Tween.get(SceneManager.sceneManager.StageItems.steal_btn, { loop: true })
+					.set({ y: 841 })
+					.to({ y: 849 }, 1000)
+					.to({ y: 841 }, 1000)
+			}
 		} else {//不能偷水，隐藏水滴，并且把错误信息绑定
 			SceneManager.sceneManager.StageItems.gro_steal.visible = false;
 		}
@@ -1549,7 +1563,29 @@ class NewHelp {
 			return "shuidi"
 		}
 	}
+	//---------------------------------------------------------------------------鸭子------------------------------------------------------------------------//
 
+	/**
+	 * 获取鸭子列表并领取
+	 */
+	public static getDuckList() {
+		MyRequest._post("game/getDuckList", null, this, this.Req_getDuckList.bind(this), null);
+	}
+
+	private static Req_getDuckList(data) {
+		console.log(data, "鸭子列表");
+	}
+
+	/**
+	 * 获取自己鸭子
+	 */
+	public static getOwnDuck() {
+		MyRequest._post("game/getOwnDuck", null, this, this.Req_getOwnDuck.bind(this), null);
+	}
+
+	private static Req_getOwnDuck(data) {
+		console.log(data, "自己鸭子数据");
+	}
 
 }
 

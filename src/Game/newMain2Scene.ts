@@ -39,6 +39,8 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
     private goods_bg1: eui.Image;
     private goods_bg2: eui.Image;
     private goodsdata;
+    private gro_duck: eui.Group;                 //鸭子区域
+    private duck_img: eui.Image;                 //鸭子图片
 
 
     protected childrenCreated(): void {
@@ -52,6 +54,7 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
         this.gro_tree.addEventListener(egret.TouchEvent.TOUCH_TAP, this.treeTouch, this);
         this.toguoyuan.addEventListener(egret.TouchEvent.TOUCH_TAP, this.toGuoyuan, this);
         this.warehouse.addEventListener(egret.TouchEvent.TOUCH_TAP, () => { SceneManager.toWarehouseScene() }, this)
+        this.gro_duck.addEventListener(egret.TouchEvent.TOUCH_TAP, this.ducktouch, this)
         this.str1.scrollRect = new egret.Rectangle(0, 0, 190, 65);
         this.str2.scrollRect = new egret.Rectangle(0, 0, 190, 65);
         this.usericon1.scrollRect = new egret.Rectangle(0, 0, 50, 50);
@@ -69,6 +72,15 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
     }
 
     /**
+     * 点击鸭子区域事件
+     */
+    private ducktouch() {
+        NewHelp.getDuckList();
+    }
+
+
+
+    /**
 	 * 获取最新10个商品
 	 */
     public getTopGoods() {
@@ -79,7 +91,24 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
         console.log("最新10个商品", data);
         this.goodsdata = data.data;
         this.goodscr1();
+        this.getAttachList();
     }
+
+    public getAttachList() {
+        let params = {
+            bizType: "advertisement",
+            bizId: "advertisement"
+        }
+        MyRequest._post("attachment/getAttachList", params, this, this.Req_attachment.bind(this), null)
+    }
+
+    private Req_attachment(data) {
+        console.log(data, "advertisement")
+        for (let i = 0; i < data.data.length; i++) {
+            this.goodsdata.push(data.data[i]);
+        }
+    }
+
 
     private m = 0
 
@@ -88,8 +117,14 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
             if (this.m >= this.goodsdata.length) {
                 this.m = 0;
             }
-            this.goods_name1.text = this.goodsdata[this.m].title;
-            HttpRequest.imageloader(Config.picurl + this.goodsdata[this.m].thumbnail, this.goods_img1);
+            if (this.goodsdata[this.m].sourceUrl) {
+                this.goods_name1.text = this.goodsdata[this.m].title;
+                HttpRequest.imageloader(Config.picurl + this.goodsdata[this.m].sourceUrl, this.goods_img1);
+            }
+            else {
+                this.goods_name1.text = this.goodsdata[this.m].title;
+                HttpRequest.imageloader(Config.picurl + this.goodsdata[this.m].thumbnail, this.goods_img1);
+            }
             this.m++
             var rect: egret.Rectangle = this.goods_name1.scrollRect;
             egret.Tween.get(rect)
@@ -122,8 +157,14 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
             if (this.m >= this.goodsdata.length) {
                 this.m = 0;
             }
-            this.goods_name2.text = this.goodsdata[this.m].title;
-            HttpRequest.imageloader(Config.picurl + this.goodsdata[this.m].thumbnail, this.goods_img2);
+            if (this.goodsdata[this.m].sourceUrl) {
+                this.goods_name1.text = this.goodsdata[this.m].title;
+                HttpRequest.imageloader(Config.picurl + this.goodsdata[this.m].sourceUrl, this.goods_img1);
+            }
+            else {
+                this.goods_name1.text = this.goodsdata[this.m].title;
+                HttpRequest.imageloader(Config.picurl + this.goodsdata[this.m].thumbnail, this.goods_img1);
+            }
             this.m++
             var rect: egret.Rectangle = this.goods_name2.scrollRect;
             egret.Tween.get(rect)

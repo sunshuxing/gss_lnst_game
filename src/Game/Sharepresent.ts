@@ -44,12 +44,12 @@ class Sharepresent extends eui.Component implements eui.UIComponent{
 
 
     private onComplete():void{
-        SceneManager.sceneManager.mainScene.enabled = false;
+        SceneManager.sceneManager.StageItems.enabled = false;
         this.btn_share.addEventListener(egret.TouchEvent.TOUCH_TAP,this.goshare,this);
     }
 
     private remove(){
-        SceneManager.sceneManager.mainScene.enabled = true;
+        SceneManager.sceneManager.StageItems.enabled = true;
         if(this.parent){
             this.parent.removeChild(this);
         }

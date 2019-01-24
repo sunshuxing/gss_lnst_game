@@ -3,7 +3,7 @@ class ChooseSeedScene extends eui.Component implements eui.UIComponent {
     public constructor() {
         super();
         this.addEventListener(eui.UIEvent.COMPLETE,this.onComplete,this);
-        this.skinName = "resource/skins/ChooseseedSkins.exml";
+        this.skinName = "resource/skins/ChooseSeedSkins.exml";
         
     }
 

@@ -7,7 +7,7 @@ class WarehouseScene extends eui.Component implements eui.UIComponent {
 
     private close_btn: eui.Image;
     private propname: eui.Label;
-    private propdis: eui.Label;
+    private propdisc: eui.Label;
     private warehouselist: eui.List;
     private propimg: eui.Image;
 
@@ -26,6 +26,12 @@ class WarehouseScene extends eui.Component implements eui.UIComponent {
 
     private showdic(e: eui.PropertyEvent): void {
         this.propname.text = this.warehouselist.selectedItem.propName;
+        if(this.warehouselist.selectedItem.info){
+            this.propdisc.text = this.warehouselist.selectedItem.info;
+        }
+        else{
+            this.propdisc.text = "";
+        }
         if (this.warehouselist.selectedItem.propType == 50) {       //种子
 
         }
@@ -70,6 +76,12 @@ class WarehouseScene extends eui.Component implements eui.UIComponent {
         this.warehouselist.itemRenderer = WarehouseList_item;
         this.warehouselist.selectedIndex = 0;
         this.propname.text = this.warehouselist.selectedItem.propName;
+        if(this.warehouselist.selectedItem.info){
+            this.propdisc.text = this.warehouselist.selectedItem.info;
+        }
+        else{
+            this.propdisc.text = "";
+        }
         if (this.warehouselist.selectedItem.propType == 50) {       //种子
 
         }
