@@ -19,7 +19,7 @@ class FriendList_item extends eui.ItemRenderer{
 		let user = this.data.friendUser
 		HttpRequest.imageloader(Config.picurl+Help.getfriendIcon()[user],this.friend_icon,user);
 		this.friend_name.text = Help.getcharlength(this.data.friendUserName,2);
-		if(this.data.trees.length == 0){
+		if(this.data.trees && this.data.trees.length && this.data.trees.length == 0){
 			this.tree_icon.texture = RES.getRes("shuidi");
 			this.tree_icon.visible = true;
 		}

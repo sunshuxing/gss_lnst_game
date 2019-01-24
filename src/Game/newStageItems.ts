@@ -23,8 +23,8 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 	protected childrenCreated(): void {
 		super.childrenCreated();
 		// 创建完成后最终调用方法
-		// this.getTopMsg();					//顶部消息
-		// this.getSystemMsg();					//系统消息
+		this.getTopMsg();					//顶部消息
+		this.getSystemMsg();					//系统消息
 		this.getFriends();						//好友数据
 	}
 

@@ -20,7 +20,6 @@ class PromptShare extends eui.Component implements eui.UIComponent {
 
 
     private onComplete(): void {
-        SceneManager.sceneManager.mainScene.enabled = false;
         let close = new eui.Image();
         close.texture = RES.getRes("close1")
         close.x = 504;
@@ -38,14 +37,12 @@ class PromptShare extends eui.Component implements eui.UIComponent {
     private remove() {
         if (this.parent) {
             this.parent.removeChild(this);
-            SceneManager.sceneManager.mainScene.enabled = true;
         }
     }
 
     private toshare() {
         if (this.parent) {
             this.parent.removeChild(this);
-            SceneManager.sceneManager.mainScene.enabled = true;
             SceneManager.addJump("sharetextpick_png");
             if (!SceneManager.instance.isMiniprogram) {//不是小程序的处理方式
                 let url = SceneManager.instance.weixinUtil.shareData.shareUrl
