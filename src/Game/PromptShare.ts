@@ -20,7 +20,9 @@ class PromptShare extends eui.Component implements eui.UIComponent {
 
 
     private onComplete(): void {
+
         SceneManager.sceneManager.StageItems.enabled = false;
+
         let close = new eui.Image();
         close.texture = RES.getRes("close1")
         close.x = 504;
