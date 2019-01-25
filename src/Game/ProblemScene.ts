@@ -31,6 +31,9 @@ class ProblemScene extends eui.Component implements eui.UIComponent {
     private reward_img: eui.Image;           //奖励物品图片
     private receive_btn: eui.Image;          //领取按钮
     private timer_label: eui.Label;
+    private gro_reward: eui.Group;
+    private label_reward: eui.Label;
+
 
     protected childrenCreated(): void {
         super.childrenCreated();
@@ -167,11 +170,19 @@ class ProblemScene extends eui.Component implements eui.UIComponent {
     private getPromble() {
         if (this.nowNum > 5) {
             if (this.canreward) {
-                if (this.currentState != "reward") {     //奖励状态
-                    this.currentState = "reward"
+                if (this.allright == 0) {
+                    this.label_reward.visible = true;
+                    this.gro_reward.visible = false;
                 }
-                this.reward_right.text = "正确率：" + this.allright + "/5";
-                this.answerReward(this.allright);
+                else {
+                    this.label_reward.visible = false;
+                    this.gro_reward.visible = true;
+                    if (this.currentState != "reward") {     //奖励状态
+                        this.currentState = "reward"
+                    }
+                    this.reward_right.text = "正确率：" + this.allright + "/5";
+                    this.answerReward(this.allright);
+                }
             }
             else {
                 SceneManager.addNotice("完成本次答题")

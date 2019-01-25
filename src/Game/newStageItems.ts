@@ -493,13 +493,13 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 	private toOtherTree() {
 		if (this.friend_list.selectedIndex != this.nowseleceindex) {			//点击的不是选中的好友
 			Datamanager.savenowfrienddata(this.friend_list.selectedItem);					//保存当前好友数据
-			let treeid = NewHelp.getTreeIdByLandId(this.friend_list.selectedItem, SceneManager.instance.landId);				//获取果树id
 			//查询好友果树数据
 			if (!this.friend_list.selectedItem.trees) {							//首先确定该好友不是两块地都没有数据
 				//分享弹窗
 				SceneManager.addJump("sharetexttree_png");
 				return;
 			}
+			let treeid = NewHelp.getTreeIdByLandId(this.friend_list.selectedItem, SceneManager.instance.landId);				//获取果树id
 			if (treeid) {														//当前土地选中好友有果树数据
 				if (treeid != Datamanager.getNowtreedata().id) {				//选中好友果树和当前果树不是同一个
 					NewHelp.getTreeInfoByid(treeid);
@@ -544,8 +544,8 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 	public img_love: eui.Image;				//爱心图片
 	public img_water: eui.Image;			//水滴图片
 	private friend_kettle: eui.Group;		//帮好友浇水区域
-	private btn_nianhuo:eui.Image;			//年货按钮
-	private btn_encyclopedia:eui.Image;		//百科按钮
+	private btn_nianhuo: eui.Image;			//年货按钮
+	private btn_encyclopedia: eui.Image;		//百科按钮
 	/**
 	 * 	icon点击初始化
 	 */
@@ -559,22 +559,22 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 		this.hudong_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.ToInteractiveScene, this);		//互动按钮点击监听
 		this.img_kettle.addEventListener(egret.TouchEvent.TOUCH_TAP, this.addwater, this);					//自己水壶点击监听
 		this.gro_love.addEventListener(egret.TouchEvent.TOUCH_TAP, this.loveTouch, this);					//爱心区域点击监听
-		this.btn_nianhuo.addEventListener(egret.TouchEvent.TOUCH_TAP,this.tonianhuo,this);					//年货按钮点击监听
+		this.btn_nianhuo.addEventListener(egret.TouchEvent.TOUCH_TAP, this.tonianhuo, this);					//年货按钮点击监听
 		this.gro_lq.addEventListener(egret.TouchEvent.TOUCH_TAP, () => { NewHelp.lqfast() }, this);				//水壶冷却点击监听
 		this.friend_kettle.addEventListener(egret.TouchEvent.TOUCH_TAP, () => { NewHelp.friendWater() }, this)	//帮好友浇水点击监听
-		this.btn_encyclopedia.addEventListener(egret.TouchEvent.TOUCH_TAP,this.toproblem,this)
+		this.btn_encyclopedia.addEventListener(egret.TouchEvent.TOUCH_TAP, this.toproblem, this)
 		this.nianhuoTwn();
 	}
 
 
 	//去答题
-	private toproblem(){
+	private toproblem() {
 		let problemScene = new ProblemScene();
 		SceneManager.sceneManager._stage.addChild(problemScene)
 	}
 
 	//去年货专区
-	private tonianhuo(){
+	private tonianhuo() {
 		if (SceneManager.instance.isMiniprogram) {
 			wx.miniProgram.navigateTo({
 				url: "/pages/gssIndex/nianhuo"
@@ -587,8 +587,8 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 	//年货按钮动画
 	private nianhuoTwn() {
 		egret.Tween.get(this.btn_nianhuo, { loop: true })
-			.to({scaleX: 1.1, scaleY: 1.1},800)
-			.to({scaleX: 1, scaleY: 1},800)
+			.to({ scaleX: 1.1, scaleY: 1.1 }, 800)
+			.to({ scaleX: 1, scaleY: 1 }, 800)
 	}
 
 	//进入互动场景
@@ -644,10 +644,10 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 	private loveTouch() {
 		SceneManager.sceneManager.getDuihuanScene().searchOwnPraise();			//获取好友点赞头像
 		// NewHelp.getTopGoods();
-		if(this.currentState == "havetree"){
+		if (this.currentState == "havetree") {
 			SceneManager.toDuihuanScene();
 		}
-		else if(this.currentState == "friendtree"){
+		else if (this.currentState == "friendtree") {
 			NewHelp.dianzan(Datamanager.getnowfrienddata().friendUser);
 		}
 

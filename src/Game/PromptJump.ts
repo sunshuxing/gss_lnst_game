@@ -16,6 +16,7 @@ class PromptJump extends eui.Component implements eui.UIComponent {
 
 
     private onComplete(): void {
+        SceneManager.sceneManager.StageItems.enabled = false;
     }
 
     // public setPrompt(content,btn,tishi){

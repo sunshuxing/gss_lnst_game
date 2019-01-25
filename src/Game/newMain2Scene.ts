@@ -90,7 +90,7 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
         }
 
     }
-    
+
     /*
      * 点击鸭子区域事件
      */
@@ -117,6 +117,7 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
             bizId: "advertisement"
         }
         MyRequest._post("attachment/getAttachList", params, this, this.Req_attachment.bind(this), null)
+
     }
 
     private Req_attachment(data) {
@@ -125,7 +126,6 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
             this.goodsdata.push(data.data[i]);
         }
     }
-
 
     private m = 0
 
