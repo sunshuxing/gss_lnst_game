@@ -31,7 +31,8 @@
                 <e:Image id="goods_bg1" width="66" height="66" x="0" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1" y="0" source="goodsbg_png"/>
 				<e:Label id="goods_name1" x="0" width="66" size="14" textAlign="center" verticalAlign="middle" fontFamily="SimHei" y="67"/>
 			</e:Group>
-            <e:Group width="66" height="96" x="283" y="412" locked="true">
+
+            <e:Group id="goodsGroup" width="66" height="96" x="283" y="412" locked="true">
 				<e:Image id="goods_img2" width="66" height="66" x="0" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1" y="0"/>
                 <e:Image id="goods_bg2" width="66" height="66" x="0" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1" y="0" source="goodsbg_png"/>
 				<e:Label id="goods_name2" x="0" width="66" size="14" textAlign="center" verticalAlign="middle" fontFamily="SimHei" y="67" text=""/>

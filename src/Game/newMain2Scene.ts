@@ -33,6 +33,7 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
     private goods_name1: eui.Label;
     private goods_img1: eui.Image;
     private goods_name2: eui.Label;
+    private goodsGroup: eui.Group;   //水果轮播的group
     private goods_img2: eui.Image;
     private goods_bg1: eui.Image;
     private goods_bg2: eui.Image;
@@ -59,6 +60,7 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
         this.goods_name1.scrollRect = new egret.Rectangle(0, 0, 66, 88);
         this.goods_img1.scrollRect = new egret.Rectangle(0, 0, 66, 88);
         this.goods_name2.scrollRect = new egret.Rectangle(0, 0, 66, 88);
+        this.goodsGroup.addEventListener(egret.TouchEvent.TOUCH_TAP, this.jumpDetail, this);
         this.goods_img2.scrollRect = new egret.Rectangle(0, 0, 66, 88);
         this.goods_bg1.scrollRect = new egret.Rectangle(0, 0, 66, 66);
         this.goods_bg2.scrollRect = new egret.Rectangle(0, 0, 66, 66);
@@ -67,6 +69,24 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
     }
 
     /**
+     * 跳转水果详情
+     */
+    private jumpDetail() {
+        const fruit = this.goodsdata[this.m]
+        if (fruit) {
+            const fruitId = fruit.id
+            if (SceneManager.instance.isMiniprogram) {
+                wx.miniProgram.navigateTo({
+                    url: "/pages/gssIndex/detail?id=" + fruitId
+                })
+            } else {
+                location.href = Config.webHome + "view/detail.html?id=" + fruitId
+            }
+        }
+
+    }
+
+    /*
      * 点击鸭子区域事件
      */
     public ducktouch() {
@@ -127,6 +147,7 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
             bizId: "advertisement"
         }
         MyRequest._post("attachment/getAttachList", params, this, this.Req_attachment.bind(this), null)
+
     }
 
     private Req_attachment(data) {
@@ -134,7 +155,6 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
             this.goodsdata.push(data.data[i]);
         }
     }
-
 
     private m = 0
 
