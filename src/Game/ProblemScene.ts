@@ -129,11 +129,19 @@ class ProblemScene extends eui.Component implements eui.UIComponent {
 
     private Req_answerReward(data) {
         console.log(data, "获得奖励数据");
-        let rewarddata = data.data;
-        let imgtextrue = NewHelp.getimgByType(rewarddata);
-        this.reward_img.texture = RES.getRes(imgtextrue);
-        this.reward_num_label.text = rewarddata.propName + "x" + rewarddata.propNum
-        NewHelp.updateprop();
+        if (data.data) {
+            this.label_reward.visible = false;
+            this.gro_reward.visible = true;
+            let rewarddata = data.data;
+            let imgtextrue = NewHelp.getimgByType(rewarddata);
+            this.reward_img.texture = RES.getRes(imgtextrue);
+            this.reward_num_label.text = rewarddata.propName + "x" + rewarddata.propNum
+            NewHelp.updateprop();
+        }
+        else {
+            this.label_reward.visible = true;
+            this.gro_reward.visible = false;
+        }
     }
 
     /**
@@ -170,20 +178,13 @@ class ProblemScene extends eui.Component implements eui.UIComponent {
     private getPromble() {
         if (this.nowNum > 5) {
             if (this.canreward) {
-                if (this.allright == 0) {
-                    this.label_reward.visible = true;
-                    this.gro_reward.visible = false;
+                if (this.currentState != "reward") {     //奖励状态
+                    this.currentState = "reward"
                 }
-                else {
-                    this.label_reward.visible = false;
-                    this.gro_reward.visible = true;
-                    if (this.currentState != "reward") {     //奖励状态
-                        this.currentState = "reward"
-                    }
-                    this.reward_right.text = "正确率：" + this.allright + "/5";
-                    this.answerReward(this.allright);
-                }
+                this.reward_right.text = "正确率：" + this.allright + "/5";
+                this.answerReward(this.allright);
             }
+
             else {
                 SceneManager.addNotice("完成本次答题")
                 let that = this

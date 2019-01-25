@@ -17,10 +17,11 @@
                  scaleX="1" scaleY="1" source="" />
         <e:Image id="tu" y="879.05" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="30" source="tu" x="312"
                  scaleX="1" scaleY="1" />
-        <e:Image id="present1" x="300.2" y="297.3" anchorOffsetX="0" anchorOffsetY="0" source="toppresent_png" />
+        <e:Image id="present1" x="300.2" y="238.17" anchorOffsetX="0" anchorOffsetY="0" source="toppresent_png" />
         <e:Image id="present2" x="232.33" y="955" anchorOffsetX="37.33" anchorOffsetY="53.33" source="present2_png" />
+			<e:Image id="tocaiyuan" x="495.01" y="477.65" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1" source="gocaiyuan_png"/>
     </e:Group>
-    <e:Group id="gro_tree" width="415" height="389" x="190" y="503" anchorOffsetY="0" anchorOffsetX="0" />
+    <e:Group id="gro_tree" width="299.84" height="358.7" x="244.55" y="536.33" anchorOffsetY="0" anchorOffsetX="0" />
     <e:Group width="352" height="69" y="1020" anchorOffsetY="0" anchorOffsetX="0" horizontalCenter="11">
         <e:ProgressBar id="progress" width="350.78" height="49.65" y="1.4600000000000364" skinName="ProgressSkins"
                        x="-0.060000000000030695" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1"
@@ -42,5 +43,4 @@
         <e:Label id="fruit_num" text="100个" x="312" y="53" size="16" fontFamily="Microsoft YaHei" textColor="0xf3e911"
                  scaleX="1" scaleY="1" />
     </e:Group>
-    <e:Button id="tocaiyuan" label="去菜园" x="518" y="302" />
 </e:Skin>

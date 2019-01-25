@@ -149,22 +149,6 @@ class SceneManager {
         timer.start();
     }
 
-    /**
-     * 删除其他场景
-     * @param scene 不需要删除的场景
-     */
-    private removeOther(scene) {
-        this.huafeiScene = this.getHuafeiScene()
-        let arr = [this.interactiveScene, this.taskScene, this.dynamicScene, this.signinScene, this.huafeiScene]
-        arr.forEach((item) => {
-            if (scene === item) {
-                return
-            }
-            if (item && item.parent) {
-                // this.mainScene.removeChild(item)
-            }
-        })
-    }
 
     /**
      * 主场景（新）
@@ -298,7 +282,6 @@ class SceneManager {
         if (!this.instance.interactiveScene) {
             this.instance.interactiveScene = new InteractiveScene();
         }
-        this.instance.removeOther(this.instance.interactiveScene)
         // 把互动场景添加到主场景中
         NewHelp.addmask();
         this.instance._stage.addChild(this.instance.interactiveScene)
@@ -314,7 +297,6 @@ class SceneManager {
      */
     static toTaskScene() {
         this.instance.taskScene = this.instance.getTaskScene()
-        this.instance.removeOther(this.instance.taskScene)
         // 把互动场景添加到主场景中
         this.instance.taskScene.y = 1208
         NewHelp.addmask();
@@ -335,7 +317,6 @@ class SceneManager {
             return;
         }
         this.instance.dynamicScene = this.instance.getDynamicScene()
-        this.instance.removeOther(this.instance.dynamicScene)
         // 把互动场景添加到主场景中
         this.instance.dynamicScene.searchDynamic(treedata.id)
         NewHelp.addmask();
@@ -353,7 +334,6 @@ class SceneManager {
      */
     static toSigninScene() {
         this.instance.signinScene = this.instance.getSigninScene()
-        this.instance.removeOther(this.instance.signinScene)
         // 把互动场景添加到主场景中
         this.instance.signinScene.y = (this.instance._stage.height - this.instance.signinScene.height) / 2;
         NewHelp.addmask();
@@ -363,7 +343,6 @@ class SceneManager {
 
     //化肥场景
     static tohuafeiScene() {
-        this.instance.removeOther(this.instance.huafeiScene)
         // 把互动场景添加到主场景中
         NewHelp.addmask();
         this.instance._stage.addChild(this.instance.huafeiScene)

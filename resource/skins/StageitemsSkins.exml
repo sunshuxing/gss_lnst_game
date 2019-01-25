@@ -20,7 +20,7 @@
         <e:Image id="guide_img" x="479.03" y="39.52" includeIn="havetree,friendtree" scaleX="1" scaleY="1"
                  source="ydsnow_png" />
     </e:Group>
-	<e:Image id="btn_nianhuo" x="68" y="548.5" anchorOffsetX="60" anchorOffsetY="53.5" source="nianhuo_png" includeIn="havetree"/>
+	<e:Image id="btn_nianhuo" x="667" y="611.53" anchorOffsetX="60" anchorOffsetY="53.5" source="nianhuo_png" includeIn="havetree"/>
     <e:Group width="101.33" height="565.33" x="17" y="613.7" anchorOffsetX="0" anchorOffsetY="0" includeIn="havetree">
         <e:Group id="btn_dynamic" width="90" height="98" x="5" y="2.33" anchorOffsetY="0" anchorOffsetX="0">
             <e:Image x="2" y="0.5699999999999363" source="dynamic" anchorOffsetX="0" anchorOffsetY="0" scaleX="1"
@@ -56,7 +56,7 @@
                      scaleX="1" scaleY="1" />
         </e:Group>
     </e:Group>
-	<e:Image id="btn_encyclopedia" x="621" y="560.03" anchorOffsetX="0" anchorOffsetY="0" source="encyclopedia_png" includeIn="havetree"/>
+	<e:Image id="btn_encyclopedia" x="29" y="495.44" anchorOffsetX="0" anchorOffsetY="0" source="encyclopedia_png" includeIn="havetree"/>
     <e:Image id="hudong_btn" includeIn="friendtree" x="22.59" y="952.7" source="hudong" />
     <e:Group id="dynamic" anchorOffsetX="0" anchorOffsetY="0" width="230" height="80" x="115" includeIn="havetree"
              y="619.34" visible="false">
@@ -146,4 +146,5 @@
                  scaleX="1" scaleY="1" />
     </e:Group>
 	<e:Label id="love_num" fontFamily="Microsoft YaHei" y="35.05" x="27.29" width="65.67" textAlign="center" textColor="0xffffff" size="22" anchorOffsetX="0" anchorOffsetY="0" height="20.67"/>
+	<e:Image id="chanzi_btn" width="69" height="75.33" x="340" y="816.36" anchorOffsetX="0" anchorOffsetY="0" source="chanzi_png" includeIn="havetree" visible="false"/>
 </e:Skin>

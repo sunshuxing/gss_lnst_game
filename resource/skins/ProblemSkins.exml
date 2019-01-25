@@ -15,9 +15,10 @@
 	<e:Label text="恭喜你完成今天的题目！" includeIn="reward" x="257.43" y="280.73" anchorOffsetX="0" anchorOffsetY="0" size="36" fontFamily="SimHei" bold="true"/>
 	<e:Label id="reward_right" text="正确率：3/5" includeIn="reward" x="341.21" y="346.79" anchorOffsetX="0" anchorOffsetY="0" size="36" fontFamily="SimHei" bold="true"/>
 	<e:Group id="gro_reward" width="193" height="196" includeIn="reward" y="720" horizontalCenter="0.5" visible="false">
+		<e:Label text="获得如下奖励" includeIn="reward" anchorOffsetX="0" anchorOffsetY="0" textColor="0xff681c" size="36" fontFamily="SimHei" x="-11" y="-76"/>
 		<e:Image x="0" y="0" source="award_di_png"/>
 		<e:Image id="reward_img" horizontalCenter="0" verticalCenter="-13" source="youji"/>
-		<e:Label id="reward_num_label" text="" y="154.12" textColor="0xff960d" size="24" fontFamily="SimHei" horizontalCenter="0"/>
+		<e:Label id="reward_num_label" text="" y="202.12" textColor="0xff960d" size="24" fontFamily="SimHei" horizontalCenter="0"/>
 	</e:Group>
 	<e:Label id="label_reward" text="很遗憾没有获得奖励" includeIn="reward" y="676" anchorOffsetX="0" width="507.33" anchorOffsetY="0" height="292.12" horizontalCenter="0" textColor="0xff960d" textAlign="center" verticalAlign="middle" bold="true" fontFamily="SimHei" visible="false"/>
 	<e:Image id="receive_btn" includeIn="reward" y="1210" source="receive_btn_png" horizontalCenter="0"/>

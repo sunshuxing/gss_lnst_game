@@ -23,8 +23,8 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 	protected childrenCreated(): void {
 		super.childrenCreated();
 		// 创建完成后最终调用方法
-		this.getTopMsg();					//顶部消息
-		this.getSystemMsg();					//系统消息
+		this.getTopMsg();						//顶部消息
+		// this.getSystemMsg();					//系统消息
 		this.getFriends();						//好友数据
 	}
 
@@ -35,6 +35,7 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 		//创建完成立即调用方法
 		NewHelp.getSignInInfo()												//查询签到信息
 		NewHelp.searchAnswerStage();										//查询保存答题奖励数据
+		this.checkAnswerReward();
 		SceneManager.sceneManager.getTaskScene().taskDataInit(this.checktask);
 		this.iconTouchInit()																		//icon点击初始化
 		this.guide_img.addEventListener(egret.TouchEvent.TOUCH_TAP, this.toGuide, this);			//引导页点击监听
@@ -526,7 +527,7 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 	public dynamic: eui.Group;				//动态组
 	public dynamic_bg: eui.Image;			//动态背景
 	public dynamic_image: eui.Image;		//动态头像
-	public dynamic_info: eui.Label;		//动态消息
+	public dynamic_info: eui.Label;			//动态消息
 	public sign_gro: eui.Group;				//可签到显示
 	public task_gro: eui.Group;				//任务可领取显示
 	public huafei_red: eui.Rect;			//化肥红点
@@ -546,6 +547,7 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 	private friend_kettle: eui.Group;		//帮好友浇水区域
 	private btn_nianhuo: eui.Image;			//年货按钮
 	private btn_encyclopedia: eui.Image;		//百科按钮
+	public chanzi_btn: eui.Image;			//铲子
 	/**
 	 * 	icon点击初始化
 	 */
@@ -562,15 +564,36 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 		this.btn_nianhuo.addEventListener(egret.TouchEvent.TOUCH_TAP, this.tonianhuo, this);					//年货按钮点击监听
 		this.gro_lq.addEventListener(egret.TouchEvent.TOUCH_TAP, () => { NewHelp.lqfast() }, this);				//水壶冷却点击监听
 		this.friend_kettle.addEventListener(egret.TouchEvent.TOUCH_TAP, () => { NewHelp.friendWater() }, this)	//帮好友浇水点击监听
-		this.btn_encyclopedia.addEventListener(egret.TouchEvent.TOUCH_TAP, this.toproblem, this)
+		this.chanzi_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, () => { NewHelp.removeTree(Datamanager.getNowtreedata()) }, this)
 		this.nianhuoTwn();
 	}
 
+	private canreward: boolean = true;
 
 	//去答题
 	private toproblem() {
-		let problemScene = new ProblemScene();
-		SceneManager.sceneManager._stage.addChild(problemScene)
+		if (this.canreward) {
+			let problemScene = new ProblemScene();
+			SceneManager.sceneManager._stage.addChild(problemScene)
+		}
+		else{
+			let baikeScene = new BaikeScene();
+			SceneManager.sceneManager._stage.addChild(baikeScene)
+		}
+	}
+
+	/**
+	* 检查是否能通过答题获得奖励
+	*/
+	private checkAnswerReward() {
+		MyRequest._post("game/checkAnswerReward", null, this, this.Req_checkAnswerReward.bind(this), null)
+	}
+
+	private Req_checkAnswerReward(data) {
+		console.log(data,"检查答题")
+		this.canreward = true;
+		this.canreward = false;
+		this.btn_encyclopedia.addEventListener(egret.TouchEvent.TOUCH_TAP, this.toproblem, this)					//进入答题
 	}
 
 	//去年货专区

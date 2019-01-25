@@ -7,12 +7,26 @@ class Datamanager{
     private static Nowfrienddata             //当前好友数据
     private static Propdata                  //自己道具数据
     private static Answerrewarddata          //答题奖励数据
+    private static nowDuckdata               //当前鸭子数据
 
+
+    /**
+     * 保存当前鸭子数据
+     */
+    public static savenowDuckdata(data){
+        this.nowDuckdata = data;
+    }
+
+    /**
+     * 获取当前鸭子数据
+     */
+    public static getnowDuckdata(){
+        return this.nowDuckdata;
+    }
 
     /**
      * 保存答题奖励数据
      */
-
     public static saveAnswerrewarddata(data){
         this.Answerrewarddata = data;
     }

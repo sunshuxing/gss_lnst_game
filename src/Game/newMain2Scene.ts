@@ -22,15 +22,13 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
     private gro_tree: eui.Group                 //果树点击区域
     private toguoyuan: eui.Image;                //去果园按钮
     private btn_seed: eui.Button;               //领种子按钮
-    private info1: eui.Group;
-    private info2: eui.Group;
-    private usericon1: eui.Image;
-    private usericon2: eui.Image;
-    private str1: eui.Label;
-    private str2: eui.Label;
-    private usericonbg1: eui.Image;
-    private usericonbg2: eui.Image;
-    private infopage = 0;
+    public getduck_btn:eui.Image;
+
+
+
+
+    private info_img1: eui.Image;
+    private info_img2: eui.Image;
     private infodata;
     private goods_name1: eui.Label;
     private goods_img1: eui.Image;
@@ -40,7 +38,8 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
     private goods_bg2: eui.Image;
     private goodsdata;
     private gro_duck: eui.Group;                 //鸭子区域
-    private duck_img: eui.Image;                 //鸭子图片
+    public duck_img: eui.Image;                 //鸭子图片
+    private duckegg_img: eui.Image;             //鸭蛋图片
 
 
     protected childrenCreated(): void {
@@ -55,30 +54,58 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
         this.toguoyuan.addEventListener(egret.TouchEvent.TOUCH_TAP, this.toGuoyuan, this);
         this.warehouse.addEventListener(egret.TouchEvent.TOUCH_TAP, () => { SceneManager.toWarehouseScene() }, this)
         this.gro_duck.addEventListener(egret.TouchEvent.TOUCH_TAP, this.ducktouch, this)
-        this.str1.scrollRect = new egret.Rectangle(0, 0, 190, 65);
-        this.str2.scrollRect = new egret.Rectangle(0, 0, 190, 65);
-        this.usericon1.scrollRect = new egret.Rectangle(0, 0, 50, 50);
-        this.usericon2.scrollRect = new egret.Rectangle(0, 0, 50, 50);
-        this.usericonbg1.scrollRect = new egret.Rectangle(0, 0, 50, 50);
-        this.usericonbg2.scrollRect = new egret.Rectangle(0, 0, 50, 50);
+        this.info_img1.scrollRect = new egret.Rectangle(0, 0, 240, 100);
+        this.info_img2.scrollRect = new egret.Rectangle(0, 0, 240, 100);
         this.goods_name1.scrollRect = new egret.Rectangle(0, 0, 66, 88);
         this.goods_img1.scrollRect = new egret.Rectangle(0, 0, 66, 88);
         this.goods_name2.scrollRect = new egret.Rectangle(0, 0, 66, 88);
         this.goods_img2.scrollRect = new egret.Rectangle(0, 0, 66, 88);
         this.goods_bg1.scrollRect = new egret.Rectangle(0, 0, 66, 66);
         this.goods_bg2.scrollRect = new egret.Rectangle(0, 0, 66, 66);
-        this.getDeliveryInfo();
+        this.getSystemInfo();
         this.getTopGoods();
     }
 
     /**
      * 点击鸭子区域事件
      */
-    private ducktouch() {
-        NewHelp.getDuckList();
+    public ducktouch() {
+        if(!Datamanager.getnowDuckdata()){                          //当前用户无鸭子
+
+            return
+        }
+        else{                                                       //当前用户有鸭子
+            if(Datamanager.getnowDuckdata().user != SceneManager.instance.weixinUtil.login_user_id){        //当前所在的是好友菜园
+                NewHelp.stealDuckEgg();
+            }
+            else{                                                   //当前所在的是自己菜园
+                NewHelp.recevieDuckEgg();    
+            }
+        }
+        console.log(Datamanager.getnowDuckdata(),"当前鸭子数据")
     }
 
 
+    /**
+     * 更新鸭子
+     * duckdata:鸭子数据
+     */
+    public updateduck(duckdata) {
+        if (duckdata) {
+            if (duckdata.needTake) {
+                this.duckegg_img.visible = true;
+            }
+            else {
+                this.duckegg_img.visible = false;
+            }
+            this.duck_img.visible = true;
+            HttpRequest.imageloader(Config.picurl + duckdata.stageObj.image, this.duck_img);
+        }
+        else {
+            this.duck_img.visible = false;
+            this.duckegg_img.visible = false;
+        }
+    }
 
     /**
 	 * 获取最新10个商品
@@ -103,7 +130,6 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
     }
 
     private Req_attachment(data) {
-        console.log(data, "advertisement")
         for (let i = 0; i < data.data.length; i++) {
             this.goodsdata.push(data.data[i]);
         }
@@ -158,12 +184,12 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
                 this.m = 0;
             }
             if (this.goodsdata[this.m].sourceUrl) {
-                this.goods_name1.text = this.goodsdata[this.m].title;
-                HttpRequest.imageloader(Config.picurl + this.goodsdata[this.m].sourceUrl, this.goods_img1);
+                this.goods_name2.text = this.goodsdata[this.m].title;
+                HttpRequest.imageloader(Config.picurl + this.goodsdata[this.m].sourceUrl, this.goods_img2);
             }
             else {
-                this.goods_name1.text = this.goodsdata[this.m].title;
-                HttpRequest.imageloader(Config.picurl + this.goodsdata[this.m].thumbnail, this.goods_img1);
+                this.goods_name2.text = this.goodsdata[this.m].title;
+                HttpRequest.imageloader(Config.picurl + this.goodsdata[this.m].thumbnail, this.goods_img2);
             }
             this.m++
             var rect: egret.Rectangle = this.goods_name2.scrollRect;
@@ -197,25 +223,19 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
 
 
     /**
-	 * 查询配送记录
+	 * 查询系统消息
 	 */
-    public getDeliveryInfo() {
-        this.infopage = this.infopage + 1
-        let params = {
-            pageNo: this.infopage,
-            numPerPage: 10
-        };
-        MyRequest._post("game/getDeliveryInfo", params, this, this.Req_getDeliveryInfo.bind(this), null)
+
+    public getSystemInfo() {
+        MyRequest._post("game/getSystemInfo", null, this, this.Req_getSystemMsg.bind(this), null)
     }
 
-    private Req_getDeliveryInfo(data) {
-        let maxPage = parseInt(data.data.lastPage)
-        if (this.infopage == maxPage) {
-            //如果是最后一页，则下一次从首页开始
-            this.infopage = 0
+    private Req_getSystemMsg(data) {
+        if (data) {
+            console.log(data, "系统消息");
+            this.infodata = data.data;
+            this.scr1();
         }
-        this.infodata = data.data.list;
-        this.scr1();
     }
 
     private n = 0;
@@ -225,42 +245,16 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
         if (this.infodata && this.infodata.length > 0) {
             if (this.n >= this.infodata.length) {
                 this.n = 0;
-                this.getDeliveryInfo();
-                return
             }
-            let username = Help.getcharlength(this.infodata[this.n].mainUserName, 5)
-            info = username + "\n" + this.infodata[this.n].treeName + "正在配送！"
-            let params = {
-                users: this.infodata[this.n].mainUser
-            }
-            MyRequest._post("game/getWechatImg", params, this, NewHelp.Req_WechatImg.bind(this, this.infodata[this.n].mainUser, this.usericon1), null);
+            this.info_img1.texture = RES.getRes("paiimg_png")
+            // HttpRequest.imageloader(Config.picurl + this.infodata[this.n].icon, this.info_img1);
             this.n++
-            this.str1.text = info
-
-            var rect: egret.Rectangle = this.str1.scrollRect;
+            var rect: egret.Rectangle = this.info_img1.scrollRect;
             egret.Tween.get(rect)
-                .set({ y: -65 })
+                .set({ y: -100 })
                 .to({ y: 0 }, 1000)
                 .wait(2000).call(this.scr2, this)
-                .to({ y: 65 }, 1000);
-
-            var rect1: egret.Rectangle = this.usericon1.scrollRect;
-            egret.Tween.get(rect1)
-                .set({ y: -65 })
-                .to({ y: 0 }, 1000)
-                .wait(2000)
-                .to({ y: 65 }, 1000);
-
-            var rect2: egret.Rectangle = this.usericonbg1.scrollRect;
-            egret.Tween.get(rect2)
-                .set({ y: -65 })
-                .to({ y: 0 }, 1000)
-                .wait(2000)
-                .to({ y: 65 }, 1000);
-
-        }
-        else {
-            this.getDeliveryInfo();
+                .to({ y: 100 }, 1000);
         }
     }
 
@@ -269,41 +263,15 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
         if (this.infodata && this.infodata.length > 0) {
             if (this.n >= this.infodata.length) {
                 this.n = 0;
-                this.getDeliveryInfo();
-                return
             }
-            let username = Help.getcharlength(this.infodata[this.n].mainUserName, 5)
-            info = username + "\n" + this.infodata[this.n].treeName + "正在配送！"
-            let params = {
-                users: this.infodata[this.n].mainUser
-            }
-            MyRequest._post("game/getWechatImg", params, this, NewHelp.Req_WechatImg.bind(this, this.infodata[this.n].mainUser, this.usericon2), null);
+            HttpRequest.imageloader(Config.picurl + this.infodata[this.n].icon, this.info_img2);
             this.n++
-            this.str2.text = info
-
-            var rect: egret.Rectangle = this.str2.scrollRect;
+            var rect: egret.Rectangle = this.info_img2.scrollRect;
             egret.Tween.get(rect)
-                .set({ y: -65 })
+                .set({ y: -100 })
                 .to({ y: 0 }, 1000)
                 .wait(2000).call(this.scr1, this)
-                .to({ y: 65 }, 1000);
-
-            var rect1: egret.Rectangle = this.usericon2.scrollRect;
-            egret.Tween.get(rect1)
-                .set({ y: -65 })
-                .to({ y: 0 }, 1000)
-                .wait(2000)
-                .to({ y: 65 }, 1000);
-
-            var rect2: egret.Rectangle = this.usericonbg2.scrollRect;
-            egret.Tween.get(rect2)
-                .set({ y: -65 })
-                .to({ y: 0 }, 1000)
-                .wait(2000)
-                .to({ y: 65 }, 1000);
-        }
-        else {
-            this.getDeliveryInfo();
+                .to({ y: 100 }, 1000);
         }
     }
 
@@ -363,11 +331,25 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
             landId: SceneManager.instance.landId
         }
         MyRequest._post("game/getOwnTree", params, this, this.requestgetOwnTree.bind(this), null);
+        NewHelp.getOwnDuck();                                                       //获取自己鸭子
     }
 
 
     //查询自己果园果树回调
     private requestgetOwnTree(data): void {
+        if (data.data[0]) {
+            if (data.data[0].canReceive == "true") {
+                let peisonglabel = "免费获得" + "\n" + data.data[0].treeName + "一箱!"
+                SceneManager.sceneManager._stage.removeChildren();
+                let image = new eui.Image();
+                image.texture = RES.getRes("bg-day_png");
+                image.height = 1344;
+                let prompt = new PromptJump(peisonglabel);
+                SceneManager.sceneManager._stage.addChild(image);
+                SceneManager.sceneManager._stage.addChild(prompt);
+                return
+            }
+        }
         SceneManager.sceneManager.StageItems.currentState = "havetree"              //表现为自己农场
         console.log("自己果树", data)
         let treedata = data.data[0];
@@ -412,18 +394,7 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
         NewHelp.checkSteal(data);                                                   //检查是否能偷水
         this.datainit(data);                                                        //数据初始化显示
         NewHelp.checkHelpTakeFruit(data);                                           //检查是否能帮摘果
-        // //好友列表定位
-        // let index = Help.getContains(Datamanager.getfriendsdata(), Datamanager.getfriendByid(data.id));
-        // let friend_list = SceneManager.sceneManager.StageItems.friend_list;
-        // friend_list.selectedIndex = index;
-        // if (index * 110 > friend_list.width - 10) {
-        //     if (index * 110 <= (friend_list.contentWidth - friend_list.width)) {
-        //         friend_list.scrollH = index * 110;
-        //     }
-        //     else {
-        //         friend_list.scrollH = friend_list.contentWidth - friend_list.width;
-        //     }
-        // }
+        NewHelp.getDuckByUserId(data);                                              //获取好友鸭子
         this.progress.slideDuration = 0;
         this.progress.value = 0;
         //果树更新显示
@@ -480,7 +451,23 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
             this.tree_name.text = data.treeName;                                //果树名称
         }
         NewHelp.getTreeLanguage(data);                                          //获取并保存树语数据
-        this.treeupdate(data);                                                  //果树更新显示
+        if (data) {
+            if (data.isReceive == "true") {
+                this.tree.texture = RES.getRes("notree_png");
+                this.tree.width = this.tree.width*0.8;
+                this.tree.height = this.tree.height*0.8;
+                this.tree.anchorOffsetX = this.tree.width * 0.5;
+                this.tree.anchorOffsetY = this.tree.height;
+                SceneManager.sceneManager.StageItems.chanzi_btn.visible = true;
+            }
+            else {
+                this.treeupdate(data);                                                  //果树更新显示
+                SceneManager.sceneManager.StageItems.chanzi_btn.visible = false;
+            }
+        }
+        else{
+            SceneManager.sceneManager.StageItems.chanzi_btn.visible = false;
+        }
         NewHelp.progressupdate(data, this.progress);                            //成长值进度条更新显示
         NewHelp.progresslabelupdate(data, this.progress_label);                 //成长进度条说明文字更新显示
         this.progress1update(data);                                             //收果进度条更新显示

@@ -5,13 +5,17 @@ class HuafeiScene extends eui.Component implements eui.UIComponent{
 		this.skinName = "resource/skins/HuafeiSkins.exml";
 	}
 
-    private youji_btn:eui.Button;
-    private fuhe_btn:eui.Button;
-    private shuirong_btn:eui.Button;
+    private youji_btn:eui.Group;
+    private fuhe_btn:eui.Group;
+    private shuirong_btn:eui.Group;
     public youji_num:eui.Label;
     public fuhe_num:eui.Label;
     public shuirong_num:eui.Label;
     private prop_scr:eui.Scroller;
+    private grass_btn:eui.Group
+    private insect_btn:eui.Group
+    public grass_num:eui.Label;
+    public insect_num:eui.Label;
 
     protected childrenCreated():void
 	{
@@ -26,8 +30,37 @@ class HuafeiScene extends eui.Component implements eui.UIComponent{
         this.youji_btn.addEventListener(egret.TouchEvent.TOUCH_TAP,this.useyouji,this);
         this.fuhe_btn.addEventListener(egret.TouchEvent.TOUCH_TAP,this.usefuhe,this)
         this.shuirong_btn.addEventListener(egret.TouchEvent.TOUCH_TAP,this.useshuirong,this)
+        this.grass_btn.addEventListener(egret.TouchEvent.TOUCH_TAP,this.usegrass,this)
+        this.insect_btn.addEventListener(egret.TouchEvent.TOUCH_TAP,this.useinsect,this)
     }
 
+    private usegrass(){
+        if(Number(this.grass_num.text) >= 1){
+            let treedata = Datamanager.getNowtreedata()
+            NewHelp.useProp(10,treedata);
+        }
+        else{
+            let content = "您的草用完了哦~"
+			let btn = "确定"
+			let ti = "(可以通过除草获得哦！)"
+			SceneManager.addPrompt(content, btn, ti);
+        }
+            this.colseScene()
+    }
+
+    private useinsect(){
+        if(Number(this.insect_num.text) >= 1){
+            let treedata = Datamanager.getNowtreedata()
+            NewHelp.useProp(9,treedata);
+        }
+        else{
+            let content = "您的虫用完了哦~"
+			let btn = "确定"
+			let ti = "(可以通过除虫获得哦！)"
+			SceneManager.addPrompt(content, btn, ti);
+        }
+            this.colseScene()
+    }
 
     private useyouji(){
         if(Number(this.youji_num.text) >= 1){

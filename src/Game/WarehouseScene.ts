@@ -26,10 +26,10 @@ class WarehouseScene extends eui.Component implements eui.UIComponent {
 
     private showdic(e: eui.PropertyEvent): void {
         this.propname.text = this.warehouselist.selectedItem.propName;
-        if(this.warehouselist.selectedItem.info){
+        if (this.warehouselist.selectedItem.info) {
             this.propdisc.text = this.warehouselist.selectedItem.info;
         }
-        else{
+        else {
             this.propdisc.text = "";
         }
         if (this.warehouselist.selectedItem.propType == 50) {       //种子
@@ -54,6 +54,13 @@ class WarehouseScene extends eui.Component implements eui.UIComponent {
             else if (this.warehouselist.selectedItem.prodId == 8) {     //鸭食
                 this.propimg.texture = RES.getRes("youji")
             }
+            else if (this.warehouselist.selectedItem.propId == 9) {      //虫
+                this.propimg.texture = RES.getRes("usedinsect_png")
+            }
+            else if (this.warehouselist.selectedItem.propId == 10) {      //草
+                this.propimg.texture = RES.getRes("usedgrass_png")
+            }
+
         }
     }
 
@@ -76,10 +83,10 @@ class WarehouseScene extends eui.Component implements eui.UIComponent {
         this.warehouselist.itemRenderer = WarehouseList_item;
         this.warehouselist.selectedIndex = 0;
         this.propname.text = this.warehouselist.selectedItem.propName;
-        if(this.warehouselist.selectedItem.info){
+        if (this.warehouselist.selectedItem.info) {
             this.propdisc.text = this.warehouselist.selectedItem.info;
         }
-        else{
+        else {
             this.propdisc.text = "";
         }
         if (this.warehouselist.selectedItem.propType == 50) {       //种子
@@ -103,6 +110,12 @@ class WarehouseScene extends eui.Component implements eui.UIComponent {
             }
             else if (this.warehouselist.selectedItem.prodId == 8) {     //鸭食
                 this.propimg.texture = RES.getRes("youji")
+            }
+            else if (this.warehouselist.selectedItem.propId == 9) {      //虫
+                this.propimg.texture = RES.getRes("usedinsect_png")
+            }
+            else if (this.warehouselist.selectedItem.propId == 10) {      //草
+                this.propimg.texture = RES.getRes("usedgrass_png")
             }
         }
     }
@@ -157,6 +170,12 @@ class WarehouseList_item extends eui.ItemRenderer {
             }
             else if (this.data.prodId == 8) {     //鸭食
                 this.propimg.texture = RES.getRes("youji")
+            }
+            else if (this.data.propId == 9) {      //虫
+                this.propimg.texture = RES.getRes("usedinsect_png")
+            }
+            else if (this.data.propId == 10) {      //草
+                this.propimg.texture = RES.getRes("usedgrass_png")
             }
         }
         this.propnum.text = this.data.num;

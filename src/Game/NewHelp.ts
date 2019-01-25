@@ -545,7 +545,7 @@ class NewHelp {
 					SceneManager.addNotice("清除成功")
 				}
 				else {
-					SceneManager.addNotice("清除成功,每日爱心值已达上限！")
+					SceneManager.addNotice("清除成功,每日已达上限！")
 				}
 			}
 			else if (SceneManager.instance.landId == 2) {
@@ -553,7 +553,7 @@ class NewHelp {
 					SceneManager.addNotice("清除成功")
 				}
 				else {
-					SceneManager.addNotice("清除成功,每日爱心值已达上限！")
+					SceneManager.addNotice("清除成功,每日已达上限！")
 				}
 			}
 		}
@@ -591,6 +591,9 @@ class NewHelp {
 		SceneManager.sceneManager.getHuafeiScene().youji_num.text = Help.getPropById(Data.data, 4) ? Help.getPropById(Data.data, 4).num : 0;			   //有机肥数量
 		SceneManager.sceneManager.getHuafeiScene().fuhe_num.text = Help.getPropById(Data.data, 5) ? Help.getPropById(Data.data, 5).num : 0;			   //复合肥数量
 		SceneManager.sceneManager.getHuafeiScene().shuirong_num.text = Help.getPropById(Data.data, 6) ? Help.getPropById(Data.data, 6).num : 0;		   //水溶肥数量
+		SceneManager.sceneManager.getHuafeiScene().insect_num.text = Help.getPropById(Data.data, 9) ? Help.getPropById(Data.data, 9).num : 0;		   //虫数量
+		SceneManager.sceneManager.getHuafeiScene().grass_num.text = Help.getPropById(Data.data, 10) ? Help.getPropById(Data.data, 10).num : 0;		   //草数量
+
 		let text: string = SceneManager.sceneManager.StageItems.love_num.text
 		text = text.substring(0, text.length - 1)
 		if (Number(text) >= 100) {
@@ -688,6 +691,7 @@ class NewHelp {
 	 * treedata  使用道具的果树数据
 	 */
 	public static useProp(propId, treedata) {
+		let params
 		if (treedata) {
 			let canUseProp = treedata.canReceive == null ? "false" : treedata.canReceive;
 			if (canUseProp == 'true') {
@@ -702,10 +706,10 @@ class NewHelp {
 				SceneManager.addNotice("果树已经长好啦，您可以邀请好友帮忙摘果哦！")
 				return
 			}
-			let params = {
+			params = {
 				propId: propId,
 				treeUserId: treedata.id
-			};
+			}
 			if (this.canPost) {
 				this.canPost = false;
 				SceneManager.sceneManager.StageItems.img_kettle.touchEnabled = false;
@@ -738,9 +742,18 @@ class NewHelp {
 			Help.pickTwn(5);
 			Help.pickTwnupdata(this.pickafter);
 		}
-		else {
+		else if (propId == 4 || propId == 5 || propId == 6) {	//使用化肥
 			this.huafeiTwn(propId);
 		}
+		else if (propId == 9) {										//使用虫
+			SceneManager.addNotice("使用成功！")
+			this.getOwnDuck()
+		}
+		else if (propId == 10) {									//使用草
+			SceneManager.addNotice("使用成功！")
+			this.getOwnDuck()
+		}
+
 	}
 
 	private static pickafter() {
@@ -1288,17 +1301,14 @@ class NewHelp {
 		if (data.canSteal == "true") {//可以偷水
 			SceneManager.sceneManager.StageItems.gro_steal.visible = true;
 			if (SceneManager.instance.landId == 1) {
-				egret.Tween.get(SceneManager.sceneManager.StageItems.steal_btn, { loop: true })
-					.set({ y: 781 })
-					.to({ y: 789 }, 1000)
-					.to({ y: 781 }, 1000)
+				SceneManager.sceneManager.StageItems.gro_steal.y = 781
 			}
 			else if (SceneManager.instance.landId == 2) {
-				egret.Tween.get(SceneManager.sceneManager.StageItems.steal_btn, { loop: true })
-					.set({ y: 841 })
-					.to({ y: 849 }, 1000)
-					.to({ y: 841 }, 1000)
+				SceneManager.sceneManager.StageItems.gro_steal.y = 841
 			}
+			egret.Tween.get(SceneManager.sceneManager.StageItems.steal_btn, { loop: true })
+				.to({ y: 1 }, 1000)
+				.to({ y: -7 }, 1000)
 		} else {//不能偷水，隐藏水滴，并且把错误信息绑定
 			SceneManager.sceneManager.StageItems.gro_steal.visible = false;
 		}
@@ -1505,10 +1515,16 @@ class NewHelp {
 
 	public static getrewardByNum(num) {
 		if (Datamanager.getAnswerrewarddata()) {
+			var max = Datamanager.getAnswerrewarddata()[0].num;
+			var maxIndex = -1;
 			for (let i = 0; i < Datamanager.getAnswerrewarddata().length; i++) {
-				if (num == Datamanager.getAnswerrewarddata()[i].num) {
-					return Datamanager.getAnswerrewarddata()[i].rewardInfo;
+				var nowNum = Datamanager.getAnswerrewarddata()[i].num;
+				if (num >= nowNum && nowNum >= max) {
+					maxIndex = i
 				}
+			}
+			if (maxIndex >= 0) {
+				return Datamanager.getAnswerrewarddata()[maxIndex].rewardInfo
 			}
 		}
 	}
@@ -1566,6 +1582,30 @@ class NewHelp {
 	//---------------------------------------------------------------------------鸭子------------------------------------------------------------------------//
 
 	/**
+	 * 获取自己鸭子
+	 */
+	public static getOwnDuck() {
+		MyRequest._post("game/getOwnDuck", null, this, this.Req_getOwnDuck.bind(this), null);
+		SceneManager.sceneManager.newmain2Scene.getduck_btn.visible = false;
+	}
+
+	private static Req_getOwnDuck(data) {
+		console.log(data, "自己鸭子数据");
+		if (data.data) {				//有鸭子数据
+			let duckdata = data.data;
+			Datamanager.savenowDuckdata(data.data);
+			if (SceneManager.sceneManager.newmain2Scene) {
+				SceneManager.sceneManager.newmain2Scene.updateduck(duckdata);
+			}
+		}
+		else {						//无鸭子数据获取鸭子列表
+			this.getDuckList();
+			Datamanager.savenowDuckdata(null);
+			SceneManager.sceneManager.newmain2Scene.duck_img.visible = false;
+		}
+	}
+
+	/**
 	 * 获取鸭子列表并领取
 	 */
 	public static getDuckList() {
@@ -1574,19 +1614,80 @@ class NewHelp {
 
 	private static Req_getDuckList(data) {
 		console.log(data, "鸭子列表");
+		let getduckimg = SceneManager.sceneManager.newmain2Scene.getduck_btn;
+		getduckimg.visible = true;
+		egret.Tween.get(getduckimg, { loop: true })
+			.to({ y: getduckimg.y + 20 }, 500)
+			.to({ y: getduckimg.y }, 500)
+		if (!data.data[0].leftReceiveCount || data.data[0].leftReceiveCount > 0) {
+			let duckId = data.data[0].id
+			getduckimg.addEventListener(egret.TouchEvent.TOUCH_TAP, () => { this.receiveDuck(duckId) }, this)
+		}
+		else {
+			getduckimg.addEventListener(egret.TouchEvent.TOUCH_TAP, () => { SceneManager.addNotice("没有领取次数了") }, this)
+		}
 	}
 
 	/**
-	 * 获取自己鸭子
+	 * 领取鸭子
+	 * duckId:鸭子ID
 	 */
-	public static getOwnDuck() {
-		MyRequest._post("game/getOwnDuck", null, this, this.Req_getOwnDuck.bind(this), null);
+	public static receiveDuck(duckId) {
+		let params = {
+			duckId: duckId
+		}
+		MyRequest._post("game/receiveDuck", params, this, this.Req_receiveDuck.bind(this), null);
 	}
 
-	private static Req_getOwnDuck(data) {
-		console.log(data, "自己鸭子数据");
+	private static Req_receiveDuck(data) {
+		console.log(data, "领取成功");
+		SceneManager.addNotice("领取成功")
+		this.getOwnDuck();
 	}
 
+
+	/**
+	 * 获取别人鸭子
+	 * treedata:果树信息
+	 */
+	public static getDuckByUserId(treedata) {
+		SceneManager.sceneManager.newmain2Scene.getduck_btn.visible = false;
+		let params = {
+			userId: treedata.user
+		}
+		MyRequest._post("game/getDuckByUserId", null, this, this.Req_getDuckByUserId.bind(this), null);
+	}
+
+	private static Req_getDuckByUserId(data) {
+		Datamanager.savenowDuckdata(data.data);
+		SceneManager.sceneManager.newmain2Scene.updateduck(data.data)
+		console.log(data, "别人鸭子数据")
+	}
+
+	/**
+	 * 收取自己鸭蛋
+	 */
+	public static recevieDuckEgg() {
+		MyRequest._post("game/recevieDuckEgg", null, this, this.Req_recevieDuckEgg.bind(this), null);
+	}
+
+	private static Req_recevieDuckEgg(data) {
+		console.log(data, "收取鸭蛋数据")
+	}
+
+	/**
+	 * 偷别人鸭蛋
+	 */
+	public static stealDuckEgg() {
+		let params = {
+			duckUserId: Datamanager.getnowDuckdata().id
+		}
+		MyRequest._post("game/stealDuckEgg", null, this, this.Req_stealDuckEgg.bind(this), null);
+	}
+
+	private static Req_stealDuckEgg(data) {
+		console.log(data, "偷别人鸭蛋数据")
+	}
 }
 
 

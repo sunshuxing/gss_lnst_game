@@ -8,6 +8,12 @@ class Invitefriend extends eui.Component implements eui.UIComponent {
     private invitebtn: eui.Image;                                //邀请好友
     private toother: eui.Image;                                  //去其他地
     private onComplete() {
+        if(SceneManager.instance.landId == 1){
+            this.toother.texture = RES.getRes("tocaiyuan_png");
+        }
+        else if(SceneManager.instance.landId == 2){
+            this.toother.texture = RES.getRes("toguoyuan_png")
+        }
         this.x = (SceneManager.sceneManager._stage.width - this.width)/2;
         this.y = (SceneManager.sceneManager._stage.height - this.height)/2 - 100;
         this.invitebtn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.Invite, this);               //邀请好友点击监听

@@ -21,9 +21,9 @@ class newMainScene extends eui.Component implements eui.UIComponent {
     private fruit_img: eui.Image;             //果实图片
     private fruit_num: eui.Label;             //所需果实总个数
     private gro_progress1: eui.Group;          //收果进度条组
-    private tocaiyuan: eui.Button;              //去菜园按钮
-    private present1: eui.Image;			//礼包点击区域
-	private present2: eui.Image;			//
+    private tocaiyuan: eui.Image;              //去菜园按钮
+    public present1: eui.Image;			//礼包点击区域
+    public present2: eui.Image;			//
 
     protected childrenCreated(): void {
         super.childrenCreated();
@@ -34,6 +34,7 @@ class newMainScene extends eui.Component implements eui.UIComponent {
         MyRequest._post("fruit/getNowDateTime", null, this, this.Req_getNowDateTime.bind(this), null)		//获取服务器当前时间
         this.showinit();
         this.logorot();
+        this.addEvent();
         this.gro_tree.addEventListener(egret.TouchEvent.TOUCH_TAP, this.treeTouch, this);
         this.tocaiyuan.addEventListener(egret.TouchEvent.TOUCH_TAP, this.toCaiyuan, this);
 
@@ -101,6 +102,19 @@ class newMainScene extends eui.Component implements eui.UIComponent {
 
     //查询自己果园果树回调
     private requestgetOwnTree(data): void {
+        if (data.data[0]) {
+            if (data.data[0].canReceive == "true") {
+                let peisonglabel = "免费获得" + "\n" + data.data[0].treeName + "一箱!"
+                SceneManager.sceneManager._stage.removeChildren();
+                let image = new eui.Image();
+                image.texture = RES.getRes("bg-day_png");
+                image.height = 1344;
+                let prompt = new PromptJump(peisonglabel);
+                SceneManager.sceneManager._stage.addChild(image);
+                SceneManager.sceneManager._stage.addChild(prompt);
+                return
+            }
+        }
         SceneManager.sceneManager.StageItems.currentState = "havetree"              //表现为自己果园
         console.log("自己果树", data)
         let treedata = data.data[0];
@@ -133,18 +147,6 @@ class newMainScene extends eui.Component implements eui.UIComponent {
         NewHelp.checkSteal(data);                                                       //检查是否能偷水
         this.datainit(data);                                                         //数据初始化显示
         NewHelp.checkHelpTakeFruit(data);                                            //检查是否能帮摘果
-        // //好友列表定位
-        // let index = Help.getContains(Datamanager.getfriendsdata(), Datamanager.getfriendByid(data));
-        // let friend_list = SceneManager.sceneManager.StageItems.friend_list;
-        // friend_list.selectedIndex = index;
-        // if (index * 110 > friend_list.width - 10) {
-        //     if (index * 110 <= (friend_list.contentWidth - friend_list.width)) {
-        //         friend_list.scrollH = index * 110;
-        //     }
-        //     else {
-        //         friend_list.scrollH = friend_list.contentWidth - friend_list.width;
-        //     }
-        // }
         this.progress.slideDuration = 0;
         this.progress.value = 0;
         //果树更新显示
@@ -208,7 +210,23 @@ class newMainScene extends eui.Component implements eui.UIComponent {
             this.tree_name.text = data.treeName;                                //果树名称
         }
         NewHelp.getTreeLanguage(data);                                          //获取并保存树语数据
-        this.treeupdate(data);                                                  //果树更新显示
+        if (data) {
+            if (data.isReceive == "true") {
+                this.tree.texture = RES.getRes("notree_png");
+                this.tree.width = this.tree.width*0.8;
+                this.tree.height = this.tree.height*0.8;
+                this.tree.anchorOffsetX = this.tree.width * 0.5;
+                this.tree.anchorOffsetY = this.tree.height;
+                SceneManager.sceneManager.StageItems.chanzi_btn.visible = true;
+            }
+            else {
+                this.treeupdate(data);                                                  //果树更新显示
+                SceneManager.sceneManager.StageItems.chanzi_btn.visible = false;
+            }
+        }
+        else{
+            SceneManager.sceneManager.StageItems.chanzi_btn.visible = false;
+        }
         NewHelp.progressupdate(data, this.progress);                            //成长值进度条更新显示
         NewHelp.progresslabelupdate(data, this.progress_label);                 //成长进度条说明文字更新显示
         this.progress1update(data);                                             //收果进度条更新显示
@@ -316,148 +334,149 @@ class newMainScene extends eui.Component implements eui.UIComponent {
         }
     }
 
-//-----------------------------------------------------------------------------礼包----------------------------------------------------------------------------//
-   
+    //-----------------------------------------------------------------------------礼包----------------------------------------------------------------------------//
+
     private nowDate  					//当前时间
 
     private Req_getNowDateTime(data) {
-		this.nowDate = data.data;
-		MyRequest._post("game/getSysReward", null, this, this.Req_getSysReward.bind(this), null)		//获取当前是否有礼包抽奖规则		
-	}
+        this.nowDate = data.data;
+        MyRequest._post("game/getSysReward", null, this, this.Req_getSysReward.bind(this), null)		//获取当前是否有礼包抽奖规则		
+    }
 
-	//点击礼包事件
-	private presenttouch() {
-		if (Help.getOwnData()) {
-			let params = {
-				treeUserId: Help.getOwnData().id
-			}
-			MyRequest._post("game/receiveSysReward", params, this, this.Req_receiveSysReward.bind(this), null)
-			this.present1.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.presenttouch, this);
-			this.present2.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.presenttouch, this);
-			console.log("点击礼包")
-		}
-	}
+    //点击礼包事件
+    private presenttouch() {
+        if (Datamanager.getNowtreedata()) {
+            let params = {
+                treeUserId: Datamanager.getNowtreedata().id
+            }
+            MyRequest._post("game/receiveSysReward", params, this, this.Req_receiveSysReward.bind(this), null)
+            this.present1.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.presenttouch, this);
+            this.present2.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.presenttouch, this);
+            console.log("点击礼包")
+        }
+    }
 
 
-	private startpresentTwn() {
-		if (!localStorage.getItem("present") || localStorage.getItem("present") == "true") {
-			egret.Tween.get(this.present1, { loop: true })
-				.to({ y: this.present1.y + 80 }, 1500)
-				.to({ y: this.present1.y }, 1500)
-			egret.Tween.get(this.present2, { loop: true })
-				.to({ rotation: -30 }, 100)
-				.to({ rotation: 0 }, 100)
-				.to({ rotation: 30 }, 100)
-				.to({ rotation: 0 }, 100)
-				.wait(500)
-			this.present1.touchEnabled = true;
-			this.present2.touchEnabled = true;
-		}
-	}
+    private startpresentTwn() {
+        if (!localStorage.getItem("present") || localStorage.getItem("present") == "true") {
+            egret.Tween.get(this.present1, { loop: true })
+                .to({ y: this.present1.y + 80 }, 1500)
+                .to({ y: this.present1.y }, 1500)
+            egret.Tween.get(this.present2, { loop: true })
+                .to({ rotation: -30 }, 100)
+                .to({ rotation: 0 }, 100)
+                .to({ rotation: 30 }, 100)
+                .to({ rotation: 0 }, 100)
+                .wait(500)
+            this.present1.touchEnabled = true;
+            this.present2.touchEnabled = true;
+        }
+    }
 
-	private stoppresentTwn() {
-		if (!localStorage.getItem("present") || localStorage.getItem("present") == "true") {
-			this.present1.y = 228;
-			this.present2.rotation = 0;
-			egret.Tween.removeTweens(this.present1)
-			egret.Tween.removeTweens(this.present2)
-			this.present1.touchEnabled = false;
-			this.present2.touchEnabled = false;
-		}
-	}
+    private stoppresentTwn() {
+        if (!localStorage.getItem("present") || localStorage.getItem("present") == "true") {
+            this.present1.y = 228;
+            this.present2.rotation = 0;
+            egret.Tween.removeTweens(this.present1)
+            egret.Tween.removeTweens(this.present2)
+            this.present1.touchEnabled = false;
+            this.present2.touchEnabled = false;
+        }
+    }
 
 	/**
 	 * 获取礼包规则回调
 	 */
-	private Req_getSysReward(data) {
-		console.log("礼包抽奖规则:", data);
-		let starttime			//活动开始时间
-		let endtime				//活动结束时间
-		let that = this
-		for (let i = 0; i < data.data.length; i++) {
-			starttime = data.data[i].startTime.replace(new RegExp(/-/gm), "/")
-			starttime = Date.parse(starttime)
-			endtime = data.data[i].endTime.replace(new RegExp(/-/gm), "/")
-			endtime = Date.parse(endtime)
-			console.log("开始时间：" + starttime, "结束时间:" + endtime)
-			if (starttime > this.nowDate) {
-				console.log("活动时间之前")
-				setTimeout(function () {
-					console.log("礼包点击动画和事件开始");
-					localStorage.setItem("present", "true");
-					that.startpresentTwn();
-				}, Number(starttime) - Number(this.nowDate));
-			}
-			if (endtime > this.nowDate) {
-				console.log("活动时间之间")
-				setTimeout(function () {
-					console.log("礼包点击动画和事件结束")
-					that.stoppresentTwn();
-					localStorage.setItem("present", "false");
-				}, Number(endtime) - Number(this.nowDate));
-			}
-			if (starttime < this.nowDate && endtime > this.nowDate) {
-				this.startpresentTwn();
-				localStorage.setItem("present", "true");
-				console.log("在活动时间内")
-			}
-			if (endtime < this.nowDate) {
-				console.log("在活动时间之后")
-			}
-		}
-	}
+    private Req_getSysReward(data) {
+        console.log("礼包抽奖规则:", data);
+        let starttime			//活动开始时间
+        let endtime				//活动结束时间
+        let that = this
+        for (let i = 0; i < data.data.length; i++) {
+            starttime = data.data[i].startTime.replace(new RegExp(/-/gm), "/")
+            starttime = Date.parse(starttime)
+            endtime = data.data[i].endTime.replace(new RegExp(/-/gm), "/")
+            endtime = Date.parse(endtime)
+            if (starttime > this.nowDate) {
+                console.log("活动时间之前")
+                setTimeout(function () {
+                    console.log("礼包点击动画和事件开始");
+                    localStorage.setItem("present", "true");
+                    that.startpresentTwn();
+                }, Number(starttime) - Number(this.nowDate));
+            }
+            if (endtime > this.nowDate) {
+                console.log("活动时间之间")
+                setTimeout(function () {
+                    console.log("礼包点击动画和事件结束")
+                    that.stoppresentTwn();
+                    localStorage.setItem("present", "false");
+                }, Number(endtime) - Number(this.nowDate));
+            }
+            if (starttime < this.nowDate && endtime > this.nowDate) {
+                this.startpresentTwn();
+                localStorage.setItem("present", "true");
+                console.log("在活动时间内")
+            }
+            if (endtime < this.nowDate) {
+                console.log("在活动时间之后")
+            }
+        }
+    }
 
-	private addEvent() {
-		this.present1.addEventListener(egret.TouchEvent.TOUCH_TAP, this.presenttouch, this);
-		this.present2.addEventListener(egret.TouchEvent.TOUCH_TAP, this.presenttouch, this);
-	}
+    private addEvent() {
+        this.present1.addEventListener(egret.TouchEvent.TOUCH_TAP, this.presenttouch, this);
+        this.present2.addEventListener(egret.TouchEvent.TOUCH_TAP, this.presenttouch, this);
+        this.present1.touchEnabled = false;
+		this.present2.touchEnabled = false;
+    }
 
-	private Req_receiveSysReward(data) {
-		console.log("领取礼包数据:", data);
-		let info: string;				//文字
-		let imgname: string;				//图片名称
-		let orderId: any;				//礼包id
-		let info2: string;				//文字2
-		if (data.data.status == "0") {
-			if (data.data.giftType == "0") {
-				console.log("领取礼包")
-				orderId = data.data.orderId;
-				info = "恭喜您获得礼包！"
-				info2 = data.data.fruitInfo + "一件";
-			}
-			else {
-				info = "恭喜您获得礼包！"
-				info2 = "恭喜您获得" + data.data.reward.propName + "x" + data.data.reward.propNum;
-			}
-		}
-		else if (data.data.status == "1") {
-			info = "很遗憾,您没中奖哦~";
-			imgname = "presentimgsor_png"
-		}
-		else if (data.data.status == "2") {
-			info = "您已经领过了哦~";
-			imgname = "presentimgobtained_png"
-			this.stoppresentTwn();
-			localStorage.setItem("present", "false")
-		}
-		else if (data.data.status == "-1") {
-			info = "已抢光~";
-			imgname = "presentimgnomore_png"
-			this.stoppresentTwn();
-			localStorage.setItem("present", "false")
-		}
-		else if (data.data.status == "-2") {
-			info = "领礼包次数已达上限~";
-			imgname = "presentimgfull_png"
-			this.stoppresentTwn();
-			localStorage.setItem("present", "false")
-		}
-		let share = new Sharepresent(info, imgname, orderId, info2);
-		SceneManager.sceneManager._stage.addChild(share);
+    private Req_receiveSysReward(data) {
+        console.log("领取礼包数据:", data);
+        let info: string;				//文字
+        let imgname: string;				//图片名称
+        let orderId: any;				//礼包id
+        let info2: string;				//文字2
+        if (data.data.status == "0") {
+            if (data.data.giftType == "0") {
+                console.log("领取礼包")
+                orderId = data.data.orderId;
+                info = "恭喜您获得礼包！"
+                info2 = data.data.fruitInfo + "一件";
+            }
+            else {
+                info = "恭喜您获得礼包！"
+                info2 = "恭喜您获得" + data.data.reward.propName + "x" + data.data.reward.propNum;
+            }
+        }
+        else if (data.data.status == "1") {
+            info = "很遗憾,您没中奖哦~";
+            imgname = "presentimgsor_png"
+        }
+        else if (data.data.status == "2") {
+            info = "您已经领过了哦~";
+            imgname = "presentimgobtained_png"
+            this.stoppresentTwn();
+            localStorage.setItem("present", "false")
+        }
+        else if (data.data.status == "-1") {
+            info = "已抢光~";
+            imgname = "presentimgnomore_png"
+            this.stoppresentTwn();
+            localStorage.setItem("present", "false")
+        }
+        else if (data.data.status == "-2") {
+            info = "领礼包次数已达上限~";
+            imgname = "presentimgfull_png"
+            this.stoppresentTwn();
+            localStorage.setItem("present", "false")
+        }
+        let share = new Sharepresent(info, imgname, orderId, info2);
+        SceneManager.sceneManager._stage.addChild(share);
 
-		this.present1.addEventListener(egret.TouchEvent.TOUCH_TAP, this.presenttouch, this);
-		this.present2.addEventListener(egret.TouchEvent.TOUCH_TAP, this.presenttouch, this);
-	}
+        this.present1.addEventListener(egret.TouchEvent.TOUCH_TAP, this.presenttouch, this);
+        this.present2.addEventListener(egret.TouchEvent.TOUCH_TAP, this.presenttouch, this);
+    }
 
 
     //风车动画
