@@ -27,10 +27,10 @@ class SeedRewardScene extends eui.Component implements eui.UIComponent {
 
     private onComplete(): void {
         if (SceneManager.instance.landId == 1) {
-            this.rewardbg.texture = RES.getRes("rewardbg1_png");
+            this.rewardbg.texture = RES.getRes("rewardbg2_png");
         }
         else if (SceneManager.instance.landId == 2) {
-            this.rewardbg.texture = RES.getRes("rewardbg2_png")
+            this.rewardbg.texture = RES.getRes("rewardbg1_png")
         }
         this.reward_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.close, this)
         this.x = (SceneManager.sceneManager._stage.width - this.width) / 2;

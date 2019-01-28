@@ -67,7 +67,9 @@ class InteractiveScene extends eui.Component implements eui.UIComponent {
     //点击留言列表事件
     private listTouch() {
         if (!Datamanager.getNowtreedata()) {
-            SceneManager.addNotice("该好友还没有种树哦！");
+            NewHelp.Invite()
+            this.closeScene()
+            // SceneManager.addNotice("该好友还没有种树哦！");
             return;
         }
         else {
@@ -99,7 +101,9 @@ class InteractiveScene extends eui.Component implements eui.UIComponent {
     //放草
     private putgrass() {
         if (!Datamanager.getNowtreedata()) {
-            SceneManager.addNotice("该好友还没有种树哦！");
+            NewHelp.Invite()
+            this.closeScene()
+            // SceneManager.addNotice("该好友还没有种树哦！");
             return;
         }
         else {
@@ -111,7 +115,9 @@ class InteractiveScene extends eui.Component implements eui.UIComponent {
     //放虫
     private putinsect() {
         if (!Datamanager.getNowtreedata()) {
-            SceneManager.addNotice("该好友还没有种树哦！");
+            NewHelp.Invite()
+            this.closeScene()
+            // SceneManager.addNotice("该好友还没有种树哦！");
             return;
         } else {
             var treeUserId = Datamanager.getNowtreedata().id;

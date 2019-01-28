@@ -11,12 +11,12 @@ class DuihuanScene extends eui.Component implements eui.UIComponent {
     private duihuanfriendscr: eui.Scroller;
     private duihuanfriendlist: eui.List;
     private euifriendarr: eui.ArrayCollection = new eui.ArrayCollection();               //点赞好友
-    private close_btn:eui.Image;
+    private close_btn: eui.Image;
 
     private onComplete() {
         this.x = (SceneManager.sceneManager._stage.width - this.width) / 2;
         this.y = (SceneManager.sceneManager._stage.height - this.height) / 2;
-        this.close_btn.addEventListener(egret.TouchEvent.TOUCH_TAP,this.close,this)
+        this.close_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.close, this)
         this.searchPraiseExchange();
     }
 
@@ -33,13 +33,13 @@ class DuihuanScene extends eui.Component implements eui.UIComponent {
 
     private perNum = 1;
 
-    
+
     /**
      * 关闭场景
      */
-    private close(){
+    private close() {
         NewHelp.removemask();
-        if(this.parent){
+        if (this.parent) {
             this.parent.removeChild(this);
         }
     }
@@ -49,22 +49,22 @@ class DuihuanScene extends eui.Component implements eui.UIComponent {
 	 * 查询点赞记录
 	 */
 
-	public searchOwnPraise() {
-		let params = {
-			pageNo: 1,
-			numPerPage: 10000
-		};
-		MyRequest._post("game/searchOwnPraise", params, this, this.Req_searchOwnPraise.bind(this), null)
-	}
+    public searchOwnPraise() {
+        let params = {
+            pageNo: 1,
+            numPerPage: 10000
+        };
+        MyRequest._post("game/searchOwnPraise", params, this, this.Req_searchOwnPraise.bind(this), null)
+    }
 
-	private Req_searchOwnPraise(data) {
-		console.log("别人给你点赞数据", data);
+    private Req_searchOwnPraise(data) {
+        console.log("别人给你点赞数据", data);
         let listdata = data.data.list
         this.euifriendarr.removeAll();
         for (let i = 0; i < listdata.length; i++) {
             this.euifriendarr.addItem(listdata[i]);
         }
-	}
+    }
 
 
 
@@ -121,7 +121,47 @@ class DuihuanList_item extends eui.ItemRenderer {
         else if (this.data.isExchanged == "true") {
             this.duihuanbtn.texture = RES.getRes("duihuancan_png");
         }
-        this.prop.texture = RES.getRes("smallshui_png");
+        if (this.data.rewardRule.propType == 50) {       //种子
+            HttpRequest.imageloader(Config.picurl + this.data.rewardRule.propIcon, this.prop);
+        }
+        else if (this.data.rewardRule.propType == 7) {
+            this.prop.texture = RES.getRes("duckegg_png")
+        }
+        else if (this.data.rewardRule.propType == 6) {
+            this.prop.texture = RES.getRes("duckfood_png")
+        }
+        else if (this.data.rewardRule.propType == 3 && !this.data.rewardRule.propId) {
+            this.prop.texture = RES.getRes("huafeiicon_png")
+        }
+        else {
+            if (this.data.rewardRule.propId == 1) {
+                this.prop.texture = RES.getRes("smallshui_png")       //水滴
+            }
+            if (this.data.rewardRule.propId == 3) {          //果篮
+                this.prop.texture = RES.getRes("lanzi")
+            }
+            else if (this.data.rewardRule.propId == 4) {     //有机肥
+                this.prop.texture = RES.getRes("youji")
+            }
+            else if (this.data.rewardRule.propId == 5) {     //复合肥
+                this.prop.texture = RES.getRes("fuhe")
+            }
+            else if (this.data.rewardRule.propId == 6) {     //水溶肥
+                this.prop.texture = RES.getRes("shuirong")
+            }
+            else if (this.data.rewardRule.propId == 7) {     //剪刀
+                this.prop.texture = RES.getRes("youji")
+            }
+            else if (this.data.rewardRule.propId == 8) {     //鸭食
+                this.prop.texture = RES.getRes("youji")
+            }
+            else if (this.data.rewardRule.propId == 9) {      //虫
+                this.prop.texture = RES.getRes("usedinsect_png")
+            }
+            else if (this.data.rewardRule.propId == 10) {      //草
+                this.prop.texture = RES.getRes("usedgrass_png")
+            }
+        }
         this.propname.text = this.data.rewardRule.name;
     }
 
@@ -132,6 +172,7 @@ class DuihuanList_item extends eui.ItemRenderer {
         }
         else {
             if (this.data.isExchanged == "false") {
+                console.log(this.data, "点赞数据")
                 NewHelp.duihuan(this.data.id);
             }
             else {
@@ -153,7 +194,7 @@ class DuihuanfriendList_item extends eui.ItemRenderer {
     }
 
     private friend_icon: eui.Image;                  //好友头像
-
+    private like_num: eui.Label;
 
     private onComplete() {
 
@@ -165,5 +206,8 @@ class DuihuanfriendList_item extends eui.ItemRenderer {
             users: this.data.user
         }
         MyRequest._post("game/getWechatImg", params, this, NewHelp.Req_WechatImg.bind(this, this.data.user, this.friend_icon), null);
+        if (this.data.praiseCount) {
+            this.like_num.text = this.data.praiseCount;
+        }
     }
 }

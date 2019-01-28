@@ -1,23 +1,18 @@
 class Config{
-    // public static wxhttpServer = "http://www.guoss.net/test_gsswe/"
-    public static wxhttpServer = "http://192.168.3.19:8337/gsswe/"
-    
-    /**
-     * 后台图片服务
-     */
-    // public static imgServer = "http://192.168.3.10:8080/gssmanage/"
-    public static imgServer = "http://m.guoss.net/gssmanage/"
+    public static wxhttpServer = "https://www.guoss.net/gsswe/"
+    // public static wxhttpServer = "http://192.168.3.19:8337/gsswe/"
+
 
     //测试线上的web主页，正式版去除test
-    public static webHome = "http://www.guoss.net/wefruitmall/"
+    public static webHome = "https://www.guoss.net/wefruitmall/"
 
-    public static socketHome = "ws://www.guoss.net/test_gsswe/websocket"
+    public static socketHome = "wss://www.guoss.net/gsswe/websocket"
 
     public static projectName = '/gsswe';// /roadshow  线上配置 空字符
     public static homeServer = location.protocol + '//' + location.host+ Config.projectName;
     public static apiServer = location.protocol + '//' + location.host+ Config.projectName +"/";
-    public static picurl = 'http://192.168.3.10:8080/gssmanage';
-    // public static picurl = 'http://s.guoss.net';
+    // public static picurl = 'http://webimage.natapp1.cc/gssmanage';
+    public static picurl = 'https://s.guoss.net';
     public static config = {
 		// 项目根名称
 		projectName : Config.projectName,

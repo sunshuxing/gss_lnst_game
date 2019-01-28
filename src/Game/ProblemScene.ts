@@ -136,6 +136,7 @@ class ProblemScene extends eui.Component implements eui.UIComponent {
             let imgtextrue = NewHelp.getimgByType(rewarddata);
             this.reward_img.texture = RES.getRes(imgtextrue);
             this.reward_num_label.text = rewarddata.propName + "x" + rewarddata.propNum
+            SceneManager.sceneManager.StageItems.canreward = false;
             NewHelp.updateprop();
         }
         else {
@@ -368,11 +369,11 @@ class DetailsList_item extends eui.ItemRenderer {
         }
         if (this.data.isRight) {                    //该选项正确
             this.answer_bg.texture = RES.getRes("answer_right_png");
-            this.answer_end = RES.getRes("right_png");
+            this.answer_end.texture = RES.getRes("right_png");
         }
         else {                                      //该选项错误
             this.answer_bg.texture = RES.getRes("answer_wrong_png");
-            this.answer_end = RES.getRes("wrong_png");
+            this.answer_end.texture = RES.getRes("wrong_png");
         }
     }
 }

@@ -62,7 +62,6 @@ class Sharepresent extends eui.Component implements eui.UIComponent{
             if (!SceneManager.instance.isMiniprogram) {//不是小程序的处理方式
                 SceneManager.instance.weixinUtil.shareData.iconUrl = "http://www.guoss.net/wefruitmall/images/game_share1.png"
                 SceneManager.instance.weixinUtil.shareData.titles = "【礼包惊喜】获得一个惊喜大礼包。"
-                SceneManager.instance.weixinUtil.shareData.describes = "离免费收获一箱水果，只差最后一步啦！"
                 if(orderId){
                     SceneManager.instance.weixinUtil.shareData.success = function(){
                         location.href = Config.webHome +"confirm.html?orderid=" + orderId;

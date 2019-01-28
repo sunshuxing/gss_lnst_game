@@ -4,12 +4,19 @@ class ChooseSeedScene extends eui.Component implements eui.UIComponent {
         super();
         this.addEventListener(eui.UIEvent.COMPLETE,this.onComplete,this);
         this.skinName = "resource/skins/ChooseSeedSkins.exml";
+        if(SceneManager.instance.landId == 1){
+            this.seed_text.texture = RES.getRes("guoyuantext_png");
+        }
+        else if(SceneManager.instance.landId == 2){
+            this.seed_text.texture = RES.getRes("caiyuantext_png")
+        }
     }
 
     private seedlistgro: eui.Group;
     private list_seed: eui.List;
     private scr_seed: eui.Scroller;
     private close_btn: eui.Image;
+    private seed_text: eui.Image;
 
     protected childrenCreated(): void {
         super.childrenCreated();
@@ -35,10 +42,10 @@ class ChooseSeedScene extends eui.Component implements eui.UIComponent {
             this.parent.removeChild(this);
         }
         NewHelp.removemask();
-        SceneManager.instance.landId = 1;
-        SceneManager.toNewMainScene();
-        SceneManager.sceneManager.newmainScene.getOwnTree();
-        Help.passAnm();
+        // SceneManager.instance.landId = 1;
+        // SceneManager.toNewMainScene();
+        // SceneManager.sceneManager.newmainScene.getOwnTree();
+        // Help.passAnm();
     }
 
     //查詢可以領取的果樹id

@@ -2,7 +2,7 @@
 <e:Skin class="MainSceneSkins" width="750" height="1334" xmlns:e="http://ns.egret.com/eui"
         xmlns:w="http://ns.egret.com/wing">
     <e:Group id="gro_fastpic" width="750" height="1334" bottom="0">
-        <e:Image id="bg" width="750" x="0" y="-79" scaleX="1" scaleY="1" source="bgsnow_png" height="1413" />
+        <e:Image id="bg" width="750" x="0" y="-79" scaleX="1" scaleY="1" height="1413" source="bgsnowday_png" />
         <e:Group width="74" height="28.79" x="213" y="858.04" anchorOffsetY="0" anchorOffsetX="0" scaleX="1" scaleY="1">
             <e:Label id="tree_name" bold="true" y="3.61" anchorOffsetX="0" anchorOffsetY="0" fontFamily="SimHei"
                      size="24" textAlign="center" text="" scaleX="1" scaleY="1" horizontalCenter="0"
@@ -11,24 +11,29 @@
         <e:Image id="logo" x="81" y="381" anchorOffsetX="75" anchorOffsetY="75" width="152" height="152" source=""
                  scaleX="1" scaleY="1" />
         <e:Label id="garden_name" rotation="353.59" size="24" textAlign="right" fontFamily="Microsoft YaHei" bold="true"
-                 anchorOffsetX="0" anchorOffsetY="0" y="497.31" x="116" width="120" height="28.96" textColor="0x6e5422"
-                 text="" scaleX="1" scaleY="1" />
+                 anchorOffsetX="0" anchorOffsetY="0" y="497.31" x="116" width="120" height="28.96" text="" scaleX="1"
+                 scaleY="1" textColor="0xffbd44" />
         <e:Image id="tree" horizontalCenter="27.5" bottom="401" anchorOffsetY="0" anchorOffsetX="0" x="403" y="933"
                  scaleX="1" scaleY="1" source="" />
         <e:Image id="tu" y="879.05" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="30" source="tu" x="312"
                  scaleX="1" scaleY="1" />
         <e:Image id="present1" x="300.2" y="238.17" anchorOffsetX="0" anchorOffsetY="0" source="toppresent_png" />
         <e:Image id="present2" x="232.33" y="955" anchorOffsetX="37.33" anchorOffsetY="53.33" source="present2_png" />
-			<e:Image id="tocaiyuan" x="495.01" y="477.65" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1" source="gocaiyuan_png"/>
+        <e:Image id="tocaiyuan" x="560.15" y="510.98" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1"
+                 source="gocaiyuan_png" />
     </e:Group>
-    <e:Group id="gro_tree" width="299.84" height="358.7" x="244.55" y="536.33" anchorOffsetY="0" anchorOffsetX="0" />
+    <e:Group id="gro_tree" width="299.84" height="358.7" x="244.55" y="546.33" anchorOffsetY="0" anchorOffsetX="0" />
     <e:Group width="352" height="69" y="1020" anchorOffsetY="0" anchorOffsetX="0" horizontalCenter="11">
         <e:ProgressBar id="progress" width="350.78" height="49.65" y="1.4600000000000364" skinName="ProgressSkins"
-                       x="-0.060000000000030695" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1"
-                       visible="false" />
+                       x="-0.060000000000030695" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1"  visible="false"/>
         <e:Label id="progress_label" text="" x="2.6599999999999966" y="54.429999999999836" anchorOffsetX="0"
                  width="340.66" size="22" textAlign="center" fontFamily="Microsoft YaHei" textColor="0x000000"
-                 scaleX="1" scaleY="1" visible="false" />
+                 scaleX="1" scaleY="1"  visible="false"/>
+        <e:Group id="jishi_gro" width="116" height="64" horizontalCenter="0" y="-46" visible="false">
+            <e:Image id="jishi_img" y="0" source="huafeijishi_png" horizontalCenter="0" x="0" scaleX="1" scaleY="1" />
+            <e:Label id="jishi_text" text="00:00" y="18" horizontalCenter="0" textColor="0x5f4d2a" size="20"
+                     fontFamily="SimHei" x="33" scaleX="1" scaleY="1" />
+        </e:Group>
     </e:Group>
     <e:Group id="gro_progress1" width="462" height="84" x="132" y="1118" anchorOffsetY="0" anchorOffsetX="0"
              visible="false">

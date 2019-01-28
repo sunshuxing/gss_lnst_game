@@ -21,8 +21,15 @@ class BaikeScene extends eui.Component implements eui.UIComponent {
     }
 
     private onComplete(): void {
-        this.y = SceneManager.sceneManager._stage.height - this.height
+        this.y = SceneManager.sceneManager._stage.height - this.height;
+        this.baike_btn.addEventListener(egret.TouchEvent.TOUCH_TAP,this.close,this);
         this.searchKnowledgePage();
+    }
+
+    private close(){
+        if(this.parent){
+            this.parent.removeChild(this);
+        }
     }
 
     /**
@@ -41,13 +48,28 @@ class BaikeScene extends eui.Component implements eui.UIComponent {
         let baikedata = data.data.list;
         let num = Help.random_num(0, baikedata.length - 1)
         let nowdata = data.data.list[num];
-        HttpRequest.imageloader(Config.picurl + nowdata.goodsIcon, this.friut_img);
-        this.friut_name.text = nowdata.goodsName;
-        this.baike_title.text = nowdata.title;
-        this.baike_disc.text = nowdata.text;
-        this.buy_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
-            
-        }, this)
-        console.log(nowdata, "当前百科数据")
+
+        if (nowdata) {
+            if (nowdata.goodsId) {
+                this.currentState = "friut";
+                HttpRequest.imageloader(Config.picurl + nowdata.goodsIcon, this.friut_img);
+                this.friut_name.text = nowdata.goodsName;
+                this.buy_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
+                    const fruitId = nowdata.goodsId
+                    if (SceneManager.instance.isMiniprogram) {
+                        wx.miniProgram.navigateTo({
+                            url: "/pages/gssIndex/detail?id=" + fruitId
+                        })
+                    } else {
+                        location.href = Config.webHome + "view/detail.html?id=" + fruitId
+                    }
+                }, this)
+            }
+            else {
+                this.currentState = "label";
+            }
+            this.baike_title.text = nowdata.title;
+            this.baike_disc.text = nowdata.text;
+        }
     }
 }

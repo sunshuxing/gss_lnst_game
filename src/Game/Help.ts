@@ -141,11 +141,13 @@ class Help {
 
     //限制字符串长度
     public static getcharlength(_str, _length) {
-        var reg = /[\u4e00-\u9fa5]/g,    //专业匹配中文
-            slice = _str.substring(0, _length),
-            chineseCharNum = (~~(slice.match(reg) && slice.match(reg).length)),
-            realen = slice.length * 2 - chineseCharNum;
-        return _str.substr(0, realen) + (realen < _str.length ? "..." : "");
+        if (_str) {
+            var reg = /[\u4e00-\u9fa5]/g,    //专业匹配中文
+                slice = _str.substring(0, _length),
+                chineseCharNum = (~~(slice.match(reg) && slice.match(reg).length)),
+                realen = slice.length * 2 - chineseCharNum;
+            return _str.substr(0, realen) + (realen < _str.length ? "..." : "");
+        }
     }
 
 
@@ -177,13 +179,19 @@ class Help {
 
     //获取阶段果树锚点长宽等
     public static getTreeHWBystage(stage, img: eui.Image) {
-        if (stage < 2) {
+        if (SceneManager.instance.landId == 1) {
+            if (stage < 2) {
+                img.width = 250;
+                img.height = 257;
+            }
+            if (stage > 1) {
+                img.width = 420;
+                img.height = 433;
+            }
+        }
+        else if (SceneManager.instance.landId == 2) {
             img.width = 250;
             img.height = 257;
-        }
-        if (stage > 1) {
-            img.width = 420;
-            img.height = 433;
         }
         img.anchorOffsetX = img.width * 0.5;
         img.anchorOffsetY = img.height;
@@ -369,11 +377,9 @@ class Help {
         label_fruit.y = 640;
         label_fruit.text = "+" + data.takeNum;
         let img_love = new eui.Image();                 //爱心图片
-        img_love.width = 72.8;
-        img_love.height = 63.7;
         img_love.x = 350;
         img_love.y = 626;
-        img_love.texture = RES.getRes("loveimg");
+        img_love.texture = RES.getRes("shuidi");
         let label_love = new eui.Label;
         label_love.x = 426;
         label_love.y = 640;
@@ -384,14 +390,14 @@ class Help {
 
                 this.waitFun(1, function () {
                     if (data.loveCount && Number(data.loveCount) > 0) {
-                        // SceneManager.sceneManager.StageItems.addChild(img_love);
-                        // SceneManager.sceneManager.StageItems.addChild(label_love);
-                        // egret.Tween.get(img_love)
-                        //     .to({ y: img_love.y - 60 }, 800).call(() => { SceneManager.sceneManager.StageItems.removeChild(img_love) }, this);
-                        // egret.Tween.get(label_love)
-                        //     .to({ y: label_love.y - 60 }, 800).call(() => {
-                        //         SceneManager.sceneManager.StageItems.removeChild(label_love);
-                        //     }, this);
+                        SceneManager.sceneManager.StageItems.addChild(img_love);
+                        SceneManager.sceneManager.StageItems.addChild(label_love);
+                        egret.Tween.get(img_love)
+                            .to({ y: img_love.y - 60 }, 800).call(() => { SceneManager.sceneManager.StageItems.removeChild(img_love) }, this);
+                        egret.Tween.get(label_love)
+                            .to({ y: label_love.y - 60 }, 800).call(() => {
+                                SceneManager.sceneManager.StageItems.removeChild(label_love);
+                            }, this);
                     }
                     else {
                         SceneManager.addNotice("每日爱心值已达上限！");
@@ -409,14 +415,14 @@ class Help {
                 .to({ y: label_fruit.y - 60 }, 800).call(() => {
                     SceneManager.sceneManager.StageItems.removeChild(label_fruit);
                     if (data.loveCount && Number(data.loveCount) > 0) {
-                        // SceneManager.sceneManager.StageItems.addChild(img_love);
-                        // egret.Tween.get(img_love)
-                        //     .to({ y: img_love.y - 60 }, 800).call(() => { SceneManager.sceneManager.StageItems.removeChild(img_love) }, this);
-                        // SceneManager.sceneManager.StageItems.addChild(label_love);
-                        // egret.Tween.get(label_love)
-                        //     .to({ y: label_love.y - 60 }, 800).call(() => {
-                        //         SceneManager.sceneManager.StageItems.removeChild(label_love);
-                        //     }, this);
+                        SceneManager.sceneManager.StageItems.addChild(img_love);
+                        egret.Tween.get(img_love)
+                            .to({ y: img_love.y - 60 }, 800).call(() => { SceneManager.sceneManager.StageItems.removeChild(img_love) }, this);
+                        SceneManager.sceneManager.StageItems.addChild(label_love);
+                        egret.Tween.get(label_love)
+                            .to({ y: label_love.y - 60 }, 800).call(() => {
+                                SceneManager.sceneManager.StageItems.removeChild(label_love);
+                            }, this);
                     }
                     else {
                         SceneManager.addNotice("每日爱心值已达上限！");
@@ -424,18 +430,17 @@ class Help {
                     SceneManager.sceneManager.StageItems.enabled = true;
                 }, this);
         }
+        NewHelp.updateprop()
     }
 
     public static helpwaterLove(data) {
         if (data.loveCount && Number(data.loveCount) > 0) {
             SceneManager.sceneManager.StageItems.enabled = false;
             let img_love = new eui.Image();                 //爱心图片
-            img_love.width = 72.8;
-            img_love.height = 63.7;
             img_love.x = 350;
             img_love.y = 626;
-            img_love.texture = RES.getRes("loveimg");
-            let label_love = new eui.Label;                 //爱心数量
+            img_love.texture = RES.getRes("shuidi");
+            let label_love = new eui.Label;                 //水滴数量
             label_love.x = 426;
             label_love.y = 640;
             label_love.text = "+" + data.loveCount;

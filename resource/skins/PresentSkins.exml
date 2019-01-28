@@ -4,8 +4,8 @@
 	<e:Image x="0" source="sharepicbg_png" y="43"/>
 	<e:Image y="212" anchorOffsetX="0" anchorOffsetY="0" source="presentbg_png" horizontalCenter="0"/>
 	<e:Image id="present_img" y="302" horizontalCenter="0" source=""/>
-	<e:Label id="present_label1" text="" y="648" anchorOffsetX="0" anchorOffsetY="0" size="28" fontFamily="Microsoft YaHei" horizontalCenter="1" textColor="0xba171d"/>
-	<e:Label id="present_label2" text="" y="690" horizontalCenter="0" size="20" fontFamily="Microsoft YaHei" textColor="0x383838"/>
+	<e:Label id="present_label1" text="" y="648" anchorOffsetX="0" anchorOffsetY="0" size="20" fontFamily="Microsoft YaHei" horizontalCenter="1" textColor="0x383838"/>
+	<e:Label id="present_label2" text="" y="686.01" horizontalCenter="0" size="28" fontFamily="Microsoft YaHei" textColor="0xba171d"/>
 	<e:Image y="126" source="colorbar_png" horizontalCenter="0"/>
 	<e:Image id="btn_share" y="888" source="sharepicbtn_png" horizontalCenter="0"/>
 </e:Skin>

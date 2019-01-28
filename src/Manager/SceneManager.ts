@@ -3,6 +3,7 @@ class SceneManager {
 
     public landId: number                            //当前土地id
     public isDistribution: boolean;                 //是否配送
+    public isduckDistribution: boolean;              //是否是鸭子配送
     private interactiveScene: InteractiveScene    //互动场景
     private taskScene: TaskScene                  //任务场景
     private dynamicScene: DynamicScene            //动态场景
@@ -26,7 +27,7 @@ class SceneManager {
     public StageItems: newStageItems;
     public newmain2Scene: newMain2Scene;
 
-    
+
     constructor() {
         this.weixinUtil = WeixinUtil.getInstance();
         this.friendSign = MyRequest.geturlstr("friendSign")
@@ -74,7 +75,7 @@ class SceneManager {
         return this.duihuanScene;
     }
 
-    public getWarehouseScene():WarehouseScene{
+    public getWarehouseScene(): WarehouseScene {
         if (!this.warehouseScene) {
             this.warehouseScene = new WarehouseScene();
         }
@@ -263,15 +264,22 @@ class SceneManager {
      * 仓库页面
      */
 
-    static toWarehouseScene(){
-        if(!this.instance.warehouseScene){
-            this.instance.warehouseScene = new WarehouseScene();
+    static toWarehouseScene() {
+        if (SceneManager.sceneManager.StageItems.currentState == "havetree") {
+            if (Datamanager.getPropdata()) {
+                if (!this.instance.warehouseScene) {
+                    this.instance.warehouseScene = new WarehouseScene();
+                }
+                else {
+                    this.instance.warehouseScene.showprop();
+                }
+                NewHelp.addmask();
+                this.instance._stage.addChild(this.instance.warehouseScene);
+            }
         }
         else {
-            this.instance.warehouseScene.showprop();
+            SceneManager.addNotice("好友仓库暂未开放");
         }
-        NewHelp.addmask();
-        this.instance._stage.addChild(this.instance.warehouseScene);
     }
 
 

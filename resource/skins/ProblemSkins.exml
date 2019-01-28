@@ -21,7 +21,7 @@
 		<e:Label id="reward_num_label" text="" y="202.12" textColor="0xff960d" size="24" fontFamily="SimHei" horizontalCenter="0"/>
 	</e:Group>
 	<e:Label id="label_reward" text="很遗憾没有获得奖励" includeIn="reward" y="676" anchorOffsetX="0" width="507.33" anchorOffsetY="0" height="292.12" horizontalCenter="0" textColor="0xff960d" textAlign="center" verticalAlign="middle" bold="true" fontFamily="SimHei" visible="false"/>
-	<e:Image id="receive_btn" includeIn="reward" y="1210" source="receive_btn_png" horizontalCenter="0"/>
+	<e:Image id="receive_btn" includeIn="reward" y="1210" horizontalCenter="0" source="receive_btn_png"/>
 	<e:Label id="problemnum" text="第一题" x="110" y="340" bold="true" fontFamily="SimHei" size="30"  includeIn="normal,details"/>
 	<e:Label id="problemlable" text="" x="250" y="340" anchorOffsetX="0" width="396" anchorOffsetY="0" height="102"
 	         fontFamily="SimHei" bold="true"  includeIn="normal,details"/>

@@ -18,15 +18,15 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 	protected childrenCreated(): void {
 		super.childrenCreated();
 		this.addEventListener(PuticonEvent.TOFRIEND, this.closeScene, this);
-		this.addEventListener(MaskEvent.INITEUIARR, () => { 
-				this.perNum = 1;
-				this.euiArr.removeAll();
-				this.list_dyn.scrollV = 0;
-				if(this.perNum == 1){
-					this.map={}
-				}
+		this.addEventListener(MaskEvent.INITEUIARR, () => {
+			this.perNum = 1;
+			this.euiArr.removeAll();
+			this.list_dyn.scrollV = 0;
+			if (this.perNum == 1) {
+				this.map = {}
 			}
-			,this);
+		}
+			, this);
 		this.btn_close.addEventListener(egret.TouchEvent.TOUCH_TAP, this.closeScene, this)
 		this.scr_dyn.verticalScrollBar = null;
 		this.scr_dyn.bounces = null;
@@ -50,7 +50,7 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 	//查询动态
 	public searchDynamic(treeUserId) {
 		this.treeUserId = treeUserId
-		
+
 		let params = {
 			treeUserId: treeUserId,
 			pageNo: this.perNum,
@@ -62,7 +62,7 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 	//查询动态信息成功后处理
 	private Req_searchDynamic(data): void {
 		var Data = data;
-		if(this.perNum == 1){
+		if (this.perNum == 1) {
 			localStorage.setItem("dyn_red", data.data.list[0].id);
 		}
 		var dyndata = Data.data.list;
@@ -76,31 +76,32 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 			let params = {
 				users: this.dyndata_user.join(",")
 			};
-			MyRequest._post("game/getWechatImg", params, this, this.Req_getWechatImg.bind(this,Data), this.onGetIOError);
+			MyRequest._post("game/getWechatImg", params, this, this.Req_getWechatImg.bind(this, Data), this.onGetIOError);
 		}
 	}
 
-	private Req_getWechatImg(Data,data) {
-		if(!data){
+	private Req_getWechatImg(Data, data) {
+		if (!data) {
 			return;
 		}
 		data = data.data;
-		if( data && typeof data === "string"){
+		if (data && typeof data === "string") {
 			data = JSON.parse(data)
 		}
 		Help.savedynIcon(data);
 		let dyndata = Data.data.list;
 		let dyn_data = this.initData(dyndata)
-		for(let i=0;i<dyn_data.length;i++){
+		for (let i = 0; i < dyn_data.length; i++) {
 			this.euiArr.addItem(dyn_data[i])
 		}
-		if(Data.data.isLastPage == "true"){
+		if (Data.data.isLastPage == "true") {
 			this.euiArr.addItem({ state: true, createDate: "2018-11-30 10:41:44" });
 		}
-		else{
-			this.scr_dyn.addEventListener(eui.UIEvent.CHANGE_END, this.asdas, this)	
+		else {
+			this.scr_dyn.addEventListener(eui.UIEvent.CHANGE_END, this.asdas, this)
 		}
 		// this.euiArr.addItem({state:true,createDate:"2018-11-30 10:41:44"});
+		console.log(this.euiArr, "动态数据")
 		this.line.height = this.euiArr.length * 300;
 		this.isLastPage = Data.data.isLastPage;
 	}
@@ -158,17 +159,17 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 	private closeScene() {
 		this.perNum = 1;
 		this.euiArr.removeAll();
-		if(this.perNum == 1){
-			this.map={}
+		if (this.perNum == 1) {
+			this.map = {}
 		}
 		this.list_dyn.scrollV = 0;
 		// let Removemask: MaskEvent = new MaskEvent(MaskEvent.REMOVEMASK);
 		// this.parent.dispatchEvent(Removemask);
 		// SceneManager.toMainScene();
 		NewHelp.removemask()
-        if(this.parent){
-            this.parent.removeChild(this);
-        }
+		if (this.parent) {
+			this.parent.removeChild(this);
+		}
 	}
 
 
@@ -223,10 +224,10 @@ class dynList_item extends eui.ItemRenderer {
 		// 	this.dyn_toother.y = this.dyn_toother.y + 35 * lineNum
 		// }
 		this.dyn_time.text = Help.getTime(this.data.createDate, "hours");
-		if(this.data.type == 7){
+		if (this.data.type == 7) {
 			this.user_icon.texture = RES.getRes("gamelogo")
-		}else if (this.data.mainUserIcon) {
-				HttpRequest.imageloader(Config.picurl + Help.getdynIcon()[this.data.mainUser], this.user_icon,this.data.mainUser);
+		} else if (this.data.mainUserIcon) {
+			HttpRequest.imageloader(Config.picurl + Help.getdynIcon()[this.data.mainUser], this.user_icon, this.data.mainUser);
 		}
 		if (this.data.type == 0) {
 			this.dyn_toother.visible = false;
@@ -239,7 +240,7 @@ class dynList_item extends eui.ItemRenderer {
 			this.dyn_label.text = Help.getcharlength(this.data.mainUserName, 4) + "领取了" + this.data.treeName + "!";
 			this.dyn_des.text = "";
 			this.dyn_bg.texture = RES.getRes("dyn-ly-xt");
-			
+
 		}
 		else if (this.data.type == 2) {
 			this.dyn_toother.visible = true;
@@ -257,7 +258,7 @@ class dynList_item extends eui.ItemRenderer {
 			this.dyn_bg.texture = RES.getRes("dyn-bf-bg");
 			this.dyn_label.textFlow = Array<egret.ITextElement>(
 				{ text: Help.getcharlength(this.data.mainUserName, 4), style: { "href": "event:" + this.data.mainUser, "underline": true } }
-				, { text: "来偷水"+this.data.num+"g" }
+				, { text: "来偷水" + this.data.num + "g" }
 			);
 			this.dyn_des.text = "拜访TA";
 		}
@@ -268,7 +269,7 @@ class dynList_item extends eui.ItemRenderer {
 			} else {
 				info = "来帮你浇水啦，每日帮浇水已达上限，没有获得成长值哦"
 			}
-			this.dyn_bg.height = this.dyn_label.height+92;
+			this.dyn_bg.height = this.dyn_label.height + 92;
 			this.dyn_toother.visible = true;
 			this.dyn_icon.texture = RES.getRes("dyn-bf-icon");
 			this.dyn_bg.texture = RES.getRes("dyn-bf-bg");
@@ -298,7 +299,7 @@ class dynList_item extends eui.ItemRenderer {
 		else if (this.data.type == 7) {
 			this.dyn_toother.visible = false;
 			this.dyn_bg.texture = RES.getRes("dyn-ly-xt");
-			this.dyn_label.text = "您获得了" + this.data.num + "个" + this.getpropname(this.data.propType);
+			this.dyn_label.text = "您获得了" + this.data.num + "个" + this.getpropname(this.data);
 			this.dyn_des.text = "";
 		}
 		else if (this.data.type == 10) {
@@ -363,45 +364,81 @@ class dynList_item extends eui.ItemRenderer {
 			this.dyn_des.text = "";
 			this.dyn_bg.texture = RES.getRes("dyn-ly-xt");
 		}
+		else if (this.data.type == 201) {
+			this.dyn_toother.visible = false;
+			this.dyn_bg.texture = RES.getRes("dyn-ly-xt");
+			this.dyn_label.text = "您领取了鸭子！"
 
-		this.dyn_bg.height = this.dyn_label.height+92;
+		}
+
+		this.dyn_bg.height = this.dyn_label.height + 92;
 
 	}
 
 
 	private getpropname(data) {
-		if (data == 1) {
+		if (this.data.propType == 0) {
 			return "水滴"
 		}
-		else if (data == 2) {
-			return "爱心值"
+		else if (this.data.propType == 50) {       //种子
+			return "种子"
 		}
-		else if (data == 3) {
-			return "果篮"
+		else if (this.data.propType == 51) {
+			return "鸭子"
 		}
-		else if (data == 4) {
-			return "有机肥"
+		else if (this.data.propType == 7) {
+			return "鸭蛋"
 		}
-		else if (data == 5) {
-			return "复合肥"
+		else if (this.data.propType == 6) {
+			return "鸭食"
 		}
-		else if (data == 6) {
-			return "水溶肥"
+		else {
+			if (this.data.propId == 3) {          //果篮
+				return "果篮"
+			}
+			else if (this.data.propId == 4) {     //有机肥
+				return "有机肥"
+			}
+			else if (this.data.propId == 5) {     //复合肥
+				return "复合肥"
+			}
+			else if (this.data.propId == 6) {     //水溶肥
+				return "水溶肥"
+			}
+			else if (this.data.propId == 7) {     //剪刀
+				return "剪刀"
+			}
+			else if (this.data.propId == 9) {      //虫
+				return "虫"
+			}
+			else if (this.data.propId == 10) {      //草
+				return "草"
+			}
+
 		}
 	}
 
 	// 去他人农场
 	private toother(user) {
-		console.log(user,"用户")
-		// var data = Help.getUserFriendData();
-		// var userid = Help.getUserIdByUser(user, data);
-		// Help.passAnm();
-		// let evt: PuticonEvent = new PuticonEvent(PuticonEvent.TOFRIEND);
-		// evt.userid = userid;
-		// SceneManager.sceneManager.mainScene.dispatchEvent(evt);
-		// SceneManager.sceneManager.getDynamicScene().dispatchEvent(evt);
+		console.log(user, "用户")
+		let evt: PuticonEvent = new PuticonEvent(PuticonEvent.TOFRIEND);
+		SceneManager.sceneManager.getDynamicScene().dispatchEvent(evt);
+		let frienddata = Datamanager.getfrienddataByuser(user)
+		if (frienddata) {
+			Datamanager.savenowfrienddata(frienddata);
+		}
 		let treeid = Datamanager.getfriendtreeUseridByUser(user);
-		NewHelp.getTreeInfoByid(treeid);
+		if (!treeid) {
+			if (SceneManager.sceneManager.landId == 1) {
+				SceneManager.sceneManager.newmainScene.updateBytreedata(null);
+			}
+			else if (SceneManager.sceneManager.landId == 2) {
+				SceneManager.sceneManager.newmain2Scene.updateBytreedata(null);
+			}
+		}
+		else {
+			NewHelp.getTreeInfoByid(treeid);
+		}
 		Help.passAnm();
 	}
 

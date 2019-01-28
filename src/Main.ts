@@ -78,9 +78,9 @@ class Main extends eui.UILayer {
             this.stage.addChild(loadingView);
             if (!localStorage.getItem("isNewUser")) {
                 await RES.loadGroup("preload", 0, loadingView);//加载默认preload组资源,并执行loadingView
-                await RES.loadGroup("guide")
-                const guideView = new guideUI();//创建loadingUI实例
-                this.stage.addChild(guideView);
+                RES.loadGroup("guide")
+                // const guideView = new guideUI();//创建loadingUI实例
+                // this.stage.addChild(guideView);
             } else {
                 await RES.loadGroup("preload", 0, loadingView);//加载默认preload组资源,并执行loadingView
                 RES.loadGroup("guide");

@@ -48,13 +48,13 @@
 					<e:Image x="65" y="101" source="propnumbg_png"/>
 					<e:Label id="insect_num" text="1" x="72" y="110" width="61" height="22" size="22" textAlign="center" anchorOffsetX="0" anchorOffsetY="0"/>
 				</e:Group>
-				<!--<e:Group id="duckfood_btn" width="139" height="170" x="820" y="12" anchorOffsetY="0" anchorOffsetX="0" scaleX="1" scaleY="1">
+				<e:Group id="duckfood_btn" width="139" height="170" x="820" y="12" anchorOffsetY="0" anchorOffsetX="0" scaleX="1" scaleY="1">
 					<e:Image source="rewarddi_png" x="-1" y="-1"/>
-					<e:Image id="" y="17" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="0" source="usedinsect_png"/>
-					<e:Label text="虫" y="142" anchorOffsetX="0" size="24" textColor="0xc1885b" verticalAlign="middle" textAlign="center" fontFamily="SimHei" horizontalCenter="0"/>
+					<e:Image id="" y="17" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="0" source="duckfood_png"/>
+					<e:Label text="鸭食" y="142" anchorOffsetX="0" size="24" textColor="0xc1885b" verticalAlign="middle" textAlign="center" fontFamily="SimHei" horizontalCenter="0"/>
 					<e:Image x="65" y="101" source="propnumbg_png"/>
-					<e:Label id="" text="1" x="72" y="110" width="61" height="22" size="22" textAlign="center" anchorOffsetX="0" anchorOffsetY="0"/>
-				</e:Group>-->
+					<e:Label id="duckfood_num" text="1" x="72" y="110" width="61" height="22" size="22" textAlign="center" anchorOffsetX="0" anchorOffsetY="0"/>
+				</e:Group>
 			</e:Group>
 		</e:Scroller>
 

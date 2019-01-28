@@ -79,11 +79,11 @@ class GameWebSocket extends egret.DisplayObjectContainer {
                         break;
                     case "makeTrouble": {
                         info = "来捣乱了！"
-                        if(SceneManager.instance.landId == 1){
-                            NewHelp.getTreeProp(Datamanager.getOwnguoyuandata());           //果园数据
+                        if (SceneManager.instance.landId == 1) {
+                            SceneManager.sceneManager.newmainScene.getOwnTree();           //果园数据
                         }
-                        else if(SceneManager.instance.landId == 2){                         //菜园数据
-                            NewHelp.getTreeProp(Datamanager.getOwncaiyuandata());
+                        else if (SceneManager.instance.landId == 2) {                         //菜园数据
+                            SceneManager.sceneManager.newmain2Scene.getOwnTree();
                         }
                     }
                         break;
@@ -93,17 +93,22 @@ class GameWebSocket extends egret.DisplayObjectContainer {
                         break;
                     case "help": {
                         info = "来农场帮忙了哦！"
-                        if(SceneManager.instance.landId == 1){
-                            NewHelp.getTreeProp(Datamanager.getOwnguoyuandata());           //果园数据
+                        if (SceneManager.instance.landId == 1) {
+                            SceneManager.sceneManager.newmainScene.getOwnTree();           //果园数据
                         }
-                        else if(SceneManager.instance.landId == 2){                         //菜园数据
-                            NewHelp.getTreeProp(Datamanager.getOwncaiyuandata());
+                        else if (SceneManager.instance.landId == 2) {                         //菜园数据
+                            SceneManager.sceneManager.newmain2Scene.getOwnTree();
                         }
                     }
                         break;
                     case "water": {
                         info = "来农场帮浇水了哦！"
-                        SceneManager.sceneManager.newmainScene.getOwnTree();
+                        if (SceneManager.instance.landId == 1) {
+                            SceneManager.sceneManager.newmainScene.getOwnTree();           //果园数据
+                        }
+                        else if (SceneManager.instance.landId == 2) {                         //菜园数据
+                            SceneManager.sceneManager.newmain2Scene.getOwnTree();
+                        }
                     }
                         break;
                     case "thiefWater": {
@@ -113,7 +118,12 @@ class GameWebSocket extends egret.DisplayObjectContainer {
                         break;
                     case "flushTake": {
                         info = "帮你摘果了哦！"
-                        SceneManager.sceneManager.newmainScene.getOwnTree();
+                        if (SceneManager.instance.landId == 1) {
+                            SceneManager.sceneManager.newmainScene.getOwnTree();           //果园数据
+                        }
+                        else if (SceneManager.instance.landId == 2) {                         //菜园数据
+                            SceneManager.sceneManager.newmain2Scene.getOwnTree();
+                        }
                     }
                         break;
                     case "unEnoughBasket": {
@@ -140,17 +150,33 @@ class GameWebSocket extends egret.DisplayObjectContainer {
                     SceneManager.instance.jumpMark.dispatchEvent(evt);
                 }
                 if (SceneManager.instance.isDistribution) {
-                    let params = {
-                        treeUserId: Help.getOwnData().id,
-                        treeId: Help.getOwnData().treeId
-                    };
+                    let params
+                    if (SceneManager.instance.landId == 1) {                      //果园
+                        params = {
+                            treeUserId: Datamanager.getOwnguoyuandata().id,
+                            treeId: Datamanager.getOwnguoyuandata().treeId
+                        };
+                    }
+                    else if (SceneManager.instance.landId == 2) {               //菜园
+                        params = {
+                            treeUserId: Datamanager.getOwncaiyuandata().id,
+                            treeId: Datamanager.getOwncaiyuandata().treeId
+                        };
+                    }
                     let _str = WeixinUtil.prototype.urlEncode(params, null, null, null);
                     window.location.href = Config.webHome + "/view/game-exchange.html?" + _str;
                 }
-                if(SceneManager.instance.isPresent){
+                if (SceneManager.instance.isPresent) {
                     SceneManager.instance.isPresent = false;
                     let orderId = Sharepresent.prototype.orderId;
-                    location.href = Config.webHome +"confirm.html?orderid=" + orderId;
+                    location.href = Config.webHome + "confirm.html?orderid=" + orderId;
+                }
+                if (SceneManager.instance.isduckDistribution) {
+                    let params = {
+                        duckUserId: Datamanager.getOwnDuckdata().duckId,
+                    };
+                    let _str = WeixinUtil.prototype.urlEncode(params, null, null, null);
+                    window.location.href = Config.webHome + "/view/game-logistics.html" + _str;
                 }
             }
         }

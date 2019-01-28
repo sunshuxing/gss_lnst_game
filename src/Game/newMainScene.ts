@@ -24,6 +24,8 @@ class newMainScene extends eui.Component implements eui.UIComponent {
     private tocaiyuan: eui.Image;              //去菜园按钮
     public present1: eui.Image;			//礼包点击区域
     public present2: eui.Image;			//
+    private jishi_gro: eui.Group;
+    private jishi_text: eui.Label;
 
     protected childrenCreated(): void {
         super.childrenCreated();
@@ -51,15 +53,15 @@ class newMainScene extends eui.Component implements eui.UIComponent {
             SceneManager.sceneManager.newmain2Scene.getOwnTree();
         }
         else if (SceneManager.sceneManager.StageItems.currentState == "friendtree") {         //好友农场
-            if (Datamanager.getnowfrienddata().trees[SceneManager.instance.landId - 1]) {
-                let friendtreedataid = Datamanager.getnowfrienddata().trees[SceneManager.instance.landId - 1].id;
-                NewHelp.getTreeInfoByid(friendtreedataid);
+            let nowtreeid = Datamanager.getfriendtreeUseridByUser(Datamanager.getnowfrienddata().friendUser)
+            if (nowtreeid) {
+                NewHelp.getTreeInfoByid(nowtreeid);
             }
             else {
                 SceneManager.sceneManager.newmain2Scene.updateBytreedata(null);
-                NewHelp.addmask();
-                let invite = new Invitefriend();
-                SceneManager.sceneManager._stage.addChild(invite);
+                // NewHelp.addmask();
+                // let invite = new Invitefriend();
+                // SceneManager.sceneManager._stage.addChild(invite);
             }
         }
         Help.passAnm();
@@ -123,6 +125,33 @@ class newMainScene extends eui.Component implements eui.UIComponent {
         NewHelp.showpickgro(treedata);                          //是否显示摘果按钮
         this.datainit(treedata);                                //数据初始化显示
         if (treedata) {
+
+            if (treedata.fertilizerRecord) {
+                let starttime = treedata.fertilizerRecord.createDate;
+                let usedtime = treedata.fertilizerRecord.timeLimit;
+                let endtime = Number(starttime) + Number(usedtime * 60 * 1000)
+                let timer = setInterval(() => {
+                    let text = SceneManager.instance.getTaskScene().dateDif(endtime, timer)
+                    text = text.slice(3);
+                    this.jishi_text.text = text;
+                    if (SceneManager.sceneManager.StageItems.currentState == "havetree") {
+                        if (!this.jishi_gro.visible) {
+                            this.jishi_gro.visible = true;
+                        }
+                        if (!text) {
+                            this.jishi_gro.visible = false;
+                        }
+                    }
+                    else {
+                        this.jishi_gro.visible = false;
+                    }
+                }, 1000);
+            }
+            else {
+                this.jishi_gro.visible = false;
+            }
+
+
             if (Number(treedata.friendCanObtain) > 0) {                                             //判断是否显示邀请帮摘果按钮
                 SceneManager.sceneManager.StageItems.share_friend.visible = true;
             }
@@ -145,10 +174,10 @@ class newMainScene extends eui.Component implements eui.UIComponent {
         Datamanager.saveNowtreedata(data);                                              //保存当前果树数据
         NewHelp.getfriendlike(data);                                                    //查询好友点赞数
         NewHelp.checkSteal(data);                                                       //检查是否能偷水
-        this.datainit(data);                                                         //数据初始化显示
-        NewHelp.checkHelpTakeFruit(data);                                            //检查是否能帮摘果
         this.progress.slideDuration = 0;
         this.progress.value = 0;
+        this.datainit(data);                                                         //数据初始化显示
+        NewHelp.checkHelpTakeFruit(data);                                            //检查是否能帮摘果
         //果树更新显示
         SceneManager.treepromptgro.removeChildren();
         SceneManager.treetimer.reset();
@@ -213,18 +242,24 @@ class newMainScene extends eui.Component implements eui.UIComponent {
         if (data) {
             if (data.isReceive == "true") {
                 this.tree.texture = RES.getRes("notree_png");
-                this.tree.width = this.tree.width*0.8;
-                this.tree.height = this.tree.height*0.8;
+                this.tree.width = this.tree.width * 0.8;
+                this.tree.height = this.tree.height * 0.8;
                 this.tree.anchorOffsetX = this.tree.width * 0.5;
                 this.tree.anchorOffsetY = this.tree.height;
                 SceneManager.sceneManager.StageItems.chanzi_btn.visible = true;
+                egret.Tween.get(SceneManager.sceneManager.StageItems.chanzi_btn)
+                    .to({ y: SceneManager.sceneManager.StageItems.chanzi_btn.y - 20 }, 500)
+                    .to({ y: SceneManager.sceneManager.StageItems.chanzi_btn.y }, 500)
+                    .to({ y: SceneManager.sceneManager.StageItems.chanzi_btn.y + 20 }, 500)
+                    .to({ y: SceneManager.sceneManager.StageItems.chanzi_btn.y }, 500)
             }
             else {
                 this.treeupdate(data);                                                  //果树更新显示
                 SceneManager.sceneManager.StageItems.chanzi_btn.visible = false;
             }
         }
-        else{
+        else {
+            this.treeupdate(data);
             SceneManager.sceneManager.StageItems.chanzi_btn.visible = false;
         }
         NewHelp.progressupdate(data, this.progress);                            //成长值进度条更新显示
@@ -272,7 +307,6 @@ class newMainScene extends eui.Component implements eui.UIComponent {
      * isself    是否是自己果树
      */
     private OwntreeStage                            //果树阶段
-    private Oldneedtake                             //之前是否需要摘果
     private treeupdate(data) {
         if (!data) {
             this.tree.visible = false;
@@ -288,29 +322,8 @@ class newMainScene extends eui.Component implements eui.UIComponent {
                 isself = false;
             }
             console.log(data, "更新果树的数据")
-            if (data.needTake == "true") {
-                HttpRequest.imageloader(Config.picurl + data.stageObj.harvestImage, this.tree, null, () => {
-                    if (isself && (Number(data.stage) >= 5) && ((this.OwntreeStage && this.OwntreeStage != data.stage) || (this.Oldneedtake && this.Oldneedtake != data.needTake))) {
-                        if (!SceneManager.instance.isMiniprogram) {                 //当前环境不是小程序
-                            let share = new SharePic(() => {
-                                Help.Screencapture(this.gro_fastpic, data);
-                            }, data)
-                            SceneManager.sceneManager._stage.addChild(share)
-                        }
-                        else {                                                      //当前环境是小程序
-                            let share = new SharePic(null, data)
-                            SceneManager.sceneManager._stage.addChild(share)
-                        }
-                    }
-                    if (isself) {
-                        this.OwntreeStage = data.stage;
-                        this.Oldneedtake = data.needTake;
-                    }
-                }, this);
-            }
-            else {
                 HttpRequest.imageloader(Config.picurl + data.stageObj.stageImage, this.tree, null, () => {
-                    if (isself && (Number(data.stage) >= 5) && ((this.OwntreeStage && this.OwntreeStage != data.stage) || (this.Oldneedtake && this.Oldneedtake != data.needTake))) {
+                    if (isself && (Number(data.stage) >= 5) && ((this.OwntreeStage && this.OwntreeStage != data.stage))) {
                         if (!SceneManager.instance.isMiniprogram) {
                             console.log("1")
                             let share = new SharePic(() => {
@@ -325,10 +338,8 @@ class newMainScene extends eui.Component implements eui.UIComponent {
                     }
                     if (isself) {
                         this.OwntreeStage = data.stage;
-                        this.Oldneedtake = data.needTake;
                     }
                 }, this);
-            }
             //果树图片显示更新
             Help.getTreeHWBystage(data.stage, this.tree);
         }
@@ -428,48 +439,51 @@ class newMainScene extends eui.Component implements eui.UIComponent {
         this.present1.addEventListener(egret.TouchEvent.TOUCH_TAP, this.presenttouch, this);
         this.present2.addEventListener(egret.TouchEvent.TOUCH_TAP, this.presenttouch, this);
         this.present1.touchEnabled = false;
-		this.present2.touchEnabled = false;
+        this.present2.touchEnabled = false;
     }
 
     private Req_receiveSysReward(data) {
         console.log("领取礼包数据:", data);
         let info: string;				//文字
-        let imgname: string;				//图片名称
+        let imgname: string;		    //图片名称
         let orderId: any;				//礼包id
         let info2: string;				//文字2
-        if (data.data.status == "0") {
-            if (data.data.giftType == "0") {
-                console.log("领取礼包")
-                orderId = data.data.orderId;
-                info = "恭喜您获得礼包！"
-                info2 = data.data.fruitInfo + "一件";
+        if (data.data) {
+            let rewaredata = data.data[0];
+            if (rewaredata.status == "0") {
+                if (rewaredata.giftType == "0") {
+                    console.log("领取礼包")
+                    orderId = rewaredata.orderId;
+                    info = "恭喜您获得礼包！"
+                    info2 = rewaredata.fruitInfo + "一件";
+                }
+                else {
+                    info = "恭喜您获得礼包！"
+                    info2 = "恭喜您获得" + rewaredata.reward.propName + "x" + rewaredata.reward.propNum;
+                }
             }
-            else {
-                info = "恭喜您获得礼包！"
-                info2 = "恭喜您获得" + data.data.reward.propName + "x" + data.data.reward.propNum;
+            else if (rewaredata.status == "1") {
+                info = "很遗憾,您没中奖哦~";
+                imgname = "presentimgsor_png"
             }
-        }
-        else if (data.data.status == "1") {
-            info = "很遗憾,您没中奖哦~";
-            imgname = "presentimgsor_png"
-        }
-        else if (data.data.status == "2") {
-            info = "您已经领过了哦~";
-            imgname = "presentimgobtained_png"
-            this.stoppresentTwn();
-            localStorage.setItem("present", "false")
-        }
-        else if (data.data.status == "-1") {
-            info = "已抢光~";
-            imgname = "presentimgnomore_png"
-            this.stoppresentTwn();
-            localStorage.setItem("present", "false")
-        }
-        else if (data.data.status == "-2") {
-            info = "领礼包次数已达上限~";
-            imgname = "presentimgfull_png"
-            this.stoppresentTwn();
-            localStorage.setItem("present", "false")
+            else if (rewaredata.status == "2") {
+                info = "您已经领过了哦~";
+                imgname = "presentimgobtained_png"
+                this.stoppresentTwn();
+                localStorage.setItem("present", "false")
+            }
+            else if (rewaredata.status == "-1") {
+                info = "已抢光~";
+                imgname = "presentimgnomore_png"
+                this.stoppresentTwn();
+                localStorage.setItem("present", "false")
+            }
+            else if (rewaredata.status == "-2") {
+                info = "领礼包次数已达上限~";
+                imgname = "presentimgfull_png"
+                this.stoppresentTwn();
+                localStorage.setItem("present", "false")
+            }
         }
         let share = new Sharepresent(info, imgname, orderId, info2);
         SceneManager.sceneManager._stage.addChild(share);

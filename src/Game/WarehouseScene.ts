@@ -33,7 +33,16 @@ class WarehouseScene extends eui.Component implements eui.UIComponent {
             this.propdisc.text = "";
         }
         if (this.warehouselist.selectedItem.propType == 50) {       //种子
-
+            HttpRequest.imageloader(Config.picurl + this.warehouselist.selectedItem.propIcon, this.propimg);
+        }
+        else if (this.warehouselist.selectedItem.propType == 51) {
+            this.propimg.texture = RES.getRes("duck_png")
+        }
+        else if (this.warehouselist.selectedItem.propType == 7) {
+            this.propimg.texture = RES.getRes("duckegg_png")
+        }
+        else if (this.warehouselist.selectedItem.propType == 6) {
+            this.propimg.texture = RES.getRes("duckfood_png")
         }
         else {
             if (this.warehouselist.selectedItem.propId == 3) {          //果篮
@@ -71,8 +80,7 @@ class WarehouseScene extends eui.Component implements eui.UIComponent {
         for (let i = 0; i < Datamanager.getPropdata().length; i++) {
             if (Datamanager.getPropdata()[i].propType != 4 &&                   //点赞
                 Datamanager.getPropdata()[i].propId != 1 &&                     //水滴
-                Datamanager.getPropdata()[i].propId != 2 &&                     //爱心值
-                Datamanager.getPropdata()[i].propType != 51) {                  //鸭子
+                Datamanager.getPropdata()[i].propId != 2) {                     //爱心值
                 propdata.push(Datamanager.getPropdata()[i])
             }
         }
@@ -90,7 +98,16 @@ class WarehouseScene extends eui.Component implements eui.UIComponent {
             this.propdisc.text = "";
         }
         if (this.warehouselist.selectedItem.propType == 50) {       //种子
-
+            HttpRequest.imageloader(Config.picurl + this.warehouselist.selectedItem.propIcon, this.propimg);
+        }
+        else if (this.warehouselist.selectedItem.propType == 51) {
+            this.propimg.texture = RES.getRes("duck_png")
+        }
+        else if (this.warehouselist.selectedItem.propType == 7) {
+            this.propimg.texture = RES.getRes("duckegg_png")
+        }
+        else if (this.warehouselist.selectedItem.propType == 6) {
+            this.propimg.texture = RES.getRes("duckfood_png")
         }
         else {
             if (this.warehouselist.selectedItem.propId == 3) {          //果篮
@@ -150,7 +167,16 @@ class WarehouseList_item extends eui.ItemRenderer {
     // 当数据改变时，更新视图
     protected dataChanged() {
         if (this.data.propType == 50) {       //种子
-
+            HttpRequest.imageloader(Config.picurl + this.data.propIcon, this.propimg);
+        }
+        else if (this.data.propType == 51) {
+            this.propimg.texture = RES.getRes("duck_png")
+        }
+        else if (this.data.propType == 7) {
+            this.propimg.texture = RES.getRes("duckegg_png")
+        }
+        else if (this.data.propType == 6) {
+            this.propimg.texture = RES.getRes("duckfood_png")
         }
         else {
             if (this.data.propId == 3) {          //果篮

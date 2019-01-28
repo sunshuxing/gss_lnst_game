@@ -16,6 +16,8 @@ class HuafeiScene extends eui.Component implements eui.UIComponent{
     private insect_btn:eui.Group
     public grass_num:eui.Label;
     public insect_num:eui.Label;
+    private duckfood_btn:eui.Image;
+    public duckfood_num:eui.Label;
 
     protected childrenCreated():void
 	{
@@ -32,6 +34,22 @@ class HuafeiScene extends eui.Component implements eui.UIComponent{
         this.shuirong_btn.addEventListener(egret.TouchEvent.TOUCH_TAP,this.useshuirong,this)
         this.grass_btn.addEventListener(egret.TouchEvent.TOUCH_TAP,this.usegrass,this)
         this.insect_btn.addEventListener(egret.TouchEvent.TOUCH_TAP,this.useinsect,this)
+        this.duckfood_btn.addEventListener(egret.TouchEvent.TOUCH_TAP,this.useduckfood,this)
+    }
+
+
+    private useduckfood(){
+        if(Number(this.duckfood_num.text) >= 1){
+            let treedata = Datamanager.getNowtreedata()
+            NewHelp.useProp(8,treedata);
+        }
+        else{
+            let content = "您的鸭食用完了哦~"
+			let btn = "确定"
+			let ti = "(可以通过任务获得哦！)"
+			SceneManager.addPrompt(content, btn, ti);
+        }
+            this.colseScene()
     }
 
     private usegrass(){

@@ -8,8 +8,8 @@
 		</e:Group>
 		<e:Image x="87.66" source="duihuanarr_png" y="32"/>
 		<e:Group id="prop_gro" width="203" height="75" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1" x="175" y="19">
-			<e:Image id="prop" source="smallshui_png" x="0" y="10"/>
-			<e:Label id="propname" text="水滴" size="22" textColor="0x7c6b5b" fontFamily="Tahoma" y="27" x="52"/>
+			<e:Image id="prop" source="smallshui_png" x="0" y="10" width="55" height="55"/>
+			<e:Label id="propname" text="水滴" size="22" textColor="0x7c6b5b" fontFamily="Tahoma" y="27" x="61"/>
 		</e:Group>
 		<e:Image id="duihuanbtn" source="duihuancan_png" y="23" right="11"/>
 	</e:Group>

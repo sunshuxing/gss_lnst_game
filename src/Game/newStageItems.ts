@@ -26,6 +26,7 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 		this.getTopMsg();						//顶部消息
 		// this.getSystemMsg();					//系统消息
 		this.getFriends();						//好友数据
+		this.friend_scr.horizontalScrollBar = null;
 	}
 
 	private onComplete(): void {
@@ -482,7 +483,7 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 		if (this.currentState != "notree") {			//判断条件要改		当自己一棵树都没有时不进入他人果园
 			let treeid = Datamanager.getfriendtreeUseridByUser(userid);
 			if (treeid) {
-				// this.getTreeInfoByid(treeid);						//查询好友果树
+				NewHelp.getTreeInfoByid(treeid);						//查询好友果树
 			}
 		}
 	}
@@ -500,18 +501,29 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 				SceneManager.addJump("sharetexttree_png");
 				return;
 			}
+			let nowuser = this.friend_list.selectedItem.friendUser;
 			let treeid = NewHelp.getTreeIdByLandId(this.friend_list.selectedItem, SceneManager.instance.landId);				//获取果树id
-			if (treeid) {														//当前土地选中好友有果树数据
-				if (treeid != Datamanager.getNowtreedata().id) {				//选中好友果树和当前果树不是同一个
-					NewHelp.getTreeInfoByid(treeid);
+			if (nowuser) {														//当前土地选中好友有果树数据
+				if (nowuser != Datamanager.getnowfrienddata().user) {				//选中好友果树和当前果树不是同一个
+					if (treeid) {
+						NewHelp.getTreeInfoByid(treeid);
+					}
+					else{
+						if(SceneManager.sceneManager.landId == 1){
+							SceneManager.sceneManager.newmainScene.updateBytreedata(null);
+						}
+						else if(SceneManager.sceneManager.landId == 2){
+							SceneManager.sceneManager.newmain2Scene.updateBytreedata(null);
+						}
+					}
 				}
 				Help.passAnm();
 			}
 			else {																//当前好友当前土地没有果树
 				this.friend_list.selectedIndex = this.nowseleceindex;
 				NewHelp.addmask();
-				let invite = new Invitefriend();
-				SceneManager.sceneManager._stage.addChild(invite);
+				// let invite = new Invitefriend();
+				// SceneManager.sceneManager._stage.addChild(invite);
 			}
 		}
 		this.nowseleceindex = this.friend_list.selectedIndex;
@@ -564,11 +576,16 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 		this.btn_nianhuo.addEventListener(egret.TouchEvent.TOUCH_TAP, this.tonianhuo, this);					//年货按钮点击监听
 		this.gro_lq.addEventListener(egret.TouchEvent.TOUCH_TAP, () => { NewHelp.lqfast() }, this);				//水壶冷却点击监听
 		this.friend_kettle.addEventListener(egret.TouchEvent.TOUCH_TAP, () => { NewHelp.friendWater() }, this)	//帮好友浇水点击监听
-		this.chanzi_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, () => { NewHelp.removeTree(Datamanager.getNowtreedata()) }, this)
+		this.chanzi_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.removetree, this)
 		this.nianhuoTwn();
 	}
 
-	private canreward: boolean = true;
+	public canreward: boolean = true;
+
+
+	private removetree() {
+		NewHelp.removeTree(Datamanager.getNowtreedata())
+	}
 
 	//去答题
 	private toproblem() {
@@ -576,7 +593,7 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 			let problemScene = new ProblemScene();
 			SceneManager.sceneManager._stage.addChild(problemScene)
 		}
-		else{
+		else {
 			let baikeScene = new BaikeScene();
 			SceneManager.sceneManager._stage.addChild(baikeScene)
 		}
@@ -590,9 +607,13 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 	}
 
 	private Req_checkAnswerReward(data) {
-		console.log(data,"检查答题")
-		this.canreward = true;
-		this.canreward = false;
+		console.log(data, "检查答题")
+		if (data.data == "true") {
+			this.canreward = true;
+		}
+		else {
+			this.canreward = false;
+		}
 		this.btn_encyclopedia.addEventListener(egret.TouchEvent.TOUCH_TAP, this.toproblem, this)					//进入答题
 	}
 
