@@ -22,7 +22,7 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
     private gro_tree: eui.Group                 //果树点击区域
     private toguoyuan: eui.Image;                //去果园按钮
     private btn_seed: eui.Button;               //领种子按钮
-    public getduck_btn:eui.Image;
+    public getduck_btn: eui.Image;
 
 
 
@@ -72,7 +72,8 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
      * 跳转水果详情
      */
     private jumpDetail() {
-        const fruit = this.goodsdata[this.m]
+        //修改详情跳转错误问题
+        const fruit = this.goodsdata[(this.m - 1) < 0 ? 0 : (this.m - 1)]
         if (fruit) {
             const fruitId = fruit.id
             if (SceneManager.instance.isMiniprogram) {
@@ -90,19 +91,19 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
      * 点击鸭子区域事件
      */
     public ducktouch() {
-        if(!Datamanager.getnowDuckdata()){                          //当前用户无鸭子
+        if (!Datamanager.getnowDuckdata()) {                          //当前用户无鸭子
 
             return
         }
-        else{                                                       //当前用户有鸭子
-            if(Datamanager.getnowDuckdata().user != SceneManager.instance.weixinUtil.login_user_id){        //当前所在的是好友菜园
+        else {                                                       //当前用户有鸭子
+            if (Datamanager.getnowDuckdata().user != SceneManager.instance.weixinUtil.login_user_id) {        //当前所在的是好友菜园
                 NewHelp.stealDuckEgg();
             }
-            else{                                                   //当前所在的是自己菜园
-                NewHelp.recevieDuckEgg();    
+            else {                                                   //当前所在的是自己菜园
+                NewHelp.recevieDuckEgg();
             }
         }
-        console.log(Datamanager.getnowDuckdata(),"当前鸭子数据")
+        console.log(Datamanager.getnowDuckdata(), "当前鸭子数据")
     }
 
 
@@ -474,8 +475,8 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
         if (data) {
             if (data.isReceive == "true") {
                 this.tree.texture = RES.getRes("notree_png");
-                this.tree.width = this.tree.width*0.8;
-                this.tree.height = this.tree.height*0.8;
+                this.tree.width = this.tree.width * 0.8;
+                this.tree.height = this.tree.height * 0.8;
                 this.tree.anchorOffsetX = this.tree.width * 0.5;
                 this.tree.anchorOffsetY = this.tree.height;
                 SceneManager.sceneManager.StageItems.chanzi_btn.visible = true;
@@ -485,7 +486,7 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
                 SceneManager.sceneManager.StageItems.chanzi_btn.visible = false;
             }
         }
-        else{
+        else {
             SceneManager.sceneManager.StageItems.chanzi_btn.visible = false;
         }
         NewHelp.progressupdate(data, this.progress);                            //成长值进度条更新显示
