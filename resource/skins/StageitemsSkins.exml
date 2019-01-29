@@ -26,7 +26,7 @@
             <e:Image x="2" y="0.5699999999999363" source="dynamic" anchorOffsetX="0" anchorOffsetY="0" scaleX="1"
                      scaleY="1" />
             <e:Rect id="dyn_red" width="20" height="20" x="61" y="-0.8299999999999272" ellipseWidth="20"
-                    ellipseHeight="20" fillColor="0xfc0f0f" scaleX="1" scaleY="1" visible="false" />
+                    ellipseHeight="20" fillColor="0xfc0f0f" scaleX="1" scaleY="1"  visible="false"/>
         </e:Group>
         <e:Group id="btn_signin" width="90" height="98" x="5" y="122">
             <e:Image x="2" y="3.089999999999918" source="signin" anchorOffsetX="0" anchorOffsetY="0" scaleX="1"

@@ -1648,7 +1648,7 @@ class NewHelp {
 				let image = new eui.Image();
 				image.texture = RES.getRes("bg-day_png");
 				image.height = SceneManager.sceneManager._stage.height;
-				let prompt = new PromptJump(peisonglabel);
+				let prompt = new PromptJump(peisonglabel,true);
 				SceneManager.sceneManager._stage.addChild(image);
 				SceneManager.sceneManager._stage.addChild(prompt);
 				return
@@ -1909,14 +1909,14 @@ class NewHelp {
 		else {
 			if (olddataID) {
 				if (olddataID == dataID) {
-					SceneManager.sceneManager.StageItems.visible = false;
+					SceneManager.sceneManager.StageItems.dyn_red.visible = false;
 				}
 				else {
-					SceneManager.sceneManager.StageItems.visible = true;
+					SceneManager.sceneManager.StageItems.dyn_red.visible = true;
 				}
 			}
 			else if (!olddataID) {
-				SceneManager.sceneManager.StageItems.visible = true;
+				SceneManager.sceneManager.StageItems.dyn_red.visible = true;
 			}
 		}
 		this.needDyn_red = false;

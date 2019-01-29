@@ -42,10 +42,10 @@ class PromptJump extends eui.Component implements eui.UIComponent {
                     let evt: MaskEvent = new MaskEvent(MaskEvent.SHARECLOSE);
                     SceneManager.instance.jumpMark.dispatchEvent(evt);
                     let params = {
-                        duckUserId: Datamanager.getOwnDuckdata().duckId,
+                        duckUserId: Datamanager.getOwnDuckdata().id,
                     };
                     let _str = WeixinUtil.prototype.urlEncode(params, null, null, null);
-                    window.location.href = Config.webHome + "/view/game-logistics.html" + _str;
+                    window.location.href = Config.webHome + "/view/game-logistics.html?" + _str;
                 }
                 SceneManager.instance.weixinUtil._openShare();
             }
