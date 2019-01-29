@@ -6,12 +6,12 @@
 	<e:Label id="friend_name" text="二毛..." y="91" anchorOffsetY="0" left="0" right="0" height="30.5" textAlign="center" verticalAlign="middle" fontFamily="Microsoft JhengHei" size="24"/>
 	<e:Image id="tree_icon" mask="{tree_mask}" width="30" height="30" x="68" y="58"/>
 	<e:Rect id="tree_mask" width="30" height="30" y="58" ellipseWidth="30" ellipseHeight="30" x="68"/>
-	<e:Group width="30" height="30" x="26.8" y="-12">
+	<e:Group width="30" height="30" x="53" y="58">
 		<e:Image id="tree_icon1" mask="{tree1_mask}" width="30" height="30" x="0" y="0" scaleX="1" scaleY="1" source=""/>
 		<e:Rect id="tree1_mask" width="30" height="30" x="0" y="0" ellipseWidth="30" ellipseHeight="30"/>
 	</e:Group>
-	<e:Group width="30" height="30" x="43.6" y="-12">
-		<e:Image id="treeicon2" mask="{tree2_mask}" width="30" height="30" x="0" y="0" scaleX="1" scaleY="1" source=""/>
+	<e:Group width="30" height="30" x="68" y="58">
+		<e:Image id="tree_icon2" mask="{tree2_mask}" width="30" height="30" x="0" y="0" scaleX="1" scaleY="1" source=""/>
 		<e:Rect id="tree2_mask" width="30" height="30" x="0" y="0" ellipseWidth="30" ellipseHeight="30"/>
 	</e:Group>
 </e:Skin>
