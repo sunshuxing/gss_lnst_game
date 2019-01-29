@@ -351,7 +351,7 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 	 */
 	private getUserInfo() {
 		this.getOwnavatar(SceneManager.instance.weixinUtil.login_user_id);					//用户头像
-		this.user_name.text = Help.getcharlength(SceneManager.instance.weixinUtil.user_name, 8);					//用户昵称
+		this.user_name.text = Help.getcharlength(SceneManager.instance.weixinUtil.user_name, 4);					//用户昵称
 	}
 
 	/**

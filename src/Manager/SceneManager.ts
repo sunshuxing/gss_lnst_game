@@ -123,8 +123,9 @@ class SceneManager {
             this.StageItems.getFriends();  //加好友成功需要刷新好友列表
         }
         else {
-            this.StageItems.getFriends(this.userid)
-            this.userid = null;
+            this.StageItems.getFriends();
+            // this.StageItems.getFriends(this.userid)
+            // this.userid = null;
         }
     }
 

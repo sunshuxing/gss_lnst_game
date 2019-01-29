@@ -269,8 +269,8 @@ class Help {
     public static passAnm() {
         let left = new eui.Image;
         let right = new eui.Image;
-        left.height = 1344;
-        right.height = 1344;
+        left.height = SceneManager.sceneManager._stage.height;
+        right.height = SceneManager.sceneManager._stage.height;
         left.x = 0;
         left.y = 0;
         right.skewY = 180;

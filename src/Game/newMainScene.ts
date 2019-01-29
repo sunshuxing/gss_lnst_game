@@ -125,7 +125,7 @@ class newMainScene extends eui.Component implements eui.UIComponent {
         NewHelp.showpickgro(treedata);                          //是否显示摘果按钮
         this.datainit(treedata);                                //数据初始化显示
         if (treedata) {
-
+            NewHelp.Dyn_loc_red(treedata.id);
             if (treedata.fertilizerRecord) {
                 let starttime = treedata.fertilizerRecord.createDate;
                 let usedtime = treedata.fertilizerRecord.timeLimit;
@@ -247,7 +247,7 @@ class newMainScene extends eui.Component implements eui.UIComponent {
                 this.tree.anchorOffsetX = this.tree.width * 0.5;
                 this.tree.anchorOffsetY = this.tree.height;
                 SceneManager.sceneManager.StageItems.chanzi_btn.visible = true;
-                egret.Tween.get(SceneManager.sceneManager.StageItems.chanzi_btn)
+                egret.Tween.get(SceneManager.sceneManager.StageItems.chanzi_btn,{loop:true})
                     .to({ y: SceneManager.sceneManager.StageItems.chanzi_btn.y - 20 }, 500)
                     .to({ y: SceneManager.sceneManager.StageItems.chanzi_btn.y }, 500)
                     .to({ y: SceneManager.sceneManager.StageItems.chanzi_btn.y + 20 }, 500)
@@ -307,6 +307,7 @@ class newMainScene extends eui.Component implements eui.UIComponent {
      * isself    是否是自己果树
      */
     private OwntreeStage                            //果树阶段
+    private Oldneedtake
     private treeupdate(data) {
         if (!data) {
             this.tree.visible = false;
@@ -322,10 +323,11 @@ class newMainScene extends eui.Component implements eui.UIComponent {
                 isself = false;
             }
             console.log(data, "更新果树的数据")
-                HttpRequest.imageloader(Config.picurl + data.stageObj.stageImage, this.tree, null, () => {
-                    if (isself && (Number(data.stage) >= 5) && ((this.OwntreeStage && this.OwntreeStage != data.stage))) {
+            if (data.needTake == "true") {
+                HttpRequest.imageloader(Config.picurl + data.stageObj.harvestImage, this.tree, null, () => {
+                    if (isself && (Number(data.stage) >= 5) && ((this.OwntreeStage && this.OwntreeStage != data.stage) || (this.Oldneedtake && this.Oldneedtake != data.needTake))) {
                         if (!SceneManager.instance.isMiniprogram) {
-                            console.log("1")
+                            console.log("2")
                             let share = new SharePic(() => {
                                 Help.Screencapture(this.gro_fastpic, data);
                             }, data)
@@ -338,8 +340,32 @@ class newMainScene extends eui.Component implements eui.UIComponent {
                     }
                     if (isself) {
                         this.OwntreeStage = data.stage;
+                        this.Oldneedtake = data.needTake;
                     }
                 }, this);
+            } else {
+                HttpRequest.imageloader(Config.picurl + data.stageObj.stageImage, this.tree, null, () => {
+                    if (isself && (Number(data.stage) >= 5) && ((this.OwntreeStage && this.OwntreeStage != data.stage) || (this.Oldneedtake && this.Oldneedtake != data.needTake))) {
+                        if (Number(data.stage >= 6) && (this.OwntreeStage && this.OwntreeStage == data.stage)) {
+                            console.log("阶段截图2")
+                            if (!SceneManager.instance.isMiniprogram) {
+                                let share = new SharePic(() => {
+                                    Help.Screencapture(this.gro_fastpic, data);
+                                }, data)
+                                SceneManager.sceneManager._stage.addChild(share)
+                            }
+                            else {
+                                let share = new SharePic(null, data)
+                                SceneManager.sceneManager._stage.addChild(share)
+                            }
+                        }
+                    }
+                    if (isself) {
+                        this.OwntreeStage = data.stage;
+                        this.Oldneedtake = data.needTake;
+                    }
+                }, this);
+            }
             //果树图片显示更新
             Help.getTreeHWBystage(data.stage, this.tree);
         }

@@ -26,10 +26,8 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
     private gamestore: eui.Image;                //商店
     private jishi_gro: eui.Group;               //化肥计时
     private jishi_text: eui.Label;               //化肥计时文字
-
-
-
-
+    public duckjishi: eui.Group;
+    public duck_take: eui.Image;
 
 
     private info_img1: eui.Image;
@@ -45,7 +43,7 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
     private goodsdata;
     private gro_duck: eui.Group;                 //鸭子区域
     public duck_img: eui.Image;                 //鸭子图片
-    private duckegg_img: eui.Image;             //鸭蛋图片
+    public duckegg_img: eui.Image;             //鸭蛋图片
     public left_receive_info: eui.Label;        //领取鸭蛋倒计时
     private caiyuan_name: eui.Label;             //菜园名称
     private info_gro: eui.Group;                 //广告牌
@@ -78,7 +76,6 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
         this.goods_bg2.scrollRect = new egret.Rectangle(0, 0, 66, 66);
         this.getSystemInfo();
         this.getTopGoods();
-        NewHelp.duck_hungryTwn()
     }
 
 
@@ -124,7 +121,7 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
                     }
                 }
             }
-            else {                                                                                          //当前所在的是自己菜园
+            else {                                                                      //当前所在的是自己菜园
                 if (Datamanager.getOwnDuckdata().needTake) {
                     NewHelp.recevieDuckEgg();                                                   //收鸭蛋
                 }
@@ -151,6 +148,7 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
             egret.Tween.get(this.duck_img, { loop: true })
                 .to({ scaleX: 1.05, scaleY: 1.05 }, 3000)
                 .to({ scaleX: 1, scaleY: 1 }, 3000)
+            NewHelp.duck_hungryTwn();
         }
         else {
             this.duck_img.visible = false;
@@ -424,6 +422,7 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
         this.datainit(treedata);                                                    //数据初始化显示
         SceneManager.sceneManager.getTaskScene().taskDataInit(this.checktask);
         if (treedata) {
+            NewHelp.Dyn_loc_red(treedata.id);
             if (treedata.fertilizerRecord) {
                 let starttime = treedata.fertilizerRecord.createDate;
                 let usedtime = treedata.fertilizerRecord.timeLimit;
@@ -554,7 +553,7 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
                 this.tree.anchorOffsetX = this.tree.width * 0.5;
                 this.tree.anchorOffsetY = this.tree.height;
                 SceneManager.sceneManager.StageItems.chanzi_btn.visible = true;
-                egret.Tween.get(SceneManager.sceneManager.StageItems.chanzi_btn)
+                egret.Tween.get(SceneManager.sceneManager.StageItems.chanzi_btn, { loop: true })
                     .to({ y: SceneManager.sceneManager.StageItems.chanzi_btn.y - 20 }, 500)
                     .to({ y: SceneManager.sceneManager.StageItems.chanzi_btn.y }, 500)
                     .to({ y: SceneManager.sceneManager.StageItems.chanzi_btn.y + 20 }, 500)
@@ -614,6 +613,7 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
      * isself    是否是自己果树
      */
     private OwntreeStage                            //果树阶段
+    private Oldneedtake
     private treeupdate(data) {
         if (!data) {
             this.tree.visible = false;
@@ -629,24 +629,49 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
                 isself = false;
             }
             console.log(data, "更新果树的数据")
-            HttpRequest.imageloader(Config.picurl + data.stageObj.stageImage, this.tree, null, () => {
-                if (isself && (Number(data.stage) >= 5) && ((this.OwntreeStage && this.OwntreeStage != data.stage))) {
-                    if (!SceneManager.instance.isMiniprogram) {
-                        let share = new SharePic(() => {
-                            Help.Screencapture(this.gro_fastpic, data);
-                        }, data)
-                        SceneManager.sceneManager._stage.addChild(share)
+            if (data.needTake == "true") {
+                HttpRequest.imageloader(Config.picurl + data.stageObj.harvestImage, this.tree, null, () => {
+                    if (isself && (Number(data.stage) >= 5) && ((this.OwntreeStage && this.OwntreeStage != data.stage) || (this.Oldneedtake && this.Oldneedtake != data.needTake))) {
+                        if (!SceneManager.instance.isMiniprogram) {
+                            console.log("2")
+                            let share = new SharePic(() => {
+                                Help.Screencapture(this.gro_fastpic, data);
+                            }, data)
+                            SceneManager.sceneManager._stage.addChild(share)
+                        }
+                        else {
+                            let share = new SharePic(null, data)
+                            SceneManager.sceneManager._stage.addChild(share)
+                        }
                     }
-                    else {
-                        let share = new SharePic(null, data)
-                        SceneManager.sceneManager._stage.addChild(share)
+                    if (isself) {
+                        this.OwntreeStage = data.stage;
+                        this.Oldneedtake = data.needTake;
                     }
-                }
-                if (isself) {
-                    this.OwntreeStage = data.stage;
-                }
-            }, this);
-            // }
+                }, this);
+            } else {
+                HttpRequest.imageloader(Config.picurl + data.stageObj.stageImage, this.tree, null, () => {
+                    if (isself && (Number(data.stage) >= 5) && ((this.OwntreeStage && this.OwntreeStage != data.stage) || (this.Oldneedtake && this.Oldneedtake != data.needTake))) {
+                        if (Number(data.stage >= 6) && (this.OwntreeStage && this.OwntreeStage == data.stage)) {
+                            console.log("阶段截图2")
+                            if (!SceneManager.instance.isMiniprogram) {
+                                let share = new SharePic(() => {
+                                    Help.Screencapture(this.gro_fastpic, data);
+                                }, data)
+                                SceneManager.sceneManager._stage.addChild(share)
+                            }
+                            else {
+                                let share = new SharePic(null, data)
+                                SceneManager.sceneManager._stage.addChild(share)
+                            }
+                        }
+                    }
+                    if (isself) {
+                        this.OwntreeStage = data.stage;
+                        this.Oldneedtake = data.needTake;
+                    }
+                }, this);
+            }
             //果树图片显示更新
             Help.getTreeHWBystage(data.stage, this.tree);
         }

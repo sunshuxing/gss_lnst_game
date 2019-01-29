@@ -39,9 +39,13 @@ class HuafeiScene extends eui.Component implements eui.UIComponent{
 
 
     private useduckfood(){
+        if(SceneManager.sceneManager.landId == 1){
+            SceneManager.addNotice("只能在菜园使用哦！")
+            return
+        }
         if(Number(this.duckfood_num.text) >= 1){
             let treedata = Datamanager.getNowtreedata()
-            NewHelp.useProp(8,treedata);
+            NewHelp.useProp(8,null);
         }
         else{
             let content = "您的鸭食用完了哦~"
@@ -53,9 +57,13 @@ class HuafeiScene extends eui.Component implements eui.UIComponent{
     }
 
     private usegrass(){
+        if(SceneManager.sceneManager.landId == 1){
+            SceneManager.addNotice("只能在菜园使用哦！")
+            return
+        }
         if(Number(this.grass_num.text) >= 1){
             let treedata = Datamanager.getNowtreedata()
-            NewHelp.useProp(10,treedata);
+            NewHelp.useProp(10,null);
         }
         else{
             let content = "您的草用完了哦~"
@@ -67,9 +75,13 @@ class HuafeiScene extends eui.Component implements eui.UIComponent{
     }
 
     private useinsect(){
+        if(SceneManager.sceneManager.landId == 1){
+            SceneManager.addNotice("只能在菜园使用哦！")
+            return
+        }
         if(Number(this.insect_num.text) >= 1){
             let treedata = Datamanager.getNowtreedata()
-            NewHelp.useProp(9,treedata);
+            NewHelp.useProp(9,null);
         }
         else{
             let content = "您的虫用完了哦~"

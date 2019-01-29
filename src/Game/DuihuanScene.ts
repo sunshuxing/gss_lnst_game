@@ -85,7 +85,9 @@ class DuihuanScene extends eui.Component implements eui.UIComponent {
         let listdata = data.data.list
         this.euiArr.removeAll();
         for (let i = 0; i < listdata.length; i++) {
-            this.euiArr.addItem(listdata[i]);
+            if (listdata[i].isExchanged == "false") {
+                this.euiArr.addItem(listdata[i]);
+            }
         }
 
     }
@@ -115,11 +117,11 @@ class DuihuanList_item extends eui.ItemRenderer {
     // 当数据改变时，更新视图
     protected dataChanged() {
         this.likeneed.text = SceneManager.sceneManager.StageItems.like_num.text + "/" + this.data.num;
-        if (this.data.isExchanged == "false") {
-            this.duihuanbtn.texture = RES.getRes("duihuanno_png");
+        if (Number(SceneManager.sceneManager.StageItems.like_num.text) < this.data.num) {
+            this.duihuanbtn.texture = RES.getRes("qujizan_png");
         }
-        else if (this.data.isExchanged == "true") {
-            this.duihuanbtn.texture = RES.getRes("duihuancan_png");
+        else if (Number(SceneManager.sceneManager.StageItems.like_num.text) >= this.data.num) {
+            this.duihuanbtn.texture = RES.getRes("kelingqu_png")
         }
         if (this.data.rewardRule.propType == 50) {       //种子
             HttpRequest.imageloader(Config.picurl + this.data.rewardRule.propIcon, this.prop);
@@ -153,7 +155,7 @@ class DuihuanList_item extends eui.ItemRenderer {
                 this.prop.texture = RES.getRes("youji")
             }
             else if (this.data.rewardRule.propId == 8) {     //鸭食
-                this.prop.texture = RES.getRes("youji")
+                this.prop.texture = RES.getRes("duckfood_png")
             }
             else if (this.data.rewardRule.propId == 9) {      //虫
                 this.prop.texture = RES.getRes("usedinsect_png")

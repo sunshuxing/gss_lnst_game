@@ -767,6 +767,7 @@ class NewHelp {
 			let time = new Date().getTime();
 			localStorage.setItem("duckeat", String(time));
 			NewHelp.duck_hungryTwn()
+			NewHelp.duckeatTwn("usedinsect_png")
 		}
 		else if (propId == 10) {									//使用草
 			SceneManager.addNotice("使用成功！")
@@ -775,6 +776,7 @@ class NewHelp {
 			let time = new Date().getTime();						//使用时间
 			localStorage.setItem("duckeat", String(time));
 			NewHelp.duck_hungryTwn()
+			NewHelp.duckeatTwn("usedgrass_png")
 		}
 		else if (propId == 8) {										//使用鸭食
 			SceneManager.addNotice("使用成功！")
@@ -783,6 +785,7 @@ class NewHelp {
 			let time = new Date().getTime();
 			localStorage.setItem("duckeat", String(time));
 			NewHelp.duck_hungryTwn()
+			NewHelp.duckeatTwn("duckfood_png")
 		}
 	}
 
@@ -1195,7 +1198,7 @@ class NewHelp {
 						SceneManager.sceneManager.StageItems.gro_pick.y = 624;
 					}
 					else if (SceneManager.instance.landId == 2) {
-						SceneManager.sceneManager.StageItems.gro_pick.y = 684;
+						SceneManager.sceneManager.StageItems.gro_pick.y = 734;
 					}
 					SceneManager.sceneManager.StageItems.gro_pick.visible = true;
 					SceneManager.sceneManager.StageItems.pick_label.text = "可摘果";
@@ -1205,7 +1208,7 @@ class NewHelp {
 						.to({ y: SceneManager.sceneManager.StageItems.pick_hand.y + 20 }, 500)
 						.to({ y: SceneManager.sceneManager.StageItems.pick_hand.y }, 500)
 				}
-				else{
+				else {
 					SceneManager.sceneManager.StageItems.gro_pick.visible = false;
 				}
 			}
@@ -1281,7 +1284,7 @@ class NewHelp {
 				SceneManager.sceneManager.StageItems.gro_pick.y = 624;
 			}
 			else if (SceneManager.instance.landId == 2) {
-				SceneManager.sceneManager.StageItems.gro_pick.y = 684;
+				SceneManager.sceneManager.StageItems.gro_pick.y = 734;
 			}
 			SceneManager.sceneManager.StageItems.pick_label.text = "帮摘果";
 			egret.Tween.get(SceneManager.sceneManager.StageItems.pick_hand, { loop: true })
@@ -1639,12 +1642,12 @@ class NewHelp {
 		console.log(data, "自己鸭子数据");
 		if (data.data) {				//有鸭子数据
 			Datamanager.saveOwnDuckdata(data.data)
-			if (data.data.canReceive == "true") {
+			if (data.data.canReceive) {
 				let peisonglabel = "免费获得" + "\n" + data.data.goodsName + "一箱!"
 				SceneManager.sceneManager._stage.removeChildren();
 				let image = new eui.Image();
 				image.texture = RES.getRes("bg-day_png");
-				image.height = 1344;
+				image.height = SceneManager.sceneManager._stage.height;
 				let prompt = new PromptJump(peisonglabel);
 				SceneManager.sceneManager._stage.addChild(image);
 				SceneManager.sceneManager._stage.addChild(prompt);
@@ -1656,13 +1659,25 @@ class NewHelp {
 					time = time + Number(data.data.receiveDelay * 1000 * 60)
 					let timer = setInterval(() => {
 						let text = SceneManager.instance.getTaskScene().dateDif(time, timer)
-						SceneManager.sceneManager.newmain2Scene.left_receive_info.text = "还剩" + text + "可以收蛋"
+						text = text.slice(3);
+						SceneManager.sceneManager.newmain2Scene.left_receive_info.text = text;
+						if (!text) {
+							SceneManager.sceneManager.newmain2Scene.duckjishi.visible = false;
+							let duck_take = SceneManager.sceneManager.newmain2Scene.duck_take;
+							duck_take.visible = true;
+							egret.Tween.get(duck_take, { loop: true })
+								.set({ scaleX: 0, scaleY: 0 })
+								.to({ scaleX: 1, scaleY: 1 }, 1500)
+								.wait(2000)
+						}
 					}, 1000);
-					SceneManager.sceneManager.newmain2Scene.left_receive_info.visible = true;
+					SceneManager.sceneManager.newmain2Scene.duckjishi.visible = true;
 				}
 			}
 			else {
-				SceneManager.sceneManager.newmain2Scene.left_receive_info.visible = false;
+				SceneManager.sceneManager.newmain2Scene.duck_take.visible = false;
+				SceneManager.sceneManager.newmain2Scene.duckjishi.visible = false;
+				egret.Tween.removeTweens(SceneManager.sceneManager.newmain2Scene.duckjishi);
 			}
 			let duckdata = data.data;
 			Datamanager.savenowDuckdata(data.data);
@@ -1693,7 +1708,10 @@ class NewHelp {
 			.to({ y: getduckimg.y }, 500)
 		if (!data.data[0].leftReceiveCount || data.data[0].leftReceiveCount > 0) {
 			let duckId = data.data[0].id
-			getduckimg.addEventListener(egret.TouchEvent.TOUCH_TAP, () => { this.receiveDuck(duckId) }, this)
+			getduckimg.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
+				this.receiveDuck(duckId);
+				SceneManager.sceneManager.newmain2Scene.getduck_btn.touchEnabled = false;
+			}, this)
 		}
 		else {
 			getduckimg.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
@@ -1708,7 +1726,6 @@ class NewHelp {
 	 * duckId:鸭子ID
 	 */
 	public static receiveDuck(duckId) {
-		SceneManager.sceneManager.newmain2Scene.getduck_btn.touchEnabled = false;
 		let params = {
 			duckId: duckId
 		}
@@ -1720,6 +1737,7 @@ class NewHelp {
 		SceneManager.sceneManager.newmain2Scene.getduck_btn.touchEnabled = true;
 		SceneManager.addNotice("领取成功")
 		this.getOwnDuck();
+		NewHelp.updateprop();
 	}
 
 
@@ -1737,6 +1755,8 @@ class NewHelp {
 		}
 		else {
 			SceneManager.sceneManager.newmain2Scene.duck_img.visible = false;
+			SceneManager.sceneManager.newmain2Scene.duckegg_img.visible = false;
+			SceneManager.sceneManager.newmain2Scene.duckjishi.visible = false;
 		}
 	}
 
@@ -1756,7 +1776,7 @@ class NewHelp {
 	private static Req_recevieDuckEgg(data) {
 		console.log(data, "收取鸭蛋数据")
 		this.getOwnDuck();
-		this.updateprop();
+		NewHelp.updateprop();
 	}
 
 	/**
@@ -1779,6 +1799,14 @@ class NewHelp {
 	 *鸭子饥饿动画 
 	 */
 	public static duck_hungryTwn() {
+		if (SceneManager.sceneManager.StageItems.currentState == "friendtree") {
+			SceneManager.sceneManager.newmain2Scene.duck_hungry_img.visible = false;
+			return;
+		}
+		if (Datamanager.getnowDuckdata() && Datamanager.getnowDuckdata().needTake) {
+			SceneManager.sceneManager.newmain2Scene.duck_hungry_img.visible = false;
+			return;
+		}
 		if (!localStorage.getItem("duckeat")) {										//没有喂食记录
 			if (SceneManager.sceneManager.newmain2Scene) {
 				if (Datamanager.getnowDuckdata()) {
@@ -1813,12 +1841,17 @@ class NewHelp {
 				let waittime = eattime + (1000 * 60 * 10) - nowtime;
 				setTimeout(function () {
 					if (SceneManager.sceneManager.newmain2Scene) {
-						if (Datamanager.getnowDuckdata()) {
-							duck_hungry.visible = true;
-							egret.Tween.get(duck_hungry, { loop: true })
-								.set({ scaleX: 0, scaleY: 0 })
-								.to({ scaleX: 1, scaleY: 1 }, 1500)
-								.wait(2000)
+						if (Datamanager.getnowDuckdata() && !Datamanager.getnowDuckdata().needTake) {
+							if (SceneManager.sceneManager.StageItems.currentState == "havetree") {
+								duck_hungry.visible = true;
+								egret.Tween.get(duck_hungry, { loop: true })
+									.set({ scaleX: 0, scaleY: 0 })
+									.to({ scaleX: 1, scaleY: 1 }, 1500)
+									.wait(2000)
+							}
+							else {
+								duck_hungry.visible = false;
+							}
 						}
 					}
 				}, waittime);
@@ -1833,6 +1866,60 @@ class NewHelp {
 		NewHelp.addmask();
 		let invite = new Invitefriend();
 		SceneManager.sceneManager._stage.addChild(invite);
+	}
+
+
+	/**
+	 * 喂鸭子动画
+	 */
+	public static duckeatTwn(texture) {
+		let icon = new eui.Image();
+		icon.texture = RES.getRes(texture);
+		icon.x = -50;
+		icon.y = 900;
+		SceneManager.sceneManager._stage.addChild(icon);
+		egret.Tween.get(icon)
+			.to({ x: 530, y: 670, scaleY: 0.5, scaleX: 0.5 }, 1500)
+			.call(() => { SceneManager.sceneManager._stage.removeChild(icon) }, this)
+	}
+
+
+
+	private static needDyn_red = true
+
+	public static Dyn_loc_red(treeUserId) {
+		if (this.needDyn_red) {
+			console.log("动态红点")
+			let params = {
+				treeUserId: treeUserId,
+				pageNo: 1,
+				numPerPage: 1
+			};
+			MyRequest._post("game/searchDynamic", params, this, this.Req_Dyn_loc_red.bind(this), null)
+		}
+	}
+
+	private static Req_Dyn_loc_red(data) {
+		let dataID = data.data.list[0].id
+		console.log("红点查询回调")
+		let olddataID = localStorage.getItem("dyn_red")
+		if (!dataID) {
+			SceneManager.sceneManager.StageItems.dyn_red.visible = false;
+		}
+		else {
+			if (olddataID) {
+				if (olddataID == dataID) {
+					SceneManager.sceneManager.StageItems.visible = false;
+				}
+				else {
+					SceneManager.sceneManager.StageItems.visible = true;
+				}
+			}
+			else if (!olddataID) {
+				SceneManager.sceneManager.StageItems.visible = true;
+			}
+		}
+		this.needDyn_red = false;
 	}
 
 

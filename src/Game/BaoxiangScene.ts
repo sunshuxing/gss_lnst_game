@@ -16,7 +16,8 @@ class BaoxiangScene extends eui.Component implements eui.UIComponent{
 		this.addEventListener(egret.TouchEvent.TOUCH_TAP,this.bxopen,this);
 		this.bgTwn();
 		this.currentState = "close"
-		this.bx.y = this.height - SceneManager.sceneManager._stage.height;
+		this.y = SceneManager.instance._stage.height - this.height;
+		
     }
 
 	private bgTwn(){
@@ -27,26 +28,26 @@ class BaoxiangScene extends eui.Component implements eui.UIComponent{
 	public seticon(data){
 		var Data = data.data
 		for(let i=0;i<Data.length;i++){
-			if(Data[i].id == 1){
-				this.shuidiNum.text = Data[i].name+"x"+Data[i].num+"g";
+			if(Data[i].propId == 1){
+				this.shuidiNum.text = Data[i].propName+"x"+Data[i].propNum+"g";
 			}
-			else if(Data[i].id == 2){
+			else if(Data[i].propId == 2){
 				//爱心值
 			}
-			else if(Data[i].id == 3){
-				this.daojuNum.text = Data[i].name+"x"+Data[i].num+"个";
+			else if(Data[i].propId == 3){
+				this.daojuNum.text = Data[i].propName+"x"+Data[i].propNum+"个";
 			}
-			else if(Data[i].id == 4){
+			else if(Data[i].propId == 4){
 				this.huafeiIcon.texture = RES.getRes("youji");
-				this.huafeiNum.text = Data[i].name+"x"+Data[i].num+"袋";
+				this.huafeiNum.text = Data[i].propName+"x"+Data[i].propNum+"袋";
 			}
-			else if(Data[i].id == 5){
+			else if(Data[i].propId == 5){
 				this.huafeiIcon.texture = RES.getRes("fuhe");
-				this.huafeiNum.text = Data[i].name+"x"+Data[i].num+"袋";				
+				this.huafeiNum.text = Data[i].propName+"x"+Data[i].propNum+"袋";				
 			}
-			else if(Data[i].id == 6){
+			else if(Data[i].propId == 6){
 				this.huafeiIcon.texture = RES.getRes("shuirong");
-				this.huafeiNum.text = Data[i].name+"x"+Data[i].num+"袋";				
+				this.huafeiNum.text = Data[i].propName+"x"+Data[i].propNum+"袋";				
 			}
 		}
 	}

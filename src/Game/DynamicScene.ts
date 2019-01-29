@@ -370,6 +370,20 @@ class dynList_item extends eui.ItemRenderer {
 			this.dyn_label.text = "您领取了鸭子！"
 
 		}
+		else if (this.data.type == 202) {
+			this.dyn_toother.visible = true;
+			let info
+			if(this.data.num>0){
+				info = "偷了"+this.data.num+"个鸭蛋"
+			}
+			else{
+				info = "没有偷到你的蛋"
+			}
+			this.dyn_label.textFlow = Array<egret.ITextElement>(
+				{ text: Help.getcharlength(this.data.mainUserName, 4), style: { "href": "event:" + this.data.mainUser, "underline": true } }
+				, { text: info }
+			);
+		}
 
 		this.dyn_bg.height = this.dyn_label.height + 92;
 

@@ -11,6 +11,6 @@
 			<e:Image id="prop" source="smallshui_png" x="0" y="10" width="55" height="55"/>
 			<e:Label id="propname" text="水滴" size="22" textColor="0x7c6b5b" fontFamily="Tahoma" y="27" x="61"/>
 		</e:Group>
-		<e:Image id="duihuanbtn" source="duihuancan_png" y="23" right="11"/>
+		<e:Image id="duihuanbtn" y="23" right="11" source=""/>
 	</e:Group>
 </e:Skin>
