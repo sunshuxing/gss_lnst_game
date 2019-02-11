@@ -402,6 +402,7 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
     private requestgetOwnTree(data): void {
         if (data.data[0]) {
             if (data.data[0].canReceive == "true") {
+                Datamanager.saveOwncaiyuandata(data.data[0])
                 let peisonglabel = "免费获得" + "\n" + data.data[0].treeName + "一箱!"
                 SceneManager.sceneManager._stage.removeChildren();
                 let image = new eui.Image();
