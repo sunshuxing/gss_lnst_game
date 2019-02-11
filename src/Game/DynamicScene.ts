@@ -299,7 +299,7 @@ class dynList_item extends eui.ItemRenderer {
 		else if (this.data.type == 7) {
 			this.dyn_toother.visible = false;
 			this.dyn_bg.texture = RES.getRes("dyn-ly-xt");
-			this.dyn_label.text = "您获得了" + this.data.num + "个" + this.getpropname(this.data);
+			this.dyn_label.text = "我获得了" + this.data.num + "个" + this.getpropname(this.data);
 			this.dyn_des.text = "";
 		}
 		else if (this.data.type == 10) {
@@ -350,7 +350,7 @@ class dynList_item extends eui.ItemRenderer {
 			if (this.data.num > 0) {
 				info = "帮你摘了" + this.data.num + "个果子哦";
 			} else {
-				info = "手气不佳，没有帮您摘到果子哦"
+				info = "手气不佳，没有帮我摘到果子哦"
 			}
 			this.dyn_label.textFlow = Array<egret.ITextElement>(
 				{ text: Help.getcharlength(this.data.mainUserName, 4), style: { "href": "event:" + this.data.mainUser, "underline": true } }
@@ -367,7 +367,7 @@ class dynList_item extends eui.ItemRenderer {
 		else if (this.data.type == 201) {
 			this.dyn_toother.visible = false;
 			this.dyn_bg.texture = RES.getRes("dyn-ly-xt");
-			this.dyn_label.text = "您领取了鸭子！"
+			this.dyn_label.text = "我领取了鸭子！"
 
 		}
 		else if (this.data.type == 202) {
