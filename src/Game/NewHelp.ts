@@ -1648,7 +1648,7 @@ class NewHelp {
 				let image = new eui.Image();
 				image.texture = RES.getRes("bg-day_png");
 				image.height = SceneManager.sceneManager._stage.height;
-				let prompt = new PromptJump(peisonglabel,true);
+				let prompt = new PromptJump(peisonglabel, true);
 				SceneManager.sceneManager._stage.addChild(image);
 				SceneManager.sceneManager._stage.addChild(prompt);
 				return
@@ -1705,13 +1705,13 @@ class NewHelp {
 		getduckimg.visible = true;
 		egret.Tween.get(getduckimg, { loop: true })
 			.to({ y: getduckimg.y + 20 }, 500)
-			.to({ y: getduckimg.y }, 500)
+			.to({ y: getduckimg.y }, 500);
 		if (!data.data[0].leftReceiveCount || data.data[0].leftReceiveCount > 0) {
 			let duckId = data.data[0].id
-			getduckimg.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
-				this.receiveDuck(duckId);
-				SceneManager.sceneManager.newmain2Scene.getduck_btn.touchEnabled = false;
-			}, this)
+			if (!this.once) {
+				this.once = true;
+				getduckimg.addEventListener(egret.TouchEvent.TOUCH_TAP, this.receiveDuckFunc.bind(this, duckId), this);
+			}
 		}
 		else {
 			getduckimg.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
@@ -1719,6 +1719,14 @@ class NewHelp {
 				SceneManager.sceneManager.newmain2Scene.getduck_btn.touchEnabled = true;
 			}, this)
 		}
+	}
+	private static once: boolean;
+	/**
+	 * 领取鸭子处理事件
+	 */
+	public static receiveDuckFunc(duckId: String): void {
+		this.receiveDuck(duckId);
+		SceneManager.sceneManager.newmain2Scene.getduck_btn.touchEnabled = false;
 	}
 
 	/**
