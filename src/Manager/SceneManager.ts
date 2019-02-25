@@ -221,8 +221,9 @@ class SceneManager {
     /**
      * 判断进入哪个场景
      */
-
+    static loadingView = new LoadingUI("100%")
     static toWhereScene() {
+        this.instance._stage.addChild(this.loadingView)
         MyRequest._post("game/getOwnTree", null, this, this.requestgetOwnTree.bind(this), null);
     }
 
@@ -246,6 +247,7 @@ class SceneManager {
                 this.instance.newmain2Scene.getOwnTree();
             }
         }
+        this.instance._stage.removeChild(this.loadingView)
     }
 
 
@@ -412,11 +414,38 @@ class SceneManager {
                 this.treeprompt.y = 1000;
             }
             else {
-                this.treeprompt.y = 700;
+                this.treeprompt.y = 760;
             }
         }
         this.treepromptgro.addChild(this.treeprompt);
         this.treetimer.start();
+        NewHelp.treelanguageTimer.reset();
+        NewHelp.treelanguageTimer.start();
+    }
+
+    /**
+     * 无树树语
+     */
+    static notreePropmt(info: string){
+        if (!this.treeprompt) {
+            this.treeprompt = new TreePrompt(true);
+        }
+        this.treeprompt = new TreePrompt(true);
+        this.treepromptgro.width = 750;
+        this.treepromptgro.height = 1344;
+        this.treepromptgro.touchThrough = true;
+        this.instance.StageItems.addChild(this.treepromptgro);
+        this.treepromptgro.removeChildren()
+        this.treeprompt.setPrompt(info);
+        if (SceneManager.instance.landId == 1) {
+            this.treeprompt.x = 400;
+            this.treeprompt.y = 900;
+        }
+        else if (SceneManager.instance.landId == 2) {
+            this.treeprompt.x = 350;
+            this.treeprompt.y = 980;
+        }
+        this.treepromptgro.addChild(this.treeprompt);
     }
 
     /**

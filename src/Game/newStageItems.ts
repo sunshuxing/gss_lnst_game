@@ -7,7 +7,6 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 
 	private gro_top: eui.Group;
 	private guide_img: eui.Image;
-	public gro_prop: eui.Group;
 	public BarGroup: eui.Group;			    //弹幕范围
 	public share_friend: eui.Image;			//邀请帮摘果按钮
 	public gro_pick: eui.Group;				//摘果手显示
@@ -27,6 +26,7 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 		// this.getSystemMsg();					//系统消息
 		this.getFriends();						//好友数据
 		this.friend_scr.horizontalScrollBar = null;
+		NewHelp.showtreelanguage();					//循环显示树语
 	}
 
 	private onComplete(): void {
@@ -52,7 +52,6 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 		this.img2.scrollRect = new egret.Rectangle(0, 0, 50, 50);
 		this.img1_bg.scrollRect = new egret.Rectangle(0, 0, 50, 50);
 		this.img2_bg.scrollRect = new egret.Rectangle(0, 0, 50, 50);
-		this.gro_prop.touchThrough = true;
 		this.BarGroup.touchThrough = true;
 		if (!this.hasCheck) {
 			SceneManager.sceneManager.checkAddFriend();
@@ -142,22 +141,36 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 
 
 	//查询顶部消息
+	//reload:是否从新刷新数据
 	public getTopMsg(reload?: Boolean) {
 		if (reload) {
 			this.topPage = 0
 			this.n = 0;
+			this.str1.text = "";
+			this.img1.texture = null;
+			this.img1_bg.texture = null;
+			this.str2.text = "";
+			this.img2.texture = null;
+			this.img2_bg.texture = null;
+			egret.Tween.removeTweens(this.str1.scrollRect);
+			egret.Tween.removeTweens(this.img1.scrollRect);
+			egret.Tween.removeTweens(this.img1_bg.scrollRect);
+			egret.Tween.removeTweens(this.str2.scrollRect);
+			egret.Tween.removeTweens(this.img2.scrollRect);
+			egret.Tween.removeTweens(this.img2_bg.scrollRect);
 		}
 		this.topPage = this.topPage + 1
 		let data = {
 			pageNo: this.topPage
 		}
-		MyRequest._post("game/getTopInfo", data, this, this.Req_getTopMsg.bind(this, reload), null)
+		MyRequest._post("game/getTopInfo", data, this, this.Req_getTopMsg.bind(this), null)
 	}
 
 	//查询顶部消息成功后处理
-	private Req_getTopMsg(reload, data): void {
+	private Req_getTopMsg(data): void {
 		var Data = data;
-		let maxPage = parseInt(Data.data.lastPage)
+		console.log(Data,"顶部消息")
+		let maxPage = parseInt(Data.data.pages)
 		if (this.topPage == maxPage) {
 			//如果是最后一页，则下一次从首页开始
 			this.topPage = 0
@@ -165,11 +178,13 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 		this.infodata = Data.data.list;
 		if (Data.data.list.length == 0 && this.topPage == 1) {
 			//如果第一页都没有数据，就是没数据
-			this.hasTopMsg = false;
+			this.getTopMsg(true);
+			return
 		}
-		if (!reload) {
-			this.info1scr();
+		else {
+			this.info1scr()
 		}
+		console.log("最大页:",maxPage,"当前页：",this.topPage)
 	}
 
 	private hasTopMsg = true;
@@ -202,12 +217,9 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 		if (this.infodata && this.infodata.length) {
 			if (this.n >= this.infodata.length) {
 				this.n = 0;
-				if (this.hasTopMsg) {
-					this.getTopMsg()
-				}
+				this.getTopMsg()
 				return
 			}
-			let systemEmpty = this.sysinfodata == null ? true : this.sysinfodata.length == 0 ? true : false	//系统消息为空
 			let userName = Help.getcharlength(this.infodata[this.n].mainUserName, 4);
 			let treeName = this.infodata[this.n].treeName;
 			let stageName = this.infodata[this.n].stageName;
@@ -220,69 +232,37 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 			else if (this.infodata[this.n].type == "1") {
 				info = userName + "领取了" + treeName + "！"
 			}
-			if (systemEmpty && !this.onlyFlag) {//如果为空，则使用系统的框来循环
-				let params = {
-					users: this.infodata[this.n].mainUser
-				}
-				MyRequest._post("game/getWechatImg", params, this, this.Req_WechatImg.bind(this, this.infodata[this.n].mainUser, this.img2), null);
-				this.n++;
-				this.str2.text = Help.getcharlength(info, 12);
-				var rect: egret.Rectangle = this.str2.scrollRect;
-				egret.Tween.get(rect)
-					.set({ y: -50 })
-					.to({ y: 0 }, 1000)
-					.wait(2000).call(this.info2scr.bind(this, true), this)
-					.to({ y: 50 }, 1000);
 
-				var rect1: egret.Rectangle = this.img2.scrollRect;
-				egret.Tween.get(rect1)
-					.set({ y: -50 })
-					.to({ y: 0 }, 1000)
-					.wait(2000)
-					.to({ y: 50 }, 1000);
-
-				var rect2: egret.Rectangle = this.img2_bg.scrollRect;
-				egret.Tween.get(rect2)
-					.set({ y: -50 })
-					.to({ y: 0 }, 1000)
-					.wait(2000)
-					.to({ y: 50 }, 1000);
-				this.onlyFlag = true;
-			} else {
-				let params = {
-					users: this.infodata[this.n].mainUser
-				}
-				MyRequest._post("game/getWechatImg", params, this, this.Req_WechatImg.bind(this, this.infodata[this.n].mainUser, this.img1), null);
-				this.str1.text = Help.getcharlength(info, 12);
-				this.n++;
-				var rect: egret.Rectangle = this.str1.scrollRect;
-				egret.Tween.get(rect)
-					.set({ y: -50 })
-					.to({ y: 0 }, 1000)
-					.wait(2000).call(this.info2scr.bind(this, true), this)
-					.to({ y: 50 }, 1000);
-
-				var rect1: egret.Rectangle = this.img1.scrollRect;
-				egret.Tween.get(rect1)
-					.set({ y: -50 })
-					.to({ y: 0 }, 1000)
-					.wait(2000)
-					.to({ y: 50 }, 1000);
-
-				var rect2: egret.Rectangle = this.img1_bg.scrollRect;
-				egret.Tween.get(rect2)
-					.set({ y: -50 })
-					.to({ y: 0 }, 1000)
-					.wait(2000)
-					.to({ y: 50 }, 1000);
-				this.onlyFlag = false
+			let params = {
+				users: this.infodata[this.n].mainUser
 			}
+			MyRequest._post("game/getWechatImg", params, this, this.Req_WechatImg.bind(this, this.infodata[this.n].mainUser, this.img1), null);
+			this.img1_bg.texture = RES.getRes("infobg");
+			this.str1.text = Help.getcharlength(info, 12);
+			this.n++;
+			var rect: egret.Rectangle = this.str1.scrollRect;
+			egret.Tween.get(rect)
+				.set({ y: -50 })
+				.to({ y: 0 }, 1000)
+				.wait(2000).call(this.info2scr, this)
+				.to({ y: 50 }, 1000);
 
+			var rect1: egret.Rectangle = this.img1.scrollRect;
+			egret.Tween.get(rect1)
+				.set({ y: -50 })
+				.to({ y: 0 }, 1000)
+				.wait(2000)
+				.to({ y: 50 }, 1000);
+
+			var rect2: egret.Rectangle = this.img1_bg.scrollRect;
+			egret.Tween.get(rect2)
+				.set({ y: -50 })
+				.to({ y: 0 }, 1000)
+				.wait(2000)
+				.to({ y: 50 }, 1000);
 		}
 		else {
-			if (this.hasSysMsg) {
-				this.info2scr(true)
-			}
+			this.getTopMsg(true)
 		}
 	}
 
@@ -290,14 +270,33 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 	 * 推送滚动2 flag 是否调用滚动1
 	 * 
 	* */
-	public info2scr(flag?: boolean) {
-		if (this.sysinfodata && this.sysinfodata.length > 0) {
-			if (this.m >= this.sysinfodata.length) {
-				this.m = 0;
+	public info2scr() {
+		if (this.infodata && this.infodata.length) {
+			if (this.n >= this.infodata.length) {
+				this.n = 0;
+				this.getTopMsg()
+				return
 			}
-			this.img2.texture = RES.getRes("gamelogo")
-			this.str2.text = Help.getcharlength(this.sysinfodata[this.m].title, 12);
-			this.m++;
+			let userName = Help.getcharlength(this.infodata[this.n].mainUserName, 4);
+			let treeName = this.infodata[this.n].treeName;
+			let stageName = this.infodata[this.n].stageName;
+			let info = ""
+			if (this.infodata[this.n].type == "0") {
+				info = userName + "的" + treeName + stageName + "了！"
+			} else if (this.infodata[this.n].type == "100") {
+				info = userName + "的" + treeName + "正在配送！"
+			}
+			else if (this.infodata[this.n].type == "1") {
+				info = userName + "领取了" + treeName + "！"
+			}
+
+			let params = {
+				users: this.infodata[this.n].mainUser
+			}
+			MyRequest._post("game/getWechatImg", params, this, this.Req_WechatImg.bind(this, this.infodata[this.n].mainUser, this.img2), null);
+			this.img2_bg.texture = RES.getRes("infobg");
+			this.str2.text = Help.getcharlength(info, 12);
+			this.n++;
 			var rect: egret.Rectangle = this.str2.scrollRect;
 			egret.Tween.get(rect)
 				.set({ y: -50 })
@@ -319,8 +318,8 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 				.wait(2000)
 				.to({ y: 50 }, 1000);
 		}
-		else if (this.hasTopMsg && flag) {
-			this.info1scr()
+		else {
+			this.getTopMsg(true)
 		}
 	}
 
@@ -508,11 +507,11 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 					if (treeid) {
 						NewHelp.getTreeInfoByid(treeid);
 					}
-					else{
-						if(SceneManager.sceneManager.landId == 1){
+					else {
+						if (SceneManager.sceneManager.landId == 1) {
 							SceneManager.sceneManager.newmainScene.updateBytreedata(null);
 						}
-						else if(SceneManager.sceneManager.landId == 2){
+						else if (SceneManager.sceneManager.landId == 2) {
 							SceneManager.sceneManager.newmain2Scene.updateBytreedata(null);
 						}
 					}
@@ -533,7 +532,7 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 
 	private btn_dynamic: eui.Group;			//动态按钮
 	private btn_signin: eui.Group;			//签到按钮
-	private btn_task: eui.Group;				//任务按钮
+	private btn_task: eui.Group;			//任务按钮
 	private btn_fertilizer: eui.Group;		//化肥按钮
 	private btn_store: eui.Group;			//商城按钮
 	public dynamic: eui.Group;				//动态组

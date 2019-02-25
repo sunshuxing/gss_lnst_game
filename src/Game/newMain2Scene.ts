@@ -28,6 +28,7 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
     private jishi_text: eui.Label;               //化肥计时文字
     public duckjishi: eui.Group;
     public duck_take: eui.Image;
+    public gro_prop:eui.Group;
 
 
     private info_img1: eui.Image;
@@ -47,12 +48,16 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
     public left_receive_info: eui.Label;        //领取鸭蛋倒计时
     private caiyuan_name: eui.Label;             //菜园名称
     private info_gro: eui.Group;                 //广告牌
-    public duck_hungry_img: eui.Image;
+    // public duck_hungry_img: eui.Image;
+    public duck_language_gro: eui.Group;         //鸭语区域
+    private info_label1: eui.Label;
+    private info_label2: eui.Label;
 
 
     protected childrenCreated(): void {
         super.childrenCreated();
-        NewHelp.duck_hungryTwn();
+        // NewHelp.duck_hungryTwn();
+        this.duck_language_gro.touchThrough = true;
     }
 
     private onComplete(): void {
@@ -65,8 +70,10 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
         this.gro_duck.addEventListener(egret.TouchEvent.TOUCH_TAP, this.ducktouch, this)
         this.gamestore.addEventListener(egret.TouchEvent.TOUCH_TAP, () => { SceneManager.addNotice("商店暂未开放") }, this)
         this.info_gro.addEventListener(egret.TouchEvent.TOUCH_TAP, this.infotouch, this);
-        this.info_img1.scrollRect = new egret.Rectangle(0, 0, 240, 100);
-        this.info_img2.scrollRect = new egret.Rectangle(0, 0, 240, 100);
+        // this.info_img1.scrollRect = new egret.Rectangle(0, 0, 240, 100);
+        // this.info_img2.scrollRect = new egret.Rectangle(0, 0, 240, 100);
+        this.info_label1.scrollRect = new egret.Rectangle(0, 0, 240, 100);
+        this.info_label2.scrollRect = new egret.Rectangle(0, 0, 240, 100);
         this.goods_name1.scrollRect = new egret.Rectangle(0, 0, 66, 88);
         this.goods_img1.scrollRect = new egret.Rectangle(0, 0, 66, 88);
         this.goods_name2.scrollRect = new egret.Rectangle(0, 0, 66, 88);
@@ -74,6 +81,7 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
         this.goods_img2.scrollRect = new egret.Rectangle(0, 0, 66, 88);
         this.goods_bg1.scrollRect = new egret.Rectangle(0, 0, 66, 66);
         this.goods_bg2.scrollRect = new egret.Rectangle(0, 0, 66, 66);
+        this.gro_prop.touchThrough = true;
         this.getSystemInfo();
         this.getTopGoods();
     }
@@ -136,7 +144,10 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
      * duckdata:鸭子数据
      */
     public updateduck(duckdata) {
+        console.log("更新鸭子")
         if (duckdata) {
+            NewHelp.getDuckLanguage(duckdata)
+            NewHelp.showducklanguage();
             if (duckdata.needTake) {
                 this.duckegg_img.visible = true;
             }
@@ -148,11 +159,46 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
             egret.Tween.get(this.duck_img, { loop: true })
                 .to({ scaleX: 1.05, scaleY: 1.05 }, 3000)
                 .to({ scaleX: 1, scaleY: 1 }, 3000)
-            NewHelp.duck_hungryTwn();
+            // NewHelp.duck_hungryTwn();
+
+            if (duckdata.needTake) {
+				if (duckdata.layEggTime) {
+					let duck_language_gro = SceneManager.sceneManager.newmain2Scene.duck_language_gro;
+					NewHelp.ducktimer.reset();
+					NewHelp.ducklanguageTimer.reset();
+					duck_language_gro.removeChildren()
+					let time = new Date(duckdata.layEggTime).getTime()
+					time = time + Number(duckdata.receiveDelay * 1000 * 60)
+					SceneManager.sceneManager.newmain2Scene.duckjishi.visible = true;
+					let timer = setInterval(() => {
+						let text = SceneManager.instance.getTaskScene().dateDif(time, timer)
+						text = text.slice(3);
+						SceneManager.sceneManager.newmain2Scene.left_receive_info.text = text;
+						if (!text) {
+							SceneManager.sceneManager.newmain2Scene.duckjishi.visible = false;
+							// let duck_take = SceneManager.sceneManager.newmain2Scene.duck_take;
+							// duck_take.visible = true;
+							// egret.Tween.get(duck_take, { loop: true })
+							// 	.set({ scaleX: 0, scaleY: 0 })
+							// 	.to({ scaleX: 1, scaleY: 1 }, 1500)
+							// 	.wait(2000)
+							NewHelp.addnoduck_language("可收取");
+						}
+					}, 1000);
+				}
+			}
+			else {
+				SceneManager.sceneManager.newmain2Scene.duck_take.visible = false;
+				SceneManager.sceneManager.newmain2Scene.duckjishi.visible = false;
+			}
+
+
         }
         else {
-            this.duck_img.visible = false;
-            this.duckegg_img.visible = false;
+			NewHelp.addnoduck_language("未领取");
+			SceneManager.sceneManager.newmain2Scene.duck_img.visible = false;
+			SceneManager.sceneManager.newmain2Scene.duckegg_img.visible = false;
+			SceneManager.sceneManager.newmain2Scene.duckjishi.visible = false;
         }
     }
 
@@ -301,16 +347,45 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
     private n = 0;
 
     public scr1() {
-        let info;
+        // if (this.infodata && this.infodata.length == 1) {
+        //     HttpRequest.imageloader(Config.picurl + this.infodata[this.n].icon, this.info_img1);
+        //     return;
+        // }
+        // else if (this.infodata && this.infodata.length > 0) {
+        //     if (this.n >= this.infodata.length) {
+        //         this.n = 0;
+        //     }
+        //     HttpRequest.imageloader(Config.picurl + this.infodata[this.n].icon, this.info_img1);
+        //     this.n++
+        //     var rect: egret.Rectangle = this.info_img1.scrollRect;
+        //     egret.Tween.get(rect)
+        //         .set({ y: -100 })
+        //         .to({ y: 0 }, 1000)
+        //         .wait(2000).call(this.scr2, this)
+        //         .to({ y: 100 }, 1000);
+        // }
+
+        let title
+        
         if (this.infodata && this.infodata.length == 1) {
-            HttpRequest.imageloader(Config.picurl + this.infodata[this.n].icon, this.info_img1);
+            title = this.infodata[this.n].title;
+            this.info_label1.textFlow = <Array<egret.ITextElement>>[
+					{ text: "公告" ,style:{size:26}},
+					{ text: "\n" },
+					{ text:  title},
+				]
             return;
         }
         else if (this.infodata && this.infodata.length > 0) {
             if (this.n >= this.infodata.length) {
                 this.n = 0;
             }
-            HttpRequest.imageloader(Config.picurl + this.infodata[this.n].icon, this.info_img1);
+            title = this.infodata[this.n].title;
+            this.info_label1.textFlow = <Array<egret.ITextElement>>[
+					{ text: "公告" ,style:{size:26}},
+					{ text: "\n" },
+					{ text:  title},
+				]
             this.n++
             var rect: egret.Rectangle = this.info_img1.scrollRect;
             egret.Tween.get(rect)
@@ -322,21 +397,41 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
     }
 
     private scr2() {
-        let info;
+        // if (this.infodata && this.infodata.length > 0) {
+        //     if (this.n >= this.infodata.length) {
+        //         this.n = 0;
+        //     }
+        //     HttpRequest.imageloader(Config.picurl + this.infodata[this.n].icon, this.info_img2);
+        //     this.n++
+        //     var rect: egret.Rectangle = this.info_img2.scrollRect;
+        //     egret.Tween.get(rect)
+        //         .set({ y: -100 })
+        //         .to({ y: 0 }, 1000)
+        //         .wait(2000).call(this.scr1, this)
+        //         .to({ y: 100 }, 1000);
+        // }
+
+        let title
         if (this.infodata && this.infodata.length > 0) {
             if (this.n >= this.infodata.length) {
                 this.n = 0;
             }
-            HttpRequest.imageloader(Config.picurl + this.infodata[this.n].icon, this.info_img2);
+            title = this.infodata[this.n].title;
+            this.info_label1.textFlow = <Array<egret.ITextElement>>[
+					{ text: "公告" ,style:{size:28}},
+					{ text: "\n" },
+					{ text:  title},
+				]
             this.n++
-            var rect: egret.Rectangle = this.info_img2.scrollRect;
+            var rect: egret.Rectangle = this.info_img1.scrollRect;
             egret.Tween.get(rect)
                 .set({ y: -100 })
                 .to({ y: 0 }, 1000)
-                .wait(2000).call(this.scr1, this)
+                .wait(2000).call(this.scr2, this)
                 .to({ y: 100 }, 1000);
         }
     }
+
 
     /**
      * 去到果园
@@ -365,7 +460,7 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
     /**
      * 果树图片点击事件
      */
-    private treeTouch() {
+    public treeTouch() {
         this.gro_tree.touchEnabled = false;
         egret.Tween.get(this.tree)
             .to({ scaleX: 1.05, scaleY: 1.05 }, 200)
@@ -486,10 +581,14 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
         this.progress.value = 0;
         this.datainit(data);                                                        //数据初始化显示
         NewHelp.checkHelpTakeFruit(data);                                           //检查是否能帮摘果
-        NewHelp.getDuckByUserId(data);                                              //获取好友鸭子
+        NewHelp.getDuckByUserId();                                              //获取好友鸭子
         //果树更新显示
         SceneManager.treepromptgro.removeChildren();
         SceneManager.treetimer.reset();
+        if (!data) {
+            NewHelp.Invite();
+            SceneManager.notreePropmt("好友还没有种树哦，点击邀请种树");
+        }
         if (data) {
             SceneManager.addtreePrompt("欢迎来到我的农场！")
         }
@@ -536,9 +635,9 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
      */
     private datainit(data) {
         if (SceneManager.sceneManager.StageItems.currentState == "havetree") {    //自己果园
-            this.caiyuan_name.text = Help.getcharlength(SceneManager.instance.weixinUtil.user_name, 3);
+            this.caiyuan_name.text = Help.getcharlength(SceneManager.instance.weixinUtil.user_name, 4);
         } else if (SceneManager.sceneManager.StageItems.currentState == "friendtree") {
-            this.caiyuan_name.text = Help.getcharlength(Datamanager.getnowfrienddata().friendUserName, 3);			//果园名称
+            this.caiyuan_name.text = Help.getcharlength(Datamanager.getnowfrienddata().friendUserName, 4);			//果园名称
         }
         if (!data) {
             this.tree_name.text = "";

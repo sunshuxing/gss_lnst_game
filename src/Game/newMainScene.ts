@@ -26,6 +26,7 @@ class newMainScene extends eui.Component implements eui.UIComponent {
     public present2: eui.Image;			//
     private jishi_gro: eui.Group;
     private jishi_text: eui.Label;
+    public gro_prop: eui.Group;
 
     protected childrenCreated(): void {
         super.childrenCreated();
@@ -39,6 +40,7 @@ class newMainScene extends eui.Component implements eui.UIComponent {
         this.addEvent();
         this.gro_tree.addEventListener(egret.TouchEvent.TOUCH_TAP, this.treeTouch, this);
         this.tocaiyuan.addEventListener(egret.TouchEvent.TOUCH_TAP, this.toCaiyuan, this);
+        this.gro_prop.touchThrough = true;
 
     }
 
@@ -70,7 +72,7 @@ class newMainScene extends eui.Component implements eui.UIComponent {
     /**
      * 果树图片点击事件
      */
-    private treeTouch() {
+    public treeTouch() {
         this.gro_tree.touchEnabled = false;
         egret.Tween.get(this.tree)
             .to({ scaleX: 1.05, scaleY: 1.05 }, 200)
@@ -182,6 +184,10 @@ class newMainScene extends eui.Component implements eui.UIComponent {
         //果树更新显示
         SceneManager.treepromptgro.removeChildren();
         SceneManager.treetimer.reset();
+        if (!data) {
+            NewHelp.Invite();
+            SceneManager.notreePropmt("好友还没有种树哦，点击邀请种树");
+        }
         if (data) {
             SceneManager.addtreePrompt("欢迎来到我的农场！")
         }
@@ -248,7 +254,7 @@ class newMainScene extends eui.Component implements eui.UIComponent {
                 this.tree.anchorOffsetX = this.tree.width * 0.5;
                 this.tree.anchorOffsetY = this.tree.height;
                 SceneManager.sceneManager.StageItems.chanzi_btn.visible = true;
-                egret.Tween.get(SceneManager.sceneManager.StageItems.chanzi_btn,{loop:true})
+                egret.Tween.get(SceneManager.sceneManager.StageItems.chanzi_btn, { loop: true })
                     .to({ y: SceneManager.sceneManager.StageItems.chanzi_btn.y - 20 }, 500)
                     .to({ y: SceneManager.sceneManager.StageItems.chanzi_btn.y }, 500)
                     .to({ y: SceneManager.sceneManager.StageItems.chanzi_btn.y + 20 }, 500)
@@ -383,6 +389,9 @@ class newMainScene extends eui.Component implements eui.UIComponent {
 
     //点击礼包事件
     private presenttouch() {
+        if (SceneManager.sceneManager.StageItems.currentState == "friendtree") {
+            return;
+        }
         if (Datamanager.getNowtreedata()) {
             let params = {
                 treeUserId: Datamanager.getNowtreedata().id
@@ -431,33 +440,38 @@ class newMainScene extends eui.Component implements eui.UIComponent {
         let endtime				//活动结束时间
         let that = this
         for (let i = 0; i < data.data.length; i++) {
-            starttime = data.data[i].startTime.replace(new RegExp(/-/gm), "/")
-            starttime = Date.parse(starttime)
-            endtime = data.data[i].endTime.replace(new RegExp(/-/gm), "/")
-            endtime = Date.parse(endtime)
-            if (starttime > this.nowDate) {
-                console.log("活动时间之前")
-                setTimeout(function () {
-                    console.log("礼包点击动画和事件开始");
+            if (data.data[i].isOpened == "true") {
+                that.stoppresentTwn();
+            }
+            else {
+                starttime = data.data[i].startTime.replace(new RegExp(/-/gm), "/")
+                starttime = Date.parse(starttime)
+                endtime = data.data[i].endTime.replace(new RegExp(/-/gm), "/")
+                endtime = Date.parse(endtime)
+                if (starttime > this.nowDate) {
+                    console.log("活动时间之前")
+                    setTimeout(function () {
+                        console.log("礼包点击动画和事件开始");
+                        localStorage.setItem("present", "true");
+                        that.startpresentTwn();
+                    }, Number(starttime) - Number(this.nowDate));
+                }
+                if (endtime > this.nowDate) {
+                    console.log("活动时间之间")
+                    setTimeout(function () {
+                        console.log("礼包点击动画和事件结束")
+                        that.stoppresentTwn();
+                        localStorage.setItem("present", "false");
+                    }, Number(endtime) - Number(this.nowDate));
+                }
+                if (starttime < this.nowDate && endtime > this.nowDate) {
+                    this.startpresentTwn();
                     localStorage.setItem("present", "true");
-                    that.startpresentTwn();
-                }, Number(starttime) - Number(this.nowDate));
-            }
-            if (endtime > this.nowDate) {
-                console.log("活动时间之间")
-                setTimeout(function () {
-                    console.log("礼包点击动画和事件结束")
-                    that.stoppresentTwn();
-                    localStorage.setItem("present", "false");
-                }, Number(endtime) - Number(this.nowDate));
-            }
-            if (starttime < this.nowDate && endtime > this.nowDate) {
-                this.startpresentTwn();
-                localStorage.setItem("present", "true");
-                console.log("在活动时间内")
-            }
-            if (endtime < this.nowDate) {
-                console.log("在活动时间之后")
+                    console.log("在活动时间内")
+                }
+                if (endtime < this.nowDate) {
+                    console.log("在活动时间之后")
+                }
             }
         }
     }
@@ -511,6 +525,7 @@ class newMainScene extends eui.Component implements eui.UIComponent {
                 this.stoppresentTwn();
                 localStorage.setItem("present", "false")
             }
+            MyRequest._post("fruit/getNowDateTime", null, this, this.Req_getNowDateTime.bind(this), null)		//获取服务器当前时间
         }
         let share = new Sharepresent(info, imgname, orderId, info2);
         SceneManager.sceneManager._stage.addChild(share);

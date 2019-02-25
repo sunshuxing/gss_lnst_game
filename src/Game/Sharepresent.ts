@@ -64,7 +64,7 @@ class Sharepresent extends eui.Component implements eui.UIComponent{
                 SceneManager.instance.weixinUtil.shareData.titles = "【礼包惊喜】获得一个惊喜大礼包。"
                 if(orderId){
                     SceneManager.instance.weixinUtil.shareData.success = function(){
-                        location.href = Config.webHome +"confirm.html?orderid=" + orderId;
+                        location.href = Config.webHome +"/view/confirm.html?orderid=" + orderId;
                     }
                 }
                 SceneManager.instance.weixinUtil._openShare();

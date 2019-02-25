@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="InvitefriendSkins" width="562" height="549" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+<e:Skin class="InvitefriendSkins" width="562" height="640" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
 	<e:Image source="invitefriend_png" x="0" y="0"/>
 	<e:Label id="invitelabel" text="您好友的果园还没种树哦~" y="330" textColor="0x7a6239" fontFamily="Microsoft YaHei" size="26" horizontalCenter="0"/>
 	<e:Image id="invitebtn" y="429.5" source="invitebtn_png" x="54"/>
 	<e:Image id="toother" y="429.5" x="326" source=""/>
+	<e:Image id="close_btn" x="252" source="close1" y="578"/>
 </e:Skin>

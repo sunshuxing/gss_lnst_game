@@ -18,7 +18,8 @@ class PromptJump extends eui.Component implements eui.UIComponent {
 
     protected childrenCreated(): void {
         super.childrenCreated();
-        this.prompt_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.remove, this)
+        this.remove();
+        this.prompt_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, () => { SceneManager.addJump("sharetextfriend_png"); }, this)
     }
 
 
@@ -33,7 +34,6 @@ class PromptJump extends eui.Component implements eui.UIComponent {
     // }
 
     private remove() {
-        SceneManager.addJump("sharetextfriend_png");
         if (this.isduck) {                                //是鸭子配送
             if (!SceneManager.instance.isMiniprogram) {
                 SceneManager.instance.weixinUtil.shareData.titles = "【鸭蛋配送】我的鸭蛋已经在路上了。"

@@ -8,7 +8,25 @@ class Datamanager {
     private static Propdata                  //自己道具数据
     private static Answerrewarddata          //答题奖励数据
     private static nowDuckdata               //当前鸭子数据
-    private static OwnDuckdata            //自己鸭子数据
+    private static OwnDuckdata               //自己鸭子数据
+    private static ducklanguagedata          //鸭语数据
+
+
+    /**
+     * 保存当前鸭语数据
+     */
+    public static saveducklanguagedata(data){
+        this.ducklanguagedata = data;
+    }
+
+    /**
+     * 获取当前鸭语数据
+     */
+    public static getducklanguagedata(){
+        return this.ducklanguagedata;
+    }
+
+
 
     /**
      * 保存自己鸭子数据

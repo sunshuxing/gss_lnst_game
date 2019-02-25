@@ -136,8 +136,6 @@
     </e:Group>
     <e:Image id="img_water" width="88" height="84" x="386" y="860" anchorOffsetX="0" anchorOffsetY="0" source="water"
              visible="false" />
-    <e:Group id="gro_prop" width="750" height="1344" x="0" anchorOffsetY="0" anchorOffsetX="0" bottom="0"  locked="true">
-		</e:Group>
     <e:Group id="gro_pick" width="122" height="152" x="446" y="624" anchorOffsetY="0" anchorOffsetX="0" visible="false">
         <e:Image id="pick_hand" x="16" y="6" source="pickhand" scaleX="1" scaleY="1" />
         <e:Label id="pick_label" text="可摘果" x="14" y="112" fontFamily="SimHei" size="32" bold="true"

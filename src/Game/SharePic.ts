@@ -56,9 +56,7 @@ class SharePic extends eui.Component implements eui.UIComponent {
         }
         console.log(this.minsharegro)
         SceneManager.sceneManager.StageItems.enabled = true;
-        if (this.parent) {
-            this.parent.removeChild(this);
-        }
+        this.remove()
     }
 }
 

@@ -10,6 +10,7 @@ class WarehouseScene extends eui.Component implements eui.UIComponent {
     private propdisc: eui.Label;
     private warehouselist: eui.List;
     private propimg: eui.Image;
+    private warehousescr:eui.Scroller
 
     private onComplete() {
         this.x = (SceneManager.sceneManager._stage.width - this.width) / 2;
@@ -21,6 +22,7 @@ class WarehouseScene extends eui.Component implements eui.UIComponent {
 
     protected childrenCreated(): void {
         super.childrenCreated();
+        this.warehousescr.verticalScrollBar = null;
 
     }
 

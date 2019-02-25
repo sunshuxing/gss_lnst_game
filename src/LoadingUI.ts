@@ -29,14 +29,18 @@
 
 class LoadingUI extends eui.Component {
 
-    public constructor() {
+    public constructor(text?:string) {
         super();
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.createView,this)
+        if(text){
+            this.text = text
+        }
     }
 
     private textField: egret.TextField;
     private logo:eui.Image;
     private loadingbg:eui.Image;
+    private text:string
 
     private createView(): void {
         this.textField = new egret.TextField();
@@ -64,6 +68,7 @@ class LoadingUI extends eui.Component {
         this.textField.textColor = 0xFFFFFF;
         egret.Tween.get(this.logo,{loop:true})
         .to({rotation:360},5000)
+        this.textField.text = this.text;
     }
 
     public onProgress(current: number, total: number): void {

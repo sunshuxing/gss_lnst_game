@@ -20,6 +20,8 @@ class FriendList_item extends eui.ItemRenderer {
 		if (!this.data.trees || this.data.trees.length == 0) {
 			this.tree_icon.texture = RES.getRes("shuidi");
 			this.tree_icon.visible = true;
+			this.tree_icon1.texture = null
+			this.tree_icon2.texture = null
 		}
 		else {
 			this.tree_icon.visible = false;

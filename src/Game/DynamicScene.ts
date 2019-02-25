@@ -81,9 +81,6 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 	}
 
 	private Req_getWechatImg(Data, data) {
-		if (!data) {
-			return;
-		}
 		data = data.data;
 		if (data && typeof data === "string") {
 			data = JSON.parse(data)

@@ -169,7 +169,7 @@ class GameWebSocket extends egret.DisplayObjectContainer {
                 if (SceneManager.instance.isPresent) {
                     SceneManager.instance.isPresent = false;
                     let orderId = Sharepresent.prototype.orderId;
-                    location.href = Config.webHome + "confirm.html?orderid=" + orderId;
+                    location.href = Config.webHome + "/view/confirm.html?orderid=" + orderId;
                 }
                 if (SceneManager.instance.isduckDistribution) {
                     let params = {

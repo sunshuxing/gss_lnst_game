@@ -142,7 +142,7 @@ class Help {
     //限制字符串长度
     public static getcharlength(_str, _length) {
         if (_str) {
-            var reg = /[\u4e00-\u9fa5]/g,    //专业匹配中文
+            var reg = /[^\x00-\xff]/g,    //专业匹配中文
                 slice = _str.substring(0, _length),
                 chineseCharNum = (~~(slice.match(reg) && slice.match(reg).length)),
                 realen = slice.length * 2 - chineseCharNum;
@@ -207,7 +207,6 @@ class Help {
 
     //摘果动画
     public static pickTwn(num) {
-        SceneManager.sceneManager.StageItems.enabled = false;
         let timer: egret.Timer = new egret.Timer(150, num);
         timer.addEventListener(egret.TimerEvent.TIMER, this.fruitTwn, this);
         timer.start();
@@ -216,15 +215,28 @@ class Help {
     //果子动画
     public static fruitTwn() {
         let fruit = new eui.Image()
-        fruit.x = 398;
-        fruit.y = 605;
+        if (SceneManager.instance.landId == 1) {
+            fruit.x = 398;
+            fruit.y = 605;
+        }
+        else if(SceneManager.instance.landId == 2){
+            fruit.x = 350;
+            fruit.y = 800;
+        }
         fruit.width = 44;
         fruit.height = 50;
         HttpRequest.imageloader(Config.picurl + Datamanager.getNowtreedata().seedIcon, fruit)
         SceneManager.sceneManager.StageItems.addChild(fruit);
-        egret.Tween.get(fruit)
-            .to({ x: 368, y: 505 }, 300)
-            .to({ x: 200, y: 1153, height: 34, width: 29 }, 1400).call(() => { SceneManager.sceneManager.StageItems.removeChild(fruit) }, SceneManager.sceneManager.StageItems)
+        if (SceneManager.instance.landId == 1) {
+            egret.Tween.get(fruit)
+                .to({ x: 368, y: 505 }, 300)
+                .to({ x: 200, y: 1153, height: 34, width: 29 }, 1400).call(() => { SceneManager.sceneManager.StageItems.removeChild(fruit) }, SceneManager.sceneManager.StageItems)
+        }
+        else if (SceneManager.instance.landId == 2) {
+            egret.Tween.get(fruit)
+                .to({ x: 320, y: 700 }, 300)
+                .to({ x: 200, y: 1153, height: 34, width: 29 }, 1400).call(() => { SceneManager.sceneManager.StageItems.removeChild(fruit) }, SceneManager.sceneManager.StageItems)
+        }
     }
 
     /**
@@ -385,7 +397,6 @@ class Help {
         label_love.y = 640;
         label_love.text = "+" + data.loveCount
         if (Number(data.takeNum) == 0) {
-            SceneManager.sceneManager.StageItems.enabled = false;
             SceneManager.addNotice("手气不佳，没有为好友摘到果子", 1000),
 
                 this.waitFun(1, function () {
@@ -406,7 +417,6 @@ class Help {
                 }, this)
         }
         else {
-            SceneManager.sceneManager.StageItems.enabled = false;
             SceneManager.sceneManager.StageItems.addChild(img_fruit);
             SceneManager.sceneManager.StageItems.addChild(label_fruit);
             egret.Tween.get(img_fruit)
