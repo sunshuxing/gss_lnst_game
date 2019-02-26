@@ -356,6 +356,7 @@ class SceneManager {
     static tohuafeiScene() {
         // 把互动场景添加到主场景中
         NewHelp.addmask();
+        localStorage.setItem("huafeisee","true");
         this.instance._stage.addChild(this.instance.huafeiScene)
         SceneManager.sceneManager.StageItems.huafei_red.visible = false;
     }

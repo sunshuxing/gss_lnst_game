@@ -23,7 +23,6 @@ class HuafeiScene extends eui.Component implements eui.UIComponent{
 	{
 		super.childrenCreated();
         this.prop_scr.horizontalScrollBar = null;
-        localStorage.setItem("huafeisee","true");
     }
 
     private onComplete():void{
