@@ -176,7 +176,7 @@ class GameWebSocket extends egret.DisplayObjectContainer {
                         duckUserId: Datamanager.getOwnDuckdata().duckId,
                     };
                     let _str = WeixinUtil.prototype.urlEncode(params, null, null, null);
-                    window.location.href = Config.webHome + "/view/game-logistics.html" + _str;
+                    window.location.href = Config.webHome + "/view/game-logistics.html?" + _str;
                 }
             }
         }

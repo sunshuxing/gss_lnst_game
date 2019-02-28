@@ -247,12 +247,16 @@ class newMainScene extends eui.Component implements eui.UIComponent {
         }
         NewHelp.getTreeLanguage(data);                                          //获取并保存树语数据
         if (data) {
-            if (data.isReceive == "true") {
+            if (data.isReceive == "fasle") {
                 this.tree.texture = RES.getRes("notree_png");
                 this.tree.width = this.tree.width * 0.8;
                 this.tree.height = this.tree.height * 0.8;
                 this.tree.anchorOffsetX = this.tree.width * 0.5;
                 this.tree.anchorOffsetY = this.tree.height;
+                this.progress.visible = true;
+                this.progress.value = 0;
+                this.gro_progress1.visible = false;
+                NewHelp.progresslabelupdate(null, this.progress_label);                 //成长进度条说明文字更新显示
                 SceneManager.sceneManager.StageItems.chanzi_btn.visible = true;
                 egret.Tween.get(SceneManager.sceneManager.StageItems.chanzi_btn, { loop: true })
                     .to({ y: SceneManager.sceneManager.StageItems.chanzi_btn.y - 20 }, 500)
@@ -263,15 +267,15 @@ class newMainScene extends eui.Component implements eui.UIComponent {
             else {
                 this.treeupdate(data);                                                  //果树更新显示
                 SceneManager.sceneManager.StageItems.chanzi_btn.visible = false;
+                NewHelp.progressupdate(data, this.progress);                            //成长值进度条更新显示
+                NewHelp.progresslabelupdate(data, this.progress_label);                 //成长进度条说明文字更新显示
+                this.progress1update(data);                                             //收果进度条更新显示
             }
         }
         else {
             this.treeupdate(data);
             SceneManager.sceneManager.StageItems.chanzi_btn.visible = false;
         }
-        NewHelp.progressupdate(data, this.progress);                            //成长值进度条更新显示
-        NewHelp.progresslabelupdate(data, this.progress_label);                 //成长进度条说明文字更新显示
-        this.progress1update(data);                                             //收果进度条更新显示
         NewHelp.getTreeLeaveMsg(data);                                          //显示留言
         NewHelp.getTreeProp(data);                                              //显示果园放置道具(虫草)
     }

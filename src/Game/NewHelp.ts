@@ -341,10 +341,14 @@ class NewHelp {
 	 */
 	public static getTreeProp(treedata) {
 		if (!treedata) {
-			let gro_prop1 = SceneManager.sceneManager.newmainScene.gro_prop;
-			let gro_prop2 = SceneManager.sceneManager.newmain2Scene.gro_prop
-			gro_prop1.removeChildren();
-			gro_prop2.removeChildren();
+			let gro_prop
+			if (SceneManager.sceneManager.landId == 1) {
+				gro_prop = SceneManager.sceneManager.newmainScene.gro_prop;
+			}
+			else if (SceneManager.sceneManager.landId == 2) {
+				gro_prop = SceneManager.sceneManager.newmain2Scene.gro_prop
+			}
+			gro_prop.removeChildren();
 			return;
 		}
 		else {
@@ -357,10 +361,14 @@ class NewHelp {
 
 	//查询果园道具成功后处理
 	private static Req_getTreeProp(data): void {
-		let gro_prop1 = SceneManager.sceneManager.newmainScene.gro_prop;
-		let gro_prop2 = SceneManager.sceneManager.newmain2Scene.gro_prop
-		gro_prop1.removeChildren();
-		gro_prop2.removeChildren();
+		let gro_prop
+		if(SceneManager.sceneManager.landId == 1){
+			gro_prop = SceneManager.sceneManager.newmainScene.gro_prop;
+		}
+		else if(SceneManager.sceneManager.landId == 2){
+			gro_prop = SceneManager.sceneManager.newmain2Scene.gro_prop;
+		}
+		gro_prop.removeChildren();
 		var Data = data;
 		this.showtreeprop(Data.data);					//显示虫和草
 	}

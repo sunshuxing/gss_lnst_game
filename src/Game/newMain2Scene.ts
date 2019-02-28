@@ -28,7 +28,7 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
     private jishi_text: eui.Label;               //化肥计时文字
     public duckjishi: eui.Group;
     public duck_take: eui.Image;
-    public gro_prop:eui.Group;
+    public gro_prop: eui.Group;
 
 
     private info_img1: eui.Image;
@@ -162,43 +162,43 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
             // NewHelp.duck_hungryTwn();
 
             if (duckdata.needTake) {
-				if (duckdata.layEggTime) {
-					let duck_language_gro = SceneManager.sceneManager.newmain2Scene.duck_language_gro;
-					NewHelp.ducktimer.reset();
-					NewHelp.ducklanguageTimer.reset();
-					duck_language_gro.removeChildren()
-					let time = new Date(duckdata.layEggTime).getTime()
-					time = time + Number(duckdata.receiveDelay * 1000 * 60)
-					SceneManager.sceneManager.newmain2Scene.duckjishi.visible = true;
-					let timer = setInterval(() => {
-						let text = SceneManager.instance.getTaskScene().dateDif(time, timer)
-						text = text.slice(3);
-						SceneManager.sceneManager.newmain2Scene.left_receive_info.text = text;
-						if (!text) {
-							SceneManager.sceneManager.newmain2Scene.duckjishi.visible = false;
-							// let duck_take = SceneManager.sceneManager.newmain2Scene.duck_take;
-							// duck_take.visible = true;
-							// egret.Tween.get(duck_take, { loop: true })
-							// 	.set({ scaleX: 0, scaleY: 0 })
-							// 	.to({ scaleX: 1, scaleY: 1 }, 1500)
-							// 	.wait(2000)
-							NewHelp.addnoduck_language("可收取");
-						}
-					}, 1000);
-				}
-			}
-			else {
-				SceneManager.sceneManager.newmain2Scene.duck_take.visible = false;
-				SceneManager.sceneManager.newmain2Scene.duckjishi.visible = false;
-			}
+                if (duckdata.layEggTime) {
+                    let duck_language_gro = SceneManager.sceneManager.newmain2Scene.duck_language_gro;
+                    NewHelp.ducktimer.reset();
+                    NewHelp.ducklanguageTimer.reset();
+                    duck_language_gro.removeChildren()
+                    let time = new Date(duckdata.layEggTime).getTime()
+                    time = time + Number(duckdata.receiveDelay * 1000 * 60)
+                    SceneManager.sceneManager.newmain2Scene.duckjishi.visible = true;
+                    let timer = setInterval(() => {
+                        let text = SceneManager.instance.getTaskScene().dateDif(time, timer)
+                        text = text.slice(3);
+                        SceneManager.sceneManager.newmain2Scene.left_receive_info.text = text;
+                        if (!text) {
+                            SceneManager.sceneManager.newmain2Scene.duckjishi.visible = false;
+                            // let duck_take = SceneManager.sceneManager.newmain2Scene.duck_take;
+                            // duck_take.visible = true;
+                            // egret.Tween.get(duck_take, { loop: true })
+                            // 	.set({ scaleX: 0, scaleY: 0 })
+                            // 	.to({ scaleX: 1, scaleY: 1 }, 1500)
+                            // 	.wait(2000)
+                            NewHelp.addnoduck_language("可收取");
+                        }
+                    }, 1000);
+                }
+            }
+            else {
+                SceneManager.sceneManager.newmain2Scene.duck_take.visible = false;
+                SceneManager.sceneManager.newmain2Scene.duckjishi.visible = false;
+            }
 
 
         }
         else {
-			NewHelp.addnoduck_language("未领取");
-			SceneManager.sceneManager.newmain2Scene.duck_img.visible = false;
-			SceneManager.sceneManager.newmain2Scene.duckegg_img.visible = false;
-			SceneManager.sceneManager.newmain2Scene.duckjishi.visible = false;
+            NewHelp.addnoduck_language("未领取");
+            SceneManager.sceneManager.newmain2Scene.duck_img.visible = false;
+            SceneManager.sceneManager.newmain2Scene.duckegg_img.visible = false;
+            SceneManager.sceneManager.newmain2Scene.duckjishi.visible = false;
         }
     }
 
@@ -366,14 +366,14 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
         // }
 
         let title
-        
+
         if (this.infodata && this.infodata.length == 1) {
             title = this.infodata[this.n].title;
             this.info_label1.textFlow = <Array<egret.ITextElement>>[
-					{ text: "公告" ,style:{size:26}},
-					{ text: "\n" },
-					{ text:  title},
-				]
+                { text: "公告", style: { size: 26 } },
+                { text: "\n" },
+                { text: title },
+            ]
             return;
         }
         else if (this.infodata && this.infodata.length > 0) {
@@ -382,10 +382,10 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
             }
             title = this.infodata[this.n].title;
             this.info_label1.textFlow = <Array<egret.ITextElement>>[
-					{ text: "公告" ,style:{size:26}},
-					{ text: "\n" },
-					{ text:  title},
-				]
+                { text: "公告", style: { size: 26 } },
+                { text: "\n" },
+                { text: title },
+            ]
             this.n++
             var rect: egret.Rectangle = this.info_img1.scrollRect;
             egret.Tween.get(rect)
@@ -418,10 +418,10 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
             }
             title = this.infodata[this.n].title;
             this.info_label1.textFlow = <Array<egret.ITextElement>>[
-					{ text: "公告" ,style:{size:28}},
-					{ text: "\n" },
-					{ text:  title},
-				]
+                { text: "公告", style: { size: 28 } },
+                { text: "\n" },
+                { text: title },
+            ]
             this.n++
             var rect: egret.Rectangle = this.info_img1.scrollRect;
             egret.Tween.get(rect)
@@ -652,6 +652,10 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
                 this.tree.height = this.tree.height * 0.8;
                 this.tree.anchorOffsetX = this.tree.width * 0.5;
                 this.tree.anchorOffsetY = this.tree.height;
+                this.progress.visible = true;
+                this.progress.value = 0;
+                this.gro_progress1.visible = false;
+                NewHelp.progresslabelupdate(null, this.progress_label);                 //成长进度条说明文字更新显示
                 SceneManager.sceneManager.StageItems.chanzi_btn.visible = true;
                 egret.Tween.get(SceneManager.sceneManager.StageItems.chanzi_btn, { loop: true })
                     .to({ y: SceneManager.sceneManager.StageItems.chanzi_btn.y - 20 }, 500)
@@ -662,15 +666,15 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
             else {
                 this.treeupdate(data);                                                  //果树更新显示
                 SceneManager.sceneManager.StageItems.chanzi_btn.visible = false;
+                NewHelp.progressupdate(data, this.progress);                            //成长值进度条更新显示
+                NewHelp.progresslabelupdate(data, this.progress_label);                 //成长进度条说明文字更新显示
+                this.progress1update(data);                                             //收果进度条更新显示
             }
         }
         else {
             this.treeupdate(data);
             SceneManager.sceneManager.StageItems.chanzi_btn.visible = false;
         }
-        NewHelp.progressupdate(data, this.progress);                            //成长值进度条更新显示
-        NewHelp.progresslabelupdate(data, this.progress_label);                 //成长进度条说明文字更新显示
-        this.progress1update(data);                                             //收果进度条更新显示
         NewHelp.getTreeLeaveMsg(data);                                          //显示留言
         NewHelp.getTreeProp(data);                                              //显示果园放置道具(虫草)
     }

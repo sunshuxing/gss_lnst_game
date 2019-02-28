@@ -146,19 +146,19 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 		if (reload) {
 			this.topPage = 0
 			this.n = 0;
-			this.str1.text = "";
-			this.img1.texture = null;
-			this.img1_bg.texture = null;
-			this.str2.text = "";
-			this.img2.texture = null;
-			this.img2_bg.texture = null;
-			egret.Tween.removeTweens(this.str1.scrollRect);
-			egret.Tween.removeTweens(this.img1.scrollRect);
-			egret.Tween.removeTweens(this.img1_bg.scrollRect);
-			egret.Tween.removeTweens(this.str2.scrollRect);
-			egret.Tween.removeTweens(this.img2.scrollRect);
-			egret.Tween.removeTweens(this.img2_bg.scrollRect);
 		}
+		this.str1.text = "";
+		this.img1.texture = null;
+		this.img1_bg.texture = null;
+		this.str2.text = "";
+		this.img2.texture = null;
+		this.img2_bg.texture = null;
+		egret.Tween.removeTweens(this.str1.scrollRect);
+		egret.Tween.removeTweens(this.img1.scrollRect);
+		egret.Tween.removeTweens(this.img1_bg.scrollRect);
+		egret.Tween.removeTweens(this.str2.scrollRect);
+		egret.Tween.removeTweens(this.img2.scrollRect);
+		egret.Tween.removeTweens(this.img2_bg.scrollRect);
 		this.topPage = this.topPage + 1
 		let data = {
 			pageNo: this.topPage
@@ -169,7 +169,7 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 	//查询顶部消息成功后处理
 	private Req_getTopMsg(data): void {
 		var Data = data;
-		console.log(Data,"顶部消息")
+		console.log(Data, "顶部消息")
 		let maxPage = parseInt(Data.data.pages)
 		if (this.topPage == maxPage) {
 			//如果是最后一页，则下一次从首页开始
@@ -184,7 +184,7 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 		else {
 			this.info1scr()
 		}
-		console.log("最大页:",maxPage,"当前页：",this.topPage)
+		console.log("最大页:", maxPage, "当前页：", this.topPage)
 	}
 
 	private hasTopMsg = true;
