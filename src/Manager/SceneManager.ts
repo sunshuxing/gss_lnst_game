@@ -247,6 +247,9 @@ class SceneManager {
                 this.instance.newmain2Scene.getOwnTree();
             }
         }
+        else{
+            console.log("错误数据",data.data)
+        }
         this.instance._stage.removeChild(this.loadingView)
     }
 

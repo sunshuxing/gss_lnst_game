@@ -8,9 +8,9 @@
             <e:Image id="info_img1" width="240" height="100" x="18" y="23" anchorOffsetX="0" anchorOffsetY="0" source=""
                      visible="false" />
             <e:Image id="info_img2" width="240" height="100" x="18" y="23" source="" visible="false" />
-            <e:Label id="info_label1" text="" x="42" y="23" width="190" height="100" textAlign="center"
-                     fontFamily="SimHei" textColor="0xd81e1e" size="20" lineSpacing="10" verticalAlign="middle" />
-            <e:Label id="info_label2" text="" x="42" y="23" width="190" height="100" textAlign="center"
+            <e:Label id="info_label1" text="" x="29" y="23" width="222" height="100" textAlign="center"
+                     fontFamily="SimHei" textColor="0xd81e1e" size="20" lineSpacing="10" verticalAlign="middle"  anchorOffsetX="0"/>
+            <e:Label id="info_label2" text="" x="29" y="23" width="222" height="100" textAlign="center"
                      fontFamily="SimHei" textColor="0xd81e1e" size="20" lineSpacing="10" verticalAlign="middle"
                      anchorOffsetX="0" />
         </e:Group>

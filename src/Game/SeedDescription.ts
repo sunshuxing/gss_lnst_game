@@ -42,7 +42,7 @@ class SeedDescription extends eui.Component implements eui.UIComponent {
             treeId: this.seed_data.id,
             friendSign: SceneManager.instance.friendSign	//分享标识，如果有，则是通过分享进入
         };
-        MyRequest._post("game/receiveTree", params, this, this.requestreceiveTree.bind(this), this.onGetIOError)
+            MyRequest._post("game/receiveTree", params, this, this.requestreceiveTree.bind(this), this.onGetIOError)
     }
 
     //获取种子成功

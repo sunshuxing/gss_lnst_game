@@ -247,7 +247,7 @@ class newMainScene extends eui.Component implements eui.UIComponent {
         }
         NewHelp.getTreeLanguage(data);                                          //获取并保存树语数据
         if (data) {
-            if (data.isReceive == "fasle") {
+            if (data.isReceive == "true") {
                 this.tree.texture = RES.getRes("notree_png");
                 this.tree.width = this.tree.width * 0.8;
                 this.tree.height = this.tree.height * 0.8;

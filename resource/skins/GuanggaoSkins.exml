@@ -5,13 +5,13 @@
     <e:Image source="baikebg_png" horizontalCenter="0" verticalCenter="0" />
     <e:Image id="baike_btn" y="1215" horizontalCenter="0" source="baike_btn_png" />
     <e:Label id="baike_title" text="" y="246" horizontalCenter="0" size="40" fontFamily="SimHei" bold="true"
-             textColor="0x713d0f" />
-    <e:Scroller id="baike_scr" width="500" height="754.55" y="314" anchorOffsetX="0" anchorOffsetY="0"
+             textColor="0x713d0f"  maxWidth="500"/>
+	<e:Rect width="600" height="20" x="73" y="779" anchorOffsetX="0" strokeColor="0xfcefde" fillColor="0xfcefde"/>
+    <e:Scroller id="baike_scr" width="500" height="696.98" y="371.57" anchorOffsetX="0" anchorOffsetY="0"
                 horizontalCenter="0">
-        <e:Group>
+        <e:Group anchorOffsetY="0" height="737.88" x="0" y="16.67">
             <e:Label id="baike_disc" text="" x="0" y="0" size="24" textColor="0x713d0f" fontFamily="SimHei" width="500"
                      lineSpacing="12" />
         </e:Group>
     </e:Scroller>
-    <e:Rect width="600" height="20" x="73" y="779" anchorOffsetX="0" strokeColor="0xfcefde" fillColor="0xfcefde" />
 </e:Skin>

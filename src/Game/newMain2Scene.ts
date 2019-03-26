@@ -91,7 +91,7 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
      * 广告详情
      */
     private infotouch() {
-        let guanggao = new GuanggaoScene(this.infodata[this.n])
+        let guanggao = new GuanggaoScene(this.infodata[this.n-1])
         SceneManager.sceneManager._stage.addChild(guanggao);
     }
 
@@ -387,7 +387,7 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
                 { text: title },
             ]
             this.n++
-            var rect: egret.Rectangle = this.info_img1.scrollRect;
+            var rect: egret.Rectangle = this.info_label1.scrollRect;
             egret.Tween.get(rect)
                 .set({ y: -100 })
                 .to({ y: 0 }, 1000)
@@ -417,17 +417,17 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
                 this.n = 0;
             }
             title = this.infodata[this.n].title;
-            this.info_label1.textFlow = <Array<egret.ITextElement>>[
+            this.info_label2.textFlow = <Array<egret.ITextElement>>[
                 { text: "公告", style: { size: 28 } },
                 { text: "\n" },
                 { text: title },
             ]
             this.n++
-            var rect: egret.Rectangle = this.info_img1.scrollRect;
+            var rect: egret.Rectangle = this.info_label2.scrollRect;
             egret.Tween.get(rect)
                 .set({ y: -100 })
                 .to({ y: 0 }, 1000)
-                .wait(2000).call(this.scr2, this)
+                .wait(2000).call(this.scr1, this)
                 .to({ y: 100 }, 1000);
         }
     }

@@ -362,10 +362,10 @@ class NewHelp {
 	//查询果园道具成功后处理
 	private static Req_getTreeProp(data): void {
 		let gro_prop
-		if(SceneManager.sceneManager.landId == 1){
+		if (SceneManager.sceneManager.landId == 1) {
 			gro_prop = SceneManager.sceneManager.newmainScene.gro_prop;
 		}
-		else if(SceneManager.sceneManager.landId == 2){
+		else if (SceneManager.sceneManager.landId == 2) {
 			gro_prop = SceneManager.sceneManager.newmain2Scene.gro_prop;
 		}
 		gro_prop.removeChildren();
@@ -2056,6 +2056,42 @@ class NewHelp {
 			}
 		}
 		this.needDyn_red = false;
+	}
+
+
+	/**
+	 * 帮助好友喂鸭子
+	 * duckUserId 鸭子ID
+	 * propUserId 用户道具id
+	 */
+	public static helpDuck(duckUserId, propUserId) {
+		if (duckUserId) {
+			let params = {
+				duckUserId: duckUserId,
+				propUserId: propUserId
+			};
+			MyRequest._post("game/helpDuck", params, this, this.Req_helpDuck.bind(this), null)
+		}
+	}
+
+
+	private static Req_helpDuck(data) {
+		console.log(data, "帮好友喂鸭数据");
+	}
+
+	/**
+	 * 通过道具id获取用户道具id
+	 * propId  道具id
+	 */
+	public static getpropUserIdbypropid(porpId) {
+		var data = Datamanager.getPropdata();
+		if (data) {
+			for (let i=0;i<data.length;i++){
+				if(data[i].propId==porpId){
+					return data[i].id;
+				}
+			}
+		}
 	}
 
 
