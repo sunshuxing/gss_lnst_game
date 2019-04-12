@@ -5,10 +5,9 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 		this.skinName = "resource/skins/DynamicSkins.exml";
 	}
 
-	private btn_close: eui.Image;
 	private scr_dyn: eui.Scroller;
 	private list_dyn: eui.List;
-	private line: eui.Image;
+	private line: eui.Rect;
 	private perNum = 1;
 	private isLastPage = "false";
 	private treeUserId;
@@ -27,7 +26,6 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 			}
 		}
 			, this);
-		this.btn_close.addEventListener(egret.TouchEvent.TOUCH_TAP, this.closeScene, this)
 		this.scr_dyn.verticalScrollBar = null;
 		this.scr_dyn.bounces = null;
 		this.list_dyn.useVirtualLayout = false;
@@ -99,7 +97,7 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 		}
 		// this.euiArr.addItem({state:true,createDate:"2018-11-30 10:41:44"});
 		console.log(this.euiArr, "动态数据")
-		this.line.height = this.euiArr.length * 300;
+		this.line.height = this.euiArr.length * 120;
 		this.isLastPage = Data.data.isLastPage;
 	}
 
@@ -153,7 +151,7 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 
 
 	//关闭该场景
-	private closeScene() {
+	public closeScene() {
 		this.perNum = 1;
 		this.euiArr.removeAll();
 		if (this.perNum == 1) {
@@ -176,13 +174,9 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 class dynList_item extends eui.ItemRenderer {
 	private dyn_day: eui.Label;						//日期
 	private user_icon: eui.Image;					//头像
-	private dyn_bg: eui.Image;						//背景
 	private dyn_label: eui.Label;					//动态消息
-	private dyn_time: eui.Label;						//时间
-	private dyn_des: eui.Label;						//描述
-	private dynList_State: dynList_State;			//item状态
-	private dyn_toother: eui.Group;					//去他人果园
-	private dyn_icon: eui.Image;						//图标
+	private dyn_time: eui.Label;					//时间
+	private dyn_toother: eui.Label;					//去他人果园
 
 	public constructor() {
 		super()
@@ -213,13 +207,6 @@ class dynList_item extends eui.ItemRenderer {
 		if (this.data.state) {
 			this.currentState = "nomore"
 		}
-		// if(this.dyn_label.text.length>18){//如果大于18个字符串则需要换行
-		// 	let lineNum = this.dyn_label.text.length/18		//要换行多少每行35
-		// 	this.dyn_bg.height = this.dyn_bg.height + 35 * lineNum
-		// 	this.height = this.height + 35 * lineNum
-		// 	this.dyn_time.y = this.dyn_time.y + 35 * lineNum
-		// 	this.dyn_toother.y = this.dyn_toother.y + 35 * lineNum
-		// }
 		this.dyn_time.text = Help.getTime(this.data.createDate, "hours");
 		if (this.data.type == 7) {
 			this.user_icon.texture = RES.getRes("gamelogo")
@@ -229,35 +216,27 @@ class dynList_item extends eui.ItemRenderer {
 		if (this.data.type == 0) {
 			this.dyn_toother.visible = false;
 			this.dyn_label.text = "我的" + this.data.treeName + this.data.stageName + "了!";
-			this.dyn_des.text = "";
-			this.dyn_bg.texture = RES.getRes("dyn-ly-xt");
 		}
 		else if (this.data.type == 1) {
 			this.dyn_toother.visible = false;
 			this.dyn_label.text = Help.getcharlength(this.data.mainUserName, 4) + "领取了" + this.data.treeName + "!";
-			this.dyn_des.text = "";
-			this.dyn_bg.texture = RES.getRes("dyn-ly-xt");
 
 		}
 		else if (this.data.type == 2) {
 			this.dyn_toother.visible = true;
-			this.dyn_icon.texture = RES.getRes("dyn-bf-icon");
-			this.dyn_bg.texture = RES.getRes("dyn-bf-bg");
 			this.dyn_label.textFlow = Array<egret.ITextElement>(
 				{ text: Help.getcharlength(this.data.mainUserName, 4), style: { "href": "event:" + this.data.mainUser, "underline": true } }
 				, { text: "拜访你的农场" }
 			);
-			this.dyn_des.text = "拜访TA";
+			this.dyn_toother.text = "拜访TA>";
 		}
 		else if (this.data.type == 3) {
 			this.dyn_toother.visible = true;
-			this.dyn_icon.texture = RES.getRes("dyn-bf-icon");
-			this.dyn_bg.texture = RES.getRes("dyn-bf-bg");
 			this.dyn_label.textFlow = Array<egret.ITextElement>(
 				{ text: Help.getcharlength(this.data.mainUserName, 4), style: { "href": "event:" + this.data.mainUser, "underline": true } }
 				, { text: "来偷水" + this.data.num + "g" }
 			);
-			this.dyn_des.text = "拜访TA";
+			this.dyn_toother.text = "拜访TA>";
 		}
 		else if (this.data.type == 4) {
 			let info = ""
@@ -266,83 +245,64 @@ class dynList_item extends eui.ItemRenderer {
 			} else {
 				info = "来帮你浇水啦，每日帮浇水已达上限，没有获得成长值哦"
 			}
-			this.dyn_bg.height = this.dyn_label.height + 92;
 			this.dyn_toother.visible = true;
-			this.dyn_icon.texture = RES.getRes("dyn-bf-icon");
-			this.dyn_bg.texture = RES.getRes("dyn-bf-bg");
 			this.dyn_label.textFlow = Array<egret.ITextElement>(
 				{ text: Help.getcharlength(this.data.mainUserName, 4), style: { "href": "event:" + this.data.mainUser, "underline": true } }
 				, { text: info }
 			);
-			this.dyn_des.text = "拜访TA";
+			this.dyn_toother.text = "拜访TA>";
 		}
 		else if (this.data.type == 5) {
 			this.dyn_toother.visible = true;
-			this.dyn_icon.texture = RES.getRes("dyn-ly-icon");
-			this.dyn_bg.texture = RES.getRes("dyn-ly-bg");
 			this.dyn_label.textFlow = Array<egret.ITextElement>(
 				{ text: Help.getcharlength(this.data.mainUserName, 4), style: { "href": "event:" + this.data.mainUser, "underline": true } }
 				, { text: "给你留言" }
 			);
-			this.dyn_des.text = "给TA留言";
+			this.dyn_toother.text = "给TA留言>";
 		}
 		else if (this.data.type == 6) {
 			this.dyn_toother.visible = false;
-			this.dyn_bg.texture = RES.getRes("dyn-ly-xt");
 			this.dyn_label.text = Help.getcharlength(this.data.mainUserName, 4) + "签到";
-			this.dyn_des.text = "";
 
 		}
 		else if (this.data.type == 7) {
 			this.dyn_toother.visible = false;
-			this.dyn_bg.texture = RES.getRes("dyn-ly-xt");
 			this.dyn_label.text = "我获得了" + this.data.num + "个" + this.getpropname(this.data);
-			this.dyn_des.text = "";
 		}
 		else if (this.data.type == 10) {
 			this.dyn_toother.visible = true;
-			this.dyn_icon.texture = RES.getRes("dyn-dd-icon");
-			this.dyn_bg.texture = RES.getRes("dyn-dd-bg");
 			this.dyn_label.textFlow = Array<egret.ITextElement>(
 				{ text: Help.getcharlength(this.data.mainUserName, 4), style: { "href": "event:" + this.data.mainUser, "underline": true } }
 				, { text: "给你放了杂草" }
 			);
-			this.dyn_des.text = "给TA捣蛋";
+			this.dyn_toother.text = "给TA捣蛋>";
 		}
 		else if (this.data.type == 11) {
 			this.dyn_toother.visible = true;
-			this.dyn_icon.texture = RES.getRes("dyn-dd-icon");
-			this.dyn_bg.texture = RES.getRes("dyn-dd-bg");
 			this.dyn_label.textFlow = Array<egret.ITextElement>(
 				{ text: Help.getcharlength(this.data.mainUserName, 4), style: { "href": "event:" + this.data.mainUser, "underline": true } }
 				, { text: "给你放了虫子" }
 			);
-			this.dyn_des.text = "给TA捣蛋";
+			this.dyn_toother.text = "给TA捣蛋>";
 		}
 		else if (this.data.type == 20) {
 			this.dyn_toother.visible = true;
-			this.dyn_icon.texture = RES.getRes("dyn-bf-icon");
-			this.dyn_bg.texture = RES.getRes("dyn-bf-bg");
 			this.dyn_label.textFlow = Array<egret.ITextElement>(
 				{ text: Help.getcharlength(this.data.mainUserName, 4), style: { "href": "event:" + this.data.mainUser, "underline": true } }
 				, { text: "帮你除草" }
 			);
-			this.dyn_des.text = "拜访TA";
+			this.dyn_toother.text = "拜访TA>";
 		}
 		else if (this.data.type == 21) {
 			this.dyn_toother.visible = true;
-			this.dyn_icon.texture = RES.getRes("dyn-bf-icon");
-			this.dyn_bg.texture = RES.getRes("dyn-bf-bg");
 			this.dyn_label.textFlow = Array<egret.ITextElement>(
 				{ text: Help.getcharlength(this.data.mainUserName, 4), style: { "href": "event:" + this.data.mainUser, "underline": true } }
 				, { text: "帮你除虫" }
 			);
-			this.dyn_des.text = "拜访TA";
+			this.dyn_toother.text = "拜访TA>";
 		}
 		else if (this.data.type == 50) {
 			this.dyn_toother.visible = true;
-			this.dyn_icon.texture = RES.getRes("dyn-dd-icon");
-			this.dyn_bg.texture = RES.getRes("dyn-dd-bg");
 			let info = ""
 			if (this.data.num > 0) {
 				info = "帮你摘了" + this.data.num + "个果子哦";
@@ -353,27 +313,24 @@ class dynList_item extends eui.ItemRenderer {
 				{ text: Help.getcharlength(this.data.mainUserName, 4), style: { "href": "event:" + this.data.mainUser, "underline": true } }
 				, { text: info }
 			);
-			this.dyn_des.text = "去TA农场";
+			this.dyn_toother.text = "去TA农场>";
 		}
 		else if (this.data.type == 100) {
 			this.dyn_toother.visible = false;
 			this.dyn_label.text = Help.getcharlength(this.data.mainUserName, 4) + "兑换了水果";
-			this.dyn_des.text = "";
-			this.dyn_bg.texture = RES.getRes("dyn-ly-xt");
 		}
 		else if (this.data.type == 201) {
 			this.dyn_toother.visible = false;
-			this.dyn_bg.texture = RES.getRes("dyn-ly-xt");
 			this.dyn_label.text = "我领取了鸭子！"
 
 		}
 		else if (this.data.type == 202) {
 			this.dyn_toother.visible = true;
 			let info
-			if(this.data.num>0){
-				info = "偷了"+this.data.num+"个鸭蛋"
+			if (this.data.num > 0) {
+				info = "偷了" + this.data.num + "个鸭蛋"
 			}
-			else{
+			else {
 				info = "没有偷到你的蛋"
 			}
 			this.dyn_label.textFlow = Array<egret.ITextElement>(
@@ -381,9 +338,6 @@ class dynList_item extends eui.ItemRenderer {
 				, { text: info }
 			);
 		}
-
-		this.dyn_bg.height = this.dyn_label.height + 92;
-
 	}
 
 

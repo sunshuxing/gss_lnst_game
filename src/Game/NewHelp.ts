@@ -51,11 +51,10 @@ class NewHelp {
 	}
 
 	//点击遮罩关闭场景
-	private static closescene() {
+	public static closescene() {
 		//关闭动态场景
 		if (SceneManager.sceneManager.getDynamicScene().parent) {
-			SceneManager.sceneManager.getDynamicScene().parent.removeChild(SceneManager.sceneManager.getDynamicScene())
-			this.removemask();
+			SceneManager.sceneManager.getDynamicScene().closeScene();
 			return;
 		}
 		//关闭任务场景
@@ -83,6 +82,16 @@ class NewHelp {
 		}
 		if (SceneManager.sceneManager.getWarehouseScene().parent) {
 			SceneManager.sceneManager.getWarehouseScene().parent.removeChild(SceneManager.sceneManager.getWarehouseScene())
+			this.removemask();
+			return;
+		}
+		if (SceneManager.sceneManager.getNewfriendScene().parent) {
+			SceneManager.sceneManager.getNewfriendScene().parent.removeChild(SceneManager.sceneManager.getNewfriendScene())
+			this.removemask();
+			return;
+		}
+		if (SceneManager.sceneManager.getSigninScene().parent) {
+			SceneManager.sceneManager.getSigninScene().parent.removeChild(SceneManager.sceneManager.getSigninScene())
 			this.removemask();
 			return;
 		}
@@ -569,11 +578,9 @@ class NewHelp {
 		var Data = data;
 		gro_prop.removeChild(icon);
 		if (Data.data && Number(Data.data.loveCount) > 0) {
-			// Help.helpwaterLove(Data.data);					//爱心值动画
+
 			NewHelp.updateprop();
-			// let text: string = SceneManager.sceneManager.StageItems.love_num.text
-			// text = text.substring(0, text.length - 1)
-			// SceneManager.sceneManager.StageItems.love_num.text = (String(Number(text) + Number(Data.data.loveCount))) + "%"
+
 		} else {
 			if (SceneManager.instance.landId == 1) {
 				if (Datamanager.getNowtreedata().id == Datamanager.getOwnguoyuandata().id) {
@@ -613,31 +620,13 @@ class NewHelp {
 		let loveNum = Help.getPropById(Data.data, 2) ? Help.getPropById(Data.data, 2).num : "0";
 		// 显示自己道具数值
 		SceneManager.sceneManager.getHuafeiScene().duckfood_num.text = Help.getPropById(Data.data, 8) ? Help.getPropById(Data.data, 8).num : 0;
-		// SceneManager.sceneManager.StageItems.love_num.textFlow = <Array<egret.ITextElement>>[					//爱心值数量
-		// 	{ text: loveNum, style: { "size": 22 } }
-		// 	, { text: "%", style: { "size": 18 } }
-		// ];
 		SceneManager.sceneManager.StageItems.kettle_num.text = (Help.getPropById(Data.data, 1) ? Help.getPropById(Data.data, 1).num : 0) + "g";    //水滴数量
-		if (SceneManager.instance.landId == 1) {
-			SceneManager.sceneManager.newmainScene.pick_num.text = "x" + ((Help.getPropById(Data.data, 3) ? Help.getPropById(Data.data, 3).num : 0));  //篮子数量
-		}
-		else if (SceneManager.instance.landId == 2) {
-			SceneManager.sceneManager.newmain2Scene.pick_num.text = "x" + ((Help.getPropById(Data.data, 3) ? Help.getPropById(Data.data, 3).num : 0));  //篮子数量
-		}
 		SceneManager.sceneManager.getHuafeiScene().youji_num.text = Help.getPropById(Data.data, 4) ? Help.getPropById(Data.data, 4).num : 0;			   //有机肥数量
 		SceneManager.sceneManager.getHuafeiScene().fuhe_num.text = Help.getPropById(Data.data, 5) ? Help.getPropById(Data.data, 5).num : 0;			   //复合肥数量
 		SceneManager.sceneManager.getHuafeiScene().shuirong_num.text = Help.getPropById(Data.data, 6) ? Help.getPropById(Data.data, 6).num : 0;		   //水溶肥数量
 		SceneManager.sceneManager.getHuafeiScene().insect_num.text = Help.getPropById(Data.data, 9) ? Help.getPropById(Data.data, 9).num : 0;		   //虫数量
 		SceneManager.sceneManager.getHuafeiScene().grass_num.text = Help.getPropById(Data.data, 10) ? Help.getPropById(Data.data, 10).num : 0;		   //草数量
 
-		let text: string = SceneManager.sceneManager.StageItems.love_num.text
-		text = text.substring(0, text.length - 1)
-		if (Number(text) >= 100) {
-			egret.Tween.get(SceneManager.sceneManager.StageItems.img_love, { loop: true })
-				.to({ scaleX: 1, scaleY: 1 }, 400)
-				.to({ scaleX: 1.1, scaleY: 1.1 }, 400)
-				.to({ scaleX: 1, scaleY: 1 }, 400)
-		}
 		/**
 		 * 化肥红点判断
 		 */
@@ -712,14 +701,12 @@ class NewHelp {
 	private static Req_friendWater(data): void {
 		this.canPost = true;
 		egret.Tween.get(SceneManager.sceneManager.StageItems.frimg_kettle)
-			.to({ y: -130 }, 500)
-			.to({ x: -29, y: -170, rotation: -54 }, 500).call(() => { this.waterTwn(data.data) }, this)
+			.to({ y: -230 }, 500)
+			.to({ x: -120, y: -330, rotation: -54 }, 500).call(() => { this.waterTwn(data.data) }, this)
 			.wait(1200)
-			.to({ y: -130, rotation: 0 }, 500)
-			.to({ y: 80, x: 100 }, 500)
-		let text: string = SceneManager.sceneManager.StageItems.love_num.text;
-		text = text.substring(0, text.length - 1);
-		SceneManager.sceneManager.StageItems.love_num.text = (String(Number(text) + Number(data.data.loveCount))) + "%";
+			.to({ y: -230, rotation: 0 }, 500)
+			.to({ y: 0, x: 0 }, 500)
+
 	}
 
 
@@ -738,8 +725,8 @@ class NewHelp {
 				console.log("果树已经可以兑换啦，不用再使用道具了。")
 				return;
 			}
-			if (treedata.needTake == "true" && propId != "3") {
-				SceneManager.addNotice("果树已经长好了,快使用篮子去摘果吧！")
+			if (treedata.needTake == "true") {
+				SceneManager.addNotice("果树已经长好了,快去摘果吧！")
 				return
 			}
 			if (treedata.stageObj.isLast == "true" && treedata.growthValue == treedata.stageObj.energy && treedata.needTake == "false") {
@@ -752,7 +739,7 @@ class NewHelp {
 			}
 			if (this.canPost) {
 				this.canPost = false;
-				SceneManager.sceneManager.StageItems.img_kettle.touchEnabled = false;
+				SceneManager.sceneManager.StageItems.btn_kettle.touchEnabled = false;
 				MyRequest._post("game/useProp", params, this, this.Req_useProp.bind(this, propId), this.postErr.bind(this, propId));
 			}
 		}
@@ -763,7 +750,7 @@ class NewHelp {
 				}
 				if (this.canPost) {
 					this.canPost = false;
-					SceneManager.sceneManager.StageItems.img_kettle.touchEnabled = false;
+					SceneManager.sceneManager.StageItems.btn_kettle.touchEnabled = false;
 					MyRequest._post("game/useProp", params, this, this.Req_useProp.bind(this, propId), this.postErr.bind(this, propId));
 				}
 			}
@@ -776,24 +763,12 @@ class NewHelp {
 
 	//使用道具成功后处理
 	private static Req_useProp(propId, data): void {
-		SceneManager.sceneManager.StageItems.img_kettle.touchEnabled = true;
+		SceneManager.sceneManager.StageItems.btn_kettle.touchEnabled = true;
 		this.canPost = true;
 		SceneManager.sceneManager.newmainScene.progress.slideDuration = 6000;
 		var Data = data;
 		if (propId == 1) {										//使用水滴
 			this.kettleTwn();					//使用水滴之后更新在动画中完成
-		}
-		else if (propId == 2) {									//使用爱心值
-			egret.Tween.removeTweens(SceneManager.sceneManager.StageItems.img_love);
-			Help.useLoveTwn();
-			// let content = "您的爱心值已兑换成长值！"
-			// let btn = "确定"
-			// let ti = "(多多帮助好友可使您的小树更快成长哦！)"
-			// SceneManager.addPrompt(content, btn, ti);
-		}
-		else if (propId == 3) {									//使用篮子
-			Help.pickTwn(5);
-			Help.pickTwnupdata(this.pickafter);
 		}
 		else if (propId == 4 || propId == 5 || propId == 6) {	//使用化肥
 			this.huafeiTwn(propId);
@@ -827,15 +802,6 @@ class NewHelp {
 		}
 	}
 
-	private static pickafter() {
-		SceneManager.sceneManager.newmainScene.enabled = true;
-		if (SceneManager.instance.landId == 1) {
-			SceneManager.sceneManager.newmainScene.getOwnTree();						//更新果园数据
-		}
-		else if (SceneManager.instance.landId == 2) {
-			SceneManager.sceneManager.newmain2Scene.getOwnTree();						//更新菜园数据
-		}
-	}
 
 
 
@@ -905,11 +871,11 @@ class NewHelp {
 	//水壶动画
 	private static kettleTwn() {
 		egret.Tween.get(SceneManager.sceneManager.StageItems.img_kettle)
-			.to({ y: -130 }, 500)
-			.to({ x: -29, y: -170, rotation: -54 }, 500).call(this.waterTwn, this)
+			.to({ y: -230 }, 500)
+			.to({ x: -120, y: -330, rotation: -54 }, 500).call(this.waterTwn, this)
 			.wait(1200)
-			.to({ y: -130, rotation: 0 }, 500)
-			.to({ y: 85, x: 102 }, 500).call(this.tettleEad, this);
+			.to({ y: -230, rotation: 0 }, 500)
+			.to({ y: 0, x: 0 }, 500).call(this.tettleEad, this);
 	}
 
 
@@ -964,21 +930,16 @@ class NewHelp {
 		} else if (SceneManager.sceneManager.StageItems.currentState == "friendtree") {
 			SceneManager.sceneManager.StageItems.img_water.visible = false;
 		}
-		SceneManager.sceneManager.StageItems.gro_kettle.visible = false;
+		SceneManager.sceneManager.StageItems.btn_kettle.visible = false;
 		this.showtime(this.a);
 		SceneManager.sceneManager.StageItems.gro_lq.visible = true;
 		this.kettlelq(this.a);
 	}
 
-	private static lqTwn() {
-		egret.Tween.get(SceneManager.sceneManager.StageItems.sanj, { loop: true })
-			.set({ rotation: SceneManager.sceneManager.StageItems.sanj.rotation })
-			.to({ rotation: SceneManager.sceneManager.StageItems.sanj.rotation + 360 }, 4000)
-	}
+
 
 	//水壶冷却
 	private static kettlelq(time) {
-		this.lqTwn();
 		let timer: egret.Timer = new egret.Timer(1000, time);
 		timer.addEventListener(egret.TimerEvent.TIMER, () => this.timelq(timer), this);
 		timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, this.kettleshow, this);
@@ -1012,16 +973,14 @@ class NewHelp {
 				this.b = 40;
 			}
 			this.a = this.b
-			SceneManager.sceneManager.StageItems.gro_kettle.visible = true;
+			SceneManager.sceneManager.StageItems.btn_kettle.visible = true;
 			SceneManager.sceneManager.StageItems.gro_lq.visible = false;
 			timer.reset();
 		}
 	}
 	//冷却加速
 	public static lqfast() {
-		egret.Tween.pauseTweens(SceneManager.sceneManager.StageItems.sanj);
-		egret.Tween.get(SceneManager.sceneManager.StageItems.sanj)
-			.to({ rotation: SceneManager.sceneManager.StageItems.sanj.rotation + 120 }, 500).call(this.lqTwn, this)
+
 		this.a = this.a - 1;
 		this.showtime(this.a);
 		let text = new eui.Label();
@@ -1037,14 +996,13 @@ class NewHelp {
 
 	//水壶冷却完成
 	private static kettleshow() {
-		// this.gro_kettle.visible = true;
-		// this.gro_lq.visible = false;
+
 	}
 
 
 	//请求接口失败回调
 	private static postErr(propId?) {
-		SceneManager.sceneManager.StageItems.img_kettle.touchEnabled = true;
+		SceneManager.sceneManager.StageItems.btn_kettle.touchEnabled = true;
 		this.canPost = true;
 		if (propId == "3") {										//篮子数量不够提示
 			let jumpPrompt = new PromptHuafei(() => {
@@ -1240,25 +1198,13 @@ class NewHelp {
 		else {
 			progress.visible = true;
 			let nowprogressvalue
-			if (Number(data.stageObj.energy) < 100) {
-				progress.maximum = Number(data.stageObj.energy) * 10
-				progress.value = data.growthValue * 10;			//进度条当前值
-				if (this.nowprogressvalue && this.nowprogressvalue > Number(data.growthValue)) {
-					progress.value = 0;
-					progress.slideDuration = 0;
-					progress.value = 0.01;
-					progress.value = data.growthValue * 10;
-				}
-			}
-			else {
-				progress.maximum = data.stageObj.energy;	//进度条最大值
-				progress.value = data.growthValue;			//进度条当前值
-				if (this.nowprogressvalue && this.nowprogressvalue > Number(data.growthValue)) {
-					progress.value = 0;
-					progress.slideDuration = 0;
-					progress.value = 0.01;
-					progress.value = data.growthValue;
-				}
+			progress.maximum = data.stageObj.energy;	//进度条最大值
+			progress.value = data.growthValue;			//进度条当前值
+			if (this.nowprogressvalue && this.nowprogressvalue > Number(data.growthValue)) {
+				progress.value = 0;
+				progress.slideDuration = 0;
+				progress.value = 0.01;
+				progress.value = data.growthValue;
 			}
 			progress.minimum = 0;						//进度条最小值
 			this.nowprogressvalue = Number(data.growthValue);
@@ -1279,10 +1225,8 @@ class NewHelp {
 				progress_label.textFlow = <Array<egret.ITextElement>>[
 					{ text: data.stageObj.name },
 					{ text: "还需要浇水" },
-					{ text: (Number(data.stageObj.energy) - Number(data.growthValue)), style: { "textColor": 0xd67214 } },
-					{ text: "g到" },
-					{ text: data.nextStageName, style: { "textColor": 0xd67214 } },
-					{ text: "了" }
+					{ text: (Number(data.stageObj.energy) - Number(data.growthValue)) + "g", style: { "textColor": 0xd67214 } },
+					{ text: data.nextStageName },
 				]
 				if (data.needTake == "true") {
 					progress_label.textFlow = <Array<egret.ITextElement>>[
@@ -1294,10 +1238,8 @@ class NewHelp {
 					progress_label.textFlow = <Array<egret.ITextElement>>[
 						{ text: data.stageObj.name },
 						{ text: "还需要浇水" },
-						{ text: (Number(data.stageObj.energy) - Number(data.growthValue)), style: { "textColor": 0xd67214 } },
-						{ text: "g就可" },
-						{ text: "采摘", style: { "textColor": 0xd67214 } },
-						{ text: "了" }
+						{ text: (Number(data.stageObj.energy) - Number(data.growthValue)) + "g", style: { "textColor": 0xd67214 } },
+						{ text: "采摘" },
 					]
 				}
 				if (data.stageObj.isLast == "true" && data.growthValue == data.stageObj.energy) {
@@ -1457,17 +1399,17 @@ class NewHelp {
 		let params = {
 			treeUserId: treeUserId
 		};
-		MyRequest._post("game/helpTakeGoods", params, this, this.Req_friendpick.bind(this), null);
+		MyRequest._post("game/helpTakeGoods", params, this, this.Req_friendpick.bind(this, treeUserId), null);
 	}
 
 	//帮摘果之后请求
-	private static Req_friendpick(data) {
+	private static Req_friendpick(treeUserId, data) {
+		treeUserId = String(treeUserId);
+		var nowday = new Date().toLocaleDateString();
+		localStorage.setItem(treeUserId, nowday)
 		Help.pickTwn(5);
 		Help.pickTwnupdata(() => {
 			Help.helppickTwn(data.data);
-			let text: string = SceneManager.sceneManager.StageItems.love_num.text;
-			text = text.substring(0, text.length - 1);
-			SceneManager.sceneManager.StageItems.love_num.text = (String(Number(text) + Number(data.data.loveCount))) + "%";
 			this.getTreeInfoByid(Datamanager.getNowtreedata().id);
 			SceneManager.sceneManager.StageItems.enabled = true;
 		})
@@ -1605,6 +1547,9 @@ class NewHelp {
 	 * friendUser:好友用户id
 	 */
 	public static dianzan(friendUser) {
+		if (friendUser == SceneManager.sceneManager.weixinUtil.login_user_id) {
+			return;
+		}
 		let params = {
 			friend: friendUser
 		};
@@ -1652,7 +1597,7 @@ class NewHelp {
 
 	private static Req_getPraiseByUser(data) {
 		console.log(data.data, "点赞数")
-		SceneManager.sceneManager.StageItems.friendlike_num.text = data.data							//好友点赞数
+		SceneManager.sceneManager.StageItems.friend_love_num.text = data.data							//好友点赞数
 	}
 
 	/**
@@ -2086,8 +2031,8 @@ class NewHelp {
 	public static getpropUserIdbypropid(porpId) {
 		var data = Datamanager.getPropdata();
 		if (data) {
-			for (let i=0;i<data.length;i++){
-				if(data[i].propId==porpId){
+			for (let i = 0; i < data.length; i++) {
+				if (data[i].propId == porpId) {
 					return data[i].id;
 				}
 			}
@@ -2095,6 +2040,40 @@ class NewHelp {
 	}
 
 
+	/**
+	 * 获取当前时间n天后
+	 * AddDayCount  -1：昨天  1：明天
+	 */
+	public static getDateStr(AddDayCount) {
+		var dd = new Date();
+		dd.setDate(dd.getDate() + AddDayCount);//获取AddDayCount天后的日期
+		var y = dd.getFullYear();
+		var m = dd.getMonth() + 1;//获取当前月份的日期
+		var d = dd.getDate();
+		return y + '-' + (m < 10 ? '0' + m : m) + '-' + d;
+	}
+
+
+
+
+	/**
+	 * 获取当前用户信息
+	 */
+
+	public static getNowUserInfo(userId) {
+		this.getOwnavatar(userId);			//用户头像
+	}
+
+	/**
+	 * 获取用户头像
+	 * treedata   userId
+	 */
+	private static getOwnavatar(userId) {
+		let params = {
+			users: userId
+		}
+		MyRequest._post("game/getWechatImg", params, this, this.Req_WechatImg.bind(this, userId, SceneManager.sceneManager.StageItems.user_icon), null);
+	}
 }
 
 

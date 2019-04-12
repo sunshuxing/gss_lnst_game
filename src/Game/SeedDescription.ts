@@ -20,7 +20,7 @@ class SeedDescription extends eui.Component implements eui.UIComponent {
     private onComplete() {
         this.seed_info.maxWidth = 300;
         this.delivery_info.maxWidth = 300;
-        this.seed_namespec.text = this.seed_data.fruitName + "\n" + "规格:" + this.seed_data.specName + "\n" + "摘果道具:" + this.seed_data.basketNum + "个果篮";
+        this.seed_namespec.text = this.seed_data.fruitName + "\n" + "规格:" + this.seed_data.specName + "\n";
         this.seed_info.text = this.seed_data.treeInfo;
         this.delivery_info.text = this.seed_data.deliveryInfo;
         this.seed_name.text = this.seed_data.name;
@@ -43,6 +43,7 @@ class SeedDescription extends eui.Component implements eui.UIComponent {
             friendSign: SceneManager.instance.friendSign	//分享标识，如果有，则是通过分享进入
         };
             MyRequest._post("game/receiveTree", params, this, this.requestreceiveTree.bind(this), this.onGetIOError)
+            
     }
 
     //获取种子成功

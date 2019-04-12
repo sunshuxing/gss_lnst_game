@@ -22,11 +22,16 @@ class SceneManager {
     public duihuanScene: DuihuanScene;
     public warehouseScene: WarehouseScene;
 
+    public friendlist_scrollV:number;
+    
     //-----------------------------------------------------------------------------------------------------------------------------//
     public newmainScene: newMainScene;
     public StageItems: newStageItems;
     public newmain2Scene: newMain2Scene;
 
+
+
+    public NewfriendScene: NewFriendScene;
 
     constructor() {
         this.weixinUtil = WeixinUtil.getInstance();
@@ -82,6 +87,12 @@ class SceneManager {
         return this.warehouseScene;
     }
 
+    public getNewfriendScene(): NewFriendScene {
+        if (!this.NewfriendScene) {
+            this.NewfriendScene = new NewFriendScene();
+        }
+        return this.NewfriendScene;
+    }
 
 	/**
      * 获取实例
@@ -120,12 +131,10 @@ class SceneManager {
     }
     private loadFirend() {
         if (WeixinUtil.prototype._friendSign == MyRequest.geturlstr("friendSign")) {
-            this.StageItems.getFriends();  //加好友成功需要刷新好友列表
+            this.getNewfriendScene().getFriends();  //加好友成功需要刷新好友列表
         }
         else {
-            this.StageItems.getFriends();
-            // this.StageItems.getFriends(this.userid)
-            // this.userid = null;
+            this.getNewfriendScene().getFriends();
         }
     }
 
@@ -156,6 +165,7 @@ class SceneManager {
      * 主场景（新）
      */
     static toNewMainScene() {
+        this.instance.landId = 1;
         if (this.instance.newmain2Scene && this.instance.newmain2Scene.parent) {
             this.instance.newmain2Scene.parent.removeChild(this.instance.newmain2Scene);
         }
@@ -182,6 +192,7 @@ class SceneManager {
         else if (stage.getChildIndex(newstageItems) < stage.getChildIndex(newmainScene)) {
             stage.swapChildren(newstageItems, newmainScene);
         }
+        newstageItems.tootherland.texture = RES.getRes("icon_caiyuan_png")
     }
 
 
@@ -189,6 +200,7 @@ class SceneManager {
      * 主场景2(新)
      */
     static toNewMain2Scene() {
+        this.instance.landId = 2;
         if (this.instance.newmainScene && this.instance.newmainScene.parent) {
             this.instance.newmainScene.parent.removeChild(this.instance.newmainScene);
         }
@@ -215,7 +227,7 @@ class SceneManager {
         else if (stage.getChildIndex(newstageItems) < stage.getChildIndex(newmain2Scene)) {
             stage.swapChildren(newstageItems, newmain2Scene);
         }
-
+        newstageItems.tootherland.texture = RES.getRes("icon_guoyuan_png")
     }
 
     /**
@@ -247,8 +259,8 @@ class SceneManager {
                 this.instance.newmain2Scene.getOwnTree();
             }
         }
-        else{
-            console.log("错误数据",data.data)
+        else {
+            console.log("错误数据", data.data)
         }
         this.instance._stage.removeChild(this.loadingView)
     }
@@ -349,7 +361,6 @@ class SceneManager {
     static toSigninScene() {
         this.instance.signinScene = this.instance.getSigninScene()
         // 把互动场景添加到主场景中
-        this.instance.signinScene.y = (this.instance._stage.height - this.instance.signinScene.height) / 2;
         NewHelp.addmask();
         this.instance._stage.addChild(this.instance.signinScene)
     }
@@ -359,11 +370,22 @@ class SceneManager {
     static tohuafeiScene() {
         // 把互动场景添加到主场景中
         NewHelp.addmask();
-        localStorage.setItem("huafeisee","true");
+        localStorage.setItem("huafeisee", "true");
         this.instance._stage.addChild(this.instance.huafeiScene)
         SceneManager.sceneManager.StageItems.huafei_red.visible = false;
     }
 
+
+
+    static tofriendScene() {
+        if (!this.instance.NewfriendScene) {
+            this.instance.NewfriendScene = new NewFriendScene();
+        }
+        NewHelp.addmask();
+        this.instance._stage.addChild(this.instance.NewfriendScene);
+        this.instance.NewfriendScene.getFriends();                   //获取好友列表数据
+        
+    }
 
     /**
      * 添加弹窗，如果文字过多，则调整高度
@@ -430,7 +452,7 @@ class SceneManager {
     /**
      * 无树树语
      */
-    static notreePropmt(info: string){
+    static notreePropmt(info: string) {
         if (!this.treeprompt) {
             this.treeprompt = new TreePrompt(true);
         }

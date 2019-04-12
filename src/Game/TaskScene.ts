@@ -7,16 +7,14 @@ class TaskScene extends eui.Component implements eui.UIComponent {
 
     private scr_task: eui.Scroller;      //任务列表滑动框
     private list_task: eui.List;         //任务列表
-    private btn_close: eui.Image;        //关闭按钮  
     private taskdata;                    //任务数据（经过修改的）
-    public timerList: Array<any> = []              //定时器列表
-    private common_problem: eui.Label       //常见问题
+    public timerList: Array<any> = []       //定时器列表
+    private common_problem: eui.Group       //常见问题
 
 
 
     protected childrenCreated(): void {
         super.childrenCreated()
-        this.btn_close.addEventListener(egret.TouchEvent.TOUCH_TAP, this.closeScene, this)
         this.common_problem.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickCommonProblem, this)
         this.scr_task.verticalScrollBar = null;
     }
@@ -42,7 +40,7 @@ class TaskScene extends eui.Component implements eui.UIComponent {
         // this.parent.dispatchEvent(Removemask);
         // SceneManager.toMainScene();
         NewHelp.removemask()
-        if(this.parent){
+        if (this.parent) {
             this.parent.removeChild(this);
         }
         if (this.timerList && this.timerList.length > 0) {
@@ -271,14 +269,13 @@ class TaskScene extends eui.Component implements eui.UIComponent {
 
 class taskList_item extends eui.ItemRenderer {
     private old_data: any;
-    private bg_task: eui.Image;              //任务背景
     private icon_task: eui.Image;            //任务icon
     private name_task: eui.Label;            //任务名称
     private description_task: eui.Label;     //任务说明
-    private can_finish: eui.Image;           //任务按钮(去完成)
+    private can_finish: eui.Group;           //任务按钮(去完成)
     private receive: eui.Image;              //任务按钮(去领取)
-    private ban: eui.Image;                  //任务按钮(不可完成)
-    private can_look: eui.Image;             //任务按钮（再逛逛）
+    private ban: eui.Group;                  //任务按钮(不可完成)
+    private can_look: eui.Group;             //任务按钮（再逛逛）
     private interval_time: eui.Label          //任务冷却
 
     public constructor() {
@@ -288,7 +285,7 @@ class taskList_item extends eui.ItemRenderer {
         // 当组件创建完成的时候触发
         this.addEventListener(eui.UIEvent.CREATION_COMPLETE, this.onComplete, this)
         this.can_finish.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
-            this.completetask(this.data.code)
+            this.completetask(this.data.code,this.data.id)
         }, this)
         this.receive.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
             this.receiveTask(this.data.finishedId)
@@ -344,7 +341,6 @@ class taskList_item extends eui.ItemRenderer {
 
     // 当数据改变时，更新视图
     protected dataChanged() {
-        this.bg_task.texture = RES.getRes(this.getbgBycode(this.data.code));
         HttpRequest.imageloader(Config.picurl + this.data.icon, this.icon_task);
         this.name_task.text = this.data.name;
         this.description_task.text = "赠送" + this.data.rewardRule.name + "," + this.getlimitTime(this.data.limitTime);
@@ -364,7 +360,7 @@ class taskList_item extends eui.ItemRenderer {
                 }
                 this.currentState = "can_finish"
             } else {
-                this.interval_time.text = text + "后可领取"
+                this.interval_time.text = text + "可领取"
             }
             let timer = setInterval(() => {
                 let text = parent.dateDif(nowTask.intervalCancleTime, timer)
@@ -374,7 +370,7 @@ class taskList_item extends eui.ItemRenderer {
                     }
                     this.currentState = "can_finish"
                 } else {
-                    that.interval_time.text = text + "后可领取"
+                    that.interval_time.text = text + "可领取"
                 }
             }, time);
             SceneManager.instance.getTaskScene().timerList.push(timer)
@@ -413,7 +409,7 @@ class taskList_item extends eui.ItemRenderer {
     /**
      * 点击去完成按钮事件
      */
-    private completetask(code) {
+    private completetask(code,id?) {
         switch (code) {
             case 'browse_goods': {
                 if (SceneManager.instance.isMiniprogram) {
@@ -491,11 +487,11 @@ class taskList_item extends eui.ItemRenderer {
                 if (SceneManager.instance.isMiniprogram) {
                     //小程序端口taskCode要做参数发送
                     wx.miniProgram.navigateTo({
-                        url: "/pages/game/browseGoods?listType=2&backGame=true&taskCode=" + code
+                        url: "/pages/game/browseGoods?listType=2&backGame=true&taskCode=" + id
                     })
                 } else {
                     sessionStorage.setItem("fromgame", "true");
-                    sessionStorage.setItem("taskCode", code);
+                    sessionStorage.setItem("taskCode", id);
                     location.href = Config.webHome + "view/game-browse-goods.html?listType=2"
                 }
             }
@@ -504,45 +500,12 @@ class taskList_item extends eui.ItemRenderer {
                 if (SceneManager.instance.isMiniprogram) {
                     //小程序端口taskCode要做参数发送
                     wx.miniProgram.navigateTo({
-                        url: "/pages/game/browseGoods?listType=0&backGame=true&taskCode=" + code
+                        url: "/pages/game/browseGoods?listType=0&backGame=true&taskCode=" + id
                     })
                 } else {
                     sessionStorage.setItem("fromgame", "true");
-                    sessionStorage.setItem("taskCode", code);
+                    sessionStorage.setItem("taskCode", id);
                     location.href = Config.webHome + "view/game-browse-goods.html?listType=0"
-                }
-            }
-                break;
-            case 'order_water': {
-                if (SceneManager.instance.isMiniprogram) {
-                    //小程序端口taskCode要做参数发送
-                    let data = {
-                        taskCode: code
-                    }
-                    SceneManager.instance.weixinUtil.toPostMessageShare(1, data)
-                    wx.miniProgram.switchTab({
-                        url: "/pages/gssIndex/index"
-                    })
-                } else {
-                    sessionStorage.setItem("fromgame", "true");
-                    sessionStorage.setItem("taskCode", code);
-                    location.href = Config.webHome + "view/index.html"
-                }
-            }
-            case 'order_seed': {
-                if (SceneManager.instance.isMiniprogram) {
-                    //小程序端口taskCode要做参数发送
-                    let data = {
-                        taskCode: code
-                    }
-                    SceneManager.instance.weixinUtil.toPostMessageShare(1, data)
-                    wx.miniProgram.switchTab({
-                        url: "/pages/gssIndex/index"
-                    })
-                } else {
-                    sessionStorage.setItem("fromgame", "true");
-                    sessionStorage.setItem("taskCode", code);
-                    location.href = Config.webHome + "view/index.html"
                 }
             }
                 break;
@@ -570,32 +533,6 @@ class taskList_item extends eui.ItemRenderer {
             SceneManager.instance.getTaskScene().dispatchEventWith(MaskEvent.REMOVEMASK)
         }
         SceneManager.addJump(image);
-    }
-
-    //获得背景图片
-    private getbgBycode(code) {
-        if (code == "browse_goods") {
-            return "task-bg-blue"
-        }
-        else if (code == "share_orchard") {
-            return "task-bg-red"
-        }
-        else if (code == "Invitation_friend") {
-            return "task-bg-zi"
-        }
-        else if (code == "any_order") {
-            return "task-bg-green"
-        }
-        else if (code == "specifiy_order") {
-            return "task-bg-fen"
-        }
-        else if (code == "order_water") {
-            return "task-light-bule_png"
-        }
-        else{
-            return "task-light-bule_png"
-        }
-
     }
 
 }

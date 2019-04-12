@@ -16,17 +16,19 @@ class GuanggaoScene extends eui.Component implements eui.UIComponent {
     protected childrenCreated(): void {
         super.childrenCreated();
         this.baike_scr.verticalScrollBar = null;
-        this.baike_title.text = this.infodata.title;
-        this.baike_disc.text = this.infodata.detail;
+        if (this.infodata) {
+            this.baike_title.text = this.infodata.title;
+            this.baike_disc.text = this.infodata.detail;
+        }
     }
 
     private onComplete(): void {
         this.y = SceneManager.sceneManager._stage.height - this.height;
-        this.baike_btn.addEventListener(egret.TouchEvent.TOUCH_TAP,this.close,this);
+        this.baike_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.close, this);
     }
 
-    private close(){
-        if(this.parent){
+    private close() {
+        if (this.parent) {
             this.parent.removeChild(this);
         }
     }

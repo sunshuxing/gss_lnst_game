@@ -5,7 +5,6 @@ class InteractiveScene extends eui.Component implements eui.UIComponent {
         this.skinName = "resource/skins/InteractiveSkins.exml";
     }
 
-    private btn_close: eui.Image;        //关闭按钮
     private btn_grass: eui.Image;        //种草按钮
     private btn_insect: eui.Image;       //放虫按钮
     private list_barrage: eui.List;      //留言列表
@@ -14,23 +13,19 @@ class InteractiveScene extends eui.Component implements eui.UIComponent {
     protected childrenCreated(): void {
         super.childrenCreated();
         this.getLeaveMsgTemplate();
-        this.btn_close.addEventListener(egret.TouchEvent.TOUCH_TAP, this.closeScene, this)
         this.btn_grass.addEventListener(egret.TouchEvent.TOUCH_TAP, this.putgrass, this)
         this.btn_insect.addEventListener(egret.TouchEvent.TOUCH_TAP, this.putinsect, this)
-        this.list_barrage.addEventListener(eui.ItemTapEvent.ITEM_TAP, this.addbarrage, this)
         this.list_barrage.addEventListener(eui.ItemTapEvent.ITEM_TAP, this.listTouch, this);
         this.scr_barrage.verticalScrollBar = null;
     }
 
     private onComplete(): void {
+
     }
 
 
     //关闭该场景
     private closeScene() {
-        // let Removemask:MaskEvent = new MaskEvent(MaskEvent.REMOVEMASK);
-        // this.parent.dispatchEvent(Removemask);
-        // SceneManager.toMainScene();
         NewHelp.removemask()
         if (this.parent) {
             this.parent.removeChild(this);
@@ -147,15 +142,10 @@ class InteractiveScene extends eui.Component implements eui.UIComponent {
         this.closeScene()
     }
 
-    //添加弹幕
-    private addbarrage() {
-
-    }
 }
 
 class barrageList_item extends eui.ItemRenderer {
     private barrage_lable: eui.Label;
-
 
     public constructor() {
         super()

@@ -10,40 +10,22 @@
         </e:Group>
         <e:Image id="logo" x="81" y="381" anchorOffsetX="75" anchorOffsetY="75" width="152" height="152" source=""
                  scaleX="1" scaleY="1" />
-        <e:Label id="garden_name" rotation="353.59" size="24" textAlign="right" fontFamily="Microsoft YaHei" bold="true"
-                 anchorOffsetX="0" anchorOffsetY="0" y="497.31" x="116" width="120" height="28.96" text="" scaleX="1"
-                 scaleY="1" textColor="0xffbd44" />
         <e:Image id="tree" horizontalCenter="27.5" bottom="401" anchorOffsetY="0" anchorOffsetX="0" x="403" y="933"
                  scaleX="1" scaleY="1" source="" />
         <e:Image id="tu" y="879.05" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="30" x="312" scaleX="1"
                  scaleY="1" source="tree_tu_png" />
         <e:Image id="present1" x="300.2" y="238.17" anchorOffsetX="0" anchorOffsetY="0" source="toppresent_png" />
         <e:Image id="present2" x="232.33" y="955" anchorOffsetX="37.33" anchorOffsetY="53.33" source="present2_png" />
-        <e:Image id="tocaiyuan" x="560.15" y="510.98" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1"
-                 source="gocaiyuan_png" />
     </e:Group>
-    <e:Group id="gro_tree" width="299.84" height="358.7" x="244.55" y="546.33" anchorOffsetY="0" anchorOffsetX="0" />
+    <e:Group id="gro_tree" width="299.84" height="358.7" x="244.55" y="546.33" anchorOffsetY="0" anchorOffsetX="0"  locked="true"/>
     <e:Group id="gro_prop" width="750" height="1344" x="0" anchorOffsetY="0" anchorOffsetX="0" bottom="0" locked="true"></e:Group>
-    <e:Group width="352" height="69" y="1020" anchorOffsetY="0" anchorOffsetX="0" horizontalCenter="11">
-        <e:ProgressBar id="progress" width="350.78" height="49.65" y="1.4600000000000364" skinName="ProgressSkins"
-                       x="-0.060000000000030695" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1"
-                       visible="false" />
-        <e:Label id="progress_label" text="" x="2.6599999999999966" y="54.429999999999836" anchorOffsetX="0"
-                 width="340.66" size="22" textAlign="center" fontFamily="Microsoft YaHei" textColor="0x000000"
-                 scaleX="1" scaleY="1" visible="false" />
-    </e:Group>
-    <e:Group id="gro_progress1" width="462" height="84" x="132" y="1118" anchorOffsetY="0" anchorOffsetX="0"
-             visible="false">
-        <e:ProgressBar id="progress1" x="3" y="-2.9600000000000364" skinName="Progress1Skins" scaleX="1" scaleY="1" />
-        <e:Label id="distribution" text="果篮" x="16" y="24" textColor="0x563b12" size="14" fontFamily="Microsoft YaHei"
-                 bold="true" scaleX="1" scaleY="1" />
-        <e:Label id="distribution_label" text="18个" x="185.82999999999998" y="37.67000000000007" size="18"
-                 fontFamily="Microsoft YaHei" textColor="0xff0000" scaleX="1" scaleY="1" />
-        <e:Label id="pick_num" text="x1" x="18" y="46" size="20" textColor="0x563b12" scaleX="1" scaleY="1" />
-        <e:Image id="fruit_img" width="24" height="28" x="319" y="24" anchorOffsetX="0" anchorOffsetY="0" scaleX="1"
-                 scaleY="1" />
-        <e:Label id="fruit_num" text="100个" x="312" y="53" size="16" fontFamily="Microsoft YaHei" textColor="0xf3e911"
-                 scaleX="1" scaleY="1" />
+    <e:Group id="progress_group" y="1020" anchorOffsetY="0" anchorOffsetX="0" horizontalCenter="0">
+        <e:ProgressBar id="progress" y="0"
+                       x="0" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1"
+                        skinName="ProgressSkins"/>
+        <e:Label id="progress_label" text="" y="58.2" anchorOffsetX="0"
+                 size="22" textAlign="center" fontFamily="Microsoft YaHei" textColor="0x000000"
+                 scaleX="1" scaleY="1"  horizontalCenter="0.5"/>
     </e:Group>
     <e:Group id="jishi_gro" horizontalCenter="-162" y="708.52" anchorOffsetX="0" anchorOffsetY="0" height="93.33"
              visible="false">

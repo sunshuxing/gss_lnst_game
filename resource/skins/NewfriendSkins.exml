@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="NewfriendSkins" width="750" height="800" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image width="750" height="94" y="0" horizontalCenter="0" source="list-top_png"/>
+	<e:Rect width="750" height="707" x="0" y="94" fillColor="0xf6cf9f"/>
+	<e:Label text="邀请好友一起领水果" x="191" y="29" fontFamily="Microsoft YaHei" textColor="0x8e4717"/>
+	<e:Group id="friend_invite" width="144" height="48" y="22" x="32">
+		<e:Rect width="144" height="48" x="0" y="0" fillColor="0x8e4717" ellipseWidth="16" ellipseHeight="16"/>
+		<e:Label text="邀请好友" verticalCenter="0" horizontalCenter="0" fontFamily="Microsoft YaHei" size="24"/>
+	</e:Group>
+	<e:Group id="friend_toself" width="96" height="48" y="22" right="32" visible="false">
+		<e:Rect width="100%" height="100%" x="0" y="0" fillColor="0x8e4717" ellipseWidth="16" ellipseHeight="16"/>
+		<e:Label text="回家" size="24" fontFamily="Microsoft YaHei" horizontalCenter="0" verticalCenter="0"/>
+	</e:Group>
+	<e:Scroller id="friend_scr" width="718" height="690" y="110" horizontalCenter="0">
+		<e:List id="friend_list" itemRendererSkinName="Newfriendlsit">
+			<e:layout>
+				<e:TileLayout verticalGap="2"/>
+			</e:layout>
+		</e:List>
+	</e:Scroller>
+</e:Skin>

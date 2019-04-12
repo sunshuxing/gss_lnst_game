@@ -33,7 +33,7 @@ class Invitefriend extends eui.Component implements eui.UIComponent {
     private Invite() {
         this.remove();
         SceneManager.addJump("sharetexttree_png");
-        SceneManager.sceneManager.StageItems.friend_list.selectedIndex = -1;
+        SceneManager.sceneManager.getNewfriendScene().friend_list.selectedIndex = -1;
     }
 
     /**

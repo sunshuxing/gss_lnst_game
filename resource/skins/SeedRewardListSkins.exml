@@ -4,5 +4,5 @@
 		<e:Image source="rewarddi_png" x="0" y="0" scaleX="1" scaleY="1"/>
 		<e:Image id="propimg" scaleX="1" scaleY="1" horizontalCenter="0" verticalCenter="0" source=""/>
 	</e:Group>
-	<e:Label id="propnum" text="篮子x1" y="148" width="141" horizontalCenter="0" textAlign="center" verticalAlign="middle" fontFamily="Microsoft YaHei" size="24" textColor="0x0c0c0c"/>
+	<e:Label id="propnum" text="" y="148" width="141" horizontalCenter="0" textAlign="center" verticalAlign="middle" fontFamily="Microsoft YaHei" size="24" textColor="0x0c0c0c"/>
 </e:Skin>

@@ -80,7 +80,6 @@ class DuihuanScene extends eui.Component implements eui.UIComponent {
     }
 
     private Req_searchPraiseExchange(data) {
-        //useType:0   固定道具      useType:1    随机道具          useType:2     种子
         console.log(data.data.list, "奖励规则道具");
         let listdata = data.data.list
         this.euiArr.removeAll();

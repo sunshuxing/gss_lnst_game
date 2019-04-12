@@ -119,7 +119,7 @@ class Help {
     public static getContains(arrays, obj) {
         var i = arrays.length;
         while (i--) {
-            if (arrays[i] === obj) {
+            if (arrays[i] == obj) {
                 return i;
             }
         }
@@ -219,7 +219,7 @@ class Help {
             fruit.x = 398;
             fruit.y = 605;
         }
-        else if(SceneManager.instance.landId == 2){
+        else if (SceneManager.instance.landId == 2) {
             fruit.x = 350;
             fruit.y = 800;
         }
@@ -256,7 +256,7 @@ class Help {
         let time = new Date(date);
         if (Type) {
             if (Type == "day") {
-                return time.getMonth() + 1 + "." + time.getDate();
+                return time.getMonth() + 1 + "月" + time.getDate() + "日";
             } else if (Type == "hours") {
                 if (time.getMinutes() < 10) {
                     return time.getHours() + ":0" + time.getMinutes();
@@ -469,36 +469,7 @@ class Help {
         }
     }
 
-    //爱心值兑换成长值动画
-    public static useLoveTwn() {
-        let img_love = new eui.Image();
-        img_love.x = 615;
-        img_love.y = 806;
-        img_love.texture = RES.getRes("loveimg");
-        SceneManager.sceneManager.StageItems.addChild(img_love);
-        SceneManager.sceneManager.StageItems.enabled = false;
-        egret.Tween.get(img_love)
-            .to({ x: 365, y: 900, scaleY: 0.5, scaleX: 0.5 }, 1200).call(
-            () => {
-                SceneManager.sceneManager.StageItems.removeChild(img_love);
-                SceneManager.addNotice("已成功兑换成长值");
-                if (SceneManager.instance.landId == 1) {
-                    SceneManager.sceneManager.newmainScene.getOwnTree();           //果园更新数据
-                }
-                else if (SceneManager.instance.landId == 2) {
-                    SceneManager.sceneManager.newmain2Scene.getOwnTree();           //果园更新数据
-                    console.log("菜园更新果树数据")                             //菜园更新数据
-                }
-                NewHelp.updateprop();                                           //更新道具
-                this.lovebuling();
-                SceneManager.sceneManager.StageItems.enabled = true;
-            }, this)
-            .wait(5000).call(() => {
-                this.removebuling();
-            }, this)
-
-    }
-
+   
     public static removebuling() {
         if (this.buling.parent) {
             this.buling.parent.removeChild(this.buling)
