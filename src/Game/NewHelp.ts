@@ -1576,6 +1576,7 @@ class NewHelp {
 	private static Req_praise(data) {
 		NewHelp.getfriendlike(Datamanager.getNowtreedata())
 		SceneManager.addNotice("点赞成功");
+		SceneManager.sceneManager.NewfriendScene.getFriends();
 		console.log("点赞返回数据", data)
 	}
 

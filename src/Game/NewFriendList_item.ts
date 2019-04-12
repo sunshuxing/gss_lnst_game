@@ -22,7 +22,6 @@ class NewFriendList_item extends eui.ItemRenderer {
 
     private touchheart() {
         NewHelp.dianzan(this.data.friendUser);
-        SceneManager.sceneManager.NewfriendScene.getFriends();
     }
 
     /**
