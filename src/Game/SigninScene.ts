@@ -158,16 +158,26 @@ class SigninScene extends eui.Component implements eui.UIComponent {
         } else {
             this.renderingInit(this.qiandao_data.data.continueDay);
         }
-        this.addSginlisten(this.qiandao_data.data.continueDay)
+        //已经签到，就没必要绑定监听
+        if(!todaySigned){
+            this.addSginlisten(this.qiandao_data.data.continueDay,isContinue)
+        }
 
     }
 
 
     /**
-     * 添加签到监听
+     * 签到监听
+     * dayNum 连续签到天数
+     * isContinue 是否连续签到
      */
-    private addSginlisten(dayNum) {
+    private addSginlisten(dayNum:number,isContinue:Boolean) {
         let items = [this.sgin1, this.sgin2, this.sgin3, this.sgin4, this.sgin5, this.sgin6, this.sgin7]
+        //如果不是连续签到，直接绑定第一天
+        if(!isContinue){
+            items[0].addEventListener(egret.TouchEvent.TOUCH_TAP, this.Signin, this);
+            return;
+        }
         for (let a = 0; a < items.length; a++) {
             if (a == dayNum) {
                 items[a].addEventListener(egret.TouchEvent.TOUCH_TAP, this.Signin, this)
