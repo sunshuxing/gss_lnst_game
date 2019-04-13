@@ -303,26 +303,26 @@ class Help {
     public static grapos(n, icon) {
         if (n == 1) {
             if (SceneManager.instance.landId == 1) {
-                return icon.x = 230, icon.y = 950;
+                return icon.x = 286, icon.y = 1025;
             }
             else if (SceneManager.instance.landId == 2) {
-                return icon.x = 217, icon.y = 1005;
+                return icon.x = 203, icon.y = 1004;
             }
         }
         else if (n == 2) {
             if (SceneManager.instance.landId == 1) {
-                return icon.x = 362, icon.y = 956;
+                return icon.x = 243, icon.y = 1066;
             }
             else if (SceneManager.instance.landId == 2) {
-                return icon.x = 293, icon.y = 1021;
+                return icon.x = 262, icon.y = 1048;
             }
         }
         else if (n == 3) {
             if (SceneManager.instance.landId == 1) {
-                return icon.x = 504, icon.y = 938;
+                return icon.x = 293, icon.y = 1092;
             }
             else if (SceneManager.instance.landId == 2) {
-                return icon.x = 377, icon.y = 1012;
+                return icon.x = 310, icon.y = 1062;
             }
         }
     }
@@ -330,26 +330,26 @@ class Help {
     public static inspos(n, icon) {
         if (n == 1) {
             if (SceneManager.instance.landId == 1) {
-                return icon.x = 536, icon.y = 872;
+                return icon.x = 453, icon.y = 1060;
             }
             else if (SceneManager.instance.landId == 2) {
-                return icon.x = 247, icon.y = 1005;
+                return icon.x = 428, icon.y = 1037;
             }
         }
         else if (n == 2) {
             if (SceneManager.instance.landId == 1) {
-                return icon.x = 295, icon.y = 932;
+                return icon.x = 413, icon.y = 1090;
             }
             else if (SceneManager.instance.landId == 2) {
-                return icon.x = 340, icon.y = 1005;
+                return icon.x = 478, icon.y = 1008;
             }
         }
         else if (n == 3) {
             if (SceneManager.instance.landId == 1) {
-                return icon.x = 436, icon.y = 930;
+                return icon.x = 436, icon.y = 1027;
             }
             else if (SceneManager.instance.landId == 2) {
-                return icon.x = 438, icon.y = 990;
+                return icon.x = 492, icon.y = 972;
             }
         }
     }
@@ -469,7 +469,7 @@ class Help {
         }
     }
 
-   
+
     public static removebuling() {
         if (this.buling.parent) {
             this.buling.parent.removeChild(this.buling)

@@ -16,30 +16,15 @@ class Datamanager {
     /**
      * 保存当前鸭语数据
      */
-    public static saveducklanguagedata(data){
+    public static saveducklanguagedata(data) {
         this.ducklanguagedata = data;
     }
 
     /**
      * 获取当前鸭语数据
      */
-    public static getducklanguagedata(){
+    public static getducklanguagedata() {
         return this.ducklanguagedata;
-    }
-
-    /**
-     * 保存已完成任务数据
-     */
-    public static savefinishedtaskdata(data){
-        this.finishedtaskdata = data;
-    }
-
-
-    /**
-     * 获取已完成任务数据
-     */
-    public static getfinishedtaskdata(){
-        return this.finishedtaskdata;
     }
 
     /**
@@ -173,16 +158,30 @@ class Datamanager {
     /**
      * 保存任务数据
      */
-    public static savetaskdata(data){
+    public static savetaskdata(data) {
         this.taskdata = data
     }
 
     /**
      * 获取任务数据
      */
-    public static gettaskdata(){
+    public static gettaskdata() {
         return this.taskdata;
     }
+
+    /**
+     * 获取阅读任务数据 
+     */
+    public static getlooktask() {
+        if (this.taskdata) {
+            for (let i = 0; i < this.taskdata.length; i++) {
+                if(this.taskdata[i].code == "read_knowledge"){
+                    return this.taskdata[i];
+                }
+            }
+        }
+    }
+
 
     /**
      * 保存总体好友数据

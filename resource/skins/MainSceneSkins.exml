@@ -2,32 +2,33 @@
 <e:Skin class="MainSceneSkins" width="750" height="1334" xmlns:e="http://ns.egret.com/eui"
         xmlns:w="http://ns.egret.com/wing">
     <e:Group id="gro_fastpic" width="750" height="1334" bottom="0">
-        <e:Image id="bg" width="750" x="0" y="-79" scaleX="1" scaleY="1" height="1413" source="bgsnowday_png" />
-        <e:Group width="74" height="28.79" x="213" y="858.04" anchorOffsetY="0" anchorOffsetX="0" scaleX="1" scaleY="1">
-            <e:Label id="tree_name" bold="true" y="3.61" anchorOffsetX="0" anchorOffsetY="0" fontFamily="SimHei"
-                     size="24" textAlign="center" text="" scaleX="1" scaleY="1" horizontalCenter="0"
+			<e:Rect width="100%" height="300" x="0" y="-276" fillColor="0xc1f2fb"/>
+        <e:Image id="bg" width="750" x="0" scaleX="1" scaleY="1"  source="bgday_guoyuan_png" bottom="0"/>
+        <e:Group x="102.4" y="964.1" anchorOffsetY="0" anchorOffsetX="0" scaleX="1" scaleY="1">
+					<e:Image x="0" y="0" source="treenamepai_png"/>
+            <e:Label id="tree_name" bold="true" y="17.26" anchorOffsetX="0" anchorOffsetY="0" fontFamily="SimHei"
+                     size="24" textAlign="center" text="" scaleX="1" scaleY="1" horizontalCenter="0.5"
                      textColor="0x7a6934" />
         </e:Group>
-        <e:Image id="logo" x="81" y="381" anchorOffsetX="75" anchorOffsetY="75" width="152" height="152" source=""
-                 scaleX="1" scaleY="1" />
-        <e:Image id="tree" horizontalCenter="27.5" bottom="401" anchorOffsetY="0" anchorOffsetX="0" x="403" y="933"
-                 scaleX="1" scaleY="1" source="" />
-        <e:Image id="tu" y="879.05" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="30" x="312" scaleX="1"
-                 scaleY="1" source="tree_tu_png" />
-        <e:Image id="present1" x="300.2" y="238.17" anchorOffsetX="0" anchorOffsetY="0" source="toppresent_png" />
-        <e:Image id="present2" x="232.33" y="955" anchorOffsetX="37.33" anchorOffsetY="53.33" source="present2_png" />
+        <e:Image id="logo" x="195" y="494.45" anchorOffsetX="46" anchorOffsetY="46"
+                 scaleX="1" scaleY="1"  source="gss_logo_png" width="92" height="92"/>
+        <e:Image id="tree" bottom="250" anchorOffsetY="0" anchorOffsetX="0" y="933"
+                 scaleX="1" scaleY="1" source=""  horizontalCenter="0"/>
+        <e:Image id="present1" x="300.2" y="238.17" anchorOffsetX="0" anchorOffsetY="0" source="toppresent_png"  visible="false"/>
+        <e:Image id="present2" x="232.33" y="955" anchorOffsetX="37.33" anchorOffsetY="53.33" source="present2_png"  visible="false"/>
     </e:Group>
-    <e:Group id="gro_tree" width="299.84" height="358.7" x="244.55" y="546.33" anchorOffsetY="0" anchorOffsetX="0"  locked="true"/>
-    <e:Group id="gro_prop" width="750" height="1344" x="0" anchorOffsetY="0" anchorOffsetX="0" bottom="0" locked="true"></e:Group>
-    <e:Group id="progress_group" y="1020" anchorOffsetY="0" anchorOffsetX="0" horizontalCenter="0">
+    <e:Group id="gro_tree" width="289.73" height="379" x="230.92" y="696.34" anchorOffsetY="0" anchorOffsetX="0" />
+    <e:Group id="gro_prop" width="750" height="1344" x="0" anchorOffsetY="0" anchorOffsetX="0" bottom="0" locked="true">
+</e:Group>
+    <e:Group id="progress_group" y="1121.59" anchorOffsetY="0" anchorOffsetX="0" horizontalCenter="1">
         <e:ProgressBar id="progress" y="0"
                        x="0" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1"
-                        skinName="ProgressSkins" visible="false"/>
-        <e:Label id="progress_label" text="" y="58.2" anchorOffsetX="0"
+                        skinName="ProgressSkins"/>
+        <e:Label id="progress_label" text="" y="30" anchorOffsetX="0"
                  size="22" textAlign="center" fontFamily="Microsoft YaHei" textColor="0x000000"
-                 scaleX="1" scaleY="1"  horizontalCenter="0.5" visible="false"/>
+                 scaleX="1" scaleY="1"  horizontalCenter="0"/>
     </e:Group>
-    <e:Group id="jishi_gro" horizontalCenter="-162" y="708.52" anchorOffsetX="0" anchorOffsetY="0" height="93.33"
+    <e:Group id="jishi_gro" horizontalCenter="-162" y="844.88" anchorOffsetX="0" anchorOffsetY="0" height="93.33"
              visible="false">
         <e:Label text="成长值翻倍加速器" y="2" size="24" fontFamily="SimHei" horizontalCenter="0" textColor="0xf5e5c5"
                  strokeColor="0x666666" stroke="2" />

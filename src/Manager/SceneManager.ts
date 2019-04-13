@@ -441,7 +441,7 @@ class SceneManager {
                 this.treeprompt.y = 900;
             }
             else {
-                this.treeprompt.y = 580;
+                this.treeprompt.y = 730;
             }
         }
         else if (SceneManager.instance.landId == 2) {

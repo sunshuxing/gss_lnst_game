@@ -33,8 +33,7 @@ class SigninScene extends eui.Component implements eui.UIComponent {
     private answer_look: eui.Group;
 
     public canreward: boolean = true;
-    public canlook: boolean = true;
-    public canreward_look: boolean = true;
+
 
     protected childrenCreated(): void {
         super.childrenCreated();
@@ -43,7 +42,6 @@ class SigninScene extends eui.Component implements eui.UIComponent {
         this.y = (SceneManager.sceneManager._stage.height - this.height) / 2
         this.btn_sign.addEventListener(egret.TouchEvent.TOUCH_TAP, this.changeState, this)
         this.btn_answer.addEventListener(egret.TouchEvent.TOUCH_TAP, this.changeState, this)
-        this.checkFinishedTask();
         this.checkAnswerReward();
         this.checkLookReward();
     }
@@ -53,55 +51,30 @@ class SigninScene extends eui.Component implements eui.UIComponent {
     }
 
 
-    private checkFinishedTask() {
-        if (Datamanager.getfinishedtaskdata()) {
-            let finishedtaskdata = Datamanager.getfinishedtaskdata();
-            console.log(finishedtaskdata, "完成数据");
-            for (let i = 0; i < finishedtaskdata.length; i++) {
-                if (finishedtaskdata[i].taskCode == "read_knowledge") {
-                    if (finishedtaskdata[i].beenReceive == "false") {
-                        this.canlook = false;
-                        this.canreward_look = true;
-                    }
-                    else {
-                        this.canlook = true;
-                        this.canreward_look = false;
-                    }
-                }
-            }
-        }
-    }
 
 
     /**
      * 检查是否能通过阅读获得奖励
      */
-
     public checkLookReward() {
-        if (Datamanager.gettaskdata()) {
-            let taskdata = Datamanager.gettaskdata()
-            for (let i = 0; i < taskdata.length; i++) {
-                if (taskdata[i].code == "read_knowledge") {
-                    this.answer_look.visible = true;
-                    if (this.canlook) {
-                        this.answer_btn2.texture = RES.getRes("answer_togo_png");
-                        this.answer_btn2.removeEventListener(egret.TouchEvent.TOUCH_TAP, () => (this.toreceive(taskdata[i])), this)
-                        this.answer_btn2.addEventListener(egret.TouchEvent.TOUCH_TAP, this.tolook, this)
-                    }
-                    else {
-                        this.answer_btn2.texture = RES.getRes("answer_receive_png");
-                        this.answer_btn2.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.tolook, this);
-                        this.answer_btn2.addEventListener(egret.TouchEvent.TOUCH_TAP, () => (this.toreceive(taskdata[i])), this)
-                    }
-                    return;
-                }
-                else {
-                    this.answer_look.visible = false;
-                }
+        if (Datamanager.getlooktask()) {
+            this.answer_look.visible = true;
+            let looktaskdata = Datamanager.getlooktask()
+            console.log(looktaskdata, "阅读数据")
+            if (looktaskdata.btnStatus == 1) {          //领取
+                this.answer_btn2.texture = RES.getRes("answer_receive_png");
+                this.answer_btn2.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.tolook, this);
+                this.answer_btn2.once(egret.TouchEvent.TOUCH_TAP, this.toreceive.bind(this, looktaskdata), this)
+            }
+            else {                                      //前往
+                this.answer_btn2.texture = RES.getRes("answer_togo_png");
+                this.answer_btn2.addEventListener(egret.TouchEvent.TOUCH_TAP, this.tolook, this)
             }
         }
+        else {
+            this.answer_look.visible = false;
+        }
     }
-
 
     private toreceive(taskdata) {
         let data = {
@@ -126,19 +99,13 @@ class SigninScene extends eui.Component implements eui.UIComponent {
         SceneManager.addNotice("获得" + data.propName + data.propNum + info, 2000)
         SceneManager.instance.getTaskScene().taskDataInit(SceneManager.instance.StageItems.checktask)
         NewHelp.updateprop();
-        this.canlook = true;
-        this.checkLookReward();
     }
 
 
     //去阅读
     private tolook() {
-        if (this.canlook) {
-            let baikeScene = new BaikeScene();
-            SceneManager.sceneManager._stage.addChild(baikeScene)
-        } else {
-            SceneManager.addNotice("今日已经阅读过了哦！")
-        }
+        let baikeScene = new BaikeScene();
+        SceneManager.sceneManager._stage.addChild(baikeScene)
     }
 
 

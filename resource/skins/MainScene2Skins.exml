@@ -2,7 +2,8 @@
 <e:Skin class="MainScene2Skins" width="750" height="1334" xmlns:e="http://ns.egret.com/eui"
         xmlns:w="http://ns.egret.com/wing">
     <e:Group id="gro_fastpic" width="750" height="1334" x="0" bottom="0">
-        <e:Image id="bg" x="0" bottom="0" source="bg-daycai_png" />
+        <e:Image id="bg" x="0" bottom="0"  source="bgday_caiyuan_png"/>
+			<e:Image id="logo" x="201.92" y="386.81" source="gss_logo_png" width="92" height="92" anchorOffsetX="46" anchorOffsetY="46"/>
         <e:Group id="info_gro" width="280" height="147" x="403" y="257" visible="false">
             <e:Image y="-36" source="billboard1_png" scaleX="1" scaleY="1" x="-87" />
             <e:Image id="info_img1" width="240" height="100" x="18" y="23" anchorOffsetX="0" anchorOffsetY="0" source=""
@@ -15,32 +16,31 @@
                      anchorOffsetX="0" />
         </e:Group>
         <e:Image id="warehouse" x="443" y="386.34" source="warehouse_png"  visible="false"/>
-        <e:Image x="162.75" y="920.5" source="caiyuanpai_png" />
-        <e:Group id="gro_duck" width="240" height="200" x="436.45" y="687.06">
-            <e:Image y="76.39999999999998" source="ducknest_png" scaleX="1" scaleY="1" horizontalCenter="0" />
-            <e:Image id="duck_img" width="150" height="150" horizontalCenter="0" verticalCenter="-26" />
-            <e:Image id="duckegg_img" width="66" height="51" x="12.96" y="128.48" source="duckegg_png" visible="false" />
-            <e:Image id="getduck_btn" x="68.68" y="40.4" anchorOffsetX="0" anchorOffsetY="0" source="lingqu_png"
-                     width="116.82" height="43.61" visible="false" />
-            <e:Image id="duck_hungry_img" x="105.33" y="42.67" source="duck_hungry_png" anchorOffsetX="150"
-                     anchorOffsetY="98" visible="false" />
-            <e:Image id="duck_take" x="105.33" y="42.67" source="keshouqu_png" anchorOffsetX="150" anchorOffsetY="98"
-                     visible="false" />
-            <e:Group id="duckjishi" x="20" y="-20" visible="false">
+
+        <e:Group id="gro_duck" width="240" height="200" x="225.82" y="618.81">
+
+            <e:Image id="duck_img" width="120" height="120" horizontalCenter="-28.5" verticalCenter="-42"  anchorOffsetY="0" anchorOffsetX="0"/>
+            <e:Image id="duckegg_img" width="66" height="51" x="-177.97" y="231.53" source="duckegg_png"  visible="false"/>
+            <e:Image id="getduck_btn" x="-96.46" y="187.4" anchorOffsetX="0" anchorOffsetY="0" source="lingqu_png"
+                     width="116.82" height="43.61"  visible="false"/>
+            <e:Image id="duck_hungry_img" x="84.1" y="29.03" source="duck_hungry_png" anchorOffsetX="150"
+                     anchorOffsetY="98"  visible="false"/>
+            <e:Image id="duck_take" x="82.58" y="27.52" source="keshouqu_png" anchorOffsetX="150" anchorOffsetY="98"
+                      visible="false"/>
+            <e:Group id="duckjishi" x="-140.61" y="183.03" visible="false">
                 <e:Image x="0" y="0" anchorOffsetX="0" anchorOffsetY="0" source="huafeijishi_png" scaleX="1" scaleY="1" />
                 <e:Label id="left_receive_info" text="00:00" size="18" x="34" y="19.799999999999955" anchorOffsetY="0"
                          height="20" fontFamily="SimHei" textColor="0x5f4d2a" scaleX="1" scaleY="1" />
             </e:Group>
-            <e:Group id="duck_language_gro" width="153" height="122" x="-45" y="-57" scaleX="1" scaleY="1"
-                     anchorOffsetX="0" anchorOffsetY="0" />
+            <e:Group id="duck_language_gro" width="153" height="122" x="-68" y="-70" scaleX="1" scaleY="1"
+                     anchorOffsetX="0" anchorOffsetY="0"  visible="false"/>
         </e:Group>
         <e:Image id="tree" anchorOffsetY="0" anchorOffsetX="0" scaleX="1" scaleY="1" x="361.08" y="1011" source="" />
-        <e:Image id="tu" y="960" anchorOffsetX="0" anchorOffsetY="0" x="230.37" scaleX="1" scaleY="1"
-                 source="tree_tu_png" />
-        <e:Image id="gamestore" x="0" y="296.32" source="game-store_png" />
+
+        <e:Image id="gamestore" x="0" y="296.32" source="game-store_png"  visible="false"/>
 
 
-        <e:Group width="74" height="28.79" x="181.73" y="939.06" anchorOffsetY="0" anchorOffsetX="0" scaleX="1"
+        <e:Group width="74" height="28.79" x="181.73" y="895.09" anchorOffsetY="0" anchorOffsetX="0" scaleX="1"
                  scaleY="1">
             <e:Label id="tree_name" bold="true" y="3.61" anchorOffsetX="0" anchorOffsetY="0" fontFamily="SimHei"
                      size="24" textAlign="center" text="" scaleX="1" scaleY="1" horizontalCenter="0"
@@ -66,7 +66,7 @@
             </e:Group>
         </e:Group>
     </e:Group>
-    <e:Group id="jishi_gro" horizontalCenter="-162" y="827.17" anchorOffsetX="0" anchorOffsetY="0" height="93.33"
+    <e:Group id="jishi_gro" horizontalCenter="-162" y="812.02" anchorOffsetX="0" anchorOffsetY="0" height="93.33"
              visible="false">
         <e:Label text="成长值翻倍加速器" y="2" size="24" fontFamily="SimHei" horizontalCenter="0" textColor="0xf5e5c5"
                  strokeColor="0x666666" stroke="2" />
@@ -75,12 +75,12 @@
                  horizontalCenter="1" textColor="0x5f4d2a" />
     </e:Group>
     <e:Group id="gro_prop" width="750" height="1344" x="0" anchorOffsetY="0" anchorOffsetX="0" bottom="0"></e:Group>
-    <e:Group height="69" y="1060" anchorOffsetY="0" anchorOffsetX="0" horizontalCenter="-19">
-        <e:ProgressBar id="progress" height="49.65" y="0" skinName="ProgressSkins"
-                       x="0" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1" />
-        <e:Label id="progress_label" text="" y="54.429999999999836" anchorOffsetX="0"
+    <e:Group y="1103.96" anchorOffsetY="0" anchorOffsetX="0" horizontalCenter="0">
+        <e:ProgressBar id="progress" y="0" skinName="ProgressSkins"
+                       anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1"  horizontalCenter="0" visible="false"/>
+        <e:Label id="progress_label" text="" y="27.87" anchorOffsetX="0"
                  size="22" textAlign="center" fontFamily="Microsoft YaHei" textColor="0x000000"
-                 scaleX="1" scaleY="1"  horizontalCenter="0"/>
+                 scaleX="1" scaleY="1"  horizontalCenter="0" visible="false"/>
     </e:Group>
 
     <e:Group id="gro_tree" x="216" y="759" anchorOffsetY="0" anchorOffsetX="0" width="293" height="303"  locked="true"/>
