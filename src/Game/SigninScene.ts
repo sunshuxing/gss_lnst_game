@@ -26,21 +26,166 @@ class SigninScene extends eui.Component implements eui.UIComponent {
     private sgin5: eui.Group;
     private sgin6: eui.Group;
     private sgin7: eui.Group;
+    private btn_answer: eui.Group;
+    private btn_sign: eui.Group;
+    private answer_btn1: eui.Image;
+    private answer_btn2: eui.Image;
+    private answer_look: eui.Group;
 
-
-
+    public canreward: boolean = true;
+    public canlook: boolean = true;
+    public canreward_look: boolean = true;
 
     protected childrenCreated(): void {
         super.childrenCreated();
         this.getSignInInfo();
         this.x = (SceneManager.sceneManager._stage.width - this.width) / 2
         this.y = (SceneManager.sceneManager._stage.height - this.height) / 2
+        this.btn_sign.addEventListener(egret.TouchEvent.TOUCH_TAP, this.changeState, this)
+        this.btn_answer.addEventListener(egret.TouchEvent.TOUCH_TAP, this.changeState, this)
+        this.checkFinishedTask();
+        this.checkAnswerReward();
+        this.checkLookReward();
     }
 
     private onComplete(): void {
+        this.currentState = "answer"
     }
 
 
+    private checkFinishedTask() {
+        if (Datamanager.getfinishedtaskdata()) {
+            let finishedtaskdata = Datamanager.getfinishedtaskdata();
+            console.log(finishedtaskdata, "完成数据");
+            for (let i = 0; i < finishedtaskdata.length; i++) {
+                if (finishedtaskdata[i].taskCode == "read_knowledge") {
+                    if (finishedtaskdata[i].beenReceive == "false") {
+                        this.canlook = false;
+                        this.canreward_look = true;
+                    }
+                    else {
+                        this.canlook = true;
+                        this.canreward_look = false;
+                    }
+                }
+            }
+        }
+    }
+
+
+    /**
+     * 检查是否能通过阅读获得奖励
+     */
+
+    public checkLookReward() {
+        if (Datamanager.gettaskdata()) {
+            let taskdata = Datamanager.gettaskdata()
+            for (let i = 0; i < taskdata.length; i++) {
+                if (taskdata[i].code == "read_knowledge") {
+                    this.answer_look.visible = true;
+                    if (this.canlook) {
+                        this.answer_btn2.texture = RES.getRes("answer_togo_png");
+                        this.answer_btn2.removeEventListener(egret.TouchEvent.TOUCH_TAP, () => (this.toreceive(taskdata[i])), this)
+                        this.answer_btn2.addEventListener(egret.TouchEvent.TOUCH_TAP, this.tolook, this)
+                    }
+                    else {
+                        this.answer_btn2.texture = RES.getRes("answer_receive_png");
+                        this.answer_btn2.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.tolook, this);
+                        this.answer_btn2.addEventListener(egret.TouchEvent.TOUCH_TAP, () => (this.toreceive(taskdata[i])), this)
+                    }
+                    return;
+                }
+                else {
+                    this.answer_look.visible = false;
+                }
+            }
+        }
+    }
+
+
+    private toreceive(taskdata) {
+        let data = {
+            taskFinishedId: taskdata.finishedId
+        }
+        MyRequest._post("game/receiveTask", data, this, this.completeReceive.bind(this), null)
+    }
+
+    private completeReceive(data) {
+        data = data.data;
+        //0水滴1道具2爱心值3化肥 获取称呼
+        let info = "";
+        if (data.propType == "0") {
+            info = "g";
+        } else if (data.propType == "1") {
+            info = "个";
+        } else if (data.propType == "2") {
+            info = "个"
+        } else if (data.propType == "3") {
+            info = "袋"
+        }
+        SceneManager.addNotice("获得" + data.propName + data.propNum + info, 2000)
+        SceneManager.instance.getTaskScene().taskDataInit(SceneManager.instance.StageItems.checktask)
+        NewHelp.updateprop();
+        this.canlook = true;
+        this.checkLookReward();
+    }
+
+
+    //去阅读
+    private tolook() {
+        if (this.canlook) {
+            let baikeScene = new BaikeScene();
+            SceneManager.sceneManager._stage.addChild(baikeScene)
+        } else {
+            SceneManager.addNotice("今日已经阅读过了哦！")
+        }
+    }
+
+
+
+    /**
+	* 检查是否能通过答题获得奖励
+	*/
+    public checkAnswerReward() {
+        MyRequest._post("game/checkAnswerReward", null, this, this.Req_checkAnswerReward.bind(this), null)
+    }
+
+    private Req_checkAnswerReward(data) {
+        console.log(data, "检查答题")
+        if (data.data == "true") {
+            this.canreward = true;
+            this.answer_btn1.texture = RES.getRes("answer_togo_png");
+            this.answer_btn1.addEventListener(egret.TouchEvent.TOUCH_TAP, this.toproblem, this)					//进入答题
+        }
+        else {
+            this.canreward = false;
+            this.answer_btn1.texture = RES.getRes("answer_torrow_png");
+            this.answer_btn1.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.toproblem, this)					//进入答题
+        }
+    }
+
+
+    //去答题
+    private toproblem() {
+        if (this.canreward) {
+            let problemScene = new ProblemScene();
+            SceneManager.sceneManager._stage.addChild(problemScene)
+        }
+        else {
+            SceneManager.addNotice("今日已经答过题了哦！")
+        }
+    }
+
+
+
+    private changeState() {
+        if (this.currentState == "sgin") {
+            this.currentState = "answer"
+        }
+        else if (this.currentState == "answer") {
+            this.currentState = "sgin"
+        }
+    }
 
 
     //签到
@@ -63,7 +208,6 @@ class SigninScene extends eui.Component implements eui.UIComponent {
                 this.qiandao_data.data.continueDay++;
             }
             // this.init(true);
-            this.currentState = "today-is-sign"; //更换已经签到
             this.getSignInInfo();
             // let Removemask: MaskEvent = new MaskEvent(MaskEvent.REMOVEMASK);
             // this.parent.dispatchEvent(Removemask);

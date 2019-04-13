@@ -7,7 +7,7 @@ class TaskScene extends eui.Component implements eui.UIComponent {
 
     private scr_task: eui.Scroller;      //任务列表滑动框
     private list_task: eui.List;         //任务列表
-    private taskdata;                    //任务数据（经过修改的）
+    public taskdata;                    //任务数据（经过修改的）
     public timerList: Array<any> = []       //定时器列表
     private common_problem: eui.Group       //常见问题
 
@@ -67,6 +67,7 @@ class TaskScene extends eui.Component implements eui.UIComponent {
     private Req_getTaskList(func: Function, data): void {
         var Data = data;
         this.taskdata = Data.data
+        Datamanager.savetaskdata(Data.data);
         MyRequest._post("game/getTaskFinish", null, this, this.Req_initFinishTask.bind(this, func), null);//获取完成任务列表（包含领取/未领取任务），用于显示按钮状态
     }
 
@@ -78,6 +79,7 @@ class TaskScene extends eui.Component implements eui.UIComponent {
      */
     private Req_initFinishTask(func: Function, data): void {
         var Data = data;
+        Datamanager.savefinishedtaskdata(Data.data);
         let finishList: Array<TaskFinished> = Data.data;
         let map: { [key: string]: Task } = {};//创建一个map，用于存放任务列表
         let mapKey: string[] = []; //和map一起使用的数组

@@ -28,7 +28,7 @@
          source="sharefriend"  visible="false"/>
 <e:Group id="friend_kettle" y="1181" anchorOffsetY="0" anchorOffsetX="0" right="40"
          includeIn="friendtree" height="131" left="600">
-    <e:Image id="frimg_kettle" source="kettle"  horizontalCenter="0" top="0" width="110" height="92"/>
+    <e:Image id="frimg_kettle" source="kettle"  width="110" height="92" x="0" y="0"/>
     <e:Label text="帮TA浇水" y="101" anchorOffsetX="0" width="115" size="24" textAlign="center"
              fontFamily="Microsoft YaHei" text.friendtree="帮TA浇水" size.friendtree="24" width.friendtree="108.22"
              x.friendtree="50.38" fontFamily.friendtree="SimHei" anchorOffsetY="0" height="24"  horizontalCenter="8"/>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="QiandaoSkins" xmlns:e="http://ns.egret.com/eui"
+<e:Skin class="QiandaoSkins" currentState="answer" xmlns:e="http://ns.egret.com/eui"
         xmlns:w="http://ns.egret.com/wing" states="answer,sgin" >
 
 	<e:Group x="0" y="0">
-		<e:Image x="0" y="0" source="signin_bg_png" width="691" height="869" locked="true" />
-		<e:Image width="540" height="548" y="236" horizontalCenter="0" source="contentbg_png" locked="true" />
+		<e:Image x="0" y="0" source="signin_bg_png" width="691" height="869"  locked="true"/>
+		<e:Image width="540" height="548" y="236" horizontalCenter="0" source="contentbg_png"  locked="true"/>
 		<e:Group width="264" height="48" y="179" anchorOffsetY="0" horizontalCenter="0">
 			<e:Group id="btn_answer" width="132" height="48" x="0" y="0">
 				<e:Image width="132" height="48" y="0" source="toplrdown_png" skewY.answer="180" left="0" source.sgin="toplrup_png" x="0" scaleX="1" scaleY="1"/>
@@ -16,6 +16,26 @@
 			</e:Group>
 
 		</e:Group>
+		<e:Scroller width="484" height="445" includeIn="answer" x="105" y="256" anchorOffsetX="0" anchorOffsetY="0">
+			<e:Group width="100%" height="100%">
+				<e:Group width="100%" x="0" y="0" anchorOffsetY="0" anchorOffsetX="0">
+					<e:Image width="96" height="96" x="0" y="24" source="answer_item1_png"/>
+					<e:Image width="436" height="6" x="30" y="142" source="answer_line_png"/>
+					<e:Label text="【百科】一答到底，赢取礼品" x="105.97" y="24" textColor="0xb44728" fontFamily="Microsoft YaHei" size="22" lineSpacing="6" bold="true" anchorOffsetX="0" width="198"/>
+					<e:Image width="36" height="36" x="104" y="84" source="answer_water_png"/>
+					<e:Image width="36" height="36" x="148" y="84" source="answer_huafei_png"/>
+					<e:Image id="answer_btn1" width="120" height="48" y="40" right="22" source="answer_togo_png"/>
+				</e:Group>
+				<e:Group id="answer_look" width="100%" x="0" y="148" anchorOffsetY="0" anchorOffsetX="0">
+					<e:Image width="96" height="96" x="0" y="24" source="answer_item2_png"/>
+					<e:Image width="436" height="6" x="30" y="142" source="answer_line_png"/>
+					<e:Label text=" 【阅读】阅读百科知识， 获得水滴" x="105.97" y="24" textColor="0xb44728" fontFamily="Microsoft YaHei" size="22" lineSpacing="6" bold="true" anchorOffsetX="0" width="213.15"/>
+					<e:Image width="36" height="36" x="104" y="84" source="answer_water_png"/>
+
+					<e:Image id="answer_btn2" width="120" height="48" y="40" right="22" source="answer_togo_png"/>
+				</e:Group>
+			</e:Group>
+		</e:Scroller>
 		<e:Group x="97" y="252" anchorOffsetX="0" anchorOffsetY="0" includeIn="sgin">
 			<e:Group id="sgin1" width="154" height="154" x="0" y="0" scaleX="1" scaleY="1">
 				<e:Image id="itembg1" height="100%" x="0" y="0" width="100%"  source="itembg_png"/>

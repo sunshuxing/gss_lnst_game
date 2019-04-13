@@ -22,12 +22,23 @@ class BaikeScene extends eui.Component implements eui.UIComponent {
 
     private onComplete(): void {
         this.y = SceneManager.sceneManager._stage.height - this.height;
-        this.baike_btn.addEventListener(egret.TouchEvent.TOUCH_TAP,this.close,this);
+        this.baike_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.close, this);
         this.searchKnowledgePage();
     }
 
-    private close(){
-        if(this.parent){
+    private close() {
+        if (this.parent) {
+            if (SceneManager.sceneManager.getSigninScene().canreward_look) {            //可以获得奖励
+                let data = {
+                    taskCode: "read_knowledge",
+                }
+                let that = this
+                MyRequest._post("game/completeTask", data, this, () => {
+                    SceneManager.sceneManager.getSigninScene().canlook = false;        //完成任务后阅读状态为false
+                    SceneManager.sceneManager.getSigninScene().checkLookReward();
+                    SceneManager.sceneManager.getSigninScene().canreward_look = false;
+                }, null);
+            }
             this.parent.removeChild(this);
         }
     }

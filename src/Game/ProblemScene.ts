@@ -295,6 +295,7 @@ class ProblemScene extends eui.Component implements eui.UIComponent {
     private close() {
         if (this.parent) {
             this.parent.removeChild(this);
+            SceneManager.sceneManager.getSigninScene().checkAnswerReward();
         }
     }
 

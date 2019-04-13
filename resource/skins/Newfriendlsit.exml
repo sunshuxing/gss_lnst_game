@@ -6,9 +6,16 @@
 	<e:Label id="friend_name" text="" x="122" y="32" textColor="0x212121" fontFamily="Microsoft YaHei"/>
 	<e:Image id="fruit1" width="32" height="32" x="122" y="76"/>
 	<e:Image id="fruit2" width="32" height="32" x="158" y="76"/>
-	<e:Group id="friend_heart" width="60" height="60" x="566" y="40">
+	<e:Group id="friend_heart" width="60" height="60" y="40" x="642">
 		<e:Image width="60" height="60" y="0" x="0" source="friend-heart_png" scaleX="1" scaleY="1"/>
 		<e:Label id="heart_num" text="" horizontalCenter="0" verticalCenter="0" size="18" fontFamily="Microsoft YaHei" bold="true"/>
 	</e:Group>
-	<e:Image id="friend_hand" width="60" height="60" y="40" x="642" source="friend-hand_png" visible="false"/>
+	<e:Group id="icon_group" height="70" right="92" anchorOffsetY="0" bottom="40">
+		<e:layout>
+			<e:HorizontalLayout horizontalAlign="right" verticalAlign="bottom" gap="16"/>
+		</e:layout>
+		<e:Image id="friend_insect" x="30" y="23" source="" width="54" height="70"/>
+		<e:Image id="friend_grass" width="64" height="60" x="64" y="31" source=""/>
+		<e:Image id="friend_hand" x="23" y="16" source="" width="60" height="60"/>
+	</e:Group>
 </e:Skin>

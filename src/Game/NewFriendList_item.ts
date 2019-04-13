@@ -5,15 +5,18 @@ class NewFriendList_item extends eui.ItemRenderer {
     private fruit1: eui.Image;              //好友水果图标1
     private fruit2: eui.Image;              //好友水果图标2
     private friend_heart: eui.Group;        //好友爱心
-    private friend_hand: eui.Image;         //好友手
     private heart_num: eui.Label;           //好友爱心数值
+    private icon_group: eui.Group;
+    private friend_hand: eui.Image;
+    private friend_grass: eui.Image;
+    private friend_insect: eui.Image;
 
     public constructor() {
         super()
         // 把这个 类和皮肤 联系起来
         this.skinName = 'resource/skins/Newfriendlsit.exml'
-        this.friend_hand.addEventListener(egret.TouchEvent.TOUCH_TAP, () => this.hand(this.data), this)
-        this.friend_hand.addEventListener(egret.TouchEvent.TOUCH_END, (e: egret.TouchEvent) => { e.stopImmediatePropagation() }, this)
+        // this.friend_hand.addEventListener(egret.TouchEvent.TOUCH_TAP, () => this.hand(this.data), this)
+        // this.friend_hand.addEventListener(egret.TouchEvent.TOUCH_END, (e: egret.TouchEvent) => { e.stopImmediatePropagation() }, this)
         this.friend_heart.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchheart, this)
         this.friend_heart.addEventListener(egret.TouchEvent.TOUCH_END, (e: egret.TouchEvent) => { e.stopImmediatePropagation() }, this)
         SceneManager.sceneManager.getNewfriendScene().friend_list.scrollV = SceneManager.sceneManager.friendlist_scrollV;
@@ -57,20 +60,33 @@ class NewFriendList_item extends eui.ItemRenderer {
         HttpRequest.imageloader(Config.picurl + Help.getfriendIcon()[user], this.friend_icon, user);
         if (SceneManager.instance.weixinUtil.login_user_id == this.data.friendUser) {                 //当前数据是自己的数据
             this.friend_name.text = Help.getcharlength(this.data.friendUserName, 6) + "（我自己）";
-            this.friend_hand.visible = false;                                                         //隐藏帮摘果
+            this.friend_hand.texture = null;
+            this.friend_insect.texture = null;
+            this.friend_grass.texture = null;
         }
         else {                                                                                       //当前数据不是自己数据
             this.friend_name.text = Help.getcharlength(this.data.friendUserName, 6);
-            if (this.data.trees && this.data.trees.length > 0) {                                     //选中好友有果树
+            this.friend_hand.texture = null;
+            this.friend_insect.texture = null;
+            this.friend_grass.texture = null;
+            if (this.data.trees && this.data.trees.length > 0) {                                     //该好友有果树
                 for (let i = 0; i < this.data.trees.length; i++) {
-                    if (this.data.trees[i].friendCanObtain > 0) {
+                    if (this.data.trees[i].friendCanObtain > 0) {                                    //该好友可以摘果
                         let treeid = this.data.trees[i].id;
                         let nowday = new Date().toLocaleDateString();
                         if (String(nowday) != localStorage.getItem(String(treeid))) {               //判断今日是否已经帮该树摘果
-                            this.friend_hand.visible = true;
+                            this.friend_hand.texture = RES.getRes("friend-hand_png");
                         }
                     }
+                    if (this.data.trees[i].wormCount > 0) {
+                        this.friend_insect.texture = RES.getRes("friend_insect_png");
+                    }
+                    if (this.data.trees[i].grassCount > 0) {
+                        this.friend_grass.texture = RES.getRes("friend_grass_png");
+                    }
+
                 }
+
             }
         }
         this.heart_num.text = this.data.praises;

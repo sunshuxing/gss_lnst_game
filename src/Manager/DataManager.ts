@@ -10,7 +10,8 @@ class Datamanager {
     private static nowDuckdata               //当前鸭子数据
     private static OwnDuckdata               //自己鸭子数据
     private static ducklanguagedata          //鸭语数据
-
+    private static taskdata                  //任务数据
+    private static finishedtaskdata          //已完成任务数据
 
     /**
      * 保存当前鸭语数据
@@ -26,7 +27,20 @@ class Datamanager {
         return this.ducklanguagedata;
     }
 
+    /**
+     * 保存已完成任务数据
+     */
+    public static savefinishedtaskdata(data){
+        this.finishedtaskdata = data;
+    }
 
+
+    /**
+     * 获取已完成任务数据
+     */
+    public static getfinishedtaskdata(){
+        return this.finishedtaskdata;
+    }
 
     /**
      * 保存自己鸭子数据
@@ -155,6 +169,20 @@ class Datamanager {
         return this.treelanguagedata;
     }
 
+
+    /**
+     * 保存任务数据
+     */
+    public static savetaskdata(data){
+        this.taskdata = data
+    }
+
+    /**
+     * 获取任务数据
+     */
+    public static gettaskdata(){
+        return this.taskdata;
+    }
 
     /**
      * 保存总体好友数据
