@@ -72,8 +72,8 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
         this.goods_bg1.scrollRect = new egret.Rectangle(0, 0, 66, 66);
         this.goods_bg2.scrollRect = new egret.Rectangle(0, 0, 66, 66);
         this.gro_prop.touchThrough = true;
-        this.getSystemInfo();
-        this.getTopGoods();
+        // this.getSystemInfo();
+        // this.getTopGoods();
     }
 
 
