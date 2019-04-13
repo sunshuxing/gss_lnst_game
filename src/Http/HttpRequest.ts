@@ -1,5 +1,6 @@
 class HttpRequest {
     public static map: { [key: string]: egret.Texture } = {};//创建一个map,用于存放用户头像，减少加载
+    public static errMap:{[key: string]:Boolean} ={};//IO错误，除非刷新页面，否则
     //加载网络图片
     public static imageloader(url, image, user?: string, success?: Function, _this?: Object) {
         try {
@@ -15,6 +16,9 @@ class HttpRequest {
             let imgLoader = new egret.ImageLoader();
             imgLoader.crossOrigin = "anonymous";// 跨域请求
             if (url == Config.picurl || url == Config.picurl + "undefined") {
+                return;
+            }
+            if(this.errMap[url]){//加载错误，当次不加载
                 return;
             }
             imgLoader.load(url);// 去除链接中的转义字符‘\’        
@@ -33,17 +37,9 @@ class HttpRequest {
                     }
                 }
             }, this);
-            // if (_this) {
-            //     success.call(_this)
-            // } else {
-            //     success
-            // }
+            imgLoader.once(egret.IOErrorEvent.IO_ERROR, function (evt: egret.Event) {
+                this.errMap[url] = true;
+            }, this)
         } catch (e) { console.log("图片加载错误", e) }
-    }
-
-    public static imageByUrl(url, image: eui.Image) {
-        RES.getResByUrl(url, function (data) {
-            image.texture = data;
-        }, this, RES.ResourceItem.TYPE_IMAGE);
     }
 }
