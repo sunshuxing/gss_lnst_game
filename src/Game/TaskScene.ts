@@ -87,7 +87,7 @@ class TaskScene extends eui.Component implements eui.UIComponent {
 
         if (finishList) {//当有完成数据时遍历
             for (let a = 0; a < finishList.length; a++) {
-                let tf = map[finishList[a].taskCode]
+                let tf = map[finishList[a].taskId]
                 if (!tf) {
                     let test = new BodyMenuShareAppMessage()
                     var Task = function () { };         //防止报错写法
@@ -98,8 +98,8 @@ class TaskScene extends eui.Component implements eui.UIComponent {
                         task.finishedId = finishList[a].id//领取用的任务完成id
                     }
                     task.lastFinishedTime = finishList[a].createDate
-                    map[finishList[a].taskCode] = task
-                    mapKey.push(finishList[a].taskCode) //遍历map用的数组
+                    map[finishList[a].taskId] = task
+                    mapKey.push(finishList[a].taskId) //遍历map用的数组
                 } else {
                     tf.finishCount++    //增加完成任务次数
                     if (!(finishList[a].beenReceive == "true" ? true : false)) {//如果某个任务可以领取，则标记

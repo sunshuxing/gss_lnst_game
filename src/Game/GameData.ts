@@ -153,7 +153,8 @@ declare class TaskFinished {
     user: string;                       //用户id
     createDate: any;                 //任务完成时间
     beenReceive: string;            //是否被领取
-    taskCode: any;                     //任务id
+    taskCode: any;                     //任务code
+    taskId:any;
 }
 
 /**
@@ -231,4 +232,10 @@ declare class LeaveMsgUser {
     treeUserId: any;                 //用户果树id
     templateId: any;                 //模板id
     createDate: any;                 //留言时间
+}
+
+declare class GameLoadGroup {
+    groupName:string;
+    status:number;
+    loadErrNum:number;
 }
