@@ -27,17 +27,16 @@
 <e:Image id="share_friend" x="601.38" y="697.65" anchorOffsetX="0" anchorOffsetY="0" includeIn="havetree"
          source="sharefriend"  visible="false"/>
 <e:Group id="friend_kettle" y="1181" anchorOffsetY="0" anchorOffsetX="0" right="40"
-         includeIn="friendtree" height="131" left="600" visible="false">
+         includeIn="friendtree" height="131" left="600">
     <e:Image id="frimg_kettle" source="kettle"  horizontalCenter="0" top="0" width="110" height="92"/>
     <e:Label text="帮TA浇水" y="101" anchorOffsetX="0" width="115" size="24" textAlign="center"
              fontFamily="Microsoft YaHei" text.friendtree="帮TA浇水" size.friendtree="24" width.friendtree="108.22"
              x.friendtree="50.38" fontFamily.friendtree="SimHei" anchorOffsetY="0" height="24"  horizontalCenter="8"/>
 </e:Group>
-<e:Group id="gro_lq" y="1167.28" anchorOffsetX="0" anchorOffsetY="0" x="584"
+<e:Group id="gro_lq" y="1179.28" anchorOffsetX="0" anchorOffsetY="0" x="601"
          includeIn="havetree" visible="false">
-    <e:Label id="time_lq" text="00:00" x="5.08" y="117.6" anchorOffsetX="0" width="99.76" anchorOffsetY="0" height="30"
-             textAlign="center" size="26" />
 	<e:Image x="0" y="0" source="unablewater_png" width="110" height="110"/>
+	<e:BitmapLabel id="time_lq" height="20" font="waternum_big_fnt" text="00：00" horizontalCenter="0" verticalCenter="0"/>
 </e:Group>
 <e:Image id="img_water" width="88" height="84" x="386" y="860" anchorOffsetX="0" anchorOffsetY="0" source="water"
           visible="false"/>
@@ -68,7 +67,7 @@
 </e:Group>
 <e:Group id="top_icon" y="305" left="32">
     <e:Group id="btn_activity" x="0" y="0">
-        <e:Image width="62" height="84" x="0" y="0" source="icon_activity_png" scaleX="1" scaleY="1" />
+        <e:Image width="62" height="84" x="0" y="0" scaleX="1" scaleY="1"  source="icon_activity_png"/>
     </e:Group>
     <e:Group id="btn_task" x="0" y="96">
         <e:Image width="62" height="84" x="0" source="icon_task_png" />
@@ -148,6 +147,6 @@
 	</e:Group>
 	<e:Group id="btn_kettle" y="1181" anchorOffsetX="0" anchorOffsetY="0" left="600" right="40" includeIn="havetree">
 		<e:Image id="img_kettle" x="0" y="0" source="kettle" width="110" height="92"/>
-		<e:BitmapLabel id="kettle_num" height="20" y="100" font="waternum_fnt" text="" horizontalCenter="11"/>
+		<e:BitmapLabel id="kettle_num" height="20" y="100" text="" horizontalCenter="11" font="waternum_small_fnt"/>
 	</e:Group>
 </e:Skin>

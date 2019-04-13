@@ -396,7 +396,7 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 	public kettle_num: eui.BitmapLabel;			//水壶水量
 	public img_kettle: eui.Image;			//水壶图片
 	public frimg_kettle: eui.Image;			//好友水壶
-	public time_lq: eui.Label;				//冷却时间
+	public time_lq: eui.BitmapLabel;				//冷却时间
 	public love_group: eui.Group;			//获赞区域
 	public img_water: eui.Image;			//水滴图片
 	private friend_kettle: eui.Group;		//帮好友浇水区域

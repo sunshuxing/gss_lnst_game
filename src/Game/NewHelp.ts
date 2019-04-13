@@ -957,10 +957,10 @@ class NewHelp {
 		}
 
 		if (time < 10) {
-			SceneManager.sceneManager.StageItems.time_lq.text = "00:0" + time;
+			SceneManager.sceneManager.StageItems.time_lq.text = "00：0" + time;
 		}
 		if (time >= 10) {
-			SceneManager.sceneManager.StageItems.time_lq.text = "00:" + time;
+			SceneManager.sceneManager.StageItems.time_lq.text = "00：" + time;
 		}
 	}
 

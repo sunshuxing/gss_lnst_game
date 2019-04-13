@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="QiandaoSkins" xmlns:e="http://ns.egret.com/eui"
-        xmlns:w="http://ns.egret.com/wing">
+        xmlns:w="http://ns.egret.com/wing" states="answer,sgin" >
 
 	<e:Group x="0" y="0">
 		<e:Image x="0" y="0" source="signin_bg_png" width="691" height="869" locked="true" />
 		<e:Image width="540" height="548" y="236" horizontalCenter="0" source="contentbg_png" locked="true" />
-		<e:Group x="97" y="252" anchorOffsetX="0" anchorOffsetY="0">
+		<e:Group width="264" height="48" y="179" anchorOffsetY="0" horizontalCenter="0">
+			<e:Group id="btn_answer" width="132" height="48" x="0" y="0">
+				<e:Image width="132" height="48" y="0" source="toplrdown_png" skewY.answer="180" left="0" source.sgin="toplrup_png" x="0" scaleX="1" scaleY="1"/>
+				<e:Image width="102" height="34" left="18" verticalCenter="0" source="top_answer_label_png"/>
+			</e:Group>
+			<e:Group id="btn_sign" width="132" height="48" x="132" y="0">
+				<e:Image width="132" height="48" y="0" source="toplrup_png" right="0" skewY.answer="180" source.sgin="toplrdown_png" x="0" scaleX="1" scaleY="1"/>
+				<e:Image right="18" source="top_sign_label_png" width="102" height="34" x="12" scaleX="1" scaleY="1" verticalCenter="0"/>
+			</e:Group>
+
+		</e:Group>
+		<e:Group x="97" y="252" anchorOffsetX="0" anchorOffsetY="0" includeIn="sgin">
 			<e:Group id="sgin1" width="154" height="154" x="0" y="0" scaleX="1" scaleY="1">
 				<e:Image id="itembg1" height="100%" x="0" y="0" width="100%"  source="itembg_png"/>
 				<e:Label text="第一天" y="19" size="28" fontFamily="Microsoft YaHei" horizontalCenter="0" />
@@ -70,7 +81,7 @@
 				<e:TileLayout requestedRowCount="2" horizontalGap="17" verticalGap="16" />
 			</e:layout>
 		</e:Group>
-		<e:Group id="sgin7" width="496" height="162" x="97" y="592">
+		<e:Group id="sgin7" width="496" height="162" x="97" y="592" includeIn="sgin">
 			<e:Image width="100%" height="100%" x="0" y="0" source="bigitembg_png" />
 			<e:Image width="312" height="62" source="bigitemlabel_png" x="33" y="12" />
 			<e:Image width="117" height="129" anchorOffsetX="0" anchorOffsetY="0" x="353" y="17" source="huafeiimg_png" />
