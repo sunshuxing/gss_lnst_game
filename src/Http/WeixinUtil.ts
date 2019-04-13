@@ -30,8 +30,7 @@ class WeixinUtil {
             describes: "",
             iconUrl: "",
             success: function () {
-                let evt: MaskEvent = new MaskEvent(MaskEvent.SHARECLOSE);
-                SceneManager.instance.jumpMark.dispatchEvent(evt);
+                SceneManager.instance.closeJumpMark();
                 console.log("success share")
             }
         }

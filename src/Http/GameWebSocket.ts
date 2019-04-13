@@ -146,8 +146,7 @@ class GameWebSocket extends egret.DisplayObjectContainer {
                 console.log("推送关闭遮罩")
                 if (SceneManager.instance.jumpMark) {//如果有遮罩
                     //删除遮罩
-                    let evt: MaskEvent = new MaskEvent(MaskEvent.SHARECLOSE);
-                    SceneManager.instance.jumpMark.dispatchEvent(evt);
+                    SceneManager.instance.closeJumpMark();
                 }
                 if (SceneManager.instance.isDistribution) {
                     let params

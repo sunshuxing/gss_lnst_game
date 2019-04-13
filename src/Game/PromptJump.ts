@@ -39,8 +39,7 @@ class PromptJump extends eui.Component implements eui.UIComponent {
                 SceneManager.instance.weixinUtil.shareData.titles = "【鸭蛋配送】我的鸭蛋已经在路上了。"
                 SceneManager.instance.weixinUtil.shareData.describes = "快来和我一起吧！"
                 SceneManager.instance.weixinUtil.shareData.success = function () {
-                    let evt: MaskEvent = new MaskEvent(MaskEvent.SHARECLOSE);
-                    SceneManager.instance.jumpMark.dispatchEvent(evt);
+                    SceneManager.instance.closeJumpMark();
                     let params = {
                         duckUserId: Datamanager.getOwnDuckdata().id,
                     };
@@ -64,8 +63,7 @@ class PromptJump extends eui.Component implements eui.UIComponent {
                 SceneManager.instance.weixinUtil.shareData.titles = "【果实配送】我的水果已经在路上了。"
                 SceneManager.instance.weixinUtil.shareData.describes = "快来和我一起种果树吧！"
                 SceneManager.instance.weixinUtil.shareData.success = function () {
-                    let evt: MaskEvent = new MaskEvent(MaskEvent.SHARECLOSE);
-                    SceneManager.instance.jumpMark.dispatchEvent(evt);
+                    SceneManager.instance.closeJumpMark();
                     let params
                     if (SceneManager.instance.landId == 1) {                      //果园
                         params = {

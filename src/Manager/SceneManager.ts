@@ -38,6 +38,16 @@ class SceneManager {
         this.friendSign = MyRequest.geturlstr("friendSign")
     }
 
+    /**
+     * 关闭分享遮罩
+     */
+    public closeJumpMark(){
+        if(this.jumpMark && this._stage.contains(this.jumpMark)){
+            let evt: MaskEvent = new MaskEvent(MaskEvent.SHARECLOSE);
+            this.jumpMark.dispatchEvent(evt);
+        }
+    }
+
     public getInteractiveScene(): InteractiveScene {
         if (!this.interactiveScene) {
             this.interactiveScene = new InteractiveScene()
