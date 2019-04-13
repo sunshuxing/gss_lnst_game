@@ -113,11 +113,11 @@ class TaskScene extends eui.Component implements eui.UIComponent {
             let hasShare = false;
             if (mapKey && mapKey.length > 0) {//有的时候才循环map
                 for (let a = 0; a < mapKey.length; a++) {
-                    let finishCode = mapKey[a];
+                    let finishId = mapKey[a];
                     let completeTask = map[mapKey[a]];//完成的任务记录
                     for (let b = 0; b < taskList.length; b++) {
                         let nowTask = taskList[b]
-                        if (nowTask.code == finishCode) {
+                        if (nowTask.id == finishId) {
                             //当前完成的任务就是该任务
                             nowTask.finishCount = map[mapKey[a]].finishCount
                             nowTask.needReceive = map[mapKey[a]].needReceive
