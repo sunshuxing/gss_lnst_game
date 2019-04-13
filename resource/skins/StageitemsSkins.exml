@@ -147,6 +147,6 @@
 	</e:Group>
 	<e:Group id="btn_kettle" y="1181" anchorOffsetX="0" anchorOffsetY="0" left="600" right="40" includeIn="havetree">
 		<e:Image id="img_kettle" x="0" y="0" source="kettle" width="110" height="92"/>
-		<e:BitmapLabel id="kettle_num" height="20" y="100" text="" horizontalCenter="11" font="waternum_small_fnt"/>
+		<e:BitmapLabel id="kettle_num" height="20" y="100" text="" horizontalCenter="11" font="waternum_small_fnt" anchorOffsetX="2" scaleY="1.2" scaleX="1.2"/>
 	</e:Group>
 </e:Skin>
