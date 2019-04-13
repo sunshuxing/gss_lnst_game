@@ -415,8 +415,8 @@ class NewHelp {
 			gro_prop = SceneManager.sceneManager.newmain2Scene.gro_prop;
 		}
 		let grass = new eui.Image;
-		grass.width = 74;
-		grass.height = 60;
+		grass.width = 74 * 0.6;
+		grass.height = 60 * 0.6;
 		grass.texture = RES.getRes("home-grass");
 		grass.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
 			this.removeTreeProp(grass, id);
@@ -428,12 +428,12 @@ class NewHelp {
 				let twn_x;
 				let twn_y;
 				if (SceneManager.instance.landId == 1) {
-					twn_x = 230 + Help.random_num(-2, 2) * 20;
-					twn_y = 950 + Help.random_num(-2, 2) * 5;
+					twn_x = 286 + Help.random_num(-2, 2) * 20;
+					twn_y = 1025 + Help.random_num(-2, 2) * 5;
 				}
 				else if (SceneManager.instance.landId == 2) {
-					twn_x = 217 + Help.random_num(-2, 2) * 20;
-					twn_y = 1005 + Help.random_num(-2, 2) * 5;
+					twn_x = 203 + Help.random_num(-2, 2) * 20;
+					twn_y = 1004 + Help.random_num(-2, 2) * 5;
 				}
 				egret.Tween.get(grass)
 					.set({ x: 210, y: 720 })
@@ -444,12 +444,12 @@ class NewHelp {
 				let twn_x;
 				let twn_y;
 				if (SceneManager.instance.landId == 1) {
-					twn_x = 362 + Help.random_num(-2, 2) * 20;
-					twn_y = 956 + Help.random_num(-2, 2) * 5;
+					twn_x = 243 + Help.random_num(-2, 2) * 20;
+					twn_y = 1066 + Help.random_num(-2, 2) * 5;
 				}
 				else if (SceneManager.instance.landId == 2) {
-					twn_x = 293 + Help.random_num(-2, 2) * 20;
-					twn_y = 1021 + Help.random_num(-2, 2) * 5;
+					twn_x = 262 + Help.random_num(-2, 2) * 20;
+					twn_y = 1048 + Help.random_num(-2, 2) * 5;
 				}
 				egret.Tween.get(grass)
 					.set({ x: 210, y: 720 })
@@ -460,12 +460,12 @@ class NewHelp {
 				let twn_x;
 				let twn_y;
 				if (SceneManager.instance.landId == 1) {
-					twn_x = 504 + Help.random_num(-2, 2) * 20;
-					twn_y = 938 + Help.random_num(-2, 2) * 5;
+					twn_x = 293 + Help.random_num(-2, 2) * 20;
+					twn_y = 1092 + Help.random_num(-2, 2) * 5;
 				}
 				else if (SceneManager.instance.landId == 2) {
-					twn_x = 377 + Help.random_num(-2, 2) * 20;
-					twn_y = 1012 + Help.random_num(-2, 2) * 5;
+					twn_x = 310 + Help.random_num(-2, 2) * 20;
+					twn_y = 1062 + Help.random_num(-2, 2) * 5;
 				}
 				egret.Tween.get(grass)
 					.set({ x: 210, y: 720 })
@@ -490,8 +490,8 @@ class NewHelp {
 			gro_prop = SceneManager.sceneManager.newmain2Scene.gro_prop;
 		}
 		let insect = new eui.Image;
-		insect.width = 76;
-		insect.height = 95.75;
+		insect.width = 76 * 0.6;
+		insect.height = 95.75 * 0.6;
 		insect.texture = RES.getRes("home-insect");
 		insect.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
 			this.removeTreeProp(insect, id);
@@ -503,12 +503,12 @@ class NewHelp {
 				let twn_x;
 				let twn_y;
 				if (SceneManager.instance.landId == 1) {
-					twn_x = 536 + Help.random_num(-2, 2) * 20;
-					twn_y = 872 + Help.random_num(-2, 2) * 5;
+					twn_x = 453 + Help.random_num(-2, 2) * 20;
+					twn_y = 1060 + Help.random_num(-2, 2) * 5;
 				}
 				else if (SceneManager.instance.landId == 2) {
-					twn_x = 247 + Help.random_num(-2, 2) * 20;
-					twn_y = 1005 + Help.random_num(-2, 2) * 5;
+					twn_x = 428 + Help.random_num(-2, 2) * 20;
+					twn_y = 1057 + Help.random_num(-2, 2) * 5;
 				}
 				egret.Tween.get(insect)
 					.set({ x: 530, y: 720 })
@@ -520,12 +520,12 @@ class NewHelp {
 				let twn_x;
 				let twn_y;
 				if (SceneManager.instance.landId == 1) {
-					twn_x = 295 + Help.random_num(-2, 2) * 20;
-					twn_y = 932 + Help.random_num(-2, 2) * 5;
+					twn_x = 413 + Help.random_num(-2, 2) * 20;
+					twn_y = 1090 + Help.random_num(-2, 2) * 5;
 				}
 				else if (SceneManager.instance.landId == 2) {
-					twn_x = 340 + Help.random_num(-2, 2) * 20;
-					twn_y = 1005 + Help.random_num(-2, 2) * 5;
+					twn_x = 478 + Help.random_num(-2, 2) * 20;
+					twn_y = 1028 + Help.random_num(-2, 2) * 5;
 				}
 				egret.Tween.get(insect)
 					.set({ x: 530, y: 720 })
@@ -537,11 +537,11 @@ class NewHelp {
 				let twn_y;
 				if (SceneManager.instance.landId == 1) {
 					twn_x = 436 + Help.random_num(-2, 2) * 20;
-					twn_y = 930 + Help.random_num(-2, 2) * 5;
+					twn_y = 1130 + Help.random_num(-2, 2) * 5;
 				}
 				else if (SceneManager.instance.landId == 2) {
-					twn_x = 438 + Help.random_num(-2, 2) * 20;
-					twn_y = 990 + Help.random_num(-2, 2) * 5;
+					twn_x = 492 + Help.random_num(-2, 2) * 20;
+					twn_y = 972 + Help.random_num(-2, 2) * 5;
 				}
 				egret.Tween.get(insect)
 					.set({ x: 530, y: 720 })
@@ -723,14 +723,17 @@ class NewHelp {
 			let canUseProp = treedata.canReceive == null ? "false" : treedata.canReceive;
 			if (canUseProp == 'true') {
 				console.log("果树已经可以兑换啦，不用再使用道具了。")
+				SceneManager.sceneManager.StageItems.btn_kettle.touchEnabled = true;
 				return;
 			}
 			if (treedata.needTake == "true") {
 				SceneManager.addNotice("果树已经长好了,快去摘果吧！")
+				SceneManager.sceneManager.StageItems.btn_kettle.touchEnabled = true;
 				return
 			}
 			if (treedata.stageObj.isLast == "true" && treedata.growthValue == treedata.stageObj.energy && treedata.needTake == "false") {
 				SceneManager.addNotice("果树已经长好啦，您可以邀请好友帮忙摘果哦！")
+				SceneManager.sceneManager.StageItems.btn_kettle.touchEnabled = true;
 				return
 			}
 			params = {
@@ -739,7 +742,6 @@ class NewHelp {
 			}
 			if (this.canPost) {
 				this.canPost = false;
-				SceneManager.sceneManager.StageItems.btn_kettle.touchEnabled = false;
 				MyRequest._post("game/useProp", params, this, this.Req_useProp.bind(this, propId), this.postErr.bind(this, propId));
 			}
 		}
@@ -750,7 +752,6 @@ class NewHelp {
 				}
 				if (this.canPost) {
 					this.canPost = false;
-					SceneManager.sceneManager.StageItems.btn_kettle.touchEnabled = false;
 					MyRequest._post("game/useProp", params, this, this.Req_useProp.bind(this, propId), this.postErr.bind(this, propId));
 				}
 			}
@@ -763,7 +764,6 @@ class NewHelp {
 
 	//使用道具成功后处理
 	private static Req_useProp(propId, data): void {
-		SceneManager.sceneManager.StageItems.btn_kettle.touchEnabled = true;
 		this.canPost = true;
 		SceneManager.sceneManager.newmainScene.progress.slideDuration = 6000;
 		var Data = data;
@@ -810,17 +810,23 @@ class NewHelp {
 	private static huafeiTwn(type) {
 		let icon = new eui.Image();
 		if (type == 4) {
-			icon.texture = RES.getRes("youji");
+			icon.texture = RES.getRes("szhuafei_png");
+			icon.width = 86
+			icon.height = 94;
 			icon.x = 68;
 			icon.y = 700;
 		}
 		else if (type == 5) {
-			icon.texture = RES.getRes("fuhe");
+			icon.texture = RES.getRes("jshuafei_png");
+			icon.width = 86
+			icon.height = 94;
 			icon.x = 177.5;
 			icon.y = 886;
 		}
 		else if (type == 6) {
-			icon.texture = RES.getRes("shuirong");
+			icon.texture = RES.getRes("zghuafei_png");
+			icon.width = 86
+			icon.height = 94;
 			icon.x = 212;
 			icon.y = 1006;
 		}
@@ -830,7 +836,12 @@ class NewHelp {
 		egret.Tween.get(icon)
 			.to({ x: 540, y: 725 }, 1000)
 			.wait(300)
-			.to({ rotation: -60 }, 500).call(() => { this.huafeikeli(icon) }, this)
+			.to({ rotation: -60 }, 500).call(() => {
+				this.huafeikeli(icon);
+				if (type == 6) {
+					SceneManager.addNotice("使用成功！果子数会增加哦！")
+				}
+			}, this)
 	}
 
 
@@ -918,6 +929,7 @@ class NewHelp {
 
 	// 水壶冷却展现
 	private static tettleEad() {
+		SceneManager.sceneManager.StageItems.btn_kettle.touchEnabled = true;
 		if (SceneManager.sceneManager.StageItems.currentState == "havetree") {
 			if (SceneManager.instance.landId == 1) {
 				SceneManager.sceneManager.newmainScene.getOwnTree();						//更新果园数据
@@ -980,18 +992,17 @@ class NewHelp {
 	}
 	//冷却加速
 	public static lqfast() {
-
 		this.a = this.a - 1;
 		this.showtime(this.a);
 		let text = new eui.Label();
 		text.text = "-1s";
 		text.x = 625;
-		text.y = 1000;
+		text.y = 1160;
 		text.textColor = 0x1B8399;
 		text.size = 40;
 		SceneManager.sceneManager.StageItems.addChild(text);
 		egret.Tween.get(text)
-			.to({ y: 960 }, 500).call(() => { SceneManager.sceneManager.StageItems.removeChild(text) }, this)
+			.to({ y: 1120 }, 500).call(() => { SceneManager.sceneManager.StageItems.removeChild(text) }, this)
 	}
 
 	//水壶冷却完成

@@ -618,6 +618,7 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 		kettleNum = kettleNum.substring(0, kettleNum.length - 1);
 		if (this.currentState == "havetree" && Number(kettleNum) >= 10) {
 			NewHelp.useProp(1, treedata);		//1:使用水滴
+			this.btn_kettle.touchEnabled = false;
 		} else if (treedata.needTake == "true") {
 			let content = "您需要先把树上成熟果子摘完才可以浇水哦~"
 			let btn = "确定"

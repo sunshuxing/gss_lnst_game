@@ -28,15 +28,14 @@ class BaikeScene extends eui.Component implements eui.UIComponent {
 
     private close() {
         if (this.parent) {
-            if (SceneManager.sceneManager.getSigninScene().canreward_look) {            //可以获得奖励
+            let State = Datamanager.getlooktask().btnStatus ? Datamanager.getlooktask().btnStatus : 0
+            if (State == 0) {                             //可完成
                 let data = {
                     taskCode: "read_knowledge",
                 }
                 let that = this
                 MyRequest._post("game/completeTask", data, this, () => {
-                    SceneManager.sceneManager.getSigninScene().canlook = false;        //完成任务后阅读状态为false
-                    SceneManager.sceneManager.getSigninScene().checkLookReward();
-                    SceneManager.sceneManager.getSigninScene().canreward_look = false;
+                    SceneManager.instance.getTaskScene().taskDataInit(SceneManager.instance.StageItems.checktask) //更新任务数据
                 }, null);
             }
             this.parent.removeChild(this);

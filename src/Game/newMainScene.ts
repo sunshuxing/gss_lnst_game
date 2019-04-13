@@ -79,7 +79,7 @@ class newMainScene extends eui.Component implements eui.UIComponent {
                 let peisonglabel = "免费获得" + "\n" + data.data[0].treeName + "一箱!"
                 SceneManager.sceneManager._stage.removeChildren();
                 let image = new eui.Image();
-                image.texture = RES.getRes("bg-day_png");
+                image.texture = RES.getRes("bgday_guoyuan_png");
                 image.height = 1344;
                 let prompt = new PromptJump(peisonglabel);
                 SceneManager.sceneManager._stage.addChild(image);
@@ -199,11 +199,9 @@ class newMainScene extends eui.Component implements eui.UIComponent {
         let now = new Date();
         let hour = now.getHours();
         if (hour > 17 || hour < 6) {
-            this.logo.texture = RES.getRes("logo-night")            //风车图片
-            this.bg.texture = RES.getRes("bgsnownight_png");        //背景图片
+            this.bg.texture = RES.getRes("bgnight_guoyuan_png");        //背景图片
         } else if (hour < 18 || hour > 5) {
-            this.logo.texture = RES.getRes("logo")                  //风车图片
-            this.bg.texture = RES.getRes("bgsnow_png");             //背景图片
+            this.bg.texture = RES.getRes("bgday_guoyuan_png");             //背景图片
         }
     }
 

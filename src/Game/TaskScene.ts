@@ -67,7 +67,6 @@ class TaskScene extends eui.Component implements eui.UIComponent {
     private Req_getTaskList(func: Function, data): void {
         var Data = data;
         this.taskdata = Data.data
-        Datamanager.savetaskdata(Data.data);
         MyRequest._post("game/getTaskFinish", null, this, this.Req_initFinishTask.bind(this, func), null);//获取完成任务列表（包含领取/未领取任务），用于显示按钮状态
     }
 
@@ -79,7 +78,6 @@ class TaskScene extends eui.Component implements eui.UIComponent {
      */
     private Req_initFinishTask(func: Function, data): void {
         var Data = data;
-        Datamanager.savefinishedtaskdata(Data.data);
         let finishList: Array<TaskFinished> = Data.data;
         let map: { [key: string]: Task } = {};//创建一个map，用于存放任务列表
         let mapKey: string[] = []; //和map一起使用的数组
@@ -175,6 +173,8 @@ class TaskScene extends eui.Component implements eui.UIComponent {
                     }
                 }
                 this.taskdata = taskList
+                Datamanager.savetaskdata(this.taskdata);
+                SceneManager.instance.getSigninScene().checkLookReward();                                   //重新检查阅读奖励
             }
             //如果还未完成分享任务（当前不分享，直接完成）则直接完成
             if (!hasShare) {
@@ -287,7 +287,7 @@ class taskList_item extends eui.ItemRenderer {
         // 当组件创建完成的时候触发
         this.addEventListener(eui.UIEvent.CREATION_COMPLETE, this.onComplete, this)
         this.can_finish.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
-            this.completetask(this.data.code,this.data.id)
+            this.completetask(this.data.code, this.data.id)
         }, this)
         this.receive.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
             this.receiveTask(this.data.finishedId)
@@ -411,7 +411,7 @@ class taskList_item extends eui.ItemRenderer {
     /**
      * 点击去完成按钮事件
      */
-    private completetask(code,id?) {
+    private completetask(code, id?) {
         switch (code) {
             case 'browse_goods': {
                 if (SceneManager.instance.isMiniprogram) {
@@ -511,6 +511,10 @@ class taskList_item extends eui.ItemRenderer {
                 }
             }
                 break;
+            case 'read_knowledge': {
+                
+            }
+                break
         }
     }
 

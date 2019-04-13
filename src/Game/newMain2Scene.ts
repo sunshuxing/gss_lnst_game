@@ -21,7 +21,7 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
     public duckjishi: eui.Group;
     public duck_take: eui.Image;
     public gro_prop: eui.Group;
-
+    private logo: eui.Image;
 
     private info_img1: eui.Image;
     private info_img2: eui.Image;
@@ -48,6 +48,7 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
     protected childrenCreated(): void {
         super.childrenCreated();
         // NewHelp.duck_hungryTwn();
+        this.logorot();
         this.duck_language_gro.touchThrough = true;
     }
 
@@ -76,6 +77,14 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
         // this.getTopGoods();
     }
 
+
+
+
+    //风车动画
+    private logorot() {
+        egret.Tween.get(this.logo, { loop: true })
+            .to({ rotation: 360 }, 10000);
+    }
 
     /**
      * 广告详情
@@ -466,7 +475,7 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
                 let peisonglabel = "免费获得" + "\n" + data.data[0].treeName + "一箱!"
                 SceneManager.sceneManager._stage.removeChildren();
                 let image = new eui.Image();
-                image.texture = RES.getRes("bg-day_png");
+                image.texture = RES.getRes("bgday_caiyuan_png");
                 image.height = 1344;
                 let prompt = new PromptJump(peisonglabel);
                 SceneManager.sceneManager._stage.addChild(image);
@@ -597,9 +606,9 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
         let now = new Date();
         let hour = now.getHours();
         if (hour > 17 || hour < 6) {
-            this.bg.texture = RES.getRes("bg-nightcai_png");               //背景图片
+            this.bg.texture = RES.getRes("bgnight_caiyuan_png");               //背景图片
         } else if (hour < 18 || hour > 5) {
-            this.bg.texture = RES.getRes("bg-daycai_png");             //背景图片
+            this.bg.texture = RES.getRes("bgday_caiyuan_png");             //背景图片
         }
     }
 
