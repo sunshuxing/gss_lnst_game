@@ -143,6 +143,7 @@ class ProblemScene extends eui.Component implements eui.UIComponent {
             this.label_reward.visible = true;
             this.gro_reward.visible = false;
         }
+        NewHelp.checkActRed();
     }
 
     /**

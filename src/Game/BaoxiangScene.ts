@@ -34,19 +34,16 @@ class BaoxiangScene extends eui.Component implements eui.UIComponent{
 			else if(Data[i].propId == 2){
 				//爱心值
 			}
-			else if(Data[i].propId == 3){
-				this.daojuNum.text = Data[i].propName+"x"+Data[i].propNum+"个";
-			}
 			else if(Data[i].propId == 4){
-				this.huafeiIcon.texture = RES.getRes("youji");
+				this.huafeiIcon.texture = RES.getRes("sz_huafei_png");
 				this.huafeiNum.text = Data[i].propName+"x"+Data[i].propNum+"袋";
 			}
 			else if(Data[i].propId == 5){
-				this.huafeiIcon.texture = RES.getRes("fuhe");
+				this.huafeiIcon.texture = RES.getRes("js_huafei_png");
 				this.huafeiNum.text = Data[i].propName+"x"+Data[i].propNum+"袋";				
 			}
 			else if(Data[i].propId == 6){
-				this.huafeiIcon.texture = RES.getRes("shuirong");
+				this.huafeiIcon.texture = RES.getRes("zg_huafei_png");
 				this.huafeiNum.text = Data[i].propName+"x"+Data[i].propNum+"袋";				
 			}
 		}

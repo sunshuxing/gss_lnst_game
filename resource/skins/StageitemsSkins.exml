@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="StageitemsSkins" width="750" height="1334" xmlns:e="http://ns.egret.com/eui"
-        xmlns:w="http://ns.egret.com/wing" xmlns:ns1="*" states="havetree,friendtree">
+        xmlns:w="http://ns.egret.com/wing" states="havetree,friendtree">
     <e:Group id="BarGroup" anchorOffsetX="0" anchorOffsetY="0" left="0" right="0" top="0" bottom="0" locked="true"></e:Group>
 <e:Image id="btn_nianhuo" y="635.52" anchorOffsetX="60" anchorOffsetY="53.5" source="nianhuo_png"
          includeIn="havetree"  x="667" visible="false"/>
@@ -14,16 +14,8 @@
         </e:Group>
     </e:Group>
 </e:Group>
-<e:Image id="btn_encyclopedia" x="29" y="495.44" anchorOffsetX="0" anchorOffsetY="0" source="encyclopedia_png"
-         includeIn="havetree"  visible="false"/>
-<e:Group id="dynamic" anchorOffsetX="0" anchorOffsetY="0" width="230" height="80" x="100.37" includeIn="havetree"
-         y="499.33" visible="false">
-    <e:Image id="dynamic_bg" x.havetree="-5.32" y.havetree="0.99" scale9Grid.havetree="88,10,52,60" includeIn="havetree"
-             y="1.99" source="dynamic_bg"  scale9Grid="42,17,160,23" x="0"/>
-    <e:Image id="dynamic_image" width="50" height="50" anchorOffsetX="0" anchorOffsetY="0" includeIn="havetree"
-             scaleX="1" scaleY="1" x="30.76" y="16.99" />
-    <e:Label id="dynamic_info" text="动态啊啊" includeIn="havetree" size="25" y="29.49" bold="true"  x="92"/>
-</e:Group>
+
+
 <e:Image id="share_friend" x="601.38" y="697.65" anchorOffsetX="0" anchorOffsetY="0" includeIn="havetree"
          source="sharefriend"  visible="false"/>
 <e:Group id="friend_kettle" y="1181" anchorOffsetY="0" anchorOffsetX="0" right="40"
@@ -36,21 +28,19 @@
 <e:Group id="gro_lq" y="1179.28" anchorOffsetX="0" anchorOffsetY="0" x="601"
          includeIn="havetree" visible="false">
 	<e:Image x="0" y="0" source="unablewater_png" width="110" height="110"/>
-	<e:BitmapLabel id="time_lq" height="20" font="waternum_big_fnt" text="00：00" horizontalCenter="0" verticalCenter="0"/>
+	<e:BitmapLabel id="time_lq" height="20" font="waternum_fnt" text="00：00" horizontalCenter="0" verticalCenter="0"/>
 </e:Group>
 <e:Image id="img_water" width="88" height="84" x="386" y="860" anchorOffsetX="0" anchorOffsetY="0" source="water"
           visible="false"/>
 <e:Group id="gro_pick" width="122" height="152" x="446" y="624" anchorOffsetY="0" anchorOffsetX="0" visible="false">
     <e:Image id="pick_hand" x="16" y="6" source="pickhand" scaleX="1" scaleY="1" />
-    <e:Label id="pick_label" text="可摘果" x="14" y="112" fontFamily="SimHei" size="32" bold="true" textColor="0xffffff"
-             scaleX="1" scaleY="1" />
+	<e:BitmapLabel id="pick_label" x="21.12" y="102.88" text="可摘果" font="ziti_fnt" scaleX="1.5" scaleY="1.5"/>
 </e:Group>
 <e:Group id="gro_steal" width="138" height="155" x="442" y="781" anchorOffsetX="0" anchorOffsetY="0"
          includeIn="friendtree" visible="false">
     <e:Image id="steal_btn" width="140" height="154" x="1" y="-7" source="ketou" anchorOffsetX="0" anchorOffsetY="0"
              scaleX="1" scaleY="1" />
-    <e:Label id="steal_label" text="可偷水" x="18" y="121" textColor="0x2db7d8" bold="true" fontFamily="SimHei" scaleX="1"
-             scaleY="1" />
+	<e:BitmapLabel id="steal_label" x="28.09" y="119" font="ziti_fnt" text="可偷水" scaleX="1.5" scaleY="1.5"/>
 </e:Group>
 <e:Image id="chanzi_btn" width="69" height="75.33" x="340" y="816.36" anchorOffsetX="0" anchorOffsetY="0"
          source="chanzi_png" includeIn="havetree"  visible="false"/>
@@ -65,9 +55,11 @@
 		<e:TileLayout horizontalGap="32"/>
 	</e:layout>
 </e:Group>
-<e:Group id="top_icon" y="305" left="32">
+<e:Group id="top_icon" y="305" left="32" includeIn="havetree" anchorOffsetX="0" width="62.67">
     <e:Group id="btn_activity" x="0" y="0">
         <e:Image width="62" height="84" x="0" y="0" scaleX="1" scaleY="1"  source="icon_activity_png"/>
+        <e:Rect id="act_red" width="20" height="20" y="-5" ellipseWidth="20" ellipseHeight="20"
+                fillColor="0xfc0f0f" scaleX="1" scaleY="1"  right="0" visible="false"/>
     </e:Group>
     <e:Group id="btn_task" x="0" y="96">
         <e:Image width="62" height="84" x="0" source="icon_task_png" />
@@ -86,9 +78,15 @@
         <e:Rect id="huafei_red" width="20" height="20" y="-5" ellipseWidth="20" ellipseHeight="20"
                 fillColor="0xfc0f0f" scaleX="1" scaleY="1"  right="0" visible="false"/>
     </e:Group>
+	<e:Group id="dynamic" anchorOffsetX="0" anchorOffsetY="0" width="230" height="80" x="65.18" includeIn="havetree" y="203.03" scaleX="1" scaleY="1" visible="false">
+		<e:Image id="dynamic_bg" x.havetree="-5.32" y.havetree="0.99" scale9Grid.havetree="88,10,52,60" includeIn="havetree" y="1.99" source="dynamic_bg" scale9Grid="42,17,160,23" x="0"/>
+		<e:Image id="dynamic_image" width="50" height="50" anchorOffsetX="0" anchorOffsetY="0" includeIn="havetree" scaleX="1" scaleY="1" x="30.76" y="16.99"/>
+		<e:Label id="dynamic_info" text="动态啊啊" includeIn="havetree" size="25" y="29.49" bold="true" x="92"/>
+	</e:Group>
 	<e:layout>
-		<e:VerticalLayout gap="16"/>
+		<e:BasicLayout/>
 	</e:layout>
+
 </e:Group>
 <e:Group id="top_group" width="438" height="68" anchorOffsetY="0" anchorOffsetX="0" x="156" y="70.06">
     <e:Image height="100%" x="0" source="topbg_png" width="100%" y="0" />
@@ -103,7 +101,7 @@
     <e:Group id="info2" mask="{mask_top2}" width="390" height="40" x="29" includeIn="havetree,friendtree" scaleX="1"
              scaleY="1" y="16">
         <e:Label id="str2" text="" height="100%" verticalAlign="middle" anchorOffsetX="0" textAlign="left" x="47"
-                 size="24" fontFamily="Microsoft YaHei" textColor="0x8e4717" y="0" />
+                 size="24" fontFamily="Microsoft YaHei" y="0"  textColor="0x8e4717"/>
         <e:Image id="img2" mask="{mask_icon2}" width="36" height="36" anchorOffsetX="0" anchorOffsetY="0" x="0"
                  source="" y="2" />
         <e:Rect id="mask_icon2" width="36" height="36" x="0" anchorOffsetX="0" anchorOffsetY="0" ellipseWidth="36"
@@ -112,7 +110,7 @@
     <e:Rect id="mask_top1" width="390" height="40" x="29" y="16" anchorOffsetX="0" anchorOffsetY="0" />
     <e:Rect id="mask_top2" width="390" height="40" x="29" anchorOffsetX="0" anchorOffsetY="0" y="16" />
 </e:Group>
-<e:Group id="sysmsg_group" width="100%" height="54" y="0">
+<e:Group id="sysmsg_group" width="100%" height="54" y="0" visible="false">
     <e:Rect width="100%" height="54" x="0" y="0" fillColor="0xfefced" anchorOffsetY="0" scaleX="1" scaleY="1" />
     <e:Image width="26" height="26" x="32" verticalCenter="0" source="sysmsg_png" />
 	<e:Group height="24" x="90" verticalCenter="0">
@@ -121,12 +119,12 @@
 	</e:Group>
     <e:Image width="12" height="20" y="15" right="32" source="sysmsgright_png" />
 </e:Group>
-	<e:Group id="love_group" width="156" height="44" includeIn="havetree" right="0" bottom="300">
+	<e:Group id="love_group" width="156" height="44" includeIn="havetree" right="0" bottom="366">
 		<e:Rect width="130" height="42" x="26" fillAlpha="0.1" verticalCenter="0"/>
 		<e:Image width="52" height="44" source="icon_love_png" x="0" y="0"/>
 		<e:Label id="like_num" text="" x="26" width="130" height="42" verticalCenter="0" textAlign="center" verticalAlign="middle" size="24" fontFamily="Microsoft YaHei"/>
 	</e:Group>
-    <e:Group id="water_group" width="156" height="44" includeIn="havetree" right="0" bottom="366">
+    <e:Group id="water_group" width="156" height="44" includeIn="havetree" right="0" bottom="300">
 		<e:Rect width="130" height="42" x="26" fillAlpha="0.1" verticalCenter="0"/>
 		<e:Image id="fruit_img" width="64" height="64" x="-10" y="-9" source=""/>
 		<e:Label id="fruit_label" text="" x="26" width="130" height="42" verticalCenter="0" textAlign="center" verticalAlign="middle" size="24" fontFamily="Microsoft YaHei"/>
@@ -147,6 +145,6 @@
 	</e:Group>
 	<e:Group id="btn_kettle" y="1181" anchorOffsetX="0" anchorOffsetY="0" left="600" right="40" includeIn="havetree">
 		<e:Image id="img_kettle" x="0" y="0" source="kettle" width="110" height="92"/>
-		<e:BitmapLabel id="kettle_num" height="20" y="100" text="" horizontalCenter="11" font="waternum_small_fnt" anchorOffsetX="2" scaleY="1.2" scaleX="1.2"/>
+		<e:BitmapLabel id="kettle_num" height="20" y="100" text="" horizontalCenter="11" anchorOffsetX="2" scaleY="1" scaleX="1" font="waternum_fnt"/>
 	</e:Group>
 </e:Skin>

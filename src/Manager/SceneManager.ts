@@ -132,11 +132,11 @@ class SceneManager {
                 MyRequest._post("game/addFriend", data, this, this.loadFirend.bind(this), null)
             }
         } else {
-            // if (this.friendSign != this.weixinUtil.login_user_id) {
-            //     //如果分享的用户和当前用户不一样
-            //     this.mainScene.getFriends(this.userid)
-            //     this.userid = null;
-            // }
+            if (this.friendSign != this.weixinUtil.login_user_id) {
+                // //如果分享的用户和当前用户不一样
+                this.getNewfriendScene().getFriends(this.userid)
+                this.userid = null;
+            }
         }
     }
     private loadFirend() {
@@ -438,19 +438,19 @@ class SceneManager {
         if (SceneManager.instance.landId == 1) {
             this.treeprompt.x = 400;
             if (Datamanager.getNowtreedata().stage == "1") {
-                this.treeprompt.y = 900;
+                this.treeprompt.y = 840;
             }
             else {
-                this.treeprompt.y = 730;
+                this.treeprompt.y = 670;
             }
         }
         else if (SceneManager.instance.landId == 2) {
             this.treeprompt.x = 350;
             if (Datamanager.getNowtreedata().stage == "1") {
-                this.treeprompt.y = 1000;
+                this.treeprompt.y = 920;
             }
             else {
-                this.treeprompt.y = 760;
+                this.treeprompt.y = 680;
             }
         }
         this.treepromptgro.addChild(this.treeprompt);
@@ -475,11 +475,11 @@ class SceneManager {
         this.treeprompt.setPrompt(info);
         if (SceneManager.instance.landId == 1) {
             this.treeprompt.x = 400;
-            this.treeprompt.y = 900;
+            this.treeprompt.y = 840;
         }
         else if (SceneManager.instance.landId == 2) {
             this.treeprompt.x = 350;
-            this.treeprompt.y = 980;
+            this.treeprompt.y = 920;
         }
         this.treepromptgro.addChild(this.treeprompt);
     }

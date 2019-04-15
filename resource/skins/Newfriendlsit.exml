@@ -4,7 +4,7 @@
 	<e:Image id="friend_icon" mask="{icon_mask}" width="86" height="86" x="16" y="27" source="gamelogo"/>
 	<e:Rect id="icon_mask" width="86" height="86" x="16" y="27" ellipseHeight="86" ellipseWidth="86"/>
 	<e:Label id="friend_name" text="" x="122" y="32" textColor="0x212121" fontFamily="Microsoft YaHei"/>
-	<e:Image id="fruit1" width="32" height="32" x="122" y="76"/>
+	<e:Image id="fruit1" width="32" height="32" x="122" y="76" source=""/>
 	<e:Image id="fruit2" width="32" height="32" x="158" y="76"/>
 	<e:Group id="friend_heart" width="60" height="60" y="40" x="642">
 		<e:Image width="60" height="60" y="0" x="0" source="friend-heart_png" scaleX="1" scaleY="1"/>

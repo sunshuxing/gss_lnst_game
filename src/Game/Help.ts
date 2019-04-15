@@ -230,12 +230,12 @@ class Help {
         if (SceneManager.instance.landId == 1) {
             egret.Tween.get(fruit)
                 .to({ x: 368, y: 505 }, 300)
-                .to({ x: 200, y: 1153, height: 34, width: 29 }, 1400).call(() => { SceneManager.sceneManager.StageItems.removeChild(fruit) }, SceneManager.sceneManager.StageItems)
+                .to({ x: 595, y: 985, height: 34, width: 29 }, 1400).call(() => { SceneManager.sceneManager.StageItems.removeChild(fruit) }, SceneManager.sceneManager.StageItems)
         }
         else if (SceneManager.instance.landId == 2) {
             egret.Tween.get(fruit)
                 .to({ x: 320, y: 700 }, 300)
-                .to({ x: 200, y: 1153, height: 34, width: 29 }, 1400).call(() => { SceneManager.sceneManager.StageItems.removeChild(fruit) }, SceneManager.sceneManager.StageItems)
+                .to({ x: 595, y: 985, height: 34, width: 29 }, 1400).call(() => { SceneManager.sceneManager.StageItems.removeChild(fruit) }, SceneManager.sceneManager.StageItems)
         }
     }
 
@@ -303,26 +303,26 @@ class Help {
     public static grapos(n, icon) {
         if (n == 1) {
             if (SceneManager.instance.landId == 1) {
-                return icon.x = 286, icon.y = 1025;
+                return icon.x = 286, icon.y = 965;
             }
             else if (SceneManager.instance.landId == 2) {
-                return icon.x = 203, icon.y = 1004;
+                return icon.x = 203, icon.y = 924;
             }
         }
         else if (n == 2) {
             if (SceneManager.instance.landId == 1) {
-                return icon.x = 243, icon.y = 1066;
+                return icon.x = 243, icon.y = 1006;
             }
             else if (SceneManager.instance.landId == 2) {
-                return icon.x = 262, icon.y = 1048;
+                return icon.x = 262, icon.y = 968;
             }
         }
         else if (n == 3) {
             if (SceneManager.instance.landId == 1) {
-                return icon.x = 293, icon.y = 1092;
+                return icon.x = 293, icon.y = 1032;
             }
             else if (SceneManager.instance.landId == 2) {
-                return icon.x = 310, icon.y = 1062;
+                return icon.x = 310, icon.y = 982;
             }
         }
     }
@@ -330,26 +330,26 @@ class Help {
     public static inspos(n, icon) {
         if (n == 1) {
             if (SceneManager.instance.landId == 1) {
-                return icon.x = 453, icon.y = 1060;
+                return icon.x = 453, icon.y = 1000;
             }
             else if (SceneManager.instance.landId == 2) {
-                return icon.x = 428, icon.y = 1037;
+                return icon.x = 428, icon.y = 957;
             }
         }
         else if (n == 2) {
             if (SceneManager.instance.landId == 1) {
-                return icon.x = 413, icon.y = 1090;
+                return icon.x = 413, icon.y = 1030;
             }
             else if (SceneManager.instance.landId == 2) {
-                return icon.x = 478, icon.y = 1008;
+                return icon.x = 478, icon.y = 928;
             }
         }
         else if (n == 3) {
             if (SceneManager.instance.landId == 1) {
-                return icon.x = 436, icon.y = 1027;
+                return icon.x = 436, icon.y = 967;
             }
             else if (SceneManager.instance.landId == 2) {
-                return icon.x = 492, icon.y = 972;
+                return icon.x = 492, icon.y = 892;
             }
         }
     }
@@ -573,16 +573,19 @@ class Help {
         let capture
         if (!SceneManager.instance.isMiniprogram) {
             let toppai = new eui.Image();
-            toppai.texture = RES.getRes("toppaisnow_png");
-            toppai.x = 165;
+            toppai.texture = RES.getRes("topbg_png");
+            toppai.scaleY = 0.5;
+            toppai.scaleX = 0.5;
             toppai.y = 20;
+            toppai.x = 156;
             let toptext = new eui.Label();
-            toptext.y = toppai.y + 98;
-            toptext.x = toppai.x + 57;
-            toptext.size = 30;
+            toptext.y = toppai.y + 16;
+            toptext.x = toppai.x;
+            toptext.size = 24;
             toptext.fontFamily = "Microsoft YaHei";
             toptext.height = 40;
-            toptext.width = 340;
+            toptext.width = 438;
+            toptext.textColor = 0x8E4717;
             toptext.verticalAlign = "middle";
             toptext.textAlign = "center";
             if (data.needTake == "true") {

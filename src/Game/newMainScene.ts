@@ -18,6 +18,7 @@ class newMainScene extends eui.Component implements eui.UIComponent {
     private jishi_gro: eui.Group;
     private jishi_text: eui.Label;
     public gro_prop: eui.Group;
+    private timer
 
     protected childrenCreated(): void {
         super.childrenCreated();
@@ -105,8 +106,11 @@ class newMainScene extends eui.Component implements eui.UIComponent {
                 let starttime = treedata.fertilizerRecord.createDate;
                 let usedtime = treedata.fertilizerRecord.timeLimit;
                 let endtime = Number(starttime) + Number(usedtime * 60 * 1000)
-                let timer = setInterval(() => {
-                    let text = SceneManager.instance.getTaskScene().dateDif(endtime, timer)
+                if (this.timer) {
+                    clearInterval(this.timer)
+                }
+                this.timer = setInterval(() => {
+                    let text = SceneManager.instance.getTaskScene().dateDif(endtime, this.timer)
                     text = text.slice(3);
                     this.jishi_text.text = text;
                     if (SceneManager.sceneManager.StageItems.currentState == "havetree") {
@@ -148,6 +152,10 @@ class newMainScene extends eui.Component implements eui.UIComponent {
         SceneManager.sceneManager.StageItems.currentState = "friendtree";
         Datamanager.saveNowtreedata(data);                                              //保存当前果树数据
         NewHelp.getfriendlike(data);                                                    //查询好友点赞数
+        let frienddata = Datamanager.getfrienddataByuser(Datamanager.getNowtreedata().userName)
+        if (frienddata) {
+            Datamanager.savenowfrienddata(frienddata);
+        }
         NewHelp.checkSteal(data);                                                       //检查是否能偷水
         this.progress.slideDuration = 0;
         this.progress.value = 0;
@@ -213,8 +221,8 @@ class newMainScene extends eui.Component implements eui.UIComponent {
             NewHelp.getNowUserInfo(SceneManager.instance.weixinUtil.login_user_id)  //显示头像
             SceneManager.sceneManager.StageItems.farm_name.text = "我的农场"
         } else if (SceneManager.sceneManager.StageItems.currentState == "friendtree") {
-            NewHelp.getNowUserInfo(Datamanager.getnowfrienddata().friendUser)       //显示头像
-            SceneManager.sceneManager.StageItems.farm_name.text = (Datamanager.getnowfrienddata().friendUserName) + "的农场"
+            NewHelp.getNowUserInfo(Datamanager.getNowtreedata().userName)       //显示头像
+            SceneManager.sceneManager.StageItems.farm_name.text = (Datamanager.getNowtreedata().userName) + "的农场"
         }
         if (!data) {
             this.tree_name.text = "";

@@ -9,10 +9,10 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 	public share_friend: eui.Image;			//邀请帮摘果按钮
 	public gro_pick: eui.Group;				//摘果手显示
 	public pick_hand: eui.Image;			//摘果的手
-	public pick_label: eui.Label;			//摘果的文字
+	public pick_label: eui.BitmapLabel;		//摘果的文字
 	public gro_steal: eui.Group				//偷水显示
 	public steal_btn: eui.Image;			//偷水按钮
-	public steal_label: eui.Label;			//偷水的字
+	public steal_label: eui.BitmapLabel;			//偷水的字
 	private hasCheck = false;				//是否检查过好友
 	public like_num: eui.Label;				//点赞数量
 	private top_group: eui.Group;			//顶部消息
@@ -23,14 +23,19 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 	public farm_group: eui.Group;
 	public water_num: eui.Label;
 	public btn_kettle: eui.Group;
-
+	public act_red:eui.Rect;
 
 	protected childrenCreated(): void {
 		super.childrenCreated();
 		// 创建完成后最终调用方法
 		this.getTopMsg();						//顶部消息
 		this.getSystemMsg();					//系统消息
-		NewHelp.showtreelanguage();					//循环显示树语
+		NewHelp.showtreelanguage();				//循环显示树语
+		this.getFriends();
+		if (!this.hasCheck) {
+			SceneManager.sceneManager.checkAddFriend();
+			this.hasCheck = true;
+		}
 	}
 
 	private onComplete(): void {
@@ -43,18 +48,14 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 		//创建完成立即调用方法
 		NewHelp.getSignInInfo()												//查询签到信息
 		NewHelp.searchAnswerStage();										//查询保存答题奖励数据
-		this.checkAnswerReward();
 		SceneManager.sceneManager.getTaskScene().taskDataInit(this.checktask);
 		this.iconTouchInit()																		//icon点击初始化
 		this.share_friend.addEventListener(egret.TouchEvent.TOUCH_TAP, this.sharefriend, this)		//邀请好友帮摘果按钮
-		this.pick_hand.addEventListener(egret.TouchEvent.TOUCH_TAP, this.PickFruit, this);			//帮摘果按钮点击监听
+		this.pick_hand.once(egret.TouchEvent.TOUCH_TAP, this.PickFruit, this);			//帮摘果按钮点击监听
 		this.steal_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, () => { NewHelp.stealWater() }, this);			//偷水按钮点击监听
 		this.sysmsg_group.addEventListener(egret.TouchEvent.TOUCH_TAP, this.tosysmsginfo, this);
 		this.BarGroup.touchThrough = true;
-		if (!this.hasCheck) {
-			SceneManager.sceneManager.checkAddFriend();
-			this.hasCheck = true;
-		}
+		NewHelp.checkActRed();
 	}
 
 
@@ -72,6 +73,22 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 	private topPage: number = 0				//当前页面
 	private infodata: any[];				//消息数据
 	private sysmsg_label: eui.Label;
+
+	//查询好友列表
+	public getFriends() {
+		let params = {
+			pageNo: 1,
+			numPerPage: 10000
+		};
+		MyRequest._post("game/getFriends", null, this, this.Req_getFriends.bind(this), null);
+	}
+
+	//查询好友列表成功后处理
+	private Req_getFriends(data): void {
+		var Data = data;
+		Datamanager.savefriendsdata(data.data.list);								//保存好友数据
+	}
+
 
 
 	//--------------------------------------------------------------------------摘果---------------------------------------------------------------------//
@@ -105,12 +122,14 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 	/**
 	 * 摘果子
 	 */
-	private PickFruit() {
+	public PickFruit() {
 		if (this.currentState == "havetree") {
 			let params = {
 				treeUserId: Datamanager.getNowtreedata().id
 			};
-			MyRequest._post("game/harvestFruit", params, this, this.Req_harvestFruit.bind(this), null)
+			MyRequest._post("game/harvestFruit", params, this, this.Req_harvestFruit.bind(this), () => {
+				this.pick_hand.once(egret.TouchEvent.TOUCH_TAP, this.PickFruit, this);
+			})
 		}
 		else if (this.currentState == "friendtree") {
 			NewHelp.friendpick(Datamanager.getNowtreedata().id);
@@ -136,6 +155,7 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 		else if (SceneManager.instance.landId == 2) {
 			SceneManager.sceneManager.newmain2Scene.getOwnTree();						//更新菜园数据
 		}
+		SceneManager.sceneManager.StageItems.pick_hand.once(egret.TouchEvent.TOUCH_TAP, SceneManager.sceneManager.StageItems.PickFruit, SceneManager.sceneManager.StageItems);
 	}
 	//---------------------------------------------------------------------系统消息---------------------------------------------------------------------//
 
@@ -401,7 +421,6 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 	public img_water: eui.Image;			//水滴图片
 	private friend_kettle: eui.Group;		//帮好友浇水区域
 	private btn_nianhuo: eui.Image;			//年货按钮
-	private btn_encyclopedia: eui.Image;	//百科按钮
 	public chanzi_btn: eui.Image;			//铲子
 	public tootherland: eui.Image;			//菜园/果园按钮
 	public tofriend: eui.Image;				//好友按钮
@@ -427,7 +446,7 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 		this.hudong_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.ToInteractiveScene, this);			//互动按钮点击监听
 		this.btn_kettle.addEventListener(egret.TouchEvent.TOUCH_TAP, this.addwater, this);						//自己水壶点击监听
 		this.love_group.addEventListener(egret.TouchEvent.TOUCH_TAP, this.loveTouch, this);						//爱心区域点击监听
-		this.btn_activity.addEventListener(egret.TouchEvent.TOUCH_TAP,this.ToSignInScene,this);
+		this.btn_activity.addEventListener(egret.TouchEvent.TOUCH_TAP, this.ToSignInScene, this);
 		this.btn_nianhuo.addEventListener(egret.TouchEvent.TOUCH_TAP, this.tonianhuo, this);					 //年货按钮点击监听
 		this.gro_lq.addEventListener(egret.TouchEvent.TOUCH_TAP, () => { NewHelp.lqfast() }, this);				 //水壶冷却点击监听
 		this.friend_kettle.addEventListener(egret.TouchEvent.TOUCH_TAP, () => { NewHelp.friendWater() }, this)	 //帮好友浇水点击监听
@@ -504,23 +523,6 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 		}
 	}
 
-	/**
-	* 检查是否能通过答题获得奖励
-	*/
-	private checkAnswerReward() {
-		MyRequest._post("game/checkAnswerReward", null, this, this.Req_checkAnswerReward.bind(this), null)
-	}
-
-	private Req_checkAnswerReward(data) {
-		console.log(data, "检查答题")
-		if (data.data == "true") {
-			this.canreward = true;
-		}
-		else {
-			this.canreward = false;
-		}
-		this.btn_encyclopedia.addEventListener(egret.TouchEvent.TOUCH_TAP, this.toproblem, this)					//进入答题
-	}
 
 	//去年货专区
 	private tonianhuo() {

@@ -85,6 +85,9 @@ class TaskScene extends eui.Component implements eui.UIComponent {
 
         if (finishList) {//当有完成数据时遍历
             for (let a = 0; a < finishList.length; a++) {
+                if (!finishList[a].taskId) {
+                    continue;
+                }
                 let tf = map[finishList[a].taskId]
                 if (!tf) {
                     let test = new BodyMenuShareAppMessage()
@@ -174,7 +177,6 @@ class TaskScene extends eui.Component implements eui.UIComponent {
                 }
                 this.taskdata = taskList
                 Datamanager.savetaskdata(this.taskdata);
-                SceneManager.instance.getSigninScene().checkLookReward();                                   //重新检查阅读奖励
             }
             //如果还未完成分享任务（当前不分享，直接完成）则直接完成
             if (!hasShare) {
@@ -186,6 +188,7 @@ class TaskScene extends eui.Component implements eui.UIComponent {
             }
         }
         this.init();//构建好数据后初始化
+        // SceneManager.instance.getSigninScene().checkLookReward();                                   //重新检查阅读奖励
     }
     private canPost = true;
     public completeShareTask() {
@@ -338,6 +341,7 @@ class taskList_item extends eui.ItemRenderer {
         }
         SceneManager.addNotice("获得" + data.propName + data.propNum + info, 2000)
         SceneManager.instance.getTaskScene().taskDataInit(SceneManager.instance.StageItems.checktask)
+        SceneManager.instance.getSigninScene().checkLookReward();
         NewHelp.updateprop();
     }
 
@@ -512,7 +516,8 @@ class taskList_item extends eui.ItemRenderer {
             }
                 break;
             case 'read_knowledge': {
-                
+                let baikeScene = new BaikeScene();
+                SceneManager.sceneManager._stage.addChild(baikeScene)
             }
                 break
         }

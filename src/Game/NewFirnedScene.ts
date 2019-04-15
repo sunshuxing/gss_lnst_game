@@ -77,9 +77,9 @@ class NewFriendScene extends eui.Component implements eui.UIComponent {
             this.friend_toself.visible = false;
         }
         let params = {
-			pageNo: 1,
-			numPerPage: 10000
-		};
+            pageNo: 1,
+            numPerPage: 10000
+        };
         MyRequest._post("game/getFriends", null, this, this.Req_getFriends.bind(this, userid), null);
     }
 
@@ -125,6 +125,11 @@ class NewFriendScene extends eui.Component implements eui.UIComponent {
         // 设置list_hero的项呈视器 (这里直接写类名,而不是写实例)
         this.friend_list.itemRenderer = NewFriendList_item;
         this.friend_list.addEventListener(eui.ItemTapEvent.ITEM_TAP, this.toOtherTree, this);
+        if (userid) {                     //由其他用户分享
+            let frienddata = Datamanager.getfrienddataByuser(userid);
+            let treeid = NewHelp.getTreeIdByLandId(frienddata, SceneManager.instance.landId);				//获取果树id
+            NewHelp.getTreeInfoByid(treeid);
+        }
     }
 
 

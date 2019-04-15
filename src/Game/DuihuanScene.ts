@@ -142,13 +142,13 @@ class DuihuanList_item extends eui.ItemRenderer {
                 this.prop.texture = RES.getRes("lanzi")
             }
             else if (this.data.rewardRule.propId == 4) {     //有机肥
-                this.prop.texture = RES.getRes("youji")
+                this.prop.texture = RES.getRes("sz_huafei_png")
             }
             else if (this.data.rewardRule.propId == 5) {     //复合肥
-                this.prop.texture = RES.getRes("fuhe")
+                this.prop.texture = RES.getRes("js_huafei_png")
             }
             else if (this.data.rewardRule.propId == 6) {     //水溶肥
-                this.prop.texture = RES.getRes("shuirong")
+                this.prop.texture = RES.getRes("zg_huafei_png")
             }
             else if (this.data.rewardRule.propId == 7) {     //剪刀
                 this.prop.texture = RES.getRes("youji")

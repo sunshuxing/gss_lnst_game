@@ -418,8 +418,8 @@ class NewHelp {
 		grass.width = 74 * 0.6;
 		grass.height = 60 * 0.6;
 		grass.texture = RES.getRes("home-grass");
-		grass.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
-			this.removeTreeProp(grass, id);
+		grass.once(egret.TouchEvent.TOUCH_TAP, () => {
+			this.removeTreeProp(grass, id, 1);
 		}, this)
 		if (!m) {
 			m = Help.random_num(4, 6)
@@ -428,12 +428,12 @@ class NewHelp {
 				let twn_x;
 				let twn_y;
 				if (SceneManager.instance.landId == 1) {
-					twn_x = 286 + Help.random_num(-2, 2) * 20;
-					twn_y = 1025 + Help.random_num(-2, 2) * 5;
+					twn_x = 286 + Help.random_num(-2, 2) * 3;
+					twn_y = 965 + Help.random_num(-2, 2) * 3;
 				}
 				else if (SceneManager.instance.landId == 2) {
-					twn_x = 203 + Help.random_num(-2, 2) * 20;
-					twn_y = 1004 + Help.random_num(-2, 2) * 5;
+					twn_x = 203 + Help.random_num(-2, 2) * 3;
+					twn_y = 924 + Help.random_num(-2, 2) * 3;
 				}
 				egret.Tween.get(grass)
 					.set({ x: 210, y: 720 })
@@ -444,12 +444,12 @@ class NewHelp {
 				let twn_x;
 				let twn_y;
 				if (SceneManager.instance.landId == 1) {
-					twn_x = 243 + Help.random_num(-2, 2) * 20;
-					twn_y = 1066 + Help.random_num(-2, 2) * 5;
+					twn_x = 243 + Help.random_num(-2, 2) * 3;
+					twn_y = 1006 + Help.random_num(-2, 2) * 3;
 				}
 				else if (SceneManager.instance.landId == 2) {
-					twn_x = 262 + Help.random_num(-2, 2) * 20;
-					twn_y = 1048 + Help.random_num(-2, 2) * 5;
+					twn_x = 262 + Help.random_num(-2, 2) * 3;
+					twn_y = 968 + Help.random_num(-2, 2) * 3;
 				}
 				egret.Tween.get(grass)
 					.set({ x: 210, y: 720 })
@@ -460,12 +460,12 @@ class NewHelp {
 				let twn_x;
 				let twn_y;
 				if (SceneManager.instance.landId == 1) {
-					twn_x = 293 + Help.random_num(-2, 2) * 20;
-					twn_y = 1092 + Help.random_num(-2, 2) * 5;
+					twn_x = 293 + Help.random_num(-2, 2) * 3;
+					twn_y = 1032 + Help.random_num(-2, 2) * 3;
 				}
 				else if (SceneManager.instance.landId == 2) {
-					twn_x = 310 + Help.random_num(-2, 2) * 20;
-					twn_y = 1062 + Help.random_num(-2, 2) * 5;
+					twn_x = 310 + Help.random_num(-2, 2) * 3;
+					twn_y = 982 + Help.random_num(-2, 2) * 3;
 				}
 				egret.Tween.get(grass)
 					.set({ x: 210, y: 720 })
@@ -493,8 +493,8 @@ class NewHelp {
 		insect.width = 76 * 0.6;
 		insect.height = 95.75 * 0.6;
 		insect.texture = RES.getRes("home-insect");
-		insect.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
-			this.removeTreeProp(insect, id);
+		insect.once(egret.TouchEvent.TOUCH_TAP, () => {
+			this.removeTreeProp(insect, id, 2);
 		}, this)
 		if (!m) {
 			m = Help.random_num(4, 6)
@@ -503,12 +503,12 @@ class NewHelp {
 				let twn_x;
 				let twn_y;
 				if (SceneManager.instance.landId == 1) {
-					twn_x = 453 + Help.random_num(-2, 2) * 20;
-					twn_y = 1060 + Help.random_num(-2, 2) * 5;
+					twn_x = 453 + Help.random_num(-2, 2) * 3;
+					twn_y = 1000 + Help.random_num(-2, 2) * 3;
 				}
 				else if (SceneManager.instance.landId == 2) {
-					twn_x = 428 + Help.random_num(-2, 2) * 20;
-					twn_y = 1057 + Help.random_num(-2, 2) * 5;
+					twn_x = 428 + Help.random_num(-2, 2) * 3;
+					twn_y = 977 + Help.random_num(-2, 2) * 3;
 				}
 				egret.Tween.get(insect)
 					.set({ x: 530, y: 720 })
@@ -520,12 +520,12 @@ class NewHelp {
 				let twn_x;
 				let twn_y;
 				if (SceneManager.instance.landId == 1) {
-					twn_x = 413 + Help.random_num(-2, 2) * 20;
-					twn_y = 1090 + Help.random_num(-2, 2) * 5;
+					twn_x = 413 + Help.random_num(-2, 2) * 3;
+					twn_y = 1030 + Help.random_num(-2, 2) * 3;
 				}
 				else if (SceneManager.instance.landId == 2) {
-					twn_x = 478 + Help.random_num(-2, 2) * 20;
-					twn_y = 1028 + Help.random_num(-2, 2) * 5;
+					twn_x = 478 + Help.random_num(-2, 2) * 3;
+					twn_y = 948 + Help.random_num(-2, 2) * 3;
 				}
 				egret.Tween.get(insect)
 					.set({ x: 530, y: 720 })
@@ -536,12 +536,12 @@ class NewHelp {
 				let twn_x;
 				let twn_y;
 				if (SceneManager.instance.landId == 1) {
-					twn_x = 436 + Help.random_num(-2, 2) * 20;
-					twn_y = 1130 + Help.random_num(-2, 2) * 5;
+					twn_x = 436 + Help.random_num(-2, 2) * 3;
+					twn_y = 1070 + Help.random_num(-2, 2) * 3;
 				}
 				else if (SceneManager.instance.landId == 2) {
-					twn_x = 492 + Help.random_num(-2, 2) * 20;
-					twn_y = 972 + Help.random_num(-2, 2) * 5;
+					twn_x = 492 + Help.random_num(-2, 2) * 3;
+					twn_y = 812 + Help.random_num(-2, 2) * 3;
 				}
 				egret.Tween.get(insect)
 					.set({ x: 530, y: 720 })
@@ -555,19 +555,26 @@ class NewHelp {
 	}
 
 	//除去果园(草，虫)    treePropId：果树id
-	private static removeTreeProp(icon, id) {
+	private static removeTreeProp(icon, id, type) {
 		if (id < 0) {
 			SceneManager.addNotice("不能清除自己放的哦！")
+			icon.once(egret.TouchEvent.TOUCH_TAP, () => {
+				this.removeTreeProp(icon, id, type);
+			}, this)
 			return
 		}
 		let params = {
 			treePropId: id
 		};
-		MyRequest._post("game/removeTreeProp", params, this, this.Req_removeTreeProp.bind(this, icon), null)
+		MyRequest._post("game/removeTreeProp", params, this, this.Req_removeTreeProp.bind(this, icon, type), () => {
+			icon.once(egret.TouchEvent.TOUCH_TAP, () => {
+				this.removeTreeProp(icon, id, type);
+			}, this)
+		})
 	}
 
 	//除去果园成功后处理
-	private static Req_removeTreeProp(icon, data): void {
+	private static Req_removeTreeProp(icon, type, data): void {
 		let gro_prop
 		if (SceneManager.sceneManager.landId == 1) {
 			gro_prop = SceneManager.sceneManager.newmainScene.gro_prop;
@@ -578,7 +585,12 @@ class NewHelp {
 		var Data = data;
 		gro_prop.removeChild(icon);
 		if (Data.data && Number(Data.data.loveCount) > 0) {
-
+			if (type == 1) {
+				SceneManager.addNotice("清除成功,获得" + Data.data.loveCount + "个草")
+			}
+			else if (type == 2) {
+				SceneManager.addNotice("清除成功,获得" + Data.data.loveCount + "个虫")
+			}
 			NewHelp.updateprop();
 
 		} else {
@@ -841,6 +853,9 @@ class NewHelp {
 				if (type == 6) {
 					SceneManager.addNotice("使用成功！果子数会增加哦！")
 				}
+				if (type == 4) {
+					SceneManager.addNotice("肥料生效,迅速生长"+Datamanager.getsinglePropdata(4).propObj.base+"g")
+				}
 			}, this)
 	}
 
@@ -998,7 +1013,7 @@ class NewHelp {
 		text.text = "-1s";
 		text.x = 625;
 		text.y = 1160;
-		text.textColor = 0x1B8399;
+		text.textColor = 0xffffff;
 		text.size = 40;
 		SceneManager.sceneManager.StageItems.addChild(text);
 		egret.Tween.get(text)
@@ -1236,12 +1251,12 @@ class NewHelp {
 				progress_label.textFlow = <Array<egret.ITextElement>>[
 					{ text: data.stageObj.name },
 					{ text: "还需要浇水" },
-					{ text: (Number(data.stageObj.energy) - Number(data.growthValue)) + "g", style: { "textColor": 0xd67214 } },
+					{ text: (Number(data.stageObj.energy) - Number(data.growthValue)) + "g" },
 					{ text: data.nextStageName },
 				]
 				if (data.needTake == "true") {
 					progress_label.textFlow = <Array<egret.ITextElement>>[
-						{ text: "采摘", style: { "textColor": 0xd67214 } },
+						{ text: "采摘" },
 						{ text: "采摘了才能进入下一阶段" }
 					]
 				}
@@ -1249,7 +1264,7 @@ class NewHelp {
 					progress_label.textFlow = <Array<egret.ITextElement>>[
 						{ text: data.stageObj.name },
 						{ text: "还需要浇水" },
-						{ text: (Number(data.stageObj.energy) - Number(data.growthValue)) + "g", style: { "textColor": 0xd67214 } },
+						{ text: (Number(data.stageObj.energy) - Number(data.growthValue)) + "g" },
 						{ text: "采摘" },
 					]
 				}
@@ -1423,6 +1438,7 @@ class NewHelp {
 			Help.helppickTwn(data.data);
 			this.getTreeInfoByid(Datamanager.getNowtreedata().id);
 			SceneManager.sceneManager.StageItems.enabled = true;
+			SceneManager.sceneManager.StageItems.pick_hand.once(egret.TouchEvent.TOUCH_TAP, SceneManager.sceneManager.StageItems.PickFruit, SceneManager.sceneManager.StageItems);
 		})
 	}
 
@@ -1476,6 +1492,7 @@ class NewHelp {
 			stealUser: Datamanager.getNowtreedata().user
 		};
 		MyRequest._post("game/stealWater", params, this, this.Req_stealWater.bind(this), null);
+		SceneManager.sceneManager.StageItems.steal_btn.touchEnabled = false;
 	}
 
 	//偷水请求之后的处理
@@ -1484,6 +1501,7 @@ class NewHelp {
 		// SceneManager.addNotice("偷到" + Data.stealNum + "g水滴", 2000)
 		Help.stealshow(Data.stealNum);
 		this.checkSteal(Datamanager.getNowtreedata());
+		SceneManager.sceneManager.StageItems.steal_btn.touchEnabled = true;
 	}
 
 
@@ -1645,13 +1663,13 @@ class NewHelp {
 			return "lanzi"
 		}
 		else if (propid == propId.youjifei) {
-			return "youji"
+			return "szhuafei_png"
 		}
 		else if (propid == propId.fuhefei) {
-			return "fuhe"
+			return "jshuafei_png"
 		}
 		else if (propid == propId.shuirongfei) {
-			return "shuirong"
+			return "zghuafei_png"
 		}
 		else {
 			return "close"
@@ -1717,13 +1735,13 @@ class NewHelp {
 		}
 		else if (data.propType == 3) {		//化肥
 			if (data.propId == 4) {			//有机肥
-				return "youji"
+				return "szhuafei_png"
 			}
 			else if (data.propId == 5) {		//复合肥
-				return "fuhe"
+				return "jshuafei_png"
 			}
 			else if (data.propId == 6) {		//水溶肥
-				return "shuirong"
+				return "zghuafei_png"
 			}
 		}
 		else if (data.propType == 2) {		//爱心值
@@ -1756,7 +1774,7 @@ class NewHelp {
 				let peisonglabel = "免费获得" + "\n" + data.data.goodsName + "一箱!"
 				SceneManager.sceneManager._stage.removeChildren();
 				let image = new eui.Image();
-				image.texture = RES.getRes("bg-day_png");
+				image.texture = RES.getRes("bgday_caiyuan_png");
 				image.height = SceneManager.sceneManager._stage.height;
 				let prompt = new PromptJump(peisonglabel, true);
 				SceneManager.sceneManager._stage.addChild(image);
@@ -2015,6 +2033,42 @@ class NewHelp {
 		this.needDyn_red = false;
 	}
 
+
+	/**
+	 * 查询活动红点
+	 */
+	public static checkActRed() {
+		MyRequest._post("game/checkAnswerReward", null, this, this.Req_checkAnswerReward.bind(this), null)
+	}
+
+	private static Req_checkAnswerReward(data) {
+		let red1: boolean = false;
+		let red2: boolean = false;
+		if (data.data == "true") {
+			red2 = true;
+		}
+		else {
+			red2 = false;
+		}
+		if (Datamanager.getlooktask()) {
+			let looktaskdata = Datamanager.getlooktask()
+			if (looktaskdata.btnStatus == 1 || looktaskdata.btnStatus == 0) {          //领取
+				red1 = true;
+			}
+			else {                                      //前往
+				red1 = false;
+			}
+		}
+		else {
+			red1 = false;
+		}
+		if (red1 || red2) {
+			SceneManager.sceneManager.StageItems.act_red.visible = true;
+		}
+		else {
+			SceneManager.sceneManager.StageItems.act_red.visible = false;
+		}
+	}
 
 	/**
 	 * 帮助好友喂鸭子

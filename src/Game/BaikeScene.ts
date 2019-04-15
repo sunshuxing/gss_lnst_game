@@ -28,6 +28,7 @@ class BaikeScene extends eui.Component implements eui.UIComponent {
 
     private close() {
         if (this.parent) {
+            NewHelp.checkActRed();
             let State = Datamanager.getlooktask().btnStatus ? Datamanager.getlooktask().btnStatus : 0
             if (State == 0) {                             //可完成
                 let data = {
@@ -36,6 +37,7 @@ class BaikeScene extends eui.Component implements eui.UIComponent {
                 let that = this
                 MyRequest._post("game/completeTask", data, this, () => {
                     SceneManager.instance.getTaskScene().taskDataInit(SceneManager.instance.StageItems.checktask) //更新任务数据
+                    SceneManager.instance.getSigninScene().checkLookReward();
                 }, null);
             }
             this.parent.removeChild(this);

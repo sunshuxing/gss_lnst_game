@@ -362,13 +362,13 @@ class dynList_item extends eui.ItemRenderer {
 				return "果篮"
 			}
 			else if (this.data.propId == 4) {     //有机肥
-				return "有机肥"
+				return "生长肥"
 			}
 			else if (this.data.propId == 5) {     //复合肥
-				return "复合肥"
+				return "加速肥"
 			}
 			else if (this.data.propId == 6) {     //水溶肥
-				return "水溶肥"
+				return "增果肥"
 			}
 			else if (this.data.propId == 7) {     //剪刀
 				return "剪刀"
@@ -388,23 +388,28 @@ class dynList_item extends eui.ItemRenderer {
 		console.log(user, "用户")
 		let evt: PuticonEvent = new PuticonEvent(PuticonEvent.TOFRIEND);
 		SceneManager.sceneManager.getDynamicScene().dispatchEvent(evt);
-		let frienddata = Datamanager.getfrienddataByuser(user)
-		if (frienddata) {
-			Datamanager.savenowfrienddata(frienddata);
-		}
-		let treeid = Datamanager.getfriendtreeUseridByUser(user);
-		if (!treeid) {
-			if (SceneManager.sceneManager.landId == 1) {
-				SceneManager.sceneManager.newmainScene.updateBytreedata(null);
+		if (Datamanager.getfriendsdata()) {
+			let frienddata = Datamanager.getfrienddataByuser(user)
+			if (frienddata) {
+				Datamanager.savenowfrienddata(frienddata);
 			}
-			else if (SceneManager.sceneManager.landId == 2) {
-				SceneManager.sceneManager.newmain2Scene.updateBytreedata(null);
+			else{
+				return;
 			}
+			let treeid = Datamanager.getfriendtreeUseridByUser(user);
+			if (!treeid) {
+				if (SceneManager.sceneManager.landId == 1) {
+					SceneManager.sceneManager.newmainScene.updateBytreedata(null);
+				}
+				else if (SceneManager.sceneManager.landId == 2) {
+					SceneManager.sceneManager.newmain2Scene.updateBytreedata(null);
+				}
+			}
+			else {
+				NewHelp.getTreeInfoByid(treeid);
+			}
+			Help.passAnm();
 		}
-		else {
-			NewHelp.getTreeInfoByid(treeid);
-		}
-		Help.passAnm();
 	}
 
 

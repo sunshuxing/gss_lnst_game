@@ -15,8 +15,8 @@ class NewFriendList_item extends eui.ItemRenderer {
         super()
         // 把这个 类和皮肤 联系起来
         this.skinName = 'resource/skins/Newfriendlsit.exml'
-        // this.friend_hand.addEventListener(egret.TouchEvent.TOUCH_TAP, () => this.hand(this.data), this)
-        // this.friend_hand.addEventListener(egret.TouchEvent.TOUCH_END, (e: egret.TouchEvent) => { e.stopImmediatePropagation() }, this)
+        this.friend_hand.addEventListener(egret.TouchEvent.TOUCH_TAP, () => this.hand(this.data), this)
+        this.friend_hand.addEventListener(egret.TouchEvent.TOUCH_END, (e: egret.TouchEvent) => { e.stopImmediatePropagation() }, this)
         this.friend_heart.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchheart, this)
         this.friend_heart.addEventListener(egret.TouchEvent.TOUCH_END, (e: egret.TouchEvent) => { e.stopImmediatePropagation() }, this)
         SceneManager.sceneManager.getNewfriendScene().friend_list.scrollV = SceneManager.sceneManager.friendlist_scrollV;
@@ -91,13 +91,13 @@ class NewFriendList_item extends eui.ItemRenderer {
         }
         this.heart_num.text = this.data.praises;
         if (!this.data.trees || this.data.trees.length == 0) {
-            this.fruit1.texture = null
+            this.fruit1.texture = RES.getRes("shuidi")
             this.fruit2.texture = null
         }
         else {
             if (this.data.trees.length == 1) {
-                HttpRequest.imageloader(Config.picurl + this.data.trees[0].seedIcon, this.fruit2);
-                this.fruit1.texture = null
+                HttpRequest.imageloader(Config.picurl + this.data.trees[0].seedIcon, this.fruit1);
+                this.fruit2.texture = null
             }
             else if (this.data.trees.length == 2) {
                 HttpRequest.imageloader(Config.picurl + this.data.trees[0].seedIcon, this.fruit1);

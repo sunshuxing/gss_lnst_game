@@ -84,6 +84,19 @@ class Datamanager {
     }
 
     /**
+     * 由道具id获取道具数据
+     */
+    public static getsinglePropdata(id) {
+        if (this.Propdata) {
+            for (let i = 0; i < this.Propdata.length; i++) {
+                if (this.Propdata[i].propId == id) {
+                    return this.Propdata[i];
+                }
+            }
+        }
+    }
+
+    /**
      * 由道具id获取道具数量
      * id :道具id
      */
@@ -175,7 +188,7 @@ class Datamanager {
     public static getlooktask() {
         if (this.taskdata) {
             for (let i = 0; i < this.taskdata.length; i++) {
-                if(this.taskdata[i].code == "read_knowledge"){
+                if (this.taskdata[i].code == "read_knowledge") {
                     return this.taskdata[i];
                 }
             }

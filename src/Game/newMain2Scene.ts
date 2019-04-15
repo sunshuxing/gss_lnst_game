@@ -43,7 +43,8 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
     public duck_language_gro: eui.Group;         //鸭语区域
     private info_label1: eui.Label;
     private info_label2: eui.Label;
-
+    public gro_eggduck: eui.Group;
+    private timer
 
     protected childrenCreated(): void {
         super.childrenCreated();
@@ -58,7 +59,7 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
         // this.getOwnTree();                                      //获取自己当前土地果树数据并显示
         this.gro_tree.addEventListener(egret.TouchEvent.TOUCH_TAP, this.treeTouch, this);
         this.warehouse.addEventListener(egret.TouchEvent.TOUCH_TAP, () => { SceneManager.toWarehouseScene() }, this)
-        this.gro_duck.addEventListener(egret.TouchEvent.TOUCH_TAP, this.ducktouch, this)
+        this.gro_eggduck.addEventListener(egret.TouchEvent.TOUCH_TAP, this.ducktouch, this)
         this.gamestore.addEventListener(egret.TouchEvent.TOUCH_TAP, () => { SceneManager.addNotice("商店暂未开放") }, this)
         this.info_gro.addEventListener(egret.TouchEvent.TOUCH_TAP, this.infotouch, this);
         // this.info_img1.scrollRect = new egret.Rectangle(0, 0, 240, 100);
@@ -194,7 +195,6 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
 
         }
         else {
-            NewHelp.addnoduck_language("未领取");
             SceneManager.sceneManager.newmain2Scene.duck_img.visible = false;
             SceneManager.sceneManager.newmain2Scene.duckegg_img.visible = false;
             SceneManager.sceneManager.newmain2Scene.duckjishi.visible = false;
@@ -490,7 +490,6 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
         Datamanager.saveNowtreedata(treedata);                                      //保存当前果树数据
         NewHelp.showpickgro(treedata);                                              //是否显示摘果按钮
         this.datainit(treedata);                                                    //数据初始化显示
-        SceneManager.sceneManager.getTaskScene().taskDataInit(this.checktask);
         if (treedata) {
             HttpRequest.imageloader(Config.picurl + treedata.seedIcon, SceneManager.sceneManager.StageItems.fruit_img);
             let fruitNum = treedata.obtainFruitNum ? Number(treedata.obtainFruitNum) : 0;
@@ -501,8 +500,11 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
                 let starttime = treedata.fertilizerRecord.createDate;
                 let usedtime = treedata.fertilizerRecord.timeLimit;
                 let endtime = Number(starttime) + Number(usedtime * 60 * 1000)
-                let timer = setInterval(() => {
-                    let text = SceneManager.instance.getTaskScene().dateDif(endtime, timer)
+                if (this.timer) {
+                    clearInterval(this.timer)
+                }
+                this.timer = setInterval(() => {
+                    let text = SceneManager.instance.getTaskScene().dateDif(endtime, this.timer)
                     text = text.slice(3);
                     this.jishi_text.text = text;
                     if (SceneManager.sceneManager.StageItems.currentState == "havetree") {
@@ -531,6 +533,7 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
         }
         else {
             SceneManager.sceneManager.StageItems.share_friend.visible = false;
+            SceneManager.notreePropmt("还没有种树哦，点击种树");
             NewHelp.getseed();
         }
     }
@@ -554,6 +557,10 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
         SceneManager.sceneManager.StageItems.currentState = "friendtree";
         NewHelp.getfriendlike(data);                                                //查询好友点赞数
         Datamanager.saveNowtreedata(data);
+        let frienddata = Datamanager.getfrienddataByuser(Datamanager.getNowtreedata().userName)
+        if (frienddata) {
+            Datamanager.savenowfrienddata(frienddata);
+        }
         NewHelp.checkSteal(data);                                                   //检查是否能偷水
         this.progress.slideDuration = 0;
         this.progress.value = 0;
@@ -621,8 +628,8 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
             NewHelp.getNowUserInfo(SceneManager.instance.weixinUtil.login_user_id)  //显示头像
             SceneManager.sceneManager.StageItems.farm_name.text = "我的农场"
         } else if (SceneManager.sceneManager.StageItems.currentState == "friendtree") {
-            NewHelp.getNowUserInfo(Datamanager.getnowfrienddata().friendUser)       //显示头像
-            SceneManager.sceneManager.StageItems.farm_name.text = (Datamanager.getnowfrienddata().friendUserName) + "的农场"
+            NewHelp.getNowUserInfo(Datamanager.getNowtreedata().userName)       //显示头像
+            SceneManager.sceneManager.StageItems.farm_name.text = (Datamanager.getNowtreedata().userName) + "的农场"
         }
         if (!data) {
             this.tree_name.text = "";
