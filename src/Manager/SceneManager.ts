@@ -392,8 +392,8 @@ class SceneManager {
             this.instance.NewfriendScene = new NewFriendScene();
         }
         NewHelp.addmask();
-        this.instance._stage.addChild(this.instance.NewfriendScene);
         this.instance.NewfriendScene.getFriends();                   //获取好友列表数据
+        this.instance._stage.addChild(this.instance.NewfriendScene);
         
     }
 

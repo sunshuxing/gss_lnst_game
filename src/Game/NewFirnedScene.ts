@@ -11,7 +11,7 @@ class NewFriendScene extends eui.Component implements eui.UIComponent {
     public friend_toself: eui.Group;         //回家按钮
     private page: number = 1;
     private friend_user = [];               //用户名字
-    private friendsdata: eui.ArrayCollection = new eui.ArrayCollection();;               //好友数据
+    public friendsdata: eui.ArrayCollection = new eui.ArrayCollection();               //好友数据
     private isLastPage: boolean = false;
 
     protected childrenCreated(): void {
@@ -72,7 +72,16 @@ class NewFriendScene extends eui.Component implements eui.UIComponent {
         }
     }
 
-
+    //数组去重
+    private uniq(array) {
+        var temp = []; //一个新的临时数组
+        for (var i = 0; i < array.length; i++) {
+            if (temp.indexOf(array[i]) == -1) {
+                temp.push(array[i]);
+            }
+        }
+        return temp;
+    }
 
     //查询好友列表
     public getFriends(userid?) {
@@ -82,19 +91,13 @@ class NewFriendScene extends eui.Component implements eui.UIComponent {
         else {
             this.friend_toself.visible = false;
         }
-        if (Datamanager.getfriendsdata() && Help.getfriendIcon()) {
-            this.friendsdata.removeAll();
-            for (let i = 0; i < Datamanager.getfriendsdata().length; i++) {
-                this.friendsdata.addItem(Datamanager.getfriendsdata()[i]);
-            }
-        }
-        else {
-            let params = {
-                pageNo: this.page,
-                numPerPage: 6
-            };
-            MyRequest._post("game/getFriends", params, this, this.Req_getFriends.bind(this, userid), null);
-        }
+
+        let params = {
+            pageNo: this.page,
+            numPerPage: 6
+        };
+        MyRequest._post("game/getFriends", params, this, this.Req_getFriends.bind(this, userid), null);
+
     }
 
     //查询好友列表成功后处理
@@ -104,7 +107,7 @@ class NewFriendScene extends eui.Component implements eui.UIComponent {
         let friend_data = Data.data.list;
         for (let i = 0; i < friend_data.length; i++) {
             this.friend_user.push(friend_data[i].friendUser)
-
+            this.friend_user = this.uniq(this.friend_user);
         }
         if (this.friend_user && this.friend_user.length > 0) {
             let params = {
@@ -113,7 +116,7 @@ class NewFriendScene extends eui.Component implements eui.UIComponent {
             MyRequest._post("game/getWechatImg", params, this, this.Req_getWechatImg.bind(this, userid, friend_data), null);
         }
         if (!Data.data.isLastPage) {                                        //不是最后一页
-            this.friend_scr.once(eui.UIEvent.CHANGE_END, this.friend_next, this)
+            this.friend_scr.addEventListener(eui.UIEvent.CHANGE_END, this.friend_next, this)
         }
         this.isLastPage = Data.data.isLastPage;
     }
@@ -133,10 +136,13 @@ class NewFriendScene extends eui.Component implements eui.UIComponent {
     }
 
     public friend_next() {
-        if (this.friend_list.scrollV == this.friend_list.contentHeight - this.friend_list.height) {
+        if (this.friend_list.scrollV >= this.friend_list.contentHeight - this.friend_list.height) {
             if (!this.isLastPage) {
                 this.page++
                 this.getFriends();
+            }
+            else {
+                this.friend_scr.removeEventListener(eui.UIEvent.CHANGE_END, this.friend_next, this)
             }
         }
     }
@@ -145,7 +151,6 @@ class NewFriendScene extends eui.Component implements eui.UIComponent {
     public closeScene() {
         if (this.parent) {
             this.page = 1;
-            this.friend_user = [];
             this.friendsdata.removeAll();
             this.isLastPage = false;
             NewHelp.removemask();

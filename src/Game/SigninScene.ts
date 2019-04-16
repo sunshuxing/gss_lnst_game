@@ -47,7 +47,7 @@ class SigninScene extends eui.Component implements eui.UIComponent {
     }
 
     private onComplete(): void {
-        this.currentState = "answer"
+        this.currentState = "sgin"
     }
 
 
