@@ -7,7 +7,7 @@
     <e:Label id="baike_title" text="" y="246" horizontalCenter="0" size="40" fontFamily="SimHei" bold="true"
              textColor="0x713d0f"  maxWidth="500"/>
 	<e:Rect width="600" height="20" x="73" y="779" anchorOffsetX="0" strokeColor="0xfcefde" fillColor="0xfcefde"/>
-    <e:Scroller id="baike_scr" width="500" height="696.98" y="371.57" anchorOffsetX="0" anchorOffsetY="0"
+    <e:Scroller id="baike_scr" width="500" height="575.77" y="492.78" anchorOffsetX="0" anchorOffsetY="0"
                 horizontalCenter="0">
         <e:Group anchorOffsetY="0" height="737.88" x="0" y="16.67">
             <e:Label id="baike_disc" text="" x="0" y="0" size="24" textColor="0x713d0f" fontFamily="SimHei" width="500"

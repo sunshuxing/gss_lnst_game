@@ -19,6 +19,10 @@ class NewFriendList_item extends eui.ItemRenderer {
         this.friend_hand.addEventListener(egret.TouchEvent.TOUCH_END, (e: egret.TouchEvent) => { e.stopImmediatePropagation() }, this)
         this.friend_heart.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchheart, this)
         this.friend_heart.addEventListener(egret.TouchEvent.TOUCH_END, (e: egret.TouchEvent) => { e.stopImmediatePropagation() }, this)
+        this.friend_grass.addEventListener(egret.TouchEvent.TOUCH_TAP, () => this.grass(this.data), this)
+        this.friend_grass.addEventListener(egret.TouchEvent.TOUCH_END, (e: egret.TouchEvent) => { e.stopImmediatePropagation() }, this)
+        this.friend_insect.addEventListener(egret.TouchEvent.TOUCH_TAP, () => this.insect(this.data), this)
+        this.friend_insect.addEventListener(egret.TouchEvent.TOUCH_END, (e: egret.TouchEvent) => { e.stopImmediatePropagation() }, this)
         SceneManager.sceneManager.getNewfriendScene().friend_list.scrollV = SceneManager.sceneManager.friendlist_scrollV;
     }
 
@@ -32,7 +36,7 @@ class NewFriendList_item extends eui.ItemRenderer {
      */
     private hand(data) {
         for (let i = 0; i < data.trees.length; i++) {
-            if (data.trees[i].friendCanObtain > 0) {
+            if (data.trees[i].canHelpTake) {
                 let treeid = data.trees[i].id;
                 let nowday = new Date().toLocaleDateString();
                 if (String(nowday) != localStorage.getItem(String(treeid))) {               //判断今日是否已经帮该树摘果
@@ -54,6 +58,48 @@ class NewFriendList_item extends eui.ItemRenderer {
     }
 
 
+    private grass(data) {
+        for (let i = 0; i < data.trees.length; i++) {
+            if (data.trees[i].grassCount > 0) {
+                let treeid = data.trees[i].id;
+                SceneManager.sceneManager.landId = data.trees[i].landId                 //选定当前是哪块地
+                if (SceneManager.sceneManager.landId == 1) {                              //果园
+                    SceneManager.toNewMainScene();
+                }
+                else if (SceneManager.sceneManager.landId == 2) {                         //菜园
+                    SceneManager.toNewMain2Scene();
+                }
+                Datamanager.savenowfrienddata(data);                                    //保存好友数据
+                NewHelp.getTreeInfoByid(treeid)                                         //去到当前果园
+                NewHelp.closescene();
+                Help.passAnm();
+                return
+            }
+        }
+    }
+
+    private insect(data) {
+        for (let i = 0; i < data.trees.length; i++) {
+            if (data.trees[i].wormCount > 0) {
+                let treeid = data.trees[i].id;
+                SceneManager.sceneManager.landId = data.trees[i].landId                 //选定当前是哪块地
+                if (SceneManager.sceneManager.landId == 1) {                              //果园
+                    SceneManager.toNewMainScene();
+                }
+                else if (SceneManager.sceneManager.landId == 2) {                         //菜园
+                    SceneManager.toNewMain2Scene();
+                }
+                Datamanager.savenowfrienddata(data);                                    //保存好友数据
+                NewHelp.getTreeInfoByid(treeid)                                         //去到当前果园
+                NewHelp.closescene();
+                Help.passAnm();
+                return
+            }
+        }
+    }
+
+
+
     // 当数据改变时，更新视图
     protected dataChanged() {
         let user = this.data.friendUser
@@ -71,7 +117,7 @@ class NewFriendList_item extends eui.ItemRenderer {
             this.friend_grass.texture = null;
             if (this.data.trees && this.data.trees.length > 0) {                                     //该好友有果树
                 for (let i = 0; i < this.data.trees.length; i++) {
-                    if (this.data.trees[i].friendCanObtain > 0) {                                    //该好友可以摘果
+                    if (this.data.trees[i].canHelpTake) {                                    //该好友可以摘果
                         let treeid = this.data.trees[i].id;
                         let nowday = new Date().toLocaleDateString();
                         if (String(nowday) != localStorage.getItem(String(treeid))) {               //判断今日是否已经帮该树摘果

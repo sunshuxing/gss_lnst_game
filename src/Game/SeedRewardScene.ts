@@ -43,6 +43,7 @@ class SeedRewardScene extends eui.Component implements eui.UIComponent {
     private close() {
         if (this.parent) {
             this.parent.removeChild(this);
+            SceneManager.treepromptgro.removeChildren()
             NewHelp.updateprop();
             NewHelp.removemask();
         }

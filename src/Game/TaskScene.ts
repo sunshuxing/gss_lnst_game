@@ -177,6 +177,7 @@ class TaskScene extends eui.Component implements eui.UIComponent {
                 }
                 this.taskdata = taskList
                 Datamanager.savetaskdata(this.taskdata);
+                SceneManager.instance.getSigninScene().checkLookReward();
             }
             //如果还未完成分享任务（当前不分享，直接完成）则直接完成
             if (!hasShare) {
@@ -341,7 +342,6 @@ class taskList_item extends eui.ItemRenderer {
         }
         SceneManager.addNotice("获得" + data.propName + data.propNum + info, 2000)
         SceneManager.instance.getTaskScene().taskDataInit(SceneManager.instance.StageItems.checktask)
-        SceneManager.instance.getSigninScene().checkLookReward();
         NewHelp.updateprop();
     }
 

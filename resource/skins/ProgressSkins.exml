@@ -3,5 +3,5 @@
 	<w:Config id="16a06f26b3c" scale9Grid="26,0,82,50"/>
 	<e:Image  source="progress_bg_png" anchorOffsetX="0" anchorOffsetY="0" x="-1"/>
 	<e:Image id="thumb" source="progress_value_png" anchorOffsetX="0" anchorOffsetY="0" scale9Grid="14,0,90,34" verticalCenter="0" x="2.8"/>
-	<e:Label id="labelDisplay" text="" size="16" fontFamily="Microsoft YaHei" horizontalCenter="0" verticalCenter="-0.5"/>
+
 </e:Skin>

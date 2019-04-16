@@ -136,12 +136,12 @@ class GameWebSocket extends egret.DisplayObjectContainer {
                 NewHelp.showDynamicMsg(info, userName, userId)
             } else if (pushMsg.type == "0") {//顶部推送,暂时用刷新，实际直接构建数据即可
                 if (pushMsg.code == "systemInfo") {//系统推送
-                    SceneManager.sceneManager.StageItems.getSystemMsg();
+                    SceneManager.sceneManager.StageItems.newinfo = true;
                 } else if (pushMsg.code == "topInfo") {//成长周期推送
                     SceneManager.sceneManager.StageItems.getTopMsg(true)
                 }
             } else if (pushMsg.type == "2") {//刷新好友请求
-                SceneManager.sceneManager.getNewfriendScene().getFriends();
+                NewHelp.getFriends();
             } else if (pushMsg.type == "-1") {//关闭遮罩请求
                 console.log("推送关闭遮罩")
                 if (SceneManager.instance.jumpMark) {//如果有遮罩

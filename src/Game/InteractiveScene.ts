@@ -96,8 +96,8 @@ class InteractiveScene extends eui.Component implements eui.UIComponent {
     //放草
     private putgrass() {
         if (!Datamanager.getNowtreedata()) {
-            NewHelp.Invite()
             this.closeScene()
+            NewHelp.Invite()
             // SceneManager.addNotice("该好友还没有种树哦！");
             return;
         }
@@ -110,8 +110,8 @@ class InteractiveScene extends eui.Component implements eui.UIComponent {
     //放虫
     private putinsect() {
         if (!Datamanager.getNowtreedata()) {
-            NewHelp.Invite()
             this.closeScene()
+            NewHelp.Invite()
             // SceneManager.addNotice("该好友还没有种树哦！");
             return;
         } else {

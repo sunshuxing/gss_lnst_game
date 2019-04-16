@@ -8,8 +8,11 @@ class NewFriendScene extends eui.Component implements eui.UIComponent {
     private friend_invite: eui.Group;		 //邀请好友按钮
     private friend_scr: eui.Scroller;        //好友列表滑动区域
     public friend_list: eui.List;           //好友列表
-    private friendList;						//好友列表数据
     public friend_toself: eui.Group;         //回家按钮
+    private page: number = 1;
+    private friend_user = [];               //用户名字
+    private friendsdata: eui.ArrayCollection = new eui.ArrayCollection();;               //好友数据
+    private isLastPage: boolean = false;
 
     protected childrenCreated(): void {
         super.childrenCreated();
@@ -18,6 +21,9 @@ class NewFriendScene extends eui.Component implements eui.UIComponent {
         this.y = SceneManager.sceneManager._stage.height - this.height;
         this.friend_scr.verticalScrollBar = null;
         this.friend_list.useVirtualLayout = false;
+        this.friend_list.dataProvider = this.friendsdata;
+        this.friend_list.itemRenderer = NewFriendList_item;
+        this.friend_list.addEventListener(eui.ItemTapEvent.ITEM_TAP, this.toOtherTree, this);
     }
 
 
@@ -76,34 +82,43 @@ class NewFriendScene extends eui.Component implements eui.UIComponent {
         else {
             this.friend_toself.visible = false;
         }
-        let params = {
-            pageNo: 1,
-            numPerPage: 10000
-        };
-        MyRequest._post("game/getFriends", null, this, this.Req_getFriends.bind(this, userid), null);
+        if (Datamanager.getfriendsdata() && Help.getfriendIcon()) {
+            this.friendsdata.removeAll();
+            for (let i = 0; i < Datamanager.getfriendsdata().length; i++) {
+                this.friendsdata.addItem(Datamanager.getfriendsdata()[i]);
+            }
+        }
+        else {
+            let params = {
+                pageNo: this.page,
+                numPerPage: 6
+            };
+            MyRequest._post("game/getFriends", params, this, this.Req_getFriends.bind(this, userid), null);
+        }
     }
 
     //查询好友列表成功后处理
     private Req_getFriends(userid, data): void {
         console.log("好友数据", data)
         var Data = data;
-        Datamanager.savefriendsdata(data.data.list);								//保存好友数据
-        this.friendList = Data.data.list;
         let friend_data = Data.data.list;
-        let friend_user = []
         for (let i = 0; i < friend_data.length; i++) {
-            friend_user.push(friend_data[i].friendUser)
-        }
-        if (friend_user && friend_user.length > 0) {
+            this.friend_user.push(friend_data[i].friendUser)
 
-            let params = {
-                users: friend_user.join(",")
-            };
-            MyRequest._post("game/getWechatImg", params, this, this.Req_getWechatImg.bind(this, userid), null);
         }
+        if (this.friend_user && this.friend_user.length > 0) {
+            let params = {
+                users: this.friend_user.join(",")
+            };
+            MyRequest._post("game/getWechatImg", params, this, this.Req_getWechatImg.bind(this, userid, friend_data), null);
+        }
+        if (!Data.data.isLastPage) {                                        //不是最后一页
+            this.friend_scr.once(eui.UIEvent.CHANGE_END, this.friend_next, this)
+        }
+        this.isLastPage = Data.data.isLastPage;
     }
 
-    private Req_getWechatImg(userid, data) {
+    private Req_getWechatImg(userid, friend_data, data) {
         if (!data) {
             return;
         }
@@ -112,26 +127,31 @@ class NewFriendScene extends eui.Component implements eui.UIComponent {
             data = JSON.parse(data)
         }
         Help.savefriendIcon(data);										//保存好友头像数据
-        this.friendlistUpdate(this.friendList, userid);					//更新好友列表
-    }
-
-    //更新好友列表
-    private friendlistUpdate(data, userid?) {
-        console.log(data, "好友数据")
-        // 转成eui数据
-        let euiArr: eui.ArrayCollection = new eui.ArrayCollection(data);
-        // 把list_hero数据源设置成euiArr
-        this.friend_list.dataProvider = euiArr;
-        // 设置list_hero的项呈视器 (这里直接写类名,而不是写实例)
-        this.friend_list.itemRenderer = NewFriendList_item;
-        this.friend_list.addEventListener(eui.ItemTapEvent.ITEM_TAP, this.toOtherTree, this);
-        if (userid) {                     //由其他用户分享
-            let frienddata = Datamanager.getfrienddataByuser(userid);
-            let treeid = NewHelp.getTreeIdByLandId(frienddata, SceneManager.instance.landId);				//获取果树id
-            NewHelp.getTreeInfoByid(treeid);
+        for (let i = 0; i < friend_data.length; i++) {
+            this.friendsdata.addItem(friend_data[i]);
         }
     }
 
+    public friend_next() {
+        if (this.friend_list.scrollV == this.friend_list.contentHeight - this.friend_list.height) {
+            if (!this.isLastPage) {
+                this.page++
+                this.getFriends();
+            }
+        }
+    }
+
+
+    public closeScene() {
+        if (this.parent) {
+            this.page = 1;
+            this.friend_user = [];
+            this.friendsdata.removeAll();
+            this.isLastPage = false;
+            NewHelp.removemask();
+            this.parent.removeChild(this);
+        }
+    }
 
     /**
      * 回到自己农场

@@ -134,17 +134,17 @@ class SceneManager {
         } else {
             if (this.friendSign != this.weixinUtil.login_user_id) {
                 // //如果分享的用户和当前用户不一样
-                this.getNewfriendScene().getFriends(this.userid)
+                // this.getNewfriendScene().getFriends(this.userid)
                 this.userid = null;
             }
         }
     }
     private loadFirend() {
         if (WeixinUtil.prototype._friendSign == MyRequest.geturlstr("friendSign")) {
-            this.getNewfriendScene().getFriends();  //加好友成功需要刷新好友列表
+            NewHelp.getFriends();  //加好友成功需要刷新好友列表
         }
         else {
-            this.getNewfriendScene().getFriends();
+            NewHelp.getFriends();
         }
     }
 

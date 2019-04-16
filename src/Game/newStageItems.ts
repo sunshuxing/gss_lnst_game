@@ -23,7 +23,7 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 	public farm_group: eui.Group;
 	public water_num: eui.Label;
 	public btn_kettle: eui.Group;
-	public act_red:eui.Rect;
+	public act_red: eui.Rect;
 
 	protected childrenCreated(): void {
 		super.childrenCreated();
@@ -167,12 +167,13 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 		SceneManager.sceneManager._stage.addChild(guanggao);
 	}
 
+	public newinfo: boolean = false;		//是否有新数据标识
 
 	//查询系统消息
 	public getSystemMsg() {
 		MyRequest._post("game/getSystemInfo", null, this, this.Req_getSystemMsg.bind(this), null)
+		this.newinfo = false;
 	}
-
 
 	private sysinfodata = []; //系统消息数据
 	//查询系统消息成功后处理
@@ -204,9 +205,10 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 			}
 			var title = data[this.m].title;
 			this.sysmsg_label.text = title;
+			//速度0.1
 			egret.Tween.get(this.sysmsg_label)
 				.set({ x: 610 })
-				.to({ x: -(this.sysmsg_label.width) }, this.sysmsg_label.width * 15).call(() => { this.sysmsgnext(data) }, this);
+				.to({ x: -(this.sysmsg_label.width) }, ((610+this.sysmsg_label.width)/0.1)).call(() => { this.sysmsgnext(data) }, this);
 		}
 		console.log(data, "消息数据")
 	}
@@ -215,8 +217,14 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 	 * 下一条消息
 	 */
 	private sysmsgnext(data) {
-		this.m++;
-		this.showsysmsg(data)
+		if (this.newinfo) {							//有新数据
+			egret.Tween.removeTweens(this.sysmsg_label);
+			this.getSystemMsg();
+		}
+		else {
+			this.m++;
+			this.showsysmsg(data)
+		}
 	}
 	//---------------------------------------------------------------------顶部消息---------------------------------------------------------------------//
 

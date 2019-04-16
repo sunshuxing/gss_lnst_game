@@ -37,7 +37,6 @@ class BaikeScene extends eui.Component implements eui.UIComponent {
                 let that = this
                 MyRequest._post("game/completeTask", data, this, () => {
                     SceneManager.instance.getTaskScene().taskDataInit(SceneManager.instance.StageItems.checktask) //更新任务数据
-                    SceneManager.instance.getSigninScene().checkLookReward();
                 }, null);
             }
             this.parent.removeChild(this);

@@ -86,8 +86,7 @@ class NewHelp {
 			return;
 		}
 		if (SceneManager.sceneManager.getNewfriendScene().parent) {
-			SceneManager.sceneManager.getNewfriendScene().parent.removeChild(SceneManager.sceneManager.getNewfriendScene())
-			this.removemask();
+			SceneManager.sceneManager.getNewfriendScene().closeScene();
 			return;
 		}
 		if (SceneManager.sceneManager.getSigninScene().parent) {
@@ -508,7 +507,7 @@ class NewHelp {
 				}
 				else if (SceneManager.instance.landId == 2) {
 					twn_x = 428 + Help.random_num(-2, 2) * 3;
-					twn_y = 977 + Help.random_num(-2, 2) * 3;
+					twn_y = 957 + Help.random_num(-2, 2) * 3;
 				}
 				egret.Tween.get(insect)
 					.set({ x: 530, y: 720 })
@@ -525,7 +524,7 @@ class NewHelp {
 				}
 				else if (SceneManager.instance.landId == 2) {
 					twn_x = 478 + Help.random_num(-2, 2) * 3;
-					twn_y = 948 + Help.random_num(-2, 2) * 3;
+					twn_y = 928 + Help.random_num(-2, 2) * 3;
 				}
 				egret.Tween.get(insect)
 					.set({ x: 530, y: 720 })
@@ -537,11 +536,11 @@ class NewHelp {
 				let twn_y;
 				if (SceneManager.instance.landId == 1) {
 					twn_x = 436 + Help.random_num(-2, 2) * 3;
-					twn_y = 1070 + Help.random_num(-2, 2) * 3;
+					twn_y = 967 + Help.random_num(-2, 2) * 3;
 				}
 				else if (SceneManager.instance.landId == 2) {
 					twn_x = 492 + Help.random_num(-2, 2) * 3;
-					twn_y = 812 + Help.random_num(-2, 2) * 3;
+					twn_y = 892 + Help.random_num(-2, 2) * 3;
 				}
 				egret.Tween.get(insect)
 					.set({ x: 530, y: 720 })
@@ -851,10 +850,10 @@ class NewHelp {
 			.to({ rotation: -60 }, 500).call(() => {
 				this.huafeikeli(icon);
 				if (type == 6) {
-					SceneManager.addNotice("使用成功！果子数会增加哦！")
+					SceneManager.addNotice("使用成功！收果时果子数会增加哦！")
 				}
 				if (type == 4) {
-					SceneManager.addNotice("肥料生效,迅速生长"+Datamanager.getsinglePropdata(4).propObj.base+"g")
+					SceneManager.addNotice("肥料生效,迅速生长" + Datamanager.getsinglePropdata(4).propObj.base + "g")
 				}
 			}, this)
 	}
@@ -1251,20 +1250,20 @@ class NewHelp {
 				progress_label.textFlow = <Array<egret.ITextElement>>[
 					{ text: data.stageObj.name },
 					{ text: "还需要浇水" },
-					{ text: (Number(data.stageObj.energy) - Number(data.growthValue)) + "g" },
+					{ text: ((Number(data.stageObj.energy) - Number(data.growthValue)) / Number(data.stageObj.energy) * 100).toFixed(2) + "%到" },
 					{ text: data.nextStageName },
 				]
 				if (data.needTake == "true") {
 					progress_label.textFlow = <Array<egret.ITextElement>>[
 						{ text: "采摘" },
-						{ text: "采摘了才能进入下一阶段" }
+						{ text: "了才能进入下一阶段" }
 					]
 				}
 				else if (data.stageObj.canHarvest == "true") {
 					progress_label.textFlow = <Array<egret.ITextElement>>[
 						{ text: data.stageObj.name },
 						{ text: "还需要浇水" },
-						{ text: (Number(data.stageObj.energy) - Number(data.growthValue)) + "g" },
+						{ text: ((Number(data.stageObj.energy) - Number(data.growthValue)) / Number(data.stageObj.energy) * 100).toFixed(2) + "%能" },
 						{ text: "采摘" },
 					]
 				}
@@ -1274,9 +1273,6 @@ class NewHelp {
 					]
 				}
 				progress_label.visible = true;
-			}
-			else {
-				progress_label.visible = false;
 			}
 		}
 	}
@@ -1605,7 +1601,7 @@ class NewHelp {
 	private static Req_praise(data) {
 		NewHelp.getfriendlike(Datamanager.getNowtreedata())
 		SceneManager.addNotice("点赞成功");
-		SceneManager.sceneManager.NewfriendScene.getFriends();
+		NewHelp.getFriends();
 		console.log("点赞返回数据", data)
 	}
 
@@ -2140,6 +2136,45 @@ class NewHelp {
 		}
 		MyRequest._post("game/getWechatImg", params, this, this.Req_WechatImg.bind(this, userId, SceneManager.sceneManager.StageItems.user_icon), null);
 	}
+
+
+	//查询好友列表
+	public static getFriends() {
+		let params = {
+			pageNo: 1,
+			numPerPage: 10000
+		};
+		MyRequest._post("game/getFriends", params, this, this.Req_getFriends.bind(this), null);
+	}
+
+
+	public static Req_getFriends(data) {
+		let friend_data = data.data.list
+		let friend_user = [];
+		for (let i = 0; i < friend_data.length; i++) {
+			friend_user.push(friend_data[i].friendUser)
+		}
+		if (friend_user && friend_user.length > 0) {
+			let params = {
+				users: friend_user.join(",")
+			};
+			MyRequest._post("game/getWechatImg", params, this, this.Req_getWechatImg.bind(this, friend_data), null);
+		}
+	}
+
+
+	private static Req_getWechatImg(friend_data, data) {
+		if (!data) {
+			return;
+		}
+		data = data.data;
+		if (data && typeof data === "string") {
+			data = JSON.parse(data)
+		}
+		Help.savefriendIcon(data);					//保存好友头像数据
+		Datamanager.savefriendsdata(friend_data);	//保存总体好友数据
+	}
+
 }
 
 

@@ -361,9 +361,9 @@ class Help {
         img_water.x = 420;
         img_water.y = 797;
         SceneManager.sceneManager.StageItems.addChild(img_water);
-        let label_water = new eui.Label();
+        let label_water = new eui.BitmapLabel();
         label_water.text = "+" + num + "g";
-        label_water.textColor = 0x5AD0EC;
+        label_water.font = "waternum_fnt";
         label_water.x = 464;
         label_water.y = 815;
         SceneManager.sceneManager.StageItems.addChild(label_water);
@@ -450,7 +450,8 @@ class Help {
             img_love.x = 350;
             img_love.y = 626;
             img_love.texture = RES.getRes("shuidi");
-            let label_love = new eui.Label;                 //水滴数量
+            let label_love = new eui.BitmapLabel;                 //水滴数量
+            label_love.font = "waternum_fnt"
             label_love.x = 426;
             label_love.y = 640;
             label_love.text = "+" + data.loveCount;
