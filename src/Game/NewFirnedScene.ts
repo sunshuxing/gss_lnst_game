@@ -10,7 +10,6 @@ class NewFriendScene extends eui.Component implements eui.UIComponent {
     public friend_list: eui.List;           //好友列表
     public friend_toself: eui.Group;         //回家按钮
     private page: number = 1;
-    private friend_user = [];               //用户名字
     public friendsdata: eui.ArrayCollection = new eui.ArrayCollection();               //好友数据
     private isLastPage: boolean = false;
 
@@ -100,38 +99,49 @@ class NewFriendScene extends eui.Component implements eui.UIComponent {
 
     }
 
+
     //查询好友列表成功后处理
     private Req_getFriends(userid, data): void {
         console.log("好友数据", data)
         var Data = data;
         let friend_data = Data.data.list;
+        var friend_user = [];
         for (let i = 0; i < friend_data.length; i++) {
-            this.friend_user.push(friend_data[i].friendUser)
-            this.friend_user = this.uniq(this.friend_user);
+            friend_user.push(friend_data[i].friendUser)
+            this.friendsdata.addItem(friend_data[i]);
         }
-        if (this.friend_user && this.friend_user.length > 0) {
+
+        if (friend_user && friend_user.length > 0) {
             let params = {
-                users: this.friend_user.join(",")
+                users: friend_user.join(",")
             };
             MyRequest._post("game/getWechatImg", params, this, this.Req_getWechatImg.bind(this, userid, friend_data), null);
         }
         if (!Data.data.isLastPage) {                                        //不是最后一页
-            this.friend_scr.addEventListener(eui.UIEvent.CHANGE_END, this.friend_next, this)
+            this.friend_scr.once(eui.UIEvent.CHANGE_END, this.friend_next, this)
         }
         this.isLastPage = Data.data.isLastPage;
     }
 
-    private Req_getWechatImg(userid, friend_data, data) {
-        if (!data) {
+    private Req_getWechatImg(userid, friend_data, data1) {
+        if (!data1) {
             return;
         }
-        data = data.data;
+        var data = data1.data;
         if (data && typeof data === "string") {
             data = JSON.parse(data)
         }
-        Help.savefriendIcon(data);										//保存好友头像数据
-        for (let i = 0; i < friend_data.length; i++) {
-            this.friendsdata.addItem(friend_data[i]);
+        // // Help.savefriendIcon(data);										//保存好友头像数据
+        if (data) {
+            var size = this.friendsdata.source.length
+            for (var a = 0; a < size; a++) {
+                var obj = this.friendsdata.source[a]
+                if(data[obj.friendUser]){
+                    this.friendsdata.source[a].friendIcon = data[obj.friendUser]
+                }
+            }
+            // //刷新数据源，加快加载
+            this.friendsdata.refresh()
         }
     }
 
