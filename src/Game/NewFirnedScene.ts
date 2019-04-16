@@ -118,7 +118,7 @@ class NewFriendScene extends eui.Component implements eui.UIComponent {
             MyRequest._post("game/getWechatImg", params, this, this.Req_getWechatImg.bind(this, userid, friend_data), null);
         }
         if (!Data.data.isLastPage) {                                        //不是最后一页
-            this.friend_scr.once(eui.UIEvent.CHANGE_END, this.friend_next, this)
+            this.friend_scr.addEventListener(eui.UIEvent.CHANGE_END, this.friend_next, this)
         }
         this.isLastPage = Data.data.isLastPage;
     }
