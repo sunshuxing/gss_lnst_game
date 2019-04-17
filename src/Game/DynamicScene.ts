@@ -11,7 +11,6 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 	private perNum = 1;
 	private isLastPage = "false";
 	private treeUserId;
-	private dyndata_user = [];
 	private euiArr: eui.ArrayCollection = new eui.ArrayCollection();
 
 	protected childrenCreated(): void {
@@ -64,15 +63,29 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 			localStorage.setItem("dyn_red", data.data.list[0].id);
 		}
 		var dyndata = Data.data.list;
+		var dyndata_user = [];
+		if (!dyndata || dyndata.length == 0) {
+			return;
+		}
+		let dyn_data = this.initData(dyndata)
 		for (let i = 0; i < dyndata.length; i++) {
 			if (dyndata[i].mainUser != "") {
-				this.dyndata_user.push(dyndata[i].mainUser);
-				this.dyndata_user = this.uniq(this.dyndata_user);
+				dyndata_user.push(dyndata[i].mainUser);
 			}
 		}
-		if (this.dyndata_user && this.dyndata_user.length > 0) {
+		for (let i = 0; i < dyn_data.length; i++) {
+			this.euiArr.addItem(dyn_data[i])
+		}
+		if (Data.data.isLastPage == "true") {
+			this.euiArr.addItem({ state: true, createDate: "2018-11-30 10:41:44" });
+		}
+		else {
+			this.scr_dyn.addEventListener(eui.UIEvent.CHANGE_END, this.asdas, this)
+		}
+
+		if (dyndata_user && dyndata_user.length > 0) {
 			let params = {
-				users: this.dyndata_user.join(",")
+				users: dyndata_user.join(",")
 			};
 			MyRequest._post("game/getWechatImg", params, this, this.Req_getWechatImg.bind(this, Data), this.onGetIOError);
 		}
@@ -83,18 +96,20 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 		if (data && typeof data === "string") {
 			data = JSON.parse(data)
 		}
-		Help.savedynIcon(data);
+		// Help.savedynIcon(data);
 		let dyndata = Data.data.list;
-		let dyn_data = this.initData(dyndata)
-		for (let i = 0; i < dyn_data.length; i++) {
-			this.euiArr.addItem(dyn_data[i])
+		if (data) {
+			var size = this.euiArr.source.length
+			for (var a = 0; a < size; a++) {
+				var obj = this.euiArr.source[a]
+				if (obj.mainUser && data[obj.mainUser]) {
+					this.euiArr.source[a].userIcon = data[obj.mainUser]
+				}
+			}
+			// //刷新数据源，加快加载
+			this.euiArr.refresh()
 		}
-		if (Data.data.isLastPage == "true") {
-			this.euiArr.addItem({ state: true, createDate: "2018-11-30 10:41:44" });
-		}
-		else {
-			this.scr_dyn.addEventListener(eui.UIEvent.CHANGE_END, this.asdas, this)
-		}
+
 		// this.euiArr.addItem({state:true,createDate:"2018-11-30 10:41:44"});
 		console.log(this.euiArr, "动态数据")
 		this.line.height = this.euiArr.length * 120;
@@ -211,7 +226,16 @@ class dynList_item extends eui.ItemRenderer {
 		if (this.data.type == 7) {
 			this.user_icon.texture = RES.getRes("gamelogo")
 		} else if (this.data.mainUserIcon) {
-			HttpRequest.imageloader(Config.picurl + Help.getdynIcon()[this.data.mainUser], this.user_icon, this.data.mainUser);
+
+			// HttpRequest.imageloader(Config.picurl + Help.getdynIcon()[this.data.mainUser], this.user_icon, this.data.mainUser);
+			if (this.data.userIcon) {
+				var err = HttpRequest.imageloader(Config.picurl + this.data.friendIcon, this.user_icon, this.data.mainUser);
+				if (err && err == 1) {
+					this.user_icon.texture = RES.getRes("gamelogo")
+				}
+			} else {
+				this.user_icon.texture = RES.getRes("gamelogo")
+			}
 		}
 		if (this.data.type == 0) {
 			this.dyn_toother.visible = false;
@@ -393,7 +417,7 @@ class dynList_item extends eui.ItemRenderer {
 			if (frienddata) {
 				Datamanager.savenowfrienddata(frienddata);
 			}
-			else{
+			else {
 				return;
 			}
 			let treeid = Datamanager.getfriendtreeUseridByUser(user);
