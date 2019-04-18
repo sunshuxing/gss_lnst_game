@@ -208,7 +208,7 @@ class WeixinUtil {
             mustLogin: mustLogin,
             code: code
         }
-        MyRequest._post("tokenHandle/takeWxJsapiSignature", data, this, this.onGetComplete.bind(this, callback, needShare, jsApiList), this.onGetIOError)
+        MyRequest._post("tokenHandle/gameLogin", data, this, this.onGetComplete.bind(this, callback, needShare, jsApiList), this.onGetIOError)
     }
 
     /**
