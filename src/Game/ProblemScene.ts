@@ -143,7 +143,6 @@ class ProblemScene extends eui.Component implements eui.UIComponent {
             this.label_reward.visible = true;
             this.gro_reward.visible = false;
         }
-        NewHelp.checkActRed();
     }
 
     /**
@@ -272,26 +271,27 @@ class ProblemScene extends eui.Component implements eui.UIComponent {
     }
 
 
-
-    /**
-     * 提交按钮点击事件
-     */
     private submit() {
-        if (this.canreward) {
-            if (this.currentState != "reward") {     //奖励状态
-                this.currentState = "reward"
+        NewHelp.addmaskwithoutcolse();
+        let prompt = new AnswerdetermineScene(() => {
+            if (this.canreward) {
+                if (this.currentState != "reward") {     //奖励状态
+                    this.currentState = "reward"
+                }
+                this.reward_right.text = "正确率：" + this.allright + "/5";
+                this.answerReward(this.allright);
             }
-            this.reward_right.text = "正确率：" + this.allright + "/5";
-            this.answerReward(this.allright);
-        }
-        else {
-            SceneManager.addNotice("完成本次答题")
-            let that = this
-            setTimeout(function () {
-                that.close();
-            }, 1500);
-        }
+            else {
+                SceneManager.addNotice("完成本次答题")
+                let that = this
+                setTimeout(function () {
+                    that.close();
+                }, 1500);
+            }
+        });
+        SceneManager.sceneManager._stage.addChild(prompt);
     }
+
 
     private close() {
         if (this.parent) {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="Newfriendlsit" width="718" height="140" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" states="up,down" >
-	<e:Rect width="100%" height="100%" x="0" y="0" fillColor="0xffebcb" fillColor.down="0xe8af5e"/>
+<e:Skin class="Newfriendlsit" width="718" height="140" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" states="ups,downs" >
+	<e:Rect width="100%" height="100%" x="0" y="0" fillColor="0xffebcb" fillColor.downs="0xe8af5e"/>
 	<e:Image id="friend_icon" mask="{icon_mask}" width="86" height="86" x="16" y="27" source="gamelogo"/>
 	<e:Rect id="icon_mask" width="86" height="86" x="16" y="27" ellipseHeight="86" ellipseWidth="86"/>
 	<e:Label id="friend_name" text="" x="122" y="32" textColor="0x212121" fontFamily="Microsoft YaHei"/>

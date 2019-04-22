@@ -20,7 +20,7 @@
     <e:Group id="gro_tree" width="289.73" height="379" x="230.92" y="636" anchorOffsetY="0" anchorOffsetX="0" />
     <e:Group id="gro_prop" width="750" height="1344" x="0" anchorOffsetY="0" anchorOffsetX="0" bottom="0" locked="true">
 </e:Group>
-    <e:Group id="progress_group" y="1095.28" anchorOffsetY="0" anchorOffsetX="0" horizontalCenter="1.5">
+    <e:Group id="progress_group" y="1095.28" anchorOffsetY="0" anchorOffsetX="0" horizontalCenter="1.5" locked="true">
         <e:ProgressBar id="progress" y="0"
                        x="0" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1"
                         skinName="ProgressSkins" visible="false"/>

@@ -141,7 +141,18 @@ class GameWebSocket extends egret.DisplayObjectContainer {
                     SceneManager.sceneManager.StageItems.getTopMsg(true)
                 }
             } else if (pushMsg.type == "2") {//刷新好友请求
-                NewHelp.getFriends();
+                let code = pushMsg.code
+                switch (code) {
+                    case "flushFriend": {
+                        NewHelp.getFriends();
+                    }
+                        break;
+                    case "flushTask": {
+                        SceneManager.sceneManager.getTaskScene().taskDataInit();
+                    }
+                        break;
+                }
+
             } else if (pushMsg.type == "-1") {//关闭遮罩请求
                 console.log("推送关闭遮罩")
                 if (SceneManager.instance.jumpMark) {//如果有遮罩

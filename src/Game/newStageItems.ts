@@ -24,6 +24,8 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 	public water_num: eui.Label;
 	public btn_kettle: eui.Group;
 	public act_red: eui.Rect;
+	public btn_tohome: eui.Group;
+	public own_icon: eui.Image;
 
 	protected childrenCreated(): void {
 		super.childrenCreated();
@@ -31,6 +33,7 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 		this.getTopMsg();						//顶部消息
 		this.getSystemMsg();					//系统消息
 		NewHelp.showtreelanguage();				//循环显示树语
+		NewHelp.getselficon(SceneManager.instance.weixinUtil.login_user_id)  			//显示头像
 		this.getFriends();
 		if (!this.hasCheck) {
 			SceneManager.sceneManager.checkAddFriend();
@@ -48,14 +51,14 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 		//创建完成立即调用方法
 		NewHelp.getSignInInfo()												//查询签到信息
 		NewHelp.searchAnswerStage();										//查询保存答题奖励数据
-		SceneManager.sceneManager.getTaskScene().taskDataInit(this.checktask);
+		SceneManager.sceneManager.getTaskScene().taskDataInit();
 		this.iconTouchInit()																		//icon点击初始化
 		this.share_friend.addEventListener(egret.TouchEvent.TOUCH_TAP, this.sharefriend, this)		//邀请好友帮摘果按钮
 		this.pick_hand.once(egret.TouchEvent.TOUCH_TAP, this.PickFruit, this);			//帮摘果按钮点击监听
 		this.steal_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, () => { NewHelp.stealWater() }, this);			//偷水按钮点击监听
 		this.sysmsg_group.addEventListener(egret.TouchEvent.TOUCH_TAP, this.tosysmsginfo, this);
+		this.btn_tohome.addEventListener(egret.TouchEvent.TOUCH_TAP, this.toSelfTree, this)
 		this.BarGroup.touchThrough = true;
-		NewHelp.checkActRed();
 	}
 
 
@@ -80,7 +83,7 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 			pageNo: 1,
 			numPerPage: 10000
 		};
-		MyRequest._post("game/getFriends", null, this, this.Req_getFriends.bind(this), null);
+		MyRequest._post("game/getFriends", params, this, this.Req_getFriends.bind(this), null);
 	}
 
 	//查询好友列表成功后处理
@@ -163,7 +166,14 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 	 * 进入系统消息详情
 	 */
 	private tosysmsginfo() {
-		let guanggao = new GuanggaoScene(this.sysinfodata[this.m])
+		let rect = new eui.Rect();
+		rect.width = SceneManager.sceneManager._stage.width;
+		rect.height = SceneManager.sceneManager._stage.height;
+		rect.x = 0;
+		rect.y = 0;
+		rect.fillColor = 0xffffff;
+		SceneManager.sceneManager._stage.addChild(rect);
+		let guanggao = new GuanggaoScene(this.sysinfodata[this.m], rect)
 		SceneManager.sceneManager._stage.addChild(guanggao);
 	}
 
@@ -208,7 +218,12 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 			//速度0.1
 			egret.Tween.get(this.sysmsg_label)
 				.set({ x: 610 })
-				.to({ x: -(this.sysmsg_label.width) }, ((610+this.sysmsg_label.width)/0.1)).call(() => { this.sysmsgnext(data) }, this);
+				.to({ x: -(this.sysmsg_label.width) }, ((610 + this.sysmsg_label.width) / 0.1)).call(() => {
+					let that = this;
+					setTimeout(function () {
+						that.sysmsgnext(data);
+					}, 10);
+				}, this);
 		}
 		console.log(data, "消息数据")
 	}
@@ -310,23 +325,28 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 			var rect = this.str1;
 			egret.Tween.get(rect)
 				.set({ y: 40 })
-				.to({ y: 2 }, 1000)
-				.wait(2000).call(this.info2scr, this)
-				.to({ y: -40 }, 1000);
+				.to({ y: 2 }, 500)
+				.wait(2000).call(() => {
+					let that = this;
+					setTimeout(function () {
+						that.info2scr();
+					}, 10);
+				}, this)
+				.to({ y: -40 }, 500);
 
 			var rect1 = this.img1;
 			egret.Tween.get(rect1)
 				.set({ y: 40 })
-				.to({ y: 2 }, 1000)
+				.to({ y: 2 }, 500)
 				.wait(2000)
-				.to({ y: -40 }, 1000);
+				.to({ y: -40 }, 500);
 
 			var rect2 = this.mask_icon1;
 			egret.Tween.get(rect2)
 				.set({ y: 40 })
-				.to({ y: 2 }, 1000)
+				.to({ y: 2 }, 500)
 				.wait(2000)
-				.to({ y: -40 }, 1000);
+				.to({ y: -40 }, 500);
 		}
 		else {
 			this.getTopMsg(true)
@@ -366,23 +386,23 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 			var rect = this.str2;
 			egret.Tween.get(rect)
 				.set({ y: 40 })
-				.to({ y: 2 }, 1000)
+				.to({ y: 2 }, 500)
 				.wait(2000).call(this.info1scr, this)
-				.to({ y: -40 }, 1000);
+				.to({ y: -40 }, 500);
 
 			var rect1 = this.img2;
 			egret.Tween.get(rect1)
 				.set({ y: 40 })
-				.to({ y: 2 }, 1000)
+				.to({ y: 2 }, 500)
 				.wait(2000)
-				.to({ y: -40 }, 1000);
+				.to({ y: -40 }, 500);
 
 			var rect2 = this.mask_icon2;
 			egret.Tween.get(rect2)
 				.set({ y: 40 })
-				.to({ y: 2 }, 1000)
+				.to({ y: 2 }, 500)
 				.wait(2000)
-				.to({ y: -40 }, 1000);
+				.to({ y: -40 }, 500);
 		}
 		else {
 			this.getTopMsg(true)
@@ -475,6 +495,29 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 	private toWarehouse() {
 		SceneManager.toWarehouseScene()
 	}
+
+
+	private toSelfTree() {
+		if (SceneManager.sceneManager.StageItems.currentState != "havetree") {
+			SceneManager.treepromptgro.removeChildren();											//清空显示树语
+			SceneManager.treetimer.reset();															//重置树语定时器
+			SceneManager.sceneManager.getNewfriendScene().friend_list.selectedIndex = -1;
+			Help.passAnm();																			//过场动画
+			if (SceneManager.instance.landId == 1) {												//果园
+				SceneManager.sceneManager.newmainScene.progress.slideDuration = 0;					//成长值进度条缓动速度
+				SceneManager.sceneManager.newmainScene.progress.value = 0;							//成长值进度条值
+				SceneManager.sceneManager.newmainScene.getOwnTree();								//查询自己果树数据
+			}
+			else if (SceneManager.instance.landId == 2) {											//菜园
+				SceneManager.sceneManager.newmain2Scene.progress.slideDuration = 0;					//成长值进度条缓动速度
+				SceneManager.sceneManager.newmain2Scene.progress.value = 0;							//成长值进度条值
+				SceneManager.sceneManager.newmain2Scene.getOwnTree();								//查询自己果树数据
+			}
+			NewHelp.closescene();                                                                   //关闭二级场景
+		}
+	}
+
+
 
 
 	/**
@@ -643,15 +686,5 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 	}
 
 
-	/**
-	 * 检查任务是否可领取
-	 */
-	public checktask(flag) {
-		if (flag) {
-			SceneManager.sceneManager.StageItems.task_gro.visible = true;
-		}
-		else if (!flag) {
-			SceneManager.sceneManager.StageItems.task_gro.visible = false;
-		}
-	}
+
 }

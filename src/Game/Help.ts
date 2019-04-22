@@ -382,23 +382,24 @@ class Help {
         img_fruit.width = 61.6;
         img_fruit.height = 70;
         img_fruit.x = 356;
-        img_fruit.y = 610;
-        HttpRequest.imageloader(Config.picurl + Datamanager.getnowfrienddata().seedIcon, img_fruit);
-        let label_fruit = new eui.Label();              //果实数量
+        img_fruit.y = 760;
+        HttpRequest.imageloader(Config.picurl + Datamanager.getNowtreedata().seedIcon, img_fruit);
+        let label_fruit = new eui.BitmapLabel();              //果实数量
+        label_fruit.font = "waternum_fnt";
         label_fruit.x = 434;
-        label_fruit.y = 640;
+        label_fruit.y = 770;
         label_fruit.text = "+" + data.takeNum;
         let img_love = new eui.Image();                 //爱心图片
         img_love.x = 350;
-        img_love.y = 626;
+        img_love.y = 756;
         img_love.texture = RES.getRes("shuidi");
-        let label_love = new eui.Label;
+        let label_love = new eui.BitmapLabel;
+        label_love.font = "waternum_fnt"
         label_love.x = 426;
-        label_love.y = 640;
+        label_love.y = 770;
         label_love.text = "+" + data.loveCount
         if (Number(data.takeNum) == 0) {
             SceneManager.addNotice("手气不佳，没有为好友摘到果子", 1000),
-
                 this.waitFun(1, function () {
                     if (data.loveCount && Number(data.loveCount) > 0) {
                         SceneManager.sceneManager.StageItems.addChild(img_love);
@@ -448,12 +449,12 @@ class Help {
             SceneManager.sceneManager.StageItems.enabled = false;
             let img_love = new eui.Image();                 //爱心图片
             img_love.x = 350;
-            img_love.y = 626;
+            img_love.y = 756;
             img_love.texture = RES.getRes("shuidi");
             let label_love = new eui.BitmapLabel;                 //水滴数量
             label_love.font = "waternum_fnt"
             label_love.x = 426;
-            label_love.y = 640;
+            label_love.y = 770;
             label_love.text = "+" + data.loveCount;
             SceneManager.sceneManager.StageItems.addChild(img_love);
             SceneManager.sceneManager.StageItems.addChild(label_love);
@@ -490,7 +491,7 @@ class Help {
     }
 
     //爱心动画
-    private static lovebuling() {
+    public static lovebuling() {
         this.buling.texture = RES.getRes("bulingbg_png")
         this.buling.x = 90;
         this.buling.y = 480;

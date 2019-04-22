@@ -5,10 +5,10 @@
 	<e:Image horizontalCenter="-24.5" verticalCenter="183" includeIn="close" source="boax"/>
 	<e:Image id="bx" y="0" x="216.5" source="bx"/>
 	<e:Image y="416.75" source="bxopen_png" anchorOffsetX="0" includeIn="open"/>
-	<e:Image width="68" height="103" x="160" y="526" source="shuidi" anchorOffsetX="0" anchorOffsetY="0" includeIn="open"/>
-
-	<e:Image id="huafeiIcon" width="86" height="94" x="526" y="524.5" includeIn="open" source=""/>
-	<e:Label id="shuidiNum" text="水滴x100g" x="113.28" y="680" size="30" fontFamily="Microsoft YaHei" anchorOffsetX="0" width="160" textAlign="center" includeIn="open"/>
-
-	<e:Label id="huafeiNum" text="有机肥x1袋" x="496.52" y="680" size="30" width="160" textAlign="center" fontFamily="Microsoft YaHei" includeIn="open"/>
+	<e:Image id="reward1icon" width="86" height="94" x="154" y="526" anchorOffsetX="0" anchorOffsetY="0" includeIn="open" source=""/>
+	<e:Image id="reward2icon" width="86" height="94" x="336" y="524.5" includeIn="open" source=""/>
+	<e:Image id="reward3icon" width="86" height="94" x="526" y="524.5" includeIn="open" source=""/>
+	<e:Label id="reward1Num" text="" x="90.28" y="680" size="30" fontFamily="Microsoft YaHei" anchorOffsetX="0" textAlign="center" includeIn="open" width="217"/>
+	<e:Label id="reward2Num" text="" x="288.52" y="680" size="30" width="200" textAlign="center" fontFamily="Microsoft YaHei" includeIn="open"/>
+	<e:Label id="reward3Num" text="" x="477.52" y="680" size="30" width="200" textAlign="center" fontFamily="Microsoft YaHei" includeIn="open"/>
 </e:Skin>

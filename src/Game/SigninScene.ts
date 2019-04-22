@@ -31,24 +31,154 @@ class SigninScene extends eui.Component implements eui.UIComponent {
     private answer_btn1: eui.Image;
     private answer_btn2: eui.Image;
     private answer_look: eui.Group;
+    private answer_dis1: eui.Label;
+    private answer_dis2: eui.Label;
+    private scr_gro: eui.Group;
+    private answer_scr: eui.Scroller;
+    private answer_problem: eui.Image;
+    private close_btn: eui.Image;
+
 
     public canreward: boolean = true;
 
 
     protected childrenCreated(): void {
         super.childrenCreated();
+        this.answer_scr.verticalScrollBar = null;
         this.getSignInInfo();
         this.x = (SceneManager.sceneManager._stage.width - this.width) / 2
         this.y = (SceneManager.sceneManager._stage.height - this.height) / 2
         this.btn_sign.addEventListener(egret.TouchEvent.TOUCH_TAP, this.changeState, this)
         this.btn_answer.addEventListener(egret.TouchEvent.TOUCH_TAP, this.changeState, this)
+        this.close_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, () => { NewHelp.closescene() }, this)
         this.checkAnswerReward();
-        this.checkLookReward();
+        // this.checkLookReward();
+        this.addActItem();
     }
 
     private onComplete(): void {
         this.currentState = "sgin"
     }
+
+
+    public addActItem() {
+        this.scr_gro.removeChildren();
+        this.scr_gro.addChild(this.answer_problem)
+        let Taskdata = Datamanager.gettaskdataBytype(1)
+        if (Taskdata) {
+            let Actdata: Array<any> = Taskdata;
+            for (let i = 0; i < Actdata.length; i++) {
+                let act_group = new eui.Group;                  //活动容器
+                let act_bg = new eui.Rect;                      //活动背景
+                let act_name = new eui.Label;                   //活动名称
+                let act_reward = new eui.Image;                 //活动奖励
+                let act_btn = new eui.Image;                    //活动按钮
+                let act_dis = new eui.Label;                    //活动描述
+
+                act_bg.left = 0;
+                act_bg.right = 0;
+                act_bg.bottom = 0;
+                act_bg.top = 0;
+                act_bg.fillColor = 0xefebbc;
+                act_bg.ellipseWidth = 20;
+                act_bg.ellipseHeight = 20;
+
+
+                act_name.left = 16;
+                act_name.top = 26;
+                act_name.textColor = 0xb44728;
+                act_name.fontFamily = "Microsoft YaHei";
+                act_name.size = 22;
+                act_name.lineSpacing = 6;
+                act_name.bold = true;
+                act_name.maxWidth = 390;
+                act_name.text = Actdata[i].name;
+
+                if (Actdata[i].rewardRule) {
+                    if (Actdata[i].rewardRule.propId) {
+                        act_reward.texture = RES.getRes(NewHelp.gettextrueBypropid(Actdata[i].rewardRule.propId))
+                    }
+                    else {
+                        if (Actdata[i].rewardRule.propType == 3) {
+                            act_reward.texture = RES.getRes("allhuafei_png")
+                        }
+                    }
+                    act_reward.width = 30;
+                    act_reward.left = 16;
+                    act_reward.top = 82;
+                    act_reward.height = 34;
+                }
+
+                act_btn.width = 120;
+                act_btn.height = 48;
+                act_btn.right = 16;
+                act_btn.top = 47;
+                act_btn.left = 420;
+                if (Actdata[i].btnStatus && Actdata[i].btnStatus == 1) {
+                    act_btn.texture = RES.getRes("answer_receive_png")   //可领取
+                }
+                else if (Actdata[i].btnStatus && Actdata[i].btnStatus == 2) {
+                    act_btn.texture = RES.getRes("answer_torrow_png")   //已完成
+                    switch (Actdata[i].code) {
+                        case 'browse_goods': {
+                            act_btn.texture = RES.getRes("answer_togo_png")   //已完成
+                        }
+                            break;
+                    }
+                }
+                else {
+                    act_btn.texture = RES.getRes("answer_togo_png")    //可完成
+                }
+                act_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, () => { this.actbtnTouch(act_btn, Actdata[i]) }, this);
+
+                act_dis.size = 20;
+                act_dis.fontFamily = "Microsoft YaHei";
+                act_dis.left = 16;
+                act_dis.top = 127;
+                act_dis.bottom = 15;
+                act_dis.textColor = 0xb44728;
+                act_dis.maxWidth = 472;
+                act_dis.lineSpacing = 10;
+                act_dis.text = Actdata[i].info;
+
+                act_group.addChild(act_bg);
+                act_group.addChild(act_name);
+                act_group.addChild(act_reward);
+                act_group.addChild(act_btn);
+                act_group.addChild(act_dis);
+                this.scr_gro.addChild(act_group);
+            }
+        }
+
+
+    }
+
+    /**
+     * act_btn 活动按钮
+     * actdata 活动数据
+     */
+    private actbtnTouch(act_btn: eui.Image, actdata) {
+        if (actdata.btnStatus == 1) {                 //可领取
+            let data = {
+                taskFinishedId: actdata.finishedId
+            }
+            MyRequest._post("game/receiveTask", data, this, this.completeReceive.bind(this), null)
+        }
+        else if (actdata.btnStatus == 2) {            //已完成
+            switch (actdata.code) {
+                case 'browse_goods': {
+                    let baikeScene = new BaikeScene();
+                    SceneManager.sceneManager._stage.addChild(baikeScene)
+                }
+                    break;
+            }
+        }
+        else {                                       //可完成
+            NewHelp.completetask(actdata.code, actdata.id)
+        }
+        console.log(actdata, "活动数据")
+    }
+
 
 
 
@@ -58,6 +188,7 @@ class SigninScene extends eui.Component implements eui.UIComponent {
      */
     public checkLookReward() {
         if (Datamanager.getlooktask()) {
+            this.answer_dis2.text = Datamanager.getlooktask().info;
             this.answer_look.visible = true;
             let looktaskdata = Datamanager.getlooktask()
             console.log(looktaskdata, "阅读数据")
@@ -85,19 +216,12 @@ class SigninScene extends eui.Component implements eui.UIComponent {
 
     private completeReceive(data) {
         data = data.data;
+        console.log(data, "奖励数据")
         //0水滴1道具2爱心值3化肥 获取称呼
-        let info = "";
-        if (data.propType == "0") {
-            info = "g";
-        } else if (data.propType == "1") {
-            info = "个";
-        } else if (data.propType == "2") {
-            info = "个"
-        } else if (data.propType == "3") {
-            info = "袋"
-        }
-        SceneManager.addNotice("获得" + data.propName + data.propNum + info, 2000)
-        SceneManager.instance.getTaskScene().taskDataInit(SceneManager.instance.StageItems.checktask)
+        NewHelp.addmaskwithoutcolse();
+        let reward = new ActRewardScene(data);
+        SceneManager.sceneManager._stage.addChild(reward);
+        SceneManager.instance.getTaskScene().taskDataInit()
         NewHelp.updateprop();
     }
 
@@ -115,6 +239,7 @@ class SigninScene extends eui.Component implements eui.UIComponent {
 	*/
     public checkAnswerReward() {
         MyRequest._post("game/checkAnswerReward", null, this, this.Req_checkAnswerReward.bind(this), null)
+
     }
 
     private Req_checkAnswerReward(data) {

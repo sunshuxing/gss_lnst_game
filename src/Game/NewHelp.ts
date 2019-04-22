@@ -1,42 +1,67 @@
 class NewHelp {
 
-	private static bgmask = new eui.Image();
+	private static bgmask = new eui.Image;
 	private static leaveMsgTemplateList: Array<LeaveMsgTemplate>;        //留言模板
+	private static bgRect = new eui.Rect;
+	public static map: { [key: string]: String } = {};		//创建一个map,用于存放用户头像连接，减少加载
 
-	//云朵飘动动画
-	public static cloudTwn() {
-		let cloud1 = new eui.Image();
-		let cloud2 = new eui.Image();
-		let cloud3 = new eui.Image();
-		cloud1.texture = RES.getRes("cloudnew_png");
-		cloud2.texture = RES.getRes("cloud2");
-		cloud3.texture = RES.getRes("cloudnew_png");
-		cloud1.y = -62;
-		cloud2.y = 119;
-		cloud3.y = -7;
-		cloud1.x = -63;
-		cloud2.x = -3;
-		cloud3.x = 332;
-		SceneManager.sceneManager._stage.addChild(cloud1);
-		SceneManager.sceneManager._stage.addChild(cloud2);
-		SceneManager.sceneManager._stage.addChild(cloud3);
-
-		// 云朵1
-		egret.Tween.get(cloud1, { loop: true })
-			.to({ x: cloud1.x + 80 }, 10000)
-			.to({ x: cloud1.x }, 10000)
-
-		// // 云朵2
-		// egret.Tween.get(this.cloud2,{loop:true})
-		// .to({x:this.cloud2.x+140},13000) 
-		// .to({x:this.cloud2.x-40},13000)
-		// .to({x:this.cloud2.x},2888)
-
-		// 云朵3
-		egret.Tween.get(cloud3, { loop: true })
-			.to({ x: cloud3.x - 120 }, 8000)
-			.to({ x: cloud3.x }, 8000)
+	public static getWechatImg(users: Array<any>, success: Function) {
+		//多个微信头像连接
+		if (users && users.length > 0) {
+			let length = users.length
+			for (let i = 0; i < length; i++) {
+				if (users[i] && !this.map[users[i]]) {
+					users[i].splice(i, 1);
+					i--;
+					length--;
+				}
+			}
+			if (users.length > 0) {								//其中有未保存的连接
+				let params = {
+					users: users.join(",")
+				};
+				MyRequest._post("game/getWechatImg", params, this, this.Req_WechatImgwithplural.bind(this, users, success), null);
+			}
+			else {												//其中所有数据都已保存在map中
+				success();
+			}
+		}
 	}
+
+
+	private static Req_WechatImgwithplural(users, success, data) {
+		if (!data) {
+			return;
+		}
+		data = data.data;
+		if (data && typeof data === "string") {
+			data = JSON.parse(data)
+		}
+		for (let i = 0; i < users.length; i++) {
+			if (users[i] && !this.map[users[i]]) {			//保存用户初次头像
+				this.map[users[i]] = data[users[i]];
+			}
+		}
+		success(data)
+	}
+
+
+	public static Req_WechatImgwithimage(data, users, image) {
+		if (!data) {
+			return;
+		}
+		data = data.data;
+		if (data && typeof data === "string") {
+			data = JSON.parse(data)
+		}
+		let imgUrl = Config.picurl + data[users];
+		if (users && !this.map[users]) {			//保存用户初次头像
+			this.map[users] = data[users];
+		}
+		HttpRequest.imageloader(imgUrl, image, users);
+	}
+
+
 
 	//舞台上添加遮罩
 	public static addmask() {
@@ -49,6 +74,28 @@ class NewHelp {
 		SceneManager.sceneManager._stage.addChild(this.bgmask);
 		this.bgmask.addEventListener(egret.TouchEvent.TOUCH_TAP, this.closescene, this)
 	}
+
+
+	/**
+	 * 添加点击不关闭二级场景遮罩
+	 */
+	public static addmaskwithoutcolse() {
+		this.bgRect.width = SceneManager.sceneManager._stage.width;
+		this.bgRect.height = SceneManager.sceneManager._stage.height;
+		this.bgRect.fillAlpha = 0.3;
+		SceneManager.sceneManager._stage.addChild(this.bgRect);
+
+	}
+
+	/**
+	 * 移除点击不关闭二级场景遮罩
+	 */
+	public static removemaskwithoutcolse() {
+		if (this.bgRect.parent) {
+			this.bgRect.parent.removeChild(this.bgRect);
+		}
+	}
+
 
 	//点击遮罩关闭场景
 	public static closescene() {
@@ -111,68 +158,102 @@ class NewHelp {
 	 */
 	public static addBarrageMsg(templateId) {
 		let BarGroup = SceneManager.sceneManager.StageItems.BarGroup
-		let barragbg = new eui.Image;		//弹幕背景
-		let barragicon = new eui.Image;		//弹幕头像
+		let barragbg = new eui.Group;		//弹幕容器
+		let barragicongro = new eui.Group;	//弹幕头像容器
+		let barragegroup = new eui.Group;	//弹幕内容容器
+		let barragicon = new eui.Image;		//头像
+		let barragiconbg = new eui.Rect;	//弹幕头像背景
 		let bariconmask = new eui.Rect;		//弹幕头像遮罩
-		let barragegroup = new eui.Group;	//弹幕容器
 		let barragetext = new eui.Label;	//弹幕内容
+		let barragetextbg = new eui.Rect;	//弹幕内容背景
 		let data
 		if (SceneManager.instance.landId == 1) {
 			data = Datamanager.getOwnguoyuandata()			//果园数据
 		} else if (SceneManager.instance.landId == 2) {
 			data = Datamanager.getOwncaiyuandata()			//菜园数据
 		}
-		barragegroup.x = 750;			//弹幕位置随机
-		barragegroup.y = 300 + Help.random_num(1, 3) * 60;
-		barragegroup.width = 414;
-		barragegroup.height = 72;
-		BarGroup.addChild(barragegroup);
 
-		//添加弹幕背景
-		barragbg.x = 0;
-		barragbg.y = 0;
-		barragbg.width = 414;
-		barragbg.height = 72;
-		barragbg.texture = RES.getRes('barragebg-green');
-		barragegroup.addChild(barragbg);
+		//添加弹幕内容
+		barragetext.left = 54;
+		barragetext.right = 16;
+		barragetext.verticalCenter = 0;
+		barragetext.size = 24;
+		barragetext.text = this.getLeaveMsgByTemplateId(templateId)
+		barragetext.textColor = 0xffffff;
+		barragetext.fontFamily = "Microsoft YaHei";
+
+
+		barragetextbg.left = 0
+		barragetextbg.right = 0
+		barragetextbg.bottom = 0
+		barragetextbg.top = 0
+		barragetextbg.x = 0;
+		barragetextbg.y = 0
+		barragetextbg.ellipseWidth = 50;
+		barragetextbg.ellipseHeight = 50;
+		barragetextbg.fillAlpha = 0.3;
+
+
+		//添加单个弹幕容器
+		barragegroup.height = 50
+		barragegroup.verticalCenter = 0
+		barragegroup.x = 38
+
+
+		barragicongro.width = 76;
+		barragicongro.height = 76;
+
+
+		barragiconbg.width = 76;
+		barragiconbg.height = 76;
+		barragiconbg.horizontalCenter = 0;
+		barragiconbg.verticalCenter = 0;
+		barragiconbg.ellipseWidth = 76;
+		barragiconbg.ellipseHeight = 76;
+		barragiconbg.fillAlpha = 0.3;
+
 
 		//添加弹幕头像
-		barragicon.x = 7;
-		barragicon.y = 16;
-		barragicon.width = 46;
-		barragicon.height = 46;
+		barragicon.horizontalCenter = 0;
+		barragicon.verticalCenter = 0;
+		barragicon.width = 70;
+		barragicon.height = 70;
+		barragicon.texture = RES.getRes("gamelogo")
 		if (data.userIcon) {
 			let params = {
 				users: data.user
 			}
 			MyRequest._post("game/getWechatImg", params, this, this.Req_WechatImg.bind(this, data.user, barragicon), null);
 		}
-		barragegroup.addChild(barragicon);
+
 
 		//添加弹幕头像遮罩
-		bariconmask.x = 7;
-		bariconmask.y = 16;
-		bariconmask.width = 46;
-		bariconmask.height = 46;
-		bariconmask.ellipseWidth = 46;
-		bariconmask.ellipseHeight = 46;
-		barragegroup.addChild(bariconmask);
-		barragicon.mask = bariconmask;
+		bariconmask.horizontalCenter = 0;
+		bariconmask.verticalCenter = 0;
+		bariconmask.width = 70;
+		bariconmask.height = 70;
+		bariconmask.ellipseWidth = 70;
+		bariconmask.ellipseHeight = 70;
 
-		//添加弹幕内容
-		barragetext.x = 78;
-		barragetext.y = 28;
-		barragetext.size = 24;
-		barragetext.text = this.getLeaveMsgByTemplateId(templateId)
-		barragetext.textColor = 0x0F3B00;
-		barragetext.fontFamily = "SimHei";
-		barragegroup.addChild(barragetext);
+		barragbg.x = 760;
+		barragbg.y = 300 + Help.random_num(1, 3) * 60;
+
+
+		barragbg.addChild(barragegroup)
+		barragbg.addChild(barragicongro)
+		barragicongro.addChild(barragiconbg)
+		barragicongro.addChild(barragicon)
+		barragicongro.addChild(bariconmask)
+		barragegroup.addChild(barragetextbg)
+		barragegroup.addChild(barragetext)
+		barragicon.mask = bariconmask;
+		BarGroup.addChild(barragbg);
 
 		//弹幕飘动
-		egret.Tween.get(barragegroup)
-			.to({ x: -430 }, 8000).call(() => {
+		egret.Tween.get(barragbg)
+			.to({ x: -(barragbg.width + 10) }, 8000).call(() => {
 				if (barragegroup.parent) {
-					BarGroup.removeChild(barragegroup)
+					BarGroup.removeChild(barragbg)
 				}
 			}, this)
 	}
@@ -246,58 +327,71 @@ class NewHelp {
 	private static addBarrage(dataList: Array<LeaveMsgUser>) {
 		let BarGroup = SceneManager.sceneManager.StageItems.BarGroup
 		for (let i = 0; i < dataList.length; i++) {
-			let barragbg = new eui.Image;		//弹幕背景
-			let barragicon = new eui.Image;		//弹幕头像
+			let barragbg = new eui.Group;		//弹幕背景
+			let barragicon = new eui.Image;		//头像
+			let barragicongro = new eui.Group;	//弹幕头像
+			let barragiconbg = new eui.Rect;	//弹幕头像背景
 			let bariconmask = new eui.Rect;		//弹幕头像遮罩
 			let barragegroup = new eui.Group;	//弹幕容器
 			let barragetext = new eui.Label;	//弹幕内容
+			let barragetextbg = new eui.Rect;	//弹幕内容背景
 
-			//添加单个弹幕容器 
-			barragegroup.x = 750;			//弹幕位置随机
-			barragegroup.y = 300 + Help.random_num(1, 3) * 60;
-			barragegroup.width = 414;
-			barragegroup.height = 72;
-			BarGroup.addChild(barragegroup);
+			//添加弹幕内容
+			barragetext.left = 54;
+			barragetext.right = 16;
+			barragetext.verticalCenter = 0;
+			barragetext.size = 24;
+			barragetext.text = this.getLeaveMsgByTemplateId(dataList[i].templateId)
+			barragetext.textColor = 0xffffff;
+			barragetext.fontFamily = "Microsoft YaHei";
 
-			//添加弹幕背景
-			barragbg.x = 0;
-			barragbg.y = 0;
-			barragbg.width = 414;
-			barragbg.height = 72;
-			barragbg.texture = RES.getRes('barragebg-green');
-			barragegroup.addChild(barragbg);
+			barragetextbg.left = 0
+			barragetextbg.right = 0
+			barragetextbg.bottom = 0
+			barragetextbg.top = 0
+			barragetextbg.x = 0;
+			barragetextbg.y = 0
+			barragetextbg.ellipseWidth = 50;
+			barragetextbg.ellipseHeight = 50;
+			barragetextbg.fillAlpha = 0.3;
+
+			//添加单个弹幕容器
+			barragegroup.height = 50
+			barragegroup.verticalCenter = 0
+			barragegroup.x = 38
+
+			barragicongro.width = 76;
+			barragicongro.height = 76;
+
+			barragiconbg.width = 76;
+			barragiconbg.height = 76;
+			barragiconbg.horizontalCenter = 0;
+			barragiconbg.verticalCenter = 0;
+			barragiconbg.ellipseWidth = 76;
+			barragiconbg.ellipseHeight = 76;
+			barragiconbg.fillAlpha = 0.3;
 
 			//添加弹幕头像
-			barragicon.x = 7;
-			barragicon.y = 16;
-			barragicon.width = 46;
-			barragicon.height = 46;
+			barragicon.horizontalCenter = 0;
+			barragicon.verticalCenter = 0;
+			barragicon.width = 70;
+			barragicon.height = 70;
+			barragicon.texture = RES.getRes("gamelogo")
 			if (dataList[i].mainUserIcon) {
 				let params = {
 					users: dataList[i].mainUser
 				}
 				MyRequest._post("game/getWechatImg", params, this, this.Req_WechatImg.bind(this, dataList[i].mainUser, barragicon), null);
 			}
-			barragegroup.addChild(barragicon);
 
 			//添加弹幕头像遮罩
-			bariconmask.x = 7;
-			bariconmask.y = 16;
-			bariconmask.width = 46;
-			bariconmask.height = 46;
-			bariconmask.ellipseWidth = 46;
-			bariconmask.ellipseHeight = 46;
-			barragegroup.addChild(bariconmask);
-			barragicon.mask = bariconmask;
+			bariconmask.horizontalCenter = 0;
+			bariconmask.verticalCenter = 0;
+			bariconmask.width = 70;
+			bariconmask.height = 70;
+			bariconmask.ellipseWidth = 70;
+			bariconmask.ellipseHeight = 70;
 
-			//添加弹幕内容
-			barragetext.x = 78;
-			barragetext.y = 28;
-			barragetext.size = 24;
-			barragetext.text = this.getLeaveMsgByTemplateId(dataList[i].templateId)
-			barragetext.textColor = 0x0F3B00;
-			barragetext.fontFamily = "SimHei";
-			barragegroup.addChild(barragetext);
 
 			barragegroup.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
 				if (Datamanager.getfriendsdata() && SceneManager.sceneManager.StageItems.currentState == "havetree") {
@@ -320,13 +414,27 @@ class NewHelp {
 			}, this)
 
 
+			barragbg.x = 760;
+			barragbg.y = 300 + Help.random_num(1, 3) * 60;
+
+			barragbg.addChild(barragegroup)
+			barragbg.addChild(barragicongro)
+			barragicongro.addChild(barragiconbg)
+			barragicongro.addChild(barragicon)
+			barragicongro.addChild(bariconmask)
+			barragegroup.addChild(barragetextbg)
+			barragegroup.addChild(barragetext)
+			barragicon.mask = bariconmask;
+			BarGroup.addChild(barragbg);
+
+
 			//弹幕飘动
-			if (barragegroup) {
-				egret.Tween.get(barragegroup)
+			if (barragbg) {
+				egret.Tween.get(barragbg)
 					.wait(i * 3000)
-					.to({ x: -430 }, 8000).call(() => {
-						if (barragegroup.parent) {
-							BarGroup.removeChild(barragegroup)
+					.to({ x: -(barragbg.width + 10) }, 8000).call(() => {
+						if (barragbg.parent) {
+							BarGroup.removeChild(barragbg)
 						}
 					}, this)
 			}
@@ -782,6 +890,7 @@ class NewHelp {
 			this.kettleTwn();					//使用水滴之后更新在动画中完成
 		}
 		else if (propId == 4 || propId == 5 || propId == 6) {	//使用化肥
+			SceneManager.sceneManager.StageItems.touchEnabled = false;
 			this.huafeiTwn(propId);
 		}
 		else if (propId == 9) {										//使用虫
@@ -873,7 +982,11 @@ class NewHelp {
 			.set({ x: 460, y: 757, alpha: 1 })
 			.to({ x: 440, y: 785, alpha: 0.2 }, 500)
 			.wait(200).call(() => { SceneManager.sceneManager._stage.removeChild(icon) }, this)
-			.call(() => { SceneManager.sceneManager._stage.removeChild(icon1) }, this)
+			.call(() => {
+				SceneManager.sceneManager._stage.removeChild(icon1);
+				NewHelp.Specialeffects();
+				SceneManager.sceneManager.StageItems.touchEnabled = true;
+			}, this)
 			.call(() => {
 				if (SceneManager.instance.landId == 1) {
 					SceneManager.sceneManager.newmainScene.getOwnTree();						//更新果园数据
@@ -1246,20 +1359,42 @@ class NewHelp {
 			return;
 		}
 		else {
-			if (SceneManager.sceneManager.StageItems.currentState == "havetree") {
+			if (data.canReceive == "true" && SceneManager.sceneManager.StageItems.currentState == "friendtree") {
+				progress_label.textFlow = <Array<egret.ITextElement>>[
+					{ text: "已经可以兑换了,快去提醒好友吧" },
+				]
+			}
+
+			if (data.needTake == "true") {
+				if (SceneManager.sceneManager.StageItems.currentState == "havetree") {
+					progress_label.textFlow = <Array<egret.ITextElement>>[
+						{ text: "采摘了才能进入下一阶段" },
+					]
+				}
+				else if (SceneManager.sceneManager.StageItems.currentState == "friendtree") {
+					progress_label.textFlow = <Array<egret.ITextElement>>[
+						{ text: "已经可以采摘了,快去提醒好友吧" },
+					]
+				}
+			}
+			else if (data.stageObj.canHarvest == "true") {
 				progress_label.textFlow = <Array<egret.ITextElement>>[
 					{ text: data.stageObj.name },
 					{ text: "还需要浇水" },
-					{ text: ((Number(data.stageObj.energy) - Number(data.growthValue)) / Number(data.stageObj.energy) * 100).toFixed(2) + "%到" },
-					{ text: data.nextStageName },
+					{ text: ((Number(data.stageObj.energy) - Number(data.growthValue)) / Number(data.stageObj.energy) * 100).toFixed(2) + "%能" },
+					{ text: "采摘" },
 				]
-				if (data.needTake == "true") {
+			}
+			else {
+				if (data.nextStageName) {
 					progress_label.textFlow = <Array<egret.ITextElement>>[
-						{ text: "采摘" },
-						{ text: "了才能进入下一阶段" }
+						{ text: data.stageObj.name },
+						{ text: "还需要浇水" },
+						{ text: ((Number(data.stageObj.energy) - Number(data.growthValue)) / Number(data.stageObj.energy) * 100).toFixed(2) + "%到" },
+						{ text: data.nextStageName },
 					]
 				}
-				else if (data.stageObj.canHarvest == "true") {
+				else {
 					progress_label.textFlow = <Array<egret.ITextElement>>[
 						{ text: data.stageObj.name },
 						{ text: "还需要浇水" },
@@ -1267,13 +1402,8 @@ class NewHelp {
 						{ text: "采摘" },
 					]
 				}
-				if (data.stageObj.isLast == "true" && data.growthValue == data.stageObj.energy) {
-					progress_label.textFlow = <Array<egret.ITextElement>>[
-						{ text: "快让朋友来帮摘果吧！" },
-					]
-				}
-				progress_label.visible = true;
 			}
+			progress_label.visible = true;
 		}
 	}
 	//-----------------------------------------------------------------进入他人果园-----------------------------------------------------------------------------//
@@ -1571,34 +1701,38 @@ class NewHelp {
 	 * 给好友点赞
 	 * friendUser:好友用户id
 	 */
-	public static dianzan(friendUser) {
+	public static dianzan(friendUser, listiem?) {
 		if (friendUser == SceneManager.sceneManager.weixinUtil.login_user_id) {
 			return;
 		}
 		let params = {
 			friend: friendUser
 		};
-		MyRequest._post("game/checkPraise", params, this, this.Req_checkPraise.bind(this, friendUser), null)
+		MyRequest._post("game/checkPraise", params, this, this.Req_checkPraise.bind(this, friendUser, listiem), null)
 	}
 
-	private static Req_checkPraise(friendUser, data) {
+	private static Req_checkPraise(friendUser, listiem, data) {
 		console.log("是否能给好友点赞", data);
 		if (data.data == "true") {			//能给好友点赞
-			this.praise(friendUser);
+			this.praise(friendUser, listiem);
 		}
 		else if (data.data == "false") {		//不能给好友点赞
 			SceneManager.addNotice("今日已给该好友点过赞了哦！");
 		}
 	}
 
-	private static praise(friendUser) {
+	private static praise(friendUser, listiem?) {
 		let params = {
 			friend: friendUser
 		};
-		MyRequest._post("game/praise", params, this, this.Req_praise.bind(this), null)
+		MyRequest._post("game/praise", params, this, this.Req_praise.bind(this, listiem), null)
 	}
 
-	private static Req_praise(data) {
+	private static Req_praise(listiem, data) {
+		if (listiem) {
+			SceneManager.sceneManager.getNewfriendScene().friendsdata.source[listiem].praises = SceneManager.sceneManager.getNewfriendScene().friendsdata.source[listiem].praises + 1
+			SceneManager.sceneManager.getNewfriendScene().friendsdata.itemUpdated(SceneManager.sceneManager.getNewfriendScene().friendsdata.source[listiem])
+		}
 		NewHelp.getfriendlike(Datamanager.getNowtreedata())
 		SceneManager.addNotice("点赞成功");
 		NewHelp.getFriends();
@@ -1651,9 +1785,12 @@ class NewHelp {
 
 	//--------------------------------------------------------------------获取道具图片-----------------------------------------------------------------------------//
 
+	/**
+	 * 获取道具图片
+	 */
 	public static gettextrueBypropid(propid) {
 		if (propid == propId.shuidi) {
-			return "shuidi"
+			return "icon_water_png"
 		}
 		else if (propid == propId.lanzi) {
 			return "lanzi"
@@ -1667,10 +1804,73 @@ class NewHelp {
 		else if (propid == propId.shuirongfei) {
 			return "zghuafei_png"
 		}
+		else if (propid == propId.jiandao) {
+			return "close"
+		}
+		else if (propid == propId.duckfood) {
+			return "duckfood_png"
+		}
+		else if (propid == propId.insect) {
+			return "usedinsect_png"
+		}
+		else if (propid == propId.grass) {
+			return "usedgrass_png"
+		}
+		else if (propid == propId.dianzan) {
+			return "close"
+		}
+		else if (propid == propId.duckegg) {
+			return "duckegg_png"
+		}
 		else {
 			return "close"
 		}
 	}
+
+
+	public static getnameBypropid(propid) {
+		if (propid == propId.shuidi) {
+			return "waterlabel_png"
+		}
+		else if (propid == propId.lanzi) {
+			return "close"
+		}
+		else if (propid == propId.youjifei) {
+			return "szlabel_png"
+		}
+		else if (propid == propId.fuhefei) {
+			return "jslabel_png"
+		}
+		else if (propid == propId.shuirongfei) {
+			return "zglabel_png"
+		}
+		else if (propid == propId.jiandao) {
+			return "close"
+		}
+		else if (propid == propId.duckfood) {
+			return "yashilabel_png"
+		}
+		else if (propid == propId.insect) {
+			return "insectlabel_png"
+		}
+		else if (propid == propId.grass) {
+			return "grasslabel_png"
+		}
+		else if (propid == propId.dianzan) {
+			return "close"
+		}
+		else if (propid == propId.duckegg) {
+			return "close"
+		}
+		else {
+			return "close"
+		}
+	}
+
+
+
+
+
 	//---------------------------------------------------------------------答题奖励-------------------------------------------------------------------------------//
 	/**
 	* 获取答题奖励列表
@@ -1986,7 +2186,7 @@ class NewHelp {
 		icon.y = 900;
 		SceneManager.sceneManager._stage.addChild(icon);
 		egret.Tween.get(icon)
-			.to({ x: 530, y: 670, scaleY: 0.5, scaleX: 0.5 }, 1500)
+			.to({ x: 370, y: 460, scaleY: 0.5, scaleX: 0.5 }, 1500)
 			.call(() => { SceneManager.sceneManager._stage.removeChild(icon) }, this)
 	}
 
@@ -2030,41 +2230,6 @@ class NewHelp {
 	}
 
 
-	/**
-	 * 查询活动红点
-	 */
-	public static checkActRed() {
-		MyRequest._post("game/checkAnswerReward", null, this, this.Req_checkAnswerReward.bind(this), null)
-	}
-
-	private static Req_checkAnswerReward(data) {
-		let red1: boolean = false;
-		let red2: boolean = false;
-		if (data.data == "true") {
-			red2 = true;
-		}
-		else {
-			red2 = false;
-		}
-		if (Datamanager.getlooktask()) {
-			let looktaskdata = Datamanager.getlooktask()
-			if (looktaskdata.btnStatus == 1 || looktaskdata.btnStatus == 0) {          //领取
-				red1 = true;
-			}
-			else {                                      //前往
-				red1 = false;
-			}
-		}
-		else {
-			red1 = false;
-		}
-		if (red1 || red2) {
-			SceneManager.sceneManager.StageItems.act_red.visible = true;
-		}
-		else {
-			SceneManager.sceneManager.StageItems.act_red.visible = false;
-		}
-	}
 
 	/**
 	 * 帮助好友喂鸭子
@@ -2138,6 +2303,15 @@ class NewHelp {
 	}
 
 
+	public static getselficon(userId) {
+		let params = {
+			users: userId
+		}
+		MyRequest._post("game/getWechatImg", params, this, this.Req_WechatImg.bind(this, userId, SceneManager.sceneManager.StageItems.own_icon), null);
+	}
+
+
+
 	//查询好友列表
 	public static getFriends() {
 		let params = {
@@ -2175,6 +2349,177 @@ class NewHelp {
 		Datamanager.savefriendsdata(friend_data);	//保存总体好友数据
 	}
 
+
+	private static Rect = new eui.Rect;
+	private static effectimg = new eui.Image;
+
+	public static Specialeffects() {
+		let newy = (SceneManager.sceneManager._stage.height - SceneManager.sceneManager.newmainScene.height)
+		this.Rect.width = 329;
+		this.Rect.height = 383;
+		this.Rect.horizontalCenter = 0;
+		this.Rect.bottom = 283;
+
+		this.effectimg.texture = RES.getRes("effectsimg_png")
+		this.effectimg.width = 329;
+		this.effectimg.height = 383;
+		this.effectimg.horizontalCenter = 0;
+		this.effectimg.y = newy + 1051
+
+		SceneManager.sceneManager._stage.addChild(this.Rect);
+		this.effectimg.mask = this.Rect;
+		SceneManager.sceneManager._stage.addChild(this.effectimg);
+
+		egret.Tween.get(this.effectimg, { loop: true })
+			.to({ y: newy + 400 }, 4000)
+			.call(() => {
+				if (this.Rect.parent) {
+					this.Rect.parent.removeChild(this.Rect);
+				}
+				if (this.effectimg.parent) {
+					this.effectimg.parent.removeChild(this.effectimg);
+				}
+			}, this)
+	}
+
+
+	public static removeEffect() {
+		if (this.Rect.parent) {
+			this.Rect.parent.removeChild(this.Rect);
+		}
+		if (this.effectimg.parent) {
+			this.effectimg.parent.removeChild(this.effectimg);
+		}
+	}
+
+
+
+
+	//--------------------------------------------------------------------任务/活动-------------------------------------------------------------------------//
+
+
+
+
+
+	/**
+	 * 去完成任务
+	 */
+	public static completetask(code, id?) {
+		switch (code) {
+			case 'browse_goods': {
+				if (SceneManager.instance.isMiniprogram) {
+					wx.miniProgram.navigateTo({
+						url: "/pages/game/browseGoods?listType=1&isFinished=false"
+					})
+				} else {
+					sessionStorage.setItem("fromgame", "true");
+					location.href = Config.webHome + "view/game-browse-goods.html?listType=1&isFinished=false"
+				}
+			}
+				break;
+			case 'Invitation_friend': {
+				SceneManager.instance.getTaskScene().dispatchEventWith(MaskEvent.REMOVED_FROM_STAGE)   //使用manager获取场景并触发事件
+				this.tojump(true, "sharetexttree_png");
+
+				if (!SceneManager.instance.isMiniprogram) {//不是小程序的处理方式
+					let url = SceneManager.instance.weixinUtil.shareData.shareUrl
+					let addFriend = MyRequest.geturlstr("addFriend", url)
+					if (Help.getOwnData() && Number(Help.getOwnData().friendCanObtain) > 0) {
+						SceneManager.instance.weixinUtil.shareData.titles = "【果实熟了】快来、快来帮我摘水果。"
+						SceneManager.instance.weixinUtil.shareData.describes = "离免费收获一箱水果，只差最后一步啦！"
+					} else {
+						SceneManager.instance.weixinUtil.shareData.titles = "【果说说农场】邀请你一起种水果，亲手种，免费送到家"
+						SceneManager.instance.weixinUtil.shareData.describes = "种上一棵树，经营一座农场，开启舌尖上的旅行--果说说"
+					}
+					SceneManager.instance.weixinUtil._openShare();
+				} else {
+					let info
+					if (Help.getOwnData() && Number(Help.getOwnData().friendCanObtain) > 0) {
+						info = "【果实熟了】快来、快来帮我摘水果。"
+					} else {
+						info = "【说说农场】一起种水果，亲手种，免费送到家。"
+					}
+					let data = {
+						addFriend: true,
+						title: info
+					}
+					SceneManager.instance.weixinUtil.toPostMessageShare(0, data)
+				}
+			}
+				break;
+			case 'share_orchard': {
+				SceneManager.instance.getTaskScene().dispatchEventWith(MaskEvent.REMOVED_FROM_STAGE)   //使用manager获取场景并触发事件
+				this.tojump(true, "share_png")
+			}
+				break;
+			case 'any_order': {
+				if (SceneManager.instance.isMiniprogram) {
+					//小程序端口taskCode要做参数发送
+					wx.miniProgram.navigateTo({
+						url: "/pages/game/browseGoods?listType=2&backGame=true&taskCode=" + id
+					})
+				} else {
+					sessionStorage.setItem("fromgame", "true");
+					sessionStorage.setItem("taskCode", id);
+					location.href = Config.webHome + "view/game-browse-goods.html?listType=2"
+				}
+			}
+				break;
+			case 'specifiy_order': {
+				if (SceneManager.instance.isMiniprogram) {
+					//小程序端口taskCode要做参数发送
+					wx.miniProgram.navigateTo({
+						url: "/pages/game/browseGoods?listType=0&backGame=true&taskCode=" + id
+					})
+				} else {
+					sessionStorage.setItem("fromgame", "true");
+					sessionStorage.setItem("taskCode", id);
+					location.href = Config.webHome + "view/game-browse-goods.html?listType=0"
+				}
+			}
+				break;
+			case 'read_knowledge': {
+				let baikeScene = new BaikeScene();
+				SceneManager.sceneManager._stage.addChild(baikeScene)
+			}
+				break
+			case 'take_goods': {	//每日摘果
+				NewHelp.closescene();
+			}
+				break
+			case 'help_take': {		//帮摘果
+				NewHelp.closescene();
+			}
+				break
+			case 'get_tree_prop': {	//除虫除草
+				NewHelp.closescene();
+			}
+				break
+			case 'praise': {		//点赞好友
+				NewHelp.closescene();
+			}
+				break
+			case 'time_slot_login': {		//点赞好友
+				SceneManager.addNotice("还没到时间，不要着急哦")
+			}
+				break
+			case 'first_water': {		//点赞好友
+				NewHelp.closescene();
+			}
+				break
+		}
+	}
+
+
+
+	//跳转场景
+	private static tojump(needCloseTask: boolean, image: string) {
+		if (needCloseTask) {
+			SceneManager.instance.getTaskScene().dispatchEventWith(MaskEvent.REMOVEMASK)
+		}
+		SceneManager.addJump(image);
+	}
+
 }
 
 
@@ -2184,5 +2529,11 @@ enum propId {
 	lanzi,
 	youjifei,
 	fuhefei,
-	shuirongfei
+	shuirongfei,
+	jiandao,
+	duckfood,
+	insect,
+	grass,
+	dianzan,
+	duckegg,
 }

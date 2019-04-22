@@ -22,8 +22,8 @@ class SceneManager {
     public duihuanScene: DuihuanScene;
     public warehouseScene: WarehouseScene;
 
-    public friendlist_scrollV:number;
-    
+    public friendlist_scrollV: number;
+
     //-----------------------------------------------------------------------------------------------------------------------------//
     public newmainScene: newMainScene;
     public StageItems: newStageItems;
@@ -41,8 +41,8 @@ class SceneManager {
     /**
      * 关闭分享遮罩
      */
-    public closeJumpMark(){
-        if(this.jumpMark && this._stage.contains(this.jumpMark)){
+    public closeJumpMark() {
+        if (this.jumpMark && this._stage.contains(this.jumpMark)) {
             let evt: MaskEvent = new MaskEvent(MaskEvent.SHARECLOSE);
             this.jumpMark.dispatchEvent(evt);
         }
@@ -373,6 +373,7 @@ class SceneManager {
         // 把互动场景添加到主场景中
         NewHelp.addmask();
         this.instance._stage.addChild(this.instance.signinScene)
+        this.instance.taskScene.taskDataInit();
     }
 
 
@@ -394,7 +395,7 @@ class SceneManager {
         NewHelp.addmask();
         this.instance.NewfriendScene.getFriends();                   //获取好友列表数据
         this.instance._stage.addChild(this.instance.NewfriendScene);
-        
+
     }
 
     /**
@@ -438,19 +439,19 @@ class SceneManager {
         if (SceneManager.instance.landId == 1) {
             this.treeprompt.x = 400;
             if (Datamanager.getNowtreedata().stage == "1") {
-                this.treeprompt.y = 840;
+                this.treeprompt.y = 830;
             }
             else {
-                this.treeprompt.y = 670;
+                this.treeprompt.y = 640;
             }
         }
         else if (SceneManager.instance.landId == 2) {
-            this.treeprompt.x = 350;
+            this.treeprompt.x = 380;
             if (Datamanager.getNowtreedata().stage == "1") {
-                this.treeprompt.y = 920;
+                this.treeprompt.y = 940;
             }
             else {
-                this.treeprompt.y = 680;
+                this.treeprompt.y = 700;
             }
         }
         this.treepromptgro.addChild(this.treeprompt);
@@ -475,11 +476,11 @@ class SceneManager {
         this.treeprompt.setPrompt(info);
         if (SceneManager.instance.landId == 1) {
             this.treeprompt.x = 400;
-            this.treeprompt.y = 840;
+            this.treeprompt.y = 830;
         }
         else if (SceneManager.instance.landId == 2) {
-            this.treeprompt.x = 350;
-            this.treeprompt.y = 920;
+            this.treeprompt.x = 380;
+            this.treeprompt.y = 940;
         }
         this.treepromptgro.addChild(this.treeprompt);
     }

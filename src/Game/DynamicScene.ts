@@ -27,7 +27,7 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 			, this);
 		this.scr_dyn.verticalScrollBar = null;
 		this.scr_dyn.bounces = null;
-		this.list_dyn.useVirtualLayout = false;
+		this.list_dyn.useVirtualLayout = true;
 		this.list_dyn.dataProvider = this.euiArr;
 		this.list_dyn.itemRenderer = dynList_item;
 	}
@@ -73,6 +73,7 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 				dyndata_user.push(dyndata[i].mainUser);
 			}
 		}
+		dyndata_user = this.uniq(dyndata_user);
 		for (let i = 0; i < dyn_data.length; i++) {
 			this.euiArr.addItem(dyn_data[i])
 		}
@@ -84,6 +85,7 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 		}
 
 		if (dyndata_user && dyndata_user.length > 0) {
+			
 			let params = {
 				users: dyndata_user.join(",")
 			};
@@ -92,22 +94,20 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 	}
 
 	private Req_getWechatImg(Data, data) {
+		console.log(data,"动态")
 		data = data.data;
 		if (data && typeof data === "string") {
 			data = JSON.parse(data)
 		}
-		// Help.savedynIcon(data);
-		let dyndata = Data.data.list;
 		if (data) {
 			var size = this.euiArr.source.length
 			for (var a = 0; a < size; a++) {
 				var obj = this.euiArr.source[a]
 				if (obj.mainUser && data[obj.mainUser]) {
 					this.euiArr.source[a].userIcon = data[obj.mainUser]
+					this.euiArr.itemUpdated(this.euiArr.source[a])
 				}
 			}
-			// //刷新数据源，加快加载
-			this.euiArr.refresh()
 		}
 
 		// this.euiArr.addItem({state:true,createDate:"2018-11-30 10:41:44"});
@@ -208,7 +208,9 @@ class dynList_item extends eui.ItemRenderer {
 
 	}
 	private onComplete() {
-
+		this.dyn_toother.visible = false;
+		this.currentState = "day"
+		this.user_icon.texture = RES.getRes("gamelogo");
 	}
 
 	// 当数据改变时，更新视图
@@ -229,7 +231,7 @@ class dynList_item extends eui.ItemRenderer {
 
 			// HttpRequest.imageloader(Config.picurl + Help.getdynIcon()[this.data.mainUser], this.user_icon, this.data.mainUser);
 			if (this.data.userIcon) {
-				var err = HttpRequest.imageloader(Config.picurl + this.data.friendIcon, this.user_icon, this.data.mainUser);
+				var err = HttpRequest.imageloader(Config.picurl + this.data.userIcon, this.user_icon, this.data.mainUser);
 				if (err && err == 1) {
 					this.user_icon.texture = RES.getRes("gamelogo")
 				}

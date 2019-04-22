@@ -19,7 +19,7 @@ class NewFriendScene extends eui.Component implements eui.UIComponent {
         this.friend_toself.addEventListener(egret.TouchEvent.TOUCH_TAP, this.toSelfTree, this)
         this.y = SceneManager.sceneManager._stage.height - this.height;
         this.friend_scr.verticalScrollBar = null;
-        this.friend_list.useVirtualLayout = false;
+        // this.friend_list.useVirtualLayout = false;                              //是否使用虚拟布局（默认为true）
         this.friend_list.dataProvider = this.friendsdata;
         this.friend_list.itemRenderer = NewFriendList_item;
         this.friend_list.addEventListener(eui.ItemTapEvent.ITEM_TAP, this.toOtherTree, this);
@@ -93,7 +93,7 @@ class NewFriendScene extends eui.Component implements eui.UIComponent {
 
         let params = {
             pageNo: this.page,
-            numPerPage: 6
+            numPerPage: 10
         };
         MyRequest._post("game/getFriends", params, this, this.Req_getFriends.bind(this, userid), null);
 
@@ -102,14 +102,15 @@ class NewFriendScene extends eui.Component implements eui.UIComponent {
 
     //查询好友列表成功后处理
     private Req_getFriends(userid, data): void {
-        console.log("好友数据", data)
         var Data = data;
         let friend_data = Data.data.list;
         var friend_user = [];
+        var nowscrollV = this.friend_list.scrollV;
         for (let i = 0; i < friend_data.length; i++) {
             friend_user.push(friend_data[i].friendUser)
             this.friendsdata.addItem(friend_data[i]);
         }
+        this.friend_list.scrollV = nowscrollV;
 
         if (friend_user && friend_user.length > 0) {
             let params = {
@@ -138,10 +139,10 @@ class NewFriendScene extends eui.Component implements eui.UIComponent {
                 var obj = this.friendsdata.source[a]
                 if(data[obj.friendUser]){
                     this.friendsdata.source[a].friendIcon = data[obj.friendUser]
+                    this.friendsdata.itemUpdated(this.friendsdata.source[a])
                 }
             }
-            // //刷新数据源，加快加载
-            this.friendsdata.refresh()
+            console.log(this.friendsdata,"好友数据")
         }
     }
 
@@ -163,6 +164,7 @@ class NewFriendScene extends eui.Component implements eui.UIComponent {
             this.page = 1;
             this.friendsdata.removeAll();
             this.isLastPage = false;
+            this.friend_list.scrollV = 0;
             NewHelp.removemask();
             this.parent.removeChild(this);
         }

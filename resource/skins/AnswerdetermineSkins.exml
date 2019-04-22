@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="AnswerdetermineSkins" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Group width="520" height="374" x="0" y="0">
+		<e:Rect width="100%" height="100%" ellipseWidth="50" ellipseHeight="50" x="0" y="0" fillColor="0x904a26"/>
+		<e:Group width="510" height="271" y="5" horizontalCenter="0">
+			<e:Image y="0" source="act_determine_bg_png" width="510" horizontalCenter="0" height="271" x="0" scaleX="1" scaleY="1"/>
+			<e:Label text="答题还没有完成哦，是否确定\n提交结束？" y="75" horizontalCenter="0" fontFamily="Microsoft YaHei" textColor="0x9e4a1b" size="28" textAlign="center" lineSpacing="10"/>
+			<e:Label text="（每天只有一次答题机会哦！）" bottom="51" horizontalCenter="0" textColor="0x212121" fontFamily="Microsoft YaHei" size="22"/>
+		</e:Group>
+		<e:Group id="btn_determine" x="5" bottom="0">
+			<e:Image x="0" source="act_determine_btn1_png" bottom="5" width="252"/>
+			<e:Label text="是" horizontalCenter="0" verticalCenter="0" size="32" fontFamily="Microsoft YaHei" bold="true"/>
+		</e:Group>
+        <e:Group id="btn_cancel" bottom="0" right="0">
+			<e:Image source="act_determine_btn2_png" right="5" bottom="5"/>
+					<e:Label text="否" verticalCenter="0" horizontalCenter="0" fontFamily="Microsoft YaHei" size="32"/>
+		</e:Group>
+	</e:Group>
+</e:Skin>

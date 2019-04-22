@@ -132,7 +132,7 @@ class DuihuanList_item extends eui.ItemRenderer {
             this.prop.texture = RES.getRes("duckfood_png")
         }
         else if (this.data.rewardRule.propType == 3 && !this.data.rewardRule.propId) {
-            this.prop.texture = RES.getRes("huafeiicon_png")
+            this.prop.texture = RES.getRes("allhuafei_png")
         }
         else {
             if (this.data.rewardRule.propId == 1) {

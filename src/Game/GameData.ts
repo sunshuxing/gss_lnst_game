@@ -142,6 +142,8 @@ declare class Task {
     lastFinishedTime:any             //最后完成时间
     intervalCancleTime:any           //冷却完毕时间
     leftTimeStr:any                   //冷却时间字符串
+    otherJson:any;
+    showType:any;
 }
 
 /**

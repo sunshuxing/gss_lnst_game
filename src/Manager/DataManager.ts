@@ -12,6 +12,8 @@ class Datamanager {
     private static ducklanguagedata          //鸭语数据
     private static taskdata                  //任务数据
     private static finishedtaskdata          //已完成任务数据
+    private static taskreceivedata          //
+
 
     /**
      * 保存当前鸭语数据
@@ -182,6 +184,37 @@ class Datamanager {
         return this.taskdata;
     }
 
+
+    /**
+     * 根据显示类型获取任务数据
+     */
+    public static gettaskdataBytype(type) {
+        if (this.taskdata) {
+            let newtask = [];
+            for (let i = 0; i < this.taskdata.length; i++) {
+                if (type == this.taskdata[i].showType || this.taskdata[i].showType == 2) {
+                    newtask.push(this.taskdata[i])
+                }
+            }
+            return newtask;
+        }
+    }
+
+
+    /**
+     * 保存可领取任务数据
+     */
+
+    public static savetaskreceivedata(data) {
+        this.taskreceivedata = data;
+    }
+
+    /**
+     * 获取可领取任务数据
+     */
+    public static gettaskreceivedata() {
+        return this.taskreceivedata;
+    }
     /**
      * 获取阅读任务数据 
      */

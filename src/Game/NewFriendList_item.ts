@@ -10,7 +10,7 @@ class NewFriendList_item extends eui.ItemRenderer {
     private friend_hand: eui.Image;
     private friend_grass: eui.Image;
     private friend_insect: eui.Image;
-
+    private i = 0;
     public constructor() {
         super()
         // 把这个 类和皮肤 联系起来
@@ -26,9 +26,20 @@ class NewFriendList_item extends eui.ItemRenderer {
         SceneManager.sceneManager.getNewfriendScene().friend_list.scrollV = SceneManager.sceneManager.friendlist_scrollV;
     }
 
+    private isselect() {
+        if (this.data && Datamanager.getnowfrienddata()) {
+            if (this.data.friendUser == Datamanager.getnowfrienddata().friendUser && SceneManager.sceneManager.StageItems.currentState =='friendtree') {
+                this.currentState = "downs"
+            }
+            else {
+                this.currentState = "ups"
+            }
+        }
+    }
+
 
     private touchheart() {
-        NewHelp.dianzan(this.data.friendUser);
+        NewHelp.dianzan(this.data.friendUser, this.itemIndex);
     }
 
     /**
@@ -102,14 +113,16 @@ class NewFriendList_item extends eui.ItemRenderer {
 
     // 当数据改变时，更新视图
     protected dataChanged() {
+        this.currentState = "ups"
+        this.friend_icon.texture = RES.getRes("gamelogo")
+        this.isselect();
         let user = this.data.friendUser
-        // HttpRequest.imageloader(Config.picurl + Help.getfriendIcon()[user], this.friend_icon, user);
-        if(this.data.friendIcon){
+        if (this.data.friendIcon) {
             var err = HttpRequest.imageloader(Config.picurl + this.data.friendIcon, this.friend_icon, user);
-            if(err && err == 1){
+            if (err && err == 1) {
                 this.friend_icon.texture = RES.getRes("gamelogo")
             }
-        }else{
+        } else {
             this.friend_icon.texture = RES.getRes("gamelogo")
         }
         if (SceneManager.instance.weixinUtil.login_user_id == this.data.friendUser) {                 //当前数据是自己的数据
