@@ -26,6 +26,8 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 	public act_red: eui.Rect;
 	public btn_tohome: eui.Group;
 	public own_icon: eui.Image;
+	public tree_receive_info: eui.Label;
+	public pick_time: eui.Group;
 
 	protected childrenCreated(): void {
 		super.childrenCreated();
@@ -59,6 +61,7 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 		this.sysmsg_group.addEventListener(egret.TouchEvent.TOUCH_TAP, this.tosysmsginfo, this);
 		this.btn_tohome.addEventListener(egret.TouchEvent.TOUCH_TAP, this.toSelfTree, this)
 		this.BarGroup.touchThrough = true;
+		NewHelp.getnowDate();
 	}
 
 
@@ -135,7 +138,12 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 			})
 		}
 		else if (this.currentState == "friendtree") {
-			NewHelp.friendpick(Datamanager.getNowtreedata().id);
+			if (NewHelp.isSteal) {
+				NewHelp.friendpick(Datamanager.getNowtreedata().id);
+			}
+			else {
+				NewHelp.StealGood()
+			}
 		}
 	}
 
@@ -414,12 +422,16 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 		if (!data) {
 			return;
 		}
+		image.texture = RES.getRes("gamelogo");
 		data = data.data;
 		if (data && typeof data === "string") {
 			data = JSON.parse(data)
 		}
 		let imgUrl = Config.picurl + data[user];
-		HttpRequest.imageloader(imgUrl, image, user);
+		var err = HttpRequest.imageloader(imgUrl, image, user);
+		if (err && err == 1) {
+			image.texture = RES.getRes("gamelogo")
+		}
 	}
 	//---------------------------------------------------------------------好友列表---------------------------------------------------------------------//
 
@@ -427,9 +439,8 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 	//---------------------------------------------------------------------icon点击(未完成)---------------------------------------------------------------------//
 
 	private btn_dynamic: eui.Group;			//动态按钮
-	private btn_signin: eui.Group;			//签到按钮
 	private btn_task: eui.Group;			//任务按钮
-	private btn_fertilizer: eui.Group;		//化肥按钮
+
 	private btn_store: eui.Group;			//商城按钮
 	public dynamic: eui.Group;				//动态组
 	public dynamic_bg: eui.Image;			//动态背景
@@ -467,9 +478,7 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 		NewHelp.updateprop();																					//道具数量显示	
 		this.btn_warehouse.addEventListener(egret.TouchEvent.TOUCH_TAP, this.toWarehouse, this);
 		this.btn_dynamic.addEventListener(egret.TouchEvent.TOUCH_TAP, this.ToDynamicScene, this);				//动态按钮点击监听
-		this.btn_signin.addEventListener(egret.TouchEvent.TOUCH_TAP, this.ToSignInScene, this);					//签到按钮点击监听
 		this.btn_task.addEventListener(egret.TouchEvent.TOUCH_TAP, this.ToTaskScene, this);						//任务按钮点击监听
-		this.btn_fertilizer.addEventListener(egret.TouchEvent.TOUCH_TAP, this.TohuafeiScene, this);				//化肥按钮点击监听
 		this.btn_store.addEventListener(egret.TouchEvent.TOUCH_TAP, this.tostroe, this);						//商城按钮点击监听
 		this.hudong_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.ToInteractiveScene, this);			//互动按钮点击监听
 		this.btn_kettle.addEventListener(egret.TouchEvent.TOUCH_TAP, this.addwater, this);						//自己水壶点击监听
@@ -650,10 +659,6 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 		SceneManager.sceneManager.getDuihuanScene().searchOwnPraise();			//获取好友点赞头像
 		SceneManager.toDuihuanScene();
 	}
-
-	/**
-	 * 
-	 */
 
 
 	/**

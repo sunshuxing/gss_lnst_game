@@ -33,6 +33,8 @@ class SceneManager {
 
     public NewfriendScene: NewFriendScene;
 
+    public duckdetailScene: DuckDetailScene;
+
     constructor() {
         this.weixinUtil = WeixinUtil.getInstance();
         this.friendSign = MyRequest.geturlstr("friendSign")
@@ -103,6 +105,7 @@ class SceneManager {
         }
         return this.NewfriendScene;
     }
+
 
 	/**
      * 获取实例
@@ -383,10 +386,14 @@ class SceneManager {
         NewHelp.addmask();
         localStorage.setItem("huafeisee", "true");
         this.instance._stage.addChild(this.instance.huafeiScene)
-        SceneManager.sceneManager.StageItems.huafei_red.visible = false;
     }
 
 
+    static toduckdetailScene(duckdata){
+        this.instance.duckdetailScene = new DuckDetailScene(duckdata);
+        NewHelp.addmask();
+        this.instance._stage.addChild(this.instance.duckdetailScene)
+    }
 
     static tofriendScene() {
         if (!this.instance.NewfriendScene) {

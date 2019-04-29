@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="DuckDetailSkins" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Group width="624" height="777" x="0" y="0">
+		<e:Image width="624" height="777" x="0" y="0" source="duckdetail_bg_png"/>
+		<e:Group horizontalCenter="0" y="80">
+			<e:Image width="432" height="384" y="0" source="duckdetail_top_bg_png" x="0" scaleX="1" scaleY="1"/>
+			<e:Image id="duck_img" source="smallduck_png" verticalCenter="-39" horizontalCenter="0"/>
+			<e:Label id="duck_stage" text="阶段" scaleX="1" scaleY="1" y="299" textColor="0x7f7865" size="24" fontFamily="Microsoft YaHei" bold="true" horizontalCenter="0"/>
+			<e:ProgressBar id="duck_progress" skinName="ProgressSkins" y="337" x="67" width="299" height="25"/>
+			<e:Label id="progress_off" text="" y="340" anchorOffsetY="0" fontFamily="Arial" size="20" horizontalCenter="0.5"/>
+		</e:Group>
+		<e:Group x="96" y="480">
+			<e:Image source="duckdetail_bottom_bg_png" y="0" x="0" width="432" height="217" scaleX="1" scaleY="1"/>
+			<e:Scroller id="duck_detail_scr" width="390" height="174" x="20" y="20">
+				<e:Group>
+					<e:Label text="兑换详情" y="5" textColor="0x7f7865" bold="true" size="24" fontFamily="Microsoft YaHei" horizontalCenter="0"/>
+					<e:Label id="duck_detail_label" text="" y="35.68" left="0" size="20" fontFamily="Microsoft YaHei" textColor="0x7f7865" maxWidth="390" lineSpacing="8"/>
+				</e:Group>
+			</e:Scroller>
+		</e:Group>
+	</e:Group>
+</e:Skin>

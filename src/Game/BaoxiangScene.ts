@@ -45,7 +45,7 @@ class BaoxiangScene extends eui.Component implements eui.UIComponent {
 			}
 		}
 		if (Data[1]) {
-			this.reward1Num.text = Data[1].propName + "x" + Data[2].propNum + "g";
+			this.reward1Num.text = Data[1].propName + "x" + Data[1].propNum + "g";
 			if (Data[1].propId == 1) {
 				this.reward1icon.texture = RES.getRes("icon_water_png");
 			} else if (Data[1].propId == 4) {

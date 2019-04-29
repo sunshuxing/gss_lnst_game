@@ -4,7 +4,7 @@
 	<e:Group width="718" height="140" x="0" y="0">
 		<e:Rect width="100%" height="100%" x="0" y="0" fillColor="0xffebcb" />
 
-		<e:Label id="name_task" text="每日分享" y="31" fontFamily="Microsoft YaHei" size="30" textColor="0x212121"  left="16"/>
+		<e:Label id="name_task" text="每日分享" y="31" fontFamily="Microsoft YaHei" size="30" textColor="0x212121"  left="16" strokeColor="0x000000"/>
 		<e:Label id="description_task" text="" y="77" fontFamily="Microsoft YaHei" size="24"
 		         textColor="0x969696"  left="16" lineSpacing="5"/>
 
@@ -26,7 +26,7 @@
 		</e:Group>
 		<e:Group id="can_finish" width="150" height="56" x="552" y="42" includeIn="can_finish">
 			<e:Rect width="100%" height="100%" x="0" y="0" ellipseWidth="56" ellipseHeight="56"  fillColor="0xe4ab65"/>
-			<e:Label text="去完成" size="24" fontFamily="Microsoft YaHei" horizontalCenter="0" verticalCenter="0"  textColor="0x8e4717"/>
+			<e:Label id="can_finish_label" text="去完成" size="24" fontFamily="Microsoft YaHei" horizontalCenter="0" verticalCenter="0"  textColor="0x8e4717"/>
 		</e:Group>
 		<e:Image id="receive" x="552" y="42" includeIn="receive" width="150" height="56" source="task_receive_btn_png"/>
 

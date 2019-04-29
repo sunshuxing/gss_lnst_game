@@ -31,12 +31,10 @@
             <e:Image id="duck_img" width="120" height="120" horizontalCenter="-28.5" verticalCenter="-42"  anchorOffsetY="0" anchorOffsetX="0"/>
 
 
-            <e:Image id="duck_hungry_img" x="84.1" y="29.03" source="duck_hungry_png" anchorOffsetX="150"
-                     anchorOffsetY="98"  visible="false"/>
-            <e:Image id="duck_take" x="82.58" y="27.52" source="keshouqu_png" anchorOffsetX="150" anchorOffsetY="98"
-                      visible="false"/>
 
-            <e:Group id="duck_language_gro" width="153" height="122" x="-68" y="-70" scaleX="1" scaleY="1"
+
+
+            <e:Group id="duck_language_gro" width="153" height="122" x="-166" y="-73" scaleX="1" scaleY="1"
                      anchorOffsetX="0" anchorOffsetY="0" />
         </e:Group>
         <e:Image id="tree" anchorOffsetY="0" anchorOffsetX="0" scaleX="1" scaleY="1" x="368.68" y="939.86" source="" />

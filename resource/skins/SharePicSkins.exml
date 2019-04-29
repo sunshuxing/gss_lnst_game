@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="SharePicSkins" width="750" height="1344" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Image width="100%" height="100%" x="0" y="0" source="panel-bg" scale9Grid="4,4,24,24" alpha="0.8"/>
+	<e:Image width="100%" height="1618.24" x="0" y="-274.24" source="panel-bg" scale9Grid="4,4,24,24" alpha="0.8" anchorOffsetY="0"/>
 	<e:Image x="0" source="sharepicbg_png" y="43"/>
 	<e:Image y="124" source="sharetop_png" horizontalCenter="0.5"/>
 	<e:Group id="minsharegro" width="700" height="560" y="261" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="0">

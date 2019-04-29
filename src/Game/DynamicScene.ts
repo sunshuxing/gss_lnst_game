@@ -85,7 +85,7 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 		}
 
 		if (dyndata_user && dyndata_user.length > 0) {
-			
+
 			let params = {
 				users: dyndata_user.join(",")
 			};
@@ -94,7 +94,7 @@ class DynamicScene extends eui.Component implements eui.UIComponent {
 	}
 
 	private Req_getWechatImg(Data, data) {
-		console.log(data,"动态")
+		console.log(data, "动态")
 		data = data.data;
 		if (data && typeof data === "string") {
 			data = JSON.parse(data)
@@ -227,8 +227,21 @@ class dynList_item extends eui.ItemRenderer {
 		this.dyn_time.text = Help.getTime(this.data.createDate, "hours");
 		if (this.data.type == 7) {
 			this.user_icon.texture = RES.getRes("gamelogo")
-		} else if (this.data.mainUserIcon) {
-
+		}
+		else if (this.data.type == 50) {
+			if (this.data.mainUserIcon) {
+				var err = HttpRequest.imageloader(Config.picurl + this.data.userIcon, this.user_icon, this.data.mainUser);
+				if (err && err == 1) {
+					this.user_icon.texture = RES.getRes("gamelogo")
+				}
+			} else {
+				let params = {
+					users: SceneManager.instance.weixinUtil.login_user_id
+				}
+				MyRequest._post("game/getWechatImg", params, this, NewHelp.Req_WechatImg.bind(this, SceneManager.instance.weixinUtil.login_user_id, this.user_icon), null);
+			}
+		}
+		else if (this.data.mainUserIcon) {
 			// HttpRequest.imageloader(Config.picurl + Help.getdynIcon()[this.data.mainUser], this.user_icon, this.data.mainUser);
 			if (this.data.userIcon) {
 				var err = HttpRequest.imageloader(Config.picurl + this.data.userIcon, this.user_icon, this.data.mainUser);
@@ -293,7 +306,23 @@ class dynList_item extends eui.ItemRenderer {
 		}
 		else if (this.data.type == 7) {
 			this.dyn_toother.visible = false;
-			this.dyn_label.text = "我获得了" + this.data.num + "个" + this.getpropname(this.data);
+			if (this.data.getType && this.data.getType != "") {
+				if (this.data.getType == 0) {									//道具
+					this.dyn_label.text = "我获得了" + this.data.num + "个" + this.getpropname(this.data);
+				}
+				else if (this.data.getType == 1) {								//种子
+					this.dyn_label.text = "我获得了" + this.data.num + "个" + this.data.treeName + "种子";
+				}
+				else if (this.data.getType == 2) {								//鸭子
+					this.dyn_label.text = "我获得了" + this.data.num + "个领取鸭子次数";
+				}
+				else if (this.data.getType == 3) {								//订单
+					this.dyn_label.text = "我获得了" + this.data.num + "个" + this.data.treeName + "订单";
+				}		
+				else if (this.data.getType == 4) {								//果实
+					this.dyn_label.text = "我获得了" + this.data.num + "个" + this.data.treeName + "果子";
+				}
+			}
 		}
 		else if (this.data.type == 10) {
 			this.dyn_toother.visible = true;
@@ -328,22 +357,46 @@ class dynList_item extends eui.ItemRenderer {
 			this.dyn_toother.text = "拜访TA>";
 		}
 		else if (this.data.type == 50) {
-			this.dyn_toother.visible = true;
 			let info = ""
-			if (this.data.num > 0) {
-				info = "帮你摘了" + this.data.num + "个果子哦";
-			} else {
-				info = "手气不佳，没有帮我摘到果子哦"
+			if (this.data.mainUserName && this.data.mainUserName != "") {
+				this.dyn_toother.visible = true;
+				if (this.data.num > 0) {
+					info = "帮你摘了" + this.data.num + "个果子哦";
+				} else {
+					info = "手气不佳，没有帮我摘到果子哦"
+				}
+				this.dyn_label.textFlow = Array<egret.ITextElement>(
+					{ text: Help.getcharlength(this.data.mainUserName, 4), style: { "href": "event:" + this.data.mainUser, "underline": true } }
+					, { text: info }
+				);
+				this.dyn_toother.text = "去TA农场>";
 			}
-			this.dyn_label.textFlow = Array<egret.ITextElement>(
-				{ text: Help.getcharlength(this.data.mainUserName, 4), style: { "href": "event:" + this.data.mainUser, "underline": true } }
-				, { text: info }
-			);
-			this.dyn_toother.text = "去TA农场>";
+			else {
+				this.dyn_toother.visible = false;
+				if (this.data.treeName)
+					info = "帮别人摘了" + this.data.num + "个" + this.data.treeName + "哦";
+				this.dyn_label.text = info;
+			}
 		}
 		else if (this.data.type == 100) {
 			this.dyn_toother.visible = false;
 			this.dyn_label.text = Help.getcharlength(this.data.mainUserName, 4) + "兑换了水果";
+		}
+		else if(this.data.type == 101){
+			let info = ""
+			if (this.data.mainUserName && this.data.mainUserName != "") {
+				this.dyn_toother.visible = true;
+				if (this.data.num > 0) {
+					info = "来偷了" + this.data.num + "个我的果子哦";
+				} else {
+					info = "手气不佳，没有偷到我的果子哦"
+				}
+				this.dyn_label.textFlow = Array<egret.ITextElement>(
+					{ text: Help.getcharlength(this.data.mainUserName, 4), style: { "href": "event:" + this.data.mainUser, "underline": true } }
+					, { text: info }
+				);
+				this.dyn_toother.text = "去TA农场>";
+			}
 		}
 		else if (this.data.type == 201) {
 			this.dyn_toother.visible = false;

@@ -141,6 +141,11 @@ class NewHelp {
 			this.removemask();
 			return;
 		}
+		if (SceneManager.sceneManager.duckdetailScene.parent) {
+			SceneManager.sceneManager.duckdetailScene.parent.removeChild(SceneManager.sceneManager.duckdetailScene)
+			this.removemask();
+			return;
+		}
 	}
 
 	// 移除遮罩
@@ -733,48 +738,9 @@ class NewHelp {
 		console.log("自己道具", data)
 		Datamanager.savePropdata(data.data);
 		var Data = data;
-		let likeNum = NewHelp.getNumByProptype(data.data, 4) ? NewHelp.getNumByProptype(Data.data, 4).num : "0";
-		SceneManager.sceneManager.StageItems.like_num.text = likeNum;												//点赞数
-
-		let loveNum = Help.getPropById(Data.data, 2) ? Help.getPropById(Data.data, 2).num : "0";
 		// 显示自己道具数值
-		SceneManager.sceneManager.getHuafeiScene().duckfood_num.text = Help.getPropById(Data.data, 8) ? Help.getPropById(Data.data, 8).num : 0;
 		SceneManager.sceneManager.StageItems.kettle_num.text = (Help.getPropById(Data.data, 1) ? Help.getPropById(Data.data, 1).num : 0) + "g";    //水滴数量
-		SceneManager.sceneManager.getHuafeiScene().youji_num.text = Help.getPropById(Data.data, 4) ? Help.getPropById(Data.data, 4).num : 0;			   //有机肥数量
-		SceneManager.sceneManager.getHuafeiScene().fuhe_num.text = Help.getPropById(Data.data, 5) ? Help.getPropById(Data.data, 5).num : 0;			   //复合肥数量
-		SceneManager.sceneManager.getHuafeiScene().shuirong_num.text = Help.getPropById(Data.data, 6) ? Help.getPropById(Data.data, 6).num : 0;		   //水溶肥数量
-		SceneManager.sceneManager.getHuafeiScene().insect_num.text = Help.getPropById(Data.data, 9) ? Help.getPropById(Data.data, 9).num : 0;		   //虫数量
-		SceneManager.sceneManager.getHuafeiScene().grass_num.text = Help.getPropById(Data.data, 10) ? Help.getPropById(Data.data, 10).num : 0;		   //草数量
-
-		/**
-		 * 化肥红点判断
-		 */
-		let youji = Help.getPropById(Data.data, 4);																					//有机肥数量
-		let fuhe = Help.getPropById(Data.data, 5);																					//复合肥数量
-		let shuirong = Help.getPropById(Data.data, 6);																				//水溶肥数量
-		let grass = Help.getPropById(Data.data, 10);
-		let insect = Help.getPropById(Data.data, 9);
-		let huafeiNum = Number(youji ? youji.num : 0) + Number(fuhe ? fuhe.num : 0) + Number(shuirong ? shuirong.num : 0) + Number(grass ? grass.num : 0) + Number(insect ? insect.num : 0);
-		let bagpropNum = Number()
-		if (localStorage.getItem("huafeiNum")) {
-			if (huafeiNum > Number(localStorage.getItem("huafeiNum")) || localStorage.getItem("huafeisee") == "false") {
-				SceneManager.sceneManager.StageItems.huafei_red.visible = true;
-				localStorage.setItem("huafeisee", "false");
-			}
-			else {
-				SceneManager.sceneManager.StageItems.huafei_red.visible = false;
-			}
-		}
-		else {
-			if (huafeiNum > 0) {
-				SceneManager.sceneManager.StageItems.huafei_red.visible = true;
-				localStorage.setItem("huafeisee", "false");
-			}
-			else {
-				SceneManager.sceneManager.StageItems.huafei_red.visible = false;
-			}
-		}
-		localStorage.setItem("huafeiNum", String(huafeiNum));
+		SceneManager.sceneManager.StageItems.like_num.text = (Help.getPropById(Data.data, 11) ? Help.getPropById(Data.data, 11).num : 0);    		//点赞数量
 	}
 
 	/**
@@ -883,6 +849,7 @@ class NewHelp {
 
 	//使用道具成功后处理
 	private static Req_useProp(propId, data): void {
+		NewHelp.closescene();
 		this.canPost = true;
 		SceneManager.sceneManager.newmainScene.progress.slideDuration = 6000;
 		var Data = data;
@@ -895,29 +862,17 @@ class NewHelp {
 		}
 		else if (propId == 9) {										//使用虫
 			SceneManager.addNotice("使用成功！")
-			this.getOwnDuck()
 			NewHelp.updateprop()
-			let time = new Date().getTime();
-			localStorage.setItem("duckeat", String(time));
-			// NewHelp.duck_hungryTwn()
 			NewHelp.duckeatTwn("usedinsect_png")
 		}
 		else if (propId == 10) {									//使用草
 			SceneManager.addNotice("使用成功！")
-			this.getOwnDuck()
 			NewHelp.updateprop()
-			let time = new Date().getTime();						//使用时间
-			localStorage.setItem("duckeat", String(time));
-			// NewHelp.duck_hungryTwn()
 			NewHelp.duckeatTwn("usedgrass_png")
 		}
 		else if (propId == 8) {										//使用鸭食
 			SceneManager.addNotice("使用成功！")
-			this.getOwnDuck();
 			NewHelp.updateprop()
-			let time = new Date().getTime();
-			localStorage.setItem("duckeat", String(time));
-			// NewHelp.duck_hungryTwn()
 			NewHelp.duckeatTwn("duckfood_png")
 		}
 	}
@@ -1304,7 +1259,13 @@ class NewHelp {
 		this.ducklanguageTimer.start();
 	}
 
+	public static stopducklanguage(){
+		this.ducklanguageTimer.stop();
+	}
 
+	public static startducklanguage(){
+		this.ducklanguageTimer.start();
+	}
 
 	//------------------------------------------------------------------------头像----------------------------------------------------------------------------//
 
@@ -1428,6 +1389,9 @@ class NewHelp {
 		}
 	}
 
+
+	private static timer
+
 	/**
 	 * 可摘果文字和手显示
 	 * treedata:果树数据
@@ -1447,11 +1411,48 @@ class NewHelp {
 					}
 					SceneManager.sceneManager.StageItems.gro_pick.visible = true;
 					SceneManager.sceneManager.StageItems.pick_label.text = "可摘果";
-					egret.Tween.get(SceneManager.sceneManager.StageItems.pick_hand, { loop: true })
-						.to({ y: SceneManager.sceneManager.StageItems.pick_hand.y - 20 }, 500)
-						.to({ y: SceneManager.sceneManager.StageItems.pick_hand.y }, 500)
-						.to({ y: SceneManager.sceneManager.StageItems.pick_hand.y + 20 }, 500)
-						.to({ y: SceneManager.sceneManager.StageItems.pick_hand.y }, 500)
+					SceneManager.sceneManager.StageItems.pick_time.visible = false;
+					if (this.timer) {
+						clearInterval(this.timer)
+					}
+					if (treedata.fruitTime) {
+						SceneManager.sceneManager.StageItems.pick_hand.visible = false;
+						SceneManager.sceneManager.StageItems.pick_label.visible = false;
+						let time = new Date(treedata.fruitTime).getTime()
+						time = time + Number(treedata.receiveDelay * 1000 * 60)
+						this.timer = setInterval(() => {
+							let text = SceneManager.instance.getTaskScene().dateDif(time, this.timer)
+							text = text.slice(3);
+							SceneManager.sceneManager.StageItems.tree_receive_info.text = text;
+							if (text) {
+								if (!SceneManager.sceneManager.StageItems.pick_time.visible) {
+									SceneManager.sceneManager.StageItems.pick_time.visible = true;
+									SceneManager.sceneManager.StageItems.pick_label.visible = true;
+								}
+								SceneManager.sceneManager.StageItems.pick_hand.visible = false;
+							}
+							else {
+								if (SceneManager.sceneManager.StageItems.pick_time.visible) {
+									SceneManager.sceneManager.StageItems.pick_time.visible = false;
+								}
+								SceneManager.sceneManager.StageItems.pick_hand.visible = true;
+								SceneManager.sceneManager.StageItems.pick_label.visible = true;
+								egret.Tween.get(SceneManager.sceneManager.StageItems.pick_hand, { loop: true })
+									.to({ y: SceneManager.sceneManager.StageItems.pick_hand.y - 20 }, 500)
+									.to({ y: SceneManager.sceneManager.StageItems.pick_hand.y }, 500)
+									.to({ y: SceneManager.sceneManager.StageItems.pick_hand.y + 20 }, 500)
+									.to({ y: SceneManager.sceneManager.StageItems.pick_hand.y }, 500)
+							}
+						}, 1000);
+					}
+					else {
+						SceneManager.sceneManager.StageItems.pick_hand.visible = true;
+						egret.Tween.get(SceneManager.sceneManager.StageItems.pick_hand, { loop: true })
+							.to({ y: SceneManager.sceneManager.StageItems.pick_hand.y - 20 }, 500)
+							.to({ y: SceneManager.sceneManager.StageItems.pick_hand.y }, 500)
+							.to({ y: SceneManager.sceneManager.StageItems.pick_hand.y + 20 }, 500)
+							.to({ y: SceneManager.sceneManager.StageItems.pick_hand.y }, 500)
+					}
 				}
 				else {
 					SceneManager.sceneManager.StageItems.gro_pick.visible = false;
@@ -1537,6 +1538,7 @@ class NewHelp {
 				.to({ y: SceneManager.sceneManager.StageItems.pick_hand.y }, 500)
 				.to({ y: SceneManager.sceneManager.StageItems.pick_hand.y + 20 }, 500)
 				.to({ y: SceneManager.sceneManager.StageItems.pick_hand.y }, 500)
+			this.isSteal = false;
 		}
 		else {
 			SceneManager.sceneManager.StageItems.gro_pick.visible = false;
@@ -1648,13 +1650,16 @@ class NewHelp {
 			let time = new Date(Signdate);
 			if (time.getDate() == nowdate.getDate() && time.getMonth() == nowdate.getMonth()) {
 				SceneManager.sceneManager.StageItems.sign_gro.visible = false;
+				SceneManager.sceneManager.getSigninScene().sign_red.visible = false;
 			}
 			else {
 				SceneManager.sceneManager.StageItems.sign_gro.visible = true;
+				SceneManager.sceneManager.getSigninScene().sign_red.visible = true;
 			}
 		}
 		else {
 			SceneManager.sceneManager.StageItems.sign_gro.visible = true;
+			SceneManager.sceneManager.getSigninScene().sign_red.visible = true;
 		}
 
 	}
@@ -1788,7 +1793,10 @@ class NewHelp {
 	/**
 	 * 获取道具图片
 	 */
-	public static gettextrueBypropid(propid) {
+	public static gettextrueBypropid(propid?, propType?) {
+		if (propType == 51) {						//鸭子
+			return "duck_png"
+		}
 		if (propid == propId.shuidi) {
 			return "icon_water_png"
 		}
@@ -1987,7 +1995,6 @@ class NewHelp {
 			this.getDuckList();
 			Datamanager.savenowDuckdata(null);
 			SceneManager.sceneManager.newmain2Scene.updateduck(null);
-			SceneManager.sceneManager.newmain2Scene.duck_img.visible = false;
 		}
 	}
 
@@ -2102,69 +2109,6 @@ class NewHelp {
 		console.log(data, "偷别人鸭蛋数据")
 	}
 
-	/**
-	 *鸭子饥饿动画 
-	 */
-	// public static duck_hungryTwn() {
-	// 	if (SceneManager.sceneManager.StageItems.currentState == "friendtree") {
-	// 		SceneManager.sceneManager.newmain2Scene.duck_hungry_img.visible = false;
-	// 		return;
-	// 	}
-	// 	if (Datamanager.getnowDuckdata() && Datamanager.getnowDuckdata().needTake) {
-	// 		SceneManager.sceneManager.newmain2Scene.duck_hungry_img.visible = false;
-	// 		return;
-	// 	}
-	// 	if (!localStorage.getItem("duckeat")) {										//没有喂食记录
-	// 		if (SceneManager.sceneManager.newmain2Scene) {
-	// 			if (Datamanager.getnowDuckdata()) {
-	// 				let duck_hungry = SceneManager.sceneManager.newmain2Scene.duck_hungry_img
-	// 				duck_hungry.visible = true;
-	// 				egret.Tween.get(duck_hungry, { loop: true })
-	// 					.set({ scaleX: 0, scaleY: 0 })
-	// 					.to({ scaleX: 1, scaleY: 1 }, 1500)
-	// 					.wait(2000)
-	// 			}
-	// 		}
-	// 	}
-	// 	else {																		//有喂食记录
-	// 		let eattime = Number(localStorage.getItem("duckeat"))					//喂食记录时间
-	// 		let nowtime = new Date().getTime();
-	// 		if (nowtime - eattime >= 1000 * 60 * 10) {										//当前时间比喂食时间大于等于10分钟
-	// 			if (SceneManager.sceneManager.newmain2Scene) {
-	// 				if (Datamanager.getnowDuckdata()) {
-	// 					let duck_hungry = SceneManager.sceneManager.newmain2Scene.duck_hungry_img
-	// 					duck_hungry.visible = true;
-	// 					egret.Tween.get(duck_hungry, { loop: true })
-	// 						.set({ scaleX: 0, scaleY: 0 })
-	// 						.to({ scaleX: 1, scaleY: 1 }, 1500)
-	// 						.wait(2000)
-	// 				}
-	// 			}
-	// 		}
-	// 		else {
-	// 			let duck_hungry = SceneManager.sceneManager.newmain2Scene.duck_hungry_img
-	// 			duck_hungry.visible = false;
-	// 			egret.Tween.removeTweens(duck_hungry);
-	// 			let waittime = eattime + (1000 * 60 * 10) - nowtime;
-	// 			setTimeout(function () {
-	// 				if (SceneManager.sceneManager.newmain2Scene) {
-	// 					if (Datamanager.getnowDuckdata() && !Datamanager.getnowDuckdata().needTake) {
-	// 						if (SceneManager.sceneManager.StageItems.currentState == "havetree") {
-	// 							duck_hungry.visible = true;
-	// 							egret.Tween.get(duck_hungry, { loop: true })
-	// 								.set({ scaleX: 0, scaleY: 0 })
-	// 								.to({ scaleX: 1, scaleY: 1 }, 1500)
-	// 								.wait(2000)
-	// 						}
-	// 						else {
-	// 							duck_hungry.visible = false;
-	// 						}
-	// 					}
-	// 				}
-	// 			}, waittime);
-	// 		}
-	// 	}
-	// }
 
 	/**
 	 * 邀请好友
@@ -2182,15 +2126,18 @@ class NewHelp {
 	public static duckeatTwn(texture) {
 		let icon = new eui.Image();
 		icon.texture = RES.getRes(texture);
-		icon.x = -50;
-		icon.y = 900;
-		SceneManager.sceneManager._stage.addChild(icon);
+		icon.x = NewHelp.duck_moive.x - 120;
+		icon.y = NewHelp.duck_moive.y - 120;
+		icon.scaleX = 0.5;
+		icon.scaleY = 0.5;
+		SceneManager.sceneManager.newmain2Scene.addChild(icon);
 		egret.Tween.get(icon)
-			.to({ x: 370, y: 460, scaleY: 0.5, scaleX: 0.5 }, 1500)
-			.call(() => { SceneManager.sceneManager._stage.removeChild(icon) }, this)
+			.to({ x: NewHelp.duck_moive.x + 100, y: NewHelp.duck_moive.y + 80, scaleY: 0.3, scaleX: 0.3 }, 1500)
+			.call(() => {
+				SceneManager.sceneManager.newmain2Scene.removeChild(icon);
+				NewHelp.addduckmovie(DuckMoiveType.eat, Datamanager.getnowDuckdata().stageObj.stage, 10, () => { NewHelp.getOwnDuck() })
+			}, this)
 	}
-
-
 
 	private static needDyn_red = true
 
@@ -2407,13 +2354,14 @@ class NewHelp {
 	public static completetask(code, id?) {
 		switch (code) {
 			case 'browse_goods': {
+				let propid = this.getpropIdbytaskcode(code)
 				if (SceneManager.instance.isMiniprogram) {
 					wx.miniProgram.navigateTo({
-						url: "/pages/game/browseGoods?listType=1&isFinished=false"
+						url: "/pages/game/browseGoods?listType=1&isFinished=false&propId=" + propid
 					})
 				} else {
 					sessionStorage.setItem("fromgame", "true");
-					location.href = Config.webHome + "view/game-browse-goods.html?listType=1&isFinished=false"
+					location.href = Config.webHome + "view/game-browse-goods.html?listType=1&isFinished=false&propId=" + propid
 				}
 			}
 				break;
@@ -2453,28 +2401,30 @@ class NewHelp {
 			}
 				break;
 			case 'any_order': {
+				let propid = this.getpropIdbytaskcode(code)
 				if (SceneManager.instance.isMiniprogram) {
 					//小程序端口taskCode要做参数发送
 					wx.miniProgram.navigateTo({
-						url: "/pages/game/browseGoods?listType=2&backGame=true&taskCode=" + id
+						url: "/pages/game/browseGoods?listType=2&backGame=true&taskCode=" + id + "&propId=" + propid
 					})
 				} else {
 					sessionStorage.setItem("fromgame", "true");
 					sessionStorage.setItem("taskCode", id);
-					location.href = Config.webHome + "view/game-browse-goods.html?listType=2"
+					location.href = Config.webHome + "view/game-browse-goods.html?listType=2&propId=" + propid
 				}
 			}
 				break;
 			case 'specifiy_order': {
+				let propid = this.getpropIdbytaskcode(code)
 				if (SceneManager.instance.isMiniprogram) {
 					//小程序端口taskCode要做参数发送
 					wx.miniProgram.navigateTo({
-						url: "/pages/game/browseGoods?listType=0&backGame=true&taskCode=" + id
+						url: "/pages/game/browseGoods?listType=0&backGame=true&taskCode=" + id + "&propId=" + propid
 					})
 				} else {
 					sessionStorage.setItem("fromgame", "true");
 					sessionStorage.setItem("taskCode", id);
-					location.href = Config.webHome + "view/game-browse-goods.html?listType=0"
+					location.href = Config.webHome + "view/game-browse-goods.html?listType=0&propId=" + propid
 				}
 			}
 				break;
@@ -2510,6 +2460,19 @@ class NewHelp {
 		}
 	}
 
+	private static getpropIdbytaskcode(taskCode) {
+		let taskdata = Datamanager.gettaskdata();
+		for (let i = 0; i < taskdata.length; i++) {
+			if (taskCode == taskdata[i].code && taskdata[i].rewardRule) {
+				if (taskdata[i].rewardRule.propId) {
+					return taskdata[i].rewardRule.propId
+				}
+				else if (taskdata[i].rewardRule.propType) {
+					return -1
+				}
+			}
+		}
+	}
 
 
 	//跳转场景
@@ -2520,6 +2483,485 @@ class NewHelp {
 		SceneManager.addJump(image);
 	}
 
+	//------------------------------------------------------------------------------偷果-------------------------------------------------------------//
+
+	/**
+	 * 检查是否可以偷果
+	 * treedata 数据
+	 */
+	public static CheckStealGood() {
+		if (Datamanager.getNowtreedata()) {							//有数据时检查
+			let params = {
+				isCheck: true,
+				treeUserId: Datamanager.getNowtreedata().id
+			}
+			MyRequest._post("game/stealGoods", params, this, this.Req_CheckStealGood.bind(this), null);
+		}
+		else {
+			SceneManager.sceneManager.StageItems.gro_pick.visible = false;
+		}
+	}
+
+	public static isSteal						//是否是偷果
+
+	private static Req_CheckStealGood(data) {
+		if (data.data.flag == "true") {
+			SceneManager.sceneManager.StageItems.gro_pick.visible = true;
+			if (SceneManager.instance.landId == 1) {
+				SceneManager.sceneManager.StageItems.gro_pick.y = 624;
+			}
+			else if (SceneManager.instance.landId == 2) {
+				SceneManager.sceneManager.StageItems.gro_pick.y = 734;
+			}
+			SceneManager.sceneManager.StageItems.pick_label.text = "可偷果";
+			egret.Tween.get(SceneManager.sceneManager.StageItems.pick_hand, { loop: true })
+				.to({ y: SceneManager.sceneManager.StageItems.pick_hand.y - 20 }, 500)
+				.to({ y: SceneManager.sceneManager.StageItems.pick_hand.y }, 500)
+				.to({ y: SceneManager.sceneManager.StageItems.pick_hand.y + 20 }, 500)
+				.to({ y: SceneManager.sceneManager.StageItems.pick_hand.y }, 500)
+			this.isSteal = true;
+		}
+		else {
+			this.checkHelpTakeFruit(Datamanager.getNowtreedata())
+		}
+		console.log(data, "检查偷果数据");
+	}
+
+
+	public static StealGood() {
+		if (Datamanager.getNowtreedata()) {
+			let params = {
+				isCheck: false,
+				treeUserId: Datamanager.getNowtreedata().id
+			}
+			MyRequest._post("game/stealGoods", params, this, this.Req_StealGood.bind(this), null);
+		}
+	}
+
+	private static Req_StealGood(data) {
+		console.log(data, "偷果数据")
+		SceneManager.addNotice("偷到" + data.data.getNum + "个果子")
+		this.CheckStealGood();
+	}
+
+	//---------------------------------------------------------------鸭子动画------------------------------------------------------------------------//
+
+	public static duck_Factory: egret.MovieClipDataFactory;		//鸭子动画工厂
+	public static duck_moive: egret.MovieClip;					 	//鸭子动画
+
+
+	public static getduckmovieFactory(type: DuckMoiveType) {
+		let data: any;
+		let txtr: egret.Texture;
+		if (type == DuckMoiveType.sleep) {
+			data = RES.getRes("ducksleep_json");
+			txtr = RES.getRes("ducksleep_png");
+		}
+		else if (type == DuckMoiveType.hunger) {
+			data = RES.getRes("duckhunger_json");
+			txtr = RES.getRes("duckhunger_png");
+		}
+		else if (type == DuckMoiveType.eat) {
+			data = RES.getRes("duckeat_json");
+			txtr = RES.getRes("duckeat_png");
+		}
+		else if (type == DuckMoiveType.normal) {
+			data = RES.getRes("ducknormal_json");
+			txtr = RES.getRes("ducknormal_png");
+		}
+		else if (type == DuckMoiveType.layingegg) {
+			data = RES.getRes("ducklayingegg_json");
+			txtr = RES.getRes("ducklayingegg_png");
+		}
+		this.duck_Factory = new egret.MovieClipDataFactory(data, txtr);
+	}
+
+	/**
+	 * 添加鸭子睡觉动画
+	 * type 鸭子动画类型
+	 * duckType 鸭子类型
+	 * times 播放次数 	 <0 : 循环播放  
+	 * completecallback 播放不循环时添加回调
+	 */
+	public static addduckmovie(type: DuckMoiveType, duckType: DuckType, times: number, completecallback?: Function) {
+		this.removeAllDuckMovie();
+		this.getduckmovieFactory(type);
+		if (duckType == DuckType.small) {
+			this.duck_moive = new egret.MovieClip(this.duck_Factory.generateMovieClipData("smallduck"));
+			switch (type) {
+				case DuckMoiveType.sleep: {									//睡觉
+					this.duck_moive.x = -40;
+					this.duck_moive.y = 700;
+				}
+					break;
+				case DuckMoiveType.eat: {
+					this.duck_moive.x = 230;
+					this.duck_moive.y = 430;
+				}
+					break;
+				case DuckMoiveType.hunger: {
+					this.duck_moive.x = 230;
+					this.duck_moive.y = 430;
+				}
+					break;
+				case DuckMoiveType.normal: {
+					this.duck_moive.x = 230;
+					this.duck_moive.y = 430;
+				}
+					break;
+				case DuckMoiveType.layingegg: {
+					this.duck_moive.x = -10;
+					this.duck_moive.y = 680;
+				}
+					break;
+			}
+		}
+		else if (duckType == DuckType.mid) {
+			this.duck_moive = new egret.MovieClip(this.duck_Factory.generateMovieClipData("midduck"));
+			switch (type) {
+				case DuckMoiveType.sleep: {
+					this.duck_moive.x = 0;
+					this.duck_moive.y = 680;
+				}
+					break;
+				case DuckMoiveType.eat: {
+					this.duck_moive.x = 230;
+					this.duck_moive.y = 430;
+				}
+					break;
+				case DuckMoiveType.hunger: {
+					this.duck_moive.x = 230;
+					this.duck_moive.y = 430;
+				}
+					break;
+				case DuckMoiveType.normal: {
+					this.duck_moive.x = 230;
+					this.duck_moive.y = 430;
+				}
+					break;
+				case DuckMoiveType.layingegg: {
+					this.duck_moive.x = -10;
+					this.duck_moive.y = 680;
+				}
+					break;
+			}
+		}
+		else if (duckType == DuckType.big) {
+			this.duck_moive = new egret.MovieClip(this.duck_Factory.generateMovieClipData("bigduck"));
+			switch (type) {
+				case DuckMoiveType.sleep: {
+					this.duck_moive.x = -10;
+					this.duck_moive.y = 680;
+				}
+					break;
+				case DuckMoiveType.eat: {
+					this.duck_moive.x = 230;
+					this.duck_moive.y = 430;
+				}
+					break;
+				case DuckMoiveType.hunger: {
+					this.duck_moive.x = 230;
+					this.duck_moive.y = 430;
+				}
+					break;
+				case DuckMoiveType.normal: {
+					this.duck_moive.x = 230;
+					this.duck_moive.y = 430;
+				}
+					break;
+				case DuckMoiveType.layingegg: {
+					this.duck_moive.x = -10;
+					this.duck_moive.y = 680;
+				}
+					break;
+			}
+		}
+		SceneManager.sceneManager.newmain2Scene.addChild(this.duck_moive);
+		this.duck_moive.play(times);
+		if (times > 0 && completecallback) {
+			this.duck_moive.once(egret.Event.COMPLETE, function () {
+				egret.log("COMPLETE");
+				completecallback();
+			}, this);
+		}
+		let duckdata = Datamanager.getnowDuckdata();
+		this.duck_moive.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+			SceneManager.toduckdetailScene(duckdata)
+		}, this)
+		this.duck_moive.touchEnabled = true;
+	}
+
+
+	/**
+	 * 移除所有鸭子状态动画
+	 */
+	public static removeAllDuckMovie() {
+		if (this.duck_moive && this.duck_moive.parent) {
+			this.duck_moive.parent.removeChild(this.duck_moive);
+		}
+	}
+
+
+	public static changeduckXY(x: number, y: number) {
+		this.duck_moive.x = x;
+		this.duck_moive.y = y;
+	}
+
+
+	/**
+	 * 检查鸭子当前状态
+	 * duckdata: 鸭子数据
+	 */
+	public static checkDuckNowStatus(duckdata) {
+		if (duckdata) {										//是否有鸭子数据
+			if (!duckdata.needTake) {							//鸭子有蛋
+				if (!duckdata.hungerTime) {						//鸭子状态 饥饿				
+					NewHelp.addduckmovie(DuckMoiveType.hunger, duckdata.stageObj.stage, -1)
+					NewHelp.startducklanguage();
+				}
+				else {
+					let nowtime = new Date().getTime();
+					let hungerTime = new Date(duckdata.hungerTime).getTime();
+					if (nowtime > hungerTime) {					//鸭子状态 饥饿
+						NewHelp.addduckmovie(DuckMoiveType.hunger, duckdata.stageObj.stage, -1)
+						NewHelp.startducklanguage();
+					}
+					else {										//鸭子状态 非饥饿
+						let now = new Date();
+						let hour = now.getHours();
+						if (hour > 19 || hour < 7) {										//睡觉状态
+							NewHelp.addduckmovie(DuckMoiveType.sleep, duckdata.stageObj.stage, -1)
+							NewHelp.stopducklanguage();
+						} else if (hour < 20 || hour > 5) {									//正常状态
+							NewHelp.addduckmovie(DuckMoiveType.normal, duckdata.stageObj.stage, -1)
+							NewHelp.startducklanguage();
+						}
+					}
+				}
+			}
+			else {											//鸭子无蛋
+				let now = new Date();
+				let hour = now.getHours();
+				if (hour > 19 || hour < 7) {										//睡觉状态
+					NewHelp.addduckmovie(DuckMoiveType.sleep, duckdata.stageObj.stage, -1)
+					NewHelp.stopducklanguage();
+					if (duckdata.needTake) {
+						NewHelp.changeduckXY(40, 630);
+					}
+				} else if (hour < 20 || hour > 5) {									//正常状态
+					NewHelp.startducklanguage();
+					NewHelp.addduckmovie(DuckMoiveType.normal, duckdata.stageObj.stage, -1)
+				}
+			}
+		}
+	}
+
+
+	public static toduckdetail(duckdata) {
+		if (SceneManager.sceneManager.StageItems.currentState == "havetree") {
+			SceneManager.toduckdetailScene(duckdata);
+		}
+	}
+
+
+	//-----------------------------------------------------------------------------礼包----------------------------------------------------------------------------//
+
+	private static nowDate  					//当前时间
+
+	public static getnowDate() {
+		MyRequest._post("fruit/getNowDateTime", null, this, this.Req_getNowDateTime.bind(this), null)		//获取服务器当前时间
+	}
+
+
+	public static Req_getNowDateTime(data) {
+		this.nowDate = data.data;
+		MyRequest._post("game/getSysReward", null, this, this.Req_getSysReward.bind(this), null)		//获取当前是否有礼包抽奖规则		
+	}
+
+	//点击礼包事件
+	private static presenttouch() {
+		if (SceneManager.sceneManager.StageItems.currentState == "friendtree") {
+			return;
+		}
+		if (Datamanager.getNowtreedata()) {
+			let params = {
+				treeUserId: Datamanager.getNowtreedata().id
+			}
+			MyRequest._post("game/receiveSysReward", params, this, this.Req_receiveSysReward.bind(this), (() => {
+				this.image.once(egret.TouchEvent.TOUCH_TAP, this.presenttouch, this)
+			}))
+			console.log("点击礼包")
+		}
+	}
+
+
+	private static startpresentTwn() {
+		if (!localStorage.getItem("present") || localStorage.getItem("present") == "true") {
+			this.addluckybag();
+			this.luckybagTween1();
+		}
+	}
+
+	private static stoppresentTwn() {
+		if (!localStorage.getItem("present") || localStorage.getItem("present") == "true") {
+			this.removeluckybag();
+		}
+	}
+
+	/**
+	 * 获取礼包规则回调
+	 */
+	private static Req_getSysReward(data) {
+		console.log("礼包抽奖规则:", data);
+		let starttime			//活动开始时间
+		let endtime				//活动结束时间
+		let that = this
+		for (let i = 0; i < data.data.length; i++) {
+			if (data.data[i].isOpened == "true") {
+				that.stoppresentTwn();
+			}
+			else {
+				starttime = data.data[i].startTime.replace(new RegExp(/-/gm), "/")
+				starttime = Date.parse(starttime)
+				endtime = data.data[i].endTime.replace(new RegExp(/-/gm), "/")
+				endtime = Date.parse(endtime)
+				if (starttime > this.nowDate) {
+					console.log("活动时间之前")
+					setTimeout(function () {
+						console.log("礼包点击动画和事件开始");
+						localStorage.setItem("present", "true");
+						that.startpresentTwn();
+					}, Number(starttime) - Number(this.nowDate));
+				}
+				if (endtime > this.nowDate) {
+					console.log("活动时间之间")
+					setTimeout(function () {
+						console.log("礼包点击动画和事件结束")
+						that.stoppresentTwn();
+						localStorage.setItem("present", "false");
+					}, Number(endtime) - Number(this.nowDate));
+				}
+				if (starttime < this.nowDate && endtime > this.nowDate) {
+					this.startpresentTwn();
+					localStorage.setItem("present", "true");
+					console.log("在活动时间内")
+				}
+				if (endtime < this.nowDate) {
+					console.log("在活动时间之后")
+				}
+			}
+		}
+	}
+
+
+	private static Req_receiveSysReward(data) {
+		console.log("领取礼包数据:", data);
+		this.image.once(egret.TouchEvent.TOUCH_TAP, this.presenttouch, this);
+		let info: string;				//文字
+		let imgname: string;		    //图片名称
+		let orderId: any;				//礼包id
+		let info2: string;				//文字2
+		if (data.data) {
+			let rewaredata = data.data[0];
+			if (rewaredata.status == "0") {
+				if (rewaredata.giftType == "0") {
+					console.log("领取礼包")
+					orderId = rewaredata.orderId;
+					info = "恭喜您获得礼包！"
+					info2 = rewaredata.fruitInfo + "一件";
+				}
+				else {
+					info = "恭喜您获得礼包！"
+					info2 = "恭喜您获得" + rewaredata.reward.propName + "x" + rewaredata.reward.propNum;
+				}
+			}
+			else if (rewaredata.status == "1") {
+				info = "很遗憾,您没中奖哦~";
+				imgname = "presentimgsor_png"
+			}
+			else if (rewaredata.status == "2") {
+				info = "您已经领过了哦~";
+				imgname = "presentimgobtained_png"
+				this.stoppresentTwn();
+				localStorage.setItem("present", "false")
+			}
+			else if (rewaredata.status == "-1") {
+				info = "已抢光~";
+				imgname = "presentimgnomore_png"
+				this.stoppresentTwn();
+				localStorage.setItem("present", "false")
+			}
+			else if (rewaredata.status == "-2") {
+				info = "领礼包次数已达上限~";
+				imgname = "presentimgfull_png"
+				this.stoppresentTwn();
+				localStorage.setItem("present", "false")
+			}
+			MyRequest._post("fruit/getNowDateTime", null, this, this.Req_getNowDateTime.bind(this), null)		//获取服务器当前时间
+		}
+		let share = new Sharepresent(info, imgname, orderId, info2);
+		SceneManager.sceneManager._stage.addChild(share);
+	}
+
+
+
+	private static image = new eui.Image();
+
+	public static addluckybag() {
+		this.image.texture = RES.getRes("luckybag_png")
+		SceneManager.sceneManager.StageItems.addChild(this.image);
+		this.image.anchorOffsetX = (this.image.width) / 2;
+		this.image.anchorOffsetY = this.image.height;
+	}
+
+	public static removeluckybag() {
+		if (this.image && this.image.parent) {
+			this.image.parent.removeChild(this.image);
+		}
+	}
+
+	public static luckybagTween1() {
+		if (this.image && this.image.parent) {
+			let y = this.image.height + ((SceneManager.sceneManager._stage.height - this.image.height) / 2) - 200;
+			let x = -(this.image.height / 2);
+			this.image.y = y;
+			this.image.x = x;
+			egret.Tween.get(this.image)
+				.set({ y: y, x: x })
+				.to({ y: y + 100, x: x + 200 }, 600)
+				.to({ y: y, x: x + 400 }, 600)
+				.to({ y: y + 100, x: x + 600 }, 600)
+				.to({ y: y + 50, x: x + 700 }, 300).call(this.luckybagTween2, this)
+		}
+	}
+
+
+	public static luckybagTween2() {
+		if (this.image && this.image.parent) {
+			this.image.once(egret.TouchEvent.TOUCH_TAP, this.presenttouch, this)
+			egret.Tween.get(this.image, { loop: true })
+				.to({ scaleY: 0.9 }, 500)
+				.to({ scaleY: 1 }, 500)
+		}
+	}
+
+}
+
+
+//鸭子动画类型
+enum DuckMoiveType {
+	sleep = 1,
+	eat,
+	hunger,
+	normal,
+	layingegg,
+}
+
+//鸭子类型
+enum DuckType {
+	small = 1,
+	mid,
+	big,
 }
 
 

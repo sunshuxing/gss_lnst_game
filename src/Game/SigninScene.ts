@@ -37,6 +37,8 @@ class SigninScene extends eui.Component implements eui.UIComponent {
     private answer_scr: eui.Scroller;
     private answer_problem: eui.Image;
     private close_btn: eui.Image;
+    public answer_red: eui.Rect;
+    public sign_red: eui.Rect;
 
 
     public canreward: boolean = true;
@@ -85,7 +87,7 @@ class SigninScene extends eui.Component implements eui.UIComponent {
 
 
                 act_name.left = 16;
-                act_name.top = 26;
+                act_name.top = 16;
                 act_name.textColor = 0xb44728;
                 act_name.fontFamily = "Microsoft YaHei";
                 act_name.size = 22;
@@ -96,23 +98,32 @@ class SigninScene extends eui.Component implements eui.UIComponent {
 
                 if (Actdata[i].rewardRule) {
                     if (Actdata[i].rewardRule.propId) {
-                        act_reward.texture = RES.getRes(NewHelp.gettextrueBypropid(Actdata[i].rewardRule.propId))
+                        let texture = NewHelp.gettextrueBypropid(Actdata[i].rewardRule.propId)
+                        act_reward.texture = RES.getRes(texture)
                     }
                     else {
                         if (Actdata[i].rewardRule.propType == 3) {
                             act_reward.texture = RES.getRes("allhuafei_png")
                         }
+                        else if (Actdata[i].rewardRule.propType == 51) {                      //鸭子
+                            act_reward.texture = RES.getRes("duck_png")
+                        }
+                        else if (Actdata[i].rewardRule.propType == 50) {                      //种子
+                            if (Actdata[i].rewardRule.propIcon) {
+                                HttpRequest.imageloader(Config.picurl + Actdata[i].rewardRule.propIcon, act_reward);
+                            }
+                        }
                     }
-                    act_reward.width = 30;
+                    act_reward.width = 42;
                     act_reward.left = 16;
-                    act_reward.top = 82;
-                    act_reward.height = 34;
+                    act_reward.top = act_name.height + 29;
+                    act_reward.height = 48;
                 }
 
                 act_btn.width = 120;
                 act_btn.height = 48;
                 act_btn.right = 16;
-                act_btn.top = 47;
+                act_btn.top = act_name.height + 29;
                 act_btn.left = 420;
                 if (Actdata[i].btnStatus && Actdata[i].btnStatus == 1) {
                     act_btn.texture = RES.getRes("answer_receive_png")   //可领取
@@ -134,7 +145,7 @@ class SigninScene extends eui.Component implements eui.UIComponent {
                 act_dis.size = 20;
                 act_dis.fontFamily = "Microsoft YaHei";
                 act_dis.left = 16;
-                act_dis.top = 127;
+                act_dis.top = act_name.height + 16 + 77;
                 act_dis.bottom = 15;
                 act_dis.textColor = 0xb44728;
                 act_dis.maxWidth = 472;
@@ -292,6 +303,7 @@ class SigninScene extends eui.Component implements eui.UIComponent {
      */
     private Req_SignIn(data): void {
         SceneManager.sceneManager.StageItems.sign_gro.visible = false;
+        this.sign_red.visible = false;
         var Data = data;
         if (Data.status == 0) {
             if (!this.qiandao_data.data) {
@@ -350,6 +362,24 @@ class SigninScene extends eui.Component implements eui.UIComponent {
 
     //查询成功的处理
     private Req_getSignInInfo(data): void {
+        if (data.data) {
+            let Signdate = data.data.lastSignDay;
+            Signdate = Signdate.replace(new RegExp(/-/gm), "/"); //将所有的'-'转为'/'即可
+            let nowdate = new Date();
+            let time = new Date(Signdate);
+            if (time.getDate() == nowdate.getDate() && time.getMonth() == nowdate.getMonth()) {
+                SceneManager.sceneManager.StageItems.sign_gro.visible = false;
+                this.sign_red.visible = false;
+            }
+            else {
+                SceneManager.sceneManager.StageItems.sign_gro.visible = true;
+                this.sign_red.visible = true;
+            }
+        }
+        else {
+            SceneManager.sceneManager.StageItems.sign_gro.visible = true;
+            this.sign_red.visible = true;
+        }
         var Data = data;
         this.qiandao_data = Data;
         this.init();
@@ -392,8 +422,8 @@ class SigninScene extends eui.Component implements eui.UIComponent {
             (!todaySigned && isContinue && this.qiandao_data.data.continueDay == 7)) {
             this.renderingInit(0)
             //已经签到，就没必要绑定监听
-            if (!todaySigned) {
-                this.addSginlisten(this.qiandao_data.data.continueDay, true)
+            if (!todaySigned || !hasData) {
+                this.addSginlisten(0, true)
             }
         } else {
             this.renderingInit(this.qiandao_data.data.continueDay);

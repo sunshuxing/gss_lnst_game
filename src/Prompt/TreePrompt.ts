@@ -26,10 +26,14 @@ class TreePrompt extends eui.Component implements eui.UIComponent {
 
 	private invite() {
 		if (SceneManager.sceneManager.StageItems.currentState == "friendtree") {
-			NewHelp.Invite();
+			if (!Datamanager.getNowtreedata()) {
+				NewHelp.Invite();
+			}
 		}
 		else if (SceneManager.sceneManager.StageItems.currentState == "havetree") {
-			NewHelp.getseed();
+			if (!Datamanager.getNowtreedata()) {
+				NewHelp.getseed();
+			}
 		}
 	}
 

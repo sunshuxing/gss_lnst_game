@@ -75,6 +75,7 @@ class Datamanager {
      */
     public static savePropdata(data) {
         this.Propdata = data;
+        this.getWarehousePropdata()
     }
 
     /**
@@ -83,6 +84,33 @@ class Datamanager {
 
     public static getPropdata() {
         return this.Propdata;
+    }
+
+    /**
+     * 获取仓库所需显示道具数据
+     */
+    public static getWarehousePropdata() {
+        let propdata = []
+        let warepropallnum = 0
+        if (this.Propdata) {
+            for (let i = 0; i < this.Propdata.length; i++) {
+                if (this.Propdata[i].propType != 4 &&                   //点赞
+                    this.Propdata[i].propId != 1 &&                     //水滴
+                    this.Propdata[i].propId != 2) {                     //爱心值
+                    warepropallnum += this.Propdata[i].num
+                    propdata.push(this.Propdata[i])
+                }
+            }
+        }
+        let oldwarepropallnum = localStorage.getItem("warepropallnum");
+        if (!oldwarepropallnum || Number(oldwarepropallnum) < warepropallnum) {
+            SceneManager.sceneManager.StageItems.huafei_red.visible = true;
+        }
+        else{
+            SceneManager.sceneManager.StageItems.huafei_red.visible = false;
+        }
+        localStorage.setItem("warepropallnum", String(warepropallnum));
+        return propdata
     }
 
     /**

@@ -19,7 +19,6 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
     private jishi_gro: eui.Group;               //化肥计时
     private jishi_text: eui.Label;               //化肥计时文字
     public duckjishi: eui.Group;
-    public duck_take: eui.Image;
     public gro_prop: eui.Group;
     private logo: eui.Image;
 
@@ -35,11 +34,10 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
     private goods_bg2: eui.Image;
     private goodsdata;
     private gro_duck: eui.Group;                 //鸭子区域
-    public duck_img: eui.Image;                 //鸭子图片
+
     public duckegg_img: eui.Image;             //鸭蛋图片
     public left_receive_info: eui.Label;        //领取鸭蛋倒计时
     private info_gro: eui.Group;                 //广告牌
-    // public duck_hungry_img: eui.Image;
     public duck_language_gro: eui.Group;         //鸭语区域
     private info_label1: eui.Label;
     private info_label2: eui.Label;
@@ -138,6 +136,7 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
         console.log(Datamanager.getnowDuckdata(), "当前鸭子数据")
     }
 
+    private ducktimer;
 
     /**
      * 更新鸭子
@@ -146,21 +145,12 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
     public updateduck(duckdata) {
         console.log("更新鸭子")
         if (duckdata) {
+            NewHelp.checkDuckNowStatus(duckdata)                //检查鸭子当前状态
             NewHelp.getDuckLanguage(duckdata)
             NewHelp.showducklanguage();
-            if (duckdata.needTake) {
-                this.duckegg_img.visible = true;
+            if (this.ducktimer) {
+                clearInterval(this.ducktimer)
             }
-            else {
-                this.duckegg_img.visible = false;
-            }
-            this.duck_img.visible = true;
-            HttpRequest.imageloader(Config.picurl + duckdata.stageObj.image, this.duck_img);
-            egret.Tween.get(this.duck_img, { loop: true })
-                .to({ scaleX: 1.05, scaleY: 1.05 }, 3000)
-                .to({ scaleX: 1, scaleY: 1 }, 3000)
-            // NewHelp.duck_hungryTwn();
-
             if (duckdata.needTake) {
                 if (duckdata.layEggTime) {
                     let duck_language_gro = SceneManager.sceneManager.newmain2Scene.duck_language_gro;
@@ -169,8 +159,17 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
                     duck_language_gro.removeChildren()
                     let time = new Date(duckdata.layEggTime).getTime()
                     time = time + Number(duckdata.receiveDelay * 1000 * 60)
-                    let timer = setInterval(() => {
-                        let text = SceneManager.instance.getTaskScene().dateDif(time, timer)
+                    let nowtime = new Date().getTime();
+                    if (time > nowtime) {
+                        NewHelp.addduckmovie(DuckMoiveType.layingegg, DuckType.big, -1);          //鸭子下蛋状态
+                        this.duckegg_img.visible = false;
+                    }
+                    else {
+                        this.duckegg_img.visible = true;
+                    }
+                    let that = this;
+                    this.ducktimer = setInterval(() => {
+                        let text = SceneManager.instance.getTaskScene().dateDif(time, this.ducktimer)
                         text = text.slice(3);
                         SceneManager.sceneManager.newmain2Scene.left_receive_info.text = text;
                         if (text) {
@@ -182,26 +181,24 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
                             if (SceneManager.sceneManager.newmain2Scene.duckjishi.visible) {
                                 SceneManager.sceneManager.newmain2Scene.duckjishi.visible = false;
                             }
-                            // let duck_take = SceneManager.sceneManager.newmain2Scene.duck_take;
-                            // duck_take.visible = true;
-                            // egret.Tween.get(duck_take, { loop: true })
-                            // 	.set({ scaleX: 0, scaleY: 0 })
-                            // 	.to({ scaleX: 1, scaleY: 1 }, 1500)
-                            // 	.wait(2000)
                             NewHelp.addnoduck_language("可收取");
+                            if (this.ducktimer) {
+                                NewHelp.checkDuckNowStatus(duckdata)                //检查鸭子当前状态
+                                clearInterval(this.ducktimer)
+                            }
                         }
                     }, 1000);
                 }
             }
             else {
-                SceneManager.sceneManager.newmain2Scene.duck_take.visible = false;
                 SceneManager.sceneManager.newmain2Scene.duckjishi.visible = false;
+                this.duckegg_img.visible = false;
             }
 
 
         }
         else {
-            SceneManager.sceneManager.newmain2Scene.duck_img.visible = false;
+            NewHelp.removeAllDuckMovie();
             SceneManager.sceneManager.newmain2Scene.duckegg_img.visible = false;
             SceneManager.sceneManager.newmain2Scene.duckjishi.visible = false;
         }
@@ -563,11 +560,11 @@ class newMain2Scene extends eui.Component implements eui.UIComponent {
                 Datamanager.savenowfrienddata(frienddata);
             }
         }
+        NewHelp.CheckStealGood();                                                   //检查是否能偷果
         NewHelp.checkSteal(data);                                                   //检查是否能偷水
         this.progress.slideDuration = 0;
         this.progress.value = 0;
         this.datainit(data);                                                        //数据初始化显示
-        NewHelp.checkHelpTakeFruit(data);                                           //检查是否能帮摘果
         NewHelp.getDuckByUserId();                                              //获取好友鸭子
         //果树更新显示
         SceneManager.treepromptgro.removeChildren();

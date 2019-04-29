@@ -10,6 +10,7 @@ class NewFriendList_item extends eui.ItemRenderer {
     private friend_hand: eui.Image;
     private friend_grass: eui.Image;
     private friend_insect: eui.Image;
+    private top_group:eui.Group;
     private i = 0;
     public constructor() {
         super()
@@ -28,7 +29,7 @@ class NewFriendList_item extends eui.ItemRenderer {
 
     private isselect() {
         if (this.data && Datamanager.getnowfrienddata()) {
-            if (this.data.friendUser == Datamanager.getnowfrienddata().friendUser && SceneManager.sceneManager.StageItems.currentState =='friendtree') {
+            if (this.data.friendUser == Datamanager.getnowfrienddata().friendUser && SceneManager.sceneManager.StageItems.currentState == 'friendtree') {
                 this.currentState = "downs"
             }
             else {
@@ -109,6 +110,40 @@ class NewFriendList_item extends eui.ItemRenderer {
         }
     }
 
+    private addtop(index) {
+        this.top_group.removeChildren();
+        let topimg = new eui.Image;
+        topimg.width = 46;
+        topimg.height = 60;
+        let toprect = new eui.Rect;
+        toprect.width = 46;
+        toprect.height = 46;
+        toprect.fillColor = 0xC0C0C0;
+        toprect.ellipseWidth = 46;
+        toprect.ellipseHeight = 46;
+        let toplabel = new eui.Label;
+        toplabel.width = 46;
+        toplabel.height = 46;
+        toplabel.textAlign = "center"
+        toplabel.verticalAlign = "middle"
+        toplabel.textColor = 0xFFFEFE;
+        toplabel.size = 22;
+        toplabel.fontFamily = "Microsoft YaHei"
+        if (index == 1) {
+            topimg.texture = RES.getRes("friend_top1_png")
+            this.top_group.addChild(topimg);
+        } else if (index == 2) {
+            topimg.texture = RES.getRes("friend_top2_png")
+            this.top_group.addChild(topimg);
+        } else if (index == 3) {
+            topimg.texture = RES.getRes("friend_top3_png")
+            this.top_group.addChild(topimg);
+        } else {
+            toplabel.text = index
+            this.top_group.addChild(toprect);
+            this.top_group.addChild(toplabel);
+        }
+    }
 
 
     // 当数据改变时，更新视图
@@ -116,6 +151,7 @@ class NewFriendList_item extends eui.ItemRenderer {
         this.currentState = "ups"
         this.friend_icon.texture = RES.getRes("gamelogo")
         this.isselect();
+        this.addtop(this.itemIndex+1);
         let user = this.data.friendUser
         if (this.data.friendIcon) {
             var err = HttpRequest.imageloader(Config.picurl + this.data.friendIcon, this.friend_icon, user);

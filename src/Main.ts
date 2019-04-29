@@ -61,6 +61,12 @@ class Main extends eui.UILayer {
 
     private async mainInit() {
         await this.loadResource()
+        if (SceneManager.instance.isMiniprogram) {
+            document.getElementById("refresh").hidden = false;
+        }
+        else {
+            document.getElementById("refresh").hidden = true;
+        }
         this.createGameScene();
         SceneManager.instance.initWebSocket()
         Help.getland();

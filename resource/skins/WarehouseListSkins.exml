@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="WarehouseListSkins" width="141" height="141" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" states="up,down" >
-	<e:Image source="rewarddi_png" x="0" y="0" source.down="wareitem_png" width.down="141" height.down="141"/>
+<e:Skin class="WarehouseListSkins" width="155" height="155" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" states="up,down" >
+	<e:Image source="rewarddi_png" width.down="155" height.down="155" source.down="wareitem_select_png" verticalCenter="0" horizontalCenter="0"/>
 	<e:Image id="propimg" verticalCenter="0" horizontalCenter="0" source=""/>
-	<e:Image source="propnumbg_png" x="67" y="102"/>
-	<e:Label id="propnum" text="1" x="72" y="108" anchorOffsetX="0" width="63" size="26" fontFamily="Microsoft YaHei" textAlign="center"/>
+	<e:Image source="propnumbg_png" x="73" y="108"/>
+	<e:Label id="propnum" text="1" x="78" y="115" anchorOffsetX="0" width="63" size="26" fontFamily="Microsoft YaHei" textAlign="center"/>
+	<e:Rect id="item_red" width="20" height="20" x="133" y="0" ellipseWidth="20" ellipseHeight="20" fillColor="0xf70909"/>
 </e:Skin>

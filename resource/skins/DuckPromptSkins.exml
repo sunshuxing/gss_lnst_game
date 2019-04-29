@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="DuckPromptSkins" width="153" height="122" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Image y="0" source="keshouqu_png" anchorOffsetX="0" anchorOffsetY="0" x="0"/>
-	<e:Rect width="74" height="23" x="40" y="52" anchorOffsetX="0" anchorOffsetY="0" fillColor="0xfdb057"/>
-	<e:Label id="duck_language" text="啊啊啊啊啊" y="42" anchorOffsetX="0" width="120" anchorOffsetY="0" size="22" fontFamily="Microsoft YaHei" textColor="0x8a4c21" textAlign="center" verticalAlign="middle" height="44" horizontalCenter="0"/>
+<e:Skin class="DuckPromptSkins" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image y="0" anchorOffsetX="0" anchorOffsetY="0" x="0" source="ducklanguage_bg_png"/>
+	<e:Label id="duck_language" text="" y="18" anchorOffsetX="0" width="120" anchorOffsetY="0" size="20" fontFamily="Microsoft YaHei" textAlign="center" verticalAlign="middle" height="46" horizontalCenter="-5.5" textColor="0xfd7e22"/>
 </e:Skin>

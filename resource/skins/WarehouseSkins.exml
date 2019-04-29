@@ -4,14 +4,18 @@
 	<e:Image id="close_btn" y="898" source="close1" horizontalCenter="0"/>
 	<e:Label id="propname" text="" x="212" y="105" textColor="0x7c6b5b" size="36" fontFamily="SimHei" bold="true"/>
 	<e:Label id="propdisc" text="" x="213" y="170" anchorOffsetX="0" width="402" anchorOffsetY="0" height="99" textColor="0x7c6b5b" fontFamily="SimHei" size="24" lineSpacing="12"/>
-	<e:Group width="135" height="135" x="46" y="118" anchorOffsetX="0" anchorOffsetY="0">
+	<e:Group width="135" height="135" x="46" y="90" anchorOffsetX="0" anchorOffsetY="0">
 		<e:Image id="propimg" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1" verticalCenter="0" horizontalCenter="0"/>
 	</e:Group>
-	<e:Scroller id="warehousescr" width="600" height="417.27" y="382.73" anchorOffsetY="0" anchorOffsetX="0" horizontalCenter="0">
-		<e:List id="warehouselist" itemRendererSkinName="WarehouseListSkins">
+	<e:Scroller id="warehousescr" width="610" height="436.97" y="382.73" anchorOffsetY="0" anchorOffsetX="0" horizontalCenter="0">
+		<e:List id="warehouselist" itemRendererSkinName="WarehouseListSkins" anchorOffsetY="0" height="432.42">
 			<e:layout>
-				<e:TileLayout requestedColumnCount="4" verticalGap="20" horizontalGap="11" paddingLeft="2"/>
+				<e:TileLayout requestedColumnCount="4" verticalGap="-3" horizontalGap="-5" paddingLeft="2" paddingTop="2"/>
 			</e:layout>
 		</e:List>
 	</e:Scroller>
+	<e:Group id="use_btn" width="100" height="46" x="63.69" y="244" anchorOffsetY="0" anchorOffsetX="0" visible="false">
+		<e:Image x="0" y="0" source="wareuse_btn_png"/>
+		<e:Label text="使用" size="32" fontFamily="Microsoft YaHei" bold="true" horizontalCenter="0" verticalCenter="-2"/>
+	</e:Group>
 </e:Skin>

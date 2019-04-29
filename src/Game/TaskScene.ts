@@ -176,8 +176,14 @@ class TaskScene extends eui.Component implements eui.UIComponent {
                                 }
                             }
                             if (nowTask.code == "time_slot_login") {
-                                if (nowTask.otherJson) {
-                                    let timedata = JSON.parse(nowTask.otherJson)
+                                if (nowTask.otherJson && nowTask.btnStatus == 2) {
+                                    let timedata = JSON.parse(nowTask.otherJson);
+                                    for (let i = 0; i < timedata.length; i++) {
+                                        let nowhours = new Date().getHours();
+                                        if (nowhours < (timedata[i].start).split(":", 1)[0]) {
+                                            nowTask.btnStatus = 4;
+                                        }
+                                    }
                                 }
                             }
                             break;
@@ -190,7 +196,7 @@ class TaskScene extends eui.Component implements eui.UIComponent {
                 let newtasklist = []
                 for (let i = 0; i < taskList.length; i++) {
                     let btnStatus = taskList[i].btnStatus ? taskList[i].btnStatus : 0
-                    if (btnStatus == 0 || btnStatus == 3) {
+                    if (btnStatus == 0 || btnStatus == 3 || btnStatus == 4) {
                         tasklistbtn0.push(taskList[i])
                     }
                     else if (btnStatus == 1) {
@@ -203,10 +209,12 @@ class TaskScene extends eui.Component implements eui.UIComponent {
                 }
                 SceneManager.sceneManager.StageItems.act_red.visible = false;
                 SceneManager.sceneManager.StageItems.task_gro.visible = false;
+                SceneManager.sceneManager.getSigninScene().answer_red.visible = false;
                 for (let i = 0; i < tasklistbtn1.length; i++) {
                     newtasklist.push(tasklistbtn1[i])
                     if (tasklistbtn1[i].showType == 1 || tasklistbtn1[i].showType == 2) {
                         SceneManager.sceneManager.StageItems.act_red.visible = true;
+                        SceneManager.sceneManager.getSigninScene().answer_red.visible = true;
                     }
                     if (tasklistbtn1[i].showType == 0 || tasklistbtn1[i].showType == 2) {
                         SceneManager.sceneManager.StageItems.task_gro.visible = true;
@@ -328,6 +336,7 @@ class taskList_item extends eui.ItemRenderer {
     private ban: eui.Group;                  //任务按钮(不可完成)
     private can_look: eui.Group;             //任务按钮（再逛逛）
     private interval_time: eui.Label          //任务冷却
+    private can_finish_label: eui.Label;      //按钮上文字
 
     public constructor() {
         super()
@@ -419,6 +428,19 @@ class taskList_item extends eui.ItemRenderer {
             }, time);
             SceneManager.instance.getTaskScene().timerList.push(timer)
         }
+        if (this.data.btnStatus == 4) {
+            if (this.data.otherJson) {
+                let timedata = JSON.parse(this.data.otherJson);
+                console.log(timedata,"btnStatus4")
+                for (let i = 0; i < timedata.length; i++) {
+                    let nowhours = new Date().getHours();
+                    if (nowhours < (timedata[i].start).split(":", 1)[0]) {
+                        this.can_finish_label.text = (timedata[i].start).split(":", 1)[0] + "点可领取"
+                        return
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -435,6 +457,8 @@ class taskList_item extends eui.ItemRenderer {
             return "ban"
         } else if (btnStatus == 3) {
             return "interval"
+        } else if (btnStatus == 4) {
+            return "can_finish"
         }
     }
 

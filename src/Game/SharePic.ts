@@ -20,7 +20,7 @@ class SharePic extends eui.Component implements eui.UIComponent {
     private btn_cancel: eui.Image;
     public minsharegro: eui.Group;
     private sharedata
-
+    
     protected childrenCreated(): void {
         super.childrenCreated();
         var renderTexture: egret.RenderTexture = new egret.RenderTexture();

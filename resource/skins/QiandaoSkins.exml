@@ -4,16 +4,18 @@
 		<e:Image x="0" y="0" source="signin_bg_png" width="691" height="869" locked="true" />
 		<e:Image width="540" height="548" y="236" horizontalCenter="0" source="contentbg_png" includeIn="sgin" />
 		<e:Group width="264" height="48" y="179" anchorOffsetY="0" horizontalCenter="0">
-			<e:Group id="btn_answer" width="132" height="48" y="0" x.answer="132" x.sgin="132">
+			<e:Group id="btn_answer" width="132" height="48" y="0" x="132">
 				<e:Image width="132" height="48" y="0" source="toplrdown_png" left="0" source.sgin="toplrup_png" x="0" scaleX="1"
 				         scaleY="1" skewY.sgin="180" />
 				<e:Image width="102" height="34" left="18" verticalCenter="0" source="top_answer_label_png" />
+				<e:Rect id="answer_red" width="15" height="15" x="119" ellipseWidth="15" ellipseHeight="15" fillColor="0xf70909" y="-2.5" visible="false"/>
 			</e:Group>
-			<e:Group id="btn_sign" width="132" height="48" y="0" x.answer="0" x.sgin="0">
+			<e:Group id="btn_sign" width="132" height="48" y="0" x="0">
 				<e:Image width="132" height="48" y="0" source="toplrup_png" right="0" source.sgin="toplrdown_png" x="0" scaleX="1"
 				         scaleY="1" skewY.sgin="180" />
 				<e:Image right="18" source="top_sign_label_png" width="102" height="34" x="12" scaleX="1" scaleY="1"
 				         verticalCenter="0" />
+				<e:Rect id="sign_red" width="15" height="15" x="-3" y="-2" fillColor="0xf70909" ellipseWidth="15" ellipseHeight="15" visible="false"/>
 			</e:Group>
 		</e:Group>
 		<e:Scroller id="answer_scr" width="556" height="519" includeIn="answer" y="256" anchorOffsetX="0" anchorOffsetY="0"
@@ -22,11 +24,11 @@
 				<e:Group id="answer_problem" width="100%" x="0" y="0" anchorOffsetY="0" anchorOffsetX="0">
 					<e:Rect width="100%" height="100%" x="0" y="0" fillColor="0xefebbc"  ellipseWidth="20" ellipseHeight="20"/>
 
-					<e:Label text="赢取礼品【百科】一答到底，赢取礼品" textColor="0xb44728" fontFamily="Microsoft YaHei" size="22" lineSpacing="6"
-					         bold="true" anchorOffsetX="0"  maxWidth="390" left="16" width="390" top="26"/>
-					<e:Image width="30" source="actwater_png" top="82" height="34"  left="16"/>
-					<e:Image width="30" source="acthuafei_png" top="82" height="34"  left="58"/>
-					<e:Image id="answer_btn1" height="48" right="16" source="answer_togo_png" top="42"  width="120"/>
+					<e:Label text="【百科】一答到底，赢取礼品" textColor="0xb44728" fontFamily="Microsoft YaHei" size="22" lineSpacing="6"
+					         bold="true" anchorOffsetX="0"  maxWidth="390" left="16" width="390" top="16"/>
+					<e:Image width="42" top="56" height="48"  left="16" source="icon_water_png"/>
+					<e:Image width="42" top="56" height="48"  left="74" source="allhuafei_png"/>
+					<e:Image id="answer_btn1" height="48" right="16" source="answer_togo_png" top="56"  width="120"/>
 					<e:Label id="answer_dis1" text="答对题数越多获得奖励越高，连续答对5题可获得大奖 随机肥料一袋。" size="20" fontFamily="Microsoft YaHei" left="16" top="127" bottom="15"
 					         textColor="0xb44728" maxWidth="472" lineSpacing="10" />
 				</e:Group>

@@ -25,7 +25,7 @@ class MyRequest {
             var request = <egret.HttpRequest>event.currentTarget;
             var data = JSON.parse(request.response);
             if (data.status == 1) {//错误
-                console.log(_url+" 接口错误:", data.msg)
+                console.log(_url + " 接口错误:", data.msg)
                 SceneManager.addNotice(data.msg)
                 if (_err) {
                     _err.call(_this, data);
@@ -50,8 +50,8 @@ class MyRequest {
     }
 
     /**
- * 从url获取某个属性的值,如果不传，则获取当前url，否则检索传入url
- */
+     * 从url获取某个属性的值,如果不传，则获取当前url，否则检索传入url
+     */
     public static geturlstr(name: string, url?) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
         var r;

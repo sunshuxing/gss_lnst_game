@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="Newfriendlsit" width="718" height="140" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" states="ups,downs" >
 	<e:Rect width="100%" height="100%" x="0" y="0" fillColor="0xffebcb" fillColor.downs="0xe8af5e"/>
-	<e:Image id="friend_icon" mask="{icon_mask}" width="86" height="86" x="16" y="27" source="gamelogo"/>
-	<e:Rect id="icon_mask" width="86" height="86" x="16" y="27" ellipseHeight="86" ellipseWidth="86"/>
-	<e:Label id="friend_name" text="" x="122" y="32" textColor="0x212121" fontFamily="Microsoft YaHei"/>
-	<e:Image id="fruit1" width="32" height="32" x="122" y="76" source=""/>
-	<e:Image id="fruit2" width="32" height="32" x="158" y="76"/>
+	<e:Image id="friend_icon" mask="{icon_mask}" width="86" height="86" x="78" y="27" source="gamelogo"/>
+	<e:Rect id="icon_mask" width="86" height="86" x="78" y="27" ellipseHeight="86" ellipseWidth="86"/>
+	<e:Label id="friend_name" text="" x="184" y="32" textColor="0x212121" fontFamily="Microsoft YaHei"/>
+	<e:Image id="fruit1" width="32" height="32" x="184" y="76" source=""/>
+	<e:Image id="fruit2" width="32" height="32" x="230" y="76"/>
 	<e:Group id="friend_heart" width="60" height="60" y="40" x="642">
 		<e:Image width="60" height="60" y="0" x="0" source="friend-heart_png" scaleX="1" scaleY="1"/>
 		<e:Label id="heart_num" text="" horizontalCenter="0" verticalCenter="0" size="18" fontFamily="Microsoft YaHei" bold="true"/>
@@ -17,5 +17,7 @@
 		<e:Image id="friend_insect" x="30" y="23" source="" width="54" height="70"/>
 		<e:Image id="friend_grass" width="64" height="60" x="64" y="31" source=""/>
 		<e:Image id="friend_hand" x="23" y="16" source="" width="60" height="60"/>
+	</e:Group>
+	<e:Group id="top_group" x="16" verticalCenter="0">
 	</e:Group>
 </e:Skin>
