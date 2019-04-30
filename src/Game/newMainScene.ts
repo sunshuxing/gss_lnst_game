@@ -211,7 +211,7 @@ class newMainScene extends eui.Component implements eui.UIComponent {
         if (hour > 17 || hour < 6) {
             this.bg.texture = RES.getRes("bgnight_guoyuan_png");        //背景图片
         } else if (hour < 18 || hour > 5) {
-            this.bg.texture = RES.getRes("bgday_guoyuan_png");             //背景图片
+            this.bg.texture = RES.getRes("actbg_guoyuan_png");             //背景图片
         }
     }
 

@@ -82,7 +82,7 @@ class WarehouseScene extends eui.Component implements eui.UIComponent {
         else if (this.warehouselist.selectedItem.propType == 101) {                   //果实
             var err = HttpRequest.imageloader(Config.picurl + this.warehouselist.selectedItem.propIcon, this.propimg);
             if (err && err == 1) {
-                this.propimg.texture = RES.getRes("gamelogo")
+                this.propimg.texture = RES.getRes("noicon_png")
             }
         }
         else {
@@ -154,7 +154,7 @@ class WarehouseScene extends eui.Component implements eui.UIComponent {
         else if (this.warehouselist.selectedItem.propType == 101) {                   //果实
             var err = HttpRequest.imageloader(Config.picurl + this.warehouselist.selectedItem.propIcon, this.propimg);
             if (err && err == 1) {
-                this.propimg.texture = RES.getRes("gamelogo")
+                this.propimg.texture = RES.getRes("noicon_png")
             }
         }
         else {
@@ -200,6 +200,7 @@ class WarehouseScene extends eui.Component implements eui.UIComponent {
         NewHelp.removemask();
         if (this.parent) {
             this.parent.removeChild(this);
+            Datamanager.getWarehousePropdata()
         }
     }
 }
@@ -245,7 +246,7 @@ class WarehouseList_item extends eui.ItemRenderer {
         else if (this.data.propType == 101) {                   //果实
             var err = HttpRequest.imageloader(Config.picurl + this.data.propIcon, this.propimg);
             if (err && err == 1) {
-                this.propimg.texture = RES.getRes("gamelogo")
+                this.propimg.texture = RES.getRes("noicon_png")
             }
         }
         else {
@@ -282,7 +283,7 @@ class WarehouseList_item extends eui.ItemRenderer {
         }
         this.propnum.text = this.data.num;
         let old = localStorage.getItem("prop" + (this.data.propId));
-        if (!old || this.data.num > old) {
+        if ((!old || this.data.num > old) && this.data.num != 0) {
             this.item_red.visible = true;
         }
         else {

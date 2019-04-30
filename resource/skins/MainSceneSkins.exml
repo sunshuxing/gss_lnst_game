@@ -3,7 +3,7 @@
         xmlns:w="http://ns.egret.com/wing">
     <e:Group id="gro_fastpic" width="750" height="1334" bottom="0">
 			<e:Rect width="100%" height="300" x="0" y="-276" fillColor="0xc1f2fb"/>
-        <e:Image id="bg" width="750" x="0" scaleX="1" scaleY="1"  source="bgday_guoyuan_png" bottom="0"/>
+        <e:Image id="bg" width="750" x="0" scaleX="1" scaleY="1"  bottom="0" source="actbg_guoyuan_png"/>
         <e:Group x="97.84" y="909.54" anchorOffsetY="0" anchorOffsetX="0" scaleX="1" scaleY="1">
 					<e:Image x="0" y="0" source="treenamepai_png"/>
             <e:Label id="tree_name" bold="true" y="17.26" anchorOffsetX="0" anchorOffsetY="0" fontFamily="SimHei"

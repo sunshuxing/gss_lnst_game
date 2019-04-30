@@ -149,17 +149,17 @@ class NewFriendList_item extends eui.ItemRenderer {
     // 当数据改变时，更新视图
     protected dataChanged() {
         this.currentState = "ups"
-        this.friend_icon.texture = RES.getRes("gamelogo")
+        this.friend_icon.texture = RES.getRes("noicon_png")
         this.isselect();
         this.addtop(this.itemIndex+1);
         let user = this.data.friendUser
         if (this.data.friendIcon) {
             var err = HttpRequest.imageloader(Config.picurl + this.data.friendIcon, this.friend_icon, user);
             if (err && err == 1) {
-                this.friend_icon.texture = RES.getRes("gamelogo")
+                this.friend_icon.texture = RES.getRes("noicon_png")
             }
         } else {
-            this.friend_icon.texture = RES.getRes("gamelogo")
+            this.friend_icon.texture = RES.getRes("noicon_png")
         }
         if (SceneManager.instance.weixinUtil.login_user_id == this.data.friendUser) {                 //当前数据是自己的数据
             this.friend_name.text = Help.getcharlength(this.data.friendUserName, 6) + "（我自己）";

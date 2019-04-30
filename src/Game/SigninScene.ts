@@ -39,6 +39,7 @@ class SigninScene extends eui.Component implements eui.UIComponent {
     private close_btn: eui.Image;
     public answer_red: eui.Rect;
     public sign_red: eui.Rect;
+    private btn_speact: eui.Group;
 
 
     public canreward: boolean = true;
@@ -50,23 +51,37 @@ class SigninScene extends eui.Component implements eui.UIComponent {
         this.getSignInInfo();
         this.x = (SceneManager.sceneManager._stage.width - this.width) / 2
         this.y = (SceneManager.sceneManager._stage.height - this.height) / 2
-        this.btn_sign.addEventListener(egret.TouchEvent.TOUCH_TAP, this.changeState, this)
-        this.btn_answer.addEventListener(egret.TouchEvent.TOUCH_TAP, this.changeState, this)
+        this.btn_sign.addEventListener(egret.TouchEvent.TOUCH_TAP, () => { this.changeState("sgin") }, this)
+        this.btn_answer.addEventListener(egret.TouchEvent.TOUCH_TAP, () => { this.changeState("answer"); this.addActItem() }, this)
+        this.btn_speact.addEventListener(egret.TouchEvent.TOUCH_TAP, () => { this.changeState("speact"); this.addActItem() }, this)
         this.close_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, () => { NewHelp.closescene() }, this)
+        this.checkhasspeact()
         this.checkAnswerReward();
         // this.checkLookReward();
-        this.addActItem();
     }
 
     private onComplete(): void {
         this.currentState = "sgin"
     }
 
+    public checkhasspeact() {
+        if (!Datamanager.getspeactdata() || Datamanager.getspeactdata().length <= 0) {
+            if (this.btn_speact && this.btn_speact.parent) {
+                this.btn_speact.parent.removeChild(this.btn_speact)
+            }
+        }
+    }
 
     public addActItem() {
         this.scr_gro.removeChildren();
-        this.scr_gro.addChild(this.answer_problem)
-        let Taskdata = Datamanager.gettaskdataBytype(1)
+        let Taskdata
+        if (this.currentState == "answer") {
+            this.scr_gro.addChild(this.answer_problem)
+            Taskdata = Datamanager.gettaskdataBytype(1);
+        }
+        else if (this.currentState == "speact") {
+            Taskdata = Datamanager.getspeactdata();
+        }
         if (Taskdata) {
             let Actdata: Array<any> = Taskdata;
             for (let i = 0; i < Actdata.length; i++) {
@@ -281,12 +296,9 @@ class SigninScene extends eui.Component implements eui.UIComponent {
 
 
 
-    private changeState() {
-        if (this.currentState == "sgin") {
-            this.currentState = "answer"
-        }
-        else if (this.currentState == "answer") {
-            this.currentState = "sgin"
+    private changeState(status) {
+        if (this.currentState != status) {
+            this.currentState = status
         }
     }
 

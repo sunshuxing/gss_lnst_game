@@ -2,8 +2,8 @@
 <e:Skin class="StageitemsSkins" width="750" height="1334" xmlns:e="http://ns.egret.com/eui"
         xmlns:w="http://ns.egret.com/wing" states="havetree,friendtree">
     <e:Group id="BarGroup" anchorOffsetX="0" anchorOffsetY="0" left="0" right="0" top="0" bottom="0" locked="true"></e:Group>
-<e:Image id="btn_nianhuo" y="635.52" anchorOffsetX="60" anchorOffsetY="53.5" source="nianhuo_png"
-         includeIn="havetree"  x="667" visible="false"/>
+<e:Image id="btn_nianhuo" y="440" anchorOffsetX="60" anchorOffsetY="53.5"
+         includeIn="havetree"  x="667" source="speact_icon_png"/>
 
 
 

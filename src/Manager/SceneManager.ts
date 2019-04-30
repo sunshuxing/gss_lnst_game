@@ -137,7 +137,7 @@ class SceneManager {
         } else {
             if (this.friendSign != this.weixinUtil.login_user_id) {
                 // //如果分享的用户和当前用户不一样
-                // this.getNewfriendScene().getFriends(this.userid)
+                NewHelp.intofriend(this.userid)
                 this.userid = null;
             }
         }

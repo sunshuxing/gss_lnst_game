@@ -97,19 +97,21 @@ class Datamanager {
                 if (this.Propdata[i].propType != 4 &&                   //点赞
                     this.Propdata[i].propId != 1 &&                     //水滴
                     this.Propdata[i].propId != 2) {                     //爱心值
-                    warepropallnum += this.Propdata[i].num
                     propdata.push(this.Propdata[i])
                 }
             }
         }
-        let oldwarepropallnum = localStorage.getItem("warepropallnum");
-        if (!oldwarepropallnum || Number(oldwarepropallnum) < warepropallnum) {
-            SceneManager.sceneManager.StageItems.huafei_red.visible = true;
+        for (let i = 0; i < propdata.length; i++) {
+            let old = localStorage.getItem("prop" + (propdata[i].propId));
+            if ((!old || propdata[i].num > old) && propdata[i].num != 0) {
+                SceneManager.sceneManager.StageItems.huafei_red.visible = true;
+                break;
+            }
+            else {
+                SceneManager.sceneManager.StageItems.huafei_red.visible = false;
+            }
+
         }
-        else{
-            SceneManager.sceneManager.StageItems.huafei_red.visible = false;
-        }
-        localStorage.setItem("warepropallnum", String(warepropallnum));
         return propdata
     }
 
@@ -225,6 +227,22 @@ class Datamanager {
                 }
             }
             return newtask;
+        }
+    }
+
+    /**
+     * 获取特殊活动任务数据
+     */
+
+    public static getspeactdata() {
+        if (this.taskdata) {
+            let newdata = [];
+            for (let i = 0; i < this.taskdata.length; i++) {
+                if (this.taskdata[i].showType == 3) {
+                    newdata.push(this.taskdata[i])
+                }
+            }
+            return newdata;
         }
     }
 

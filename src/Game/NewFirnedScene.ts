@@ -83,7 +83,7 @@ class NewFriendScene extends eui.Component implements eui.UIComponent {
     }
 
     //查询好友列表
-    public getFriends(userid?) {
+    public getFriends() {
         if (SceneManager.sceneManager.StageItems.currentState != "havetree") {
             this.friend_toself.visible = true;
         }
@@ -95,13 +95,13 @@ class NewFriendScene extends eui.Component implements eui.UIComponent {
             pageNo: this.page,
             numPerPage: 10
         };
-        MyRequest._post("game/getFriends", params, this, this.Req_getFriends.bind(this, userid), null);
+        MyRequest._post("game/getFriends", params, this, this.Req_getFriends.bind(this), null);
 
     }
 
 
     //查询好友列表成功后处理
-    private Req_getFriends(userid, data): void {
+    private Req_getFriends(data): void {
         var Data = data;
         let friend_data = Data.data.list;
         var friend_user = [];
@@ -116,7 +116,7 @@ class NewFriendScene extends eui.Component implements eui.UIComponent {
             let params = {
                 users: friend_user.join(",")
             };
-            MyRequest._post("game/getWechatImg", params, this, this.Req_getWechatImg.bind(this, userid, friend_data), null);
+            MyRequest._post("game/getWechatImg", params, this, this.Req_getWechatImg.bind(this, friend_data), null);
         }
         if (!Data.data.isLastPage) {                                        //不是最后一页
             this.friend_scr.addEventListener(eui.UIEvent.CHANGE_END, this.friend_next, this)
@@ -124,7 +124,7 @@ class NewFriendScene extends eui.Component implements eui.UIComponent {
         this.isLastPage = Data.data.isLastPage;
     }
 
-    private Req_getWechatImg(userid, friend_data, data1) {
+    private Req_getWechatImg(friend_data, data1) {
         if (!data1) {
             return;
         }

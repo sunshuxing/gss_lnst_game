@@ -139,10 +139,10 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 		}
 		else if (this.currentState == "friendtree") {
 			if (NewHelp.isSteal) {
-				NewHelp.friendpick(Datamanager.getNowtreedata().id);
+				NewHelp.StealGood()
 			}
 			else {
-				NewHelp.StealGood()
+				NewHelp.friendpick(Datamanager.getNowtreedata().id);
 			}
 		}
 	}
@@ -422,7 +422,7 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 		if (!data) {
 			return;
 		}
-		image.texture = RES.getRes("gamelogo");
+		image.texture = RES.getRes("noicon_png");
 		data = data.data;
 		if (data && typeof data === "string") {
 			data = JSON.parse(data)
@@ -430,7 +430,7 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 		let imgUrl = Config.picurl + data[user];
 		var err = HttpRequest.imageloader(imgUrl, image, user);
 		if (err && err == 1) {
-			image.texture = RES.getRes("gamelogo")
+			image.texture = RES.getRes("noicon_png")
 		}
 	}
 	//---------------------------------------------------------------------好友列表---------------------------------------------------------------------//
@@ -587,11 +587,23 @@ class newStageItems extends eui.Component implements eui.UIComponent {
 	//去年货专区
 	private tonianhuo() {
 		if (SceneManager.instance.isMiniprogram) {
-			wx.miniProgram.navigateTo({
-				url: "/pages/gssIndex/nianhuo"
-			})
+			if (WeixinUtil.getInstance().isMember) {
+				wx.miniProgram.navigateTo({
+					url: "/pages/gssIndex/discount"
+				})
+			}
+			else {
+				wx.miniProgram.navigateTo({
+					url: "/pages/gssIndex/activityField"
+				})
+			}
 		} else {
-			location.href = Config.webHome + "view/nianhuo-list.html"
+			if (WeixinUtil.getInstance().isMember) {
+				location.href = Config.webHome + "view/discount-list.html"
+			}
+			else{
+				location.href = Config.webHome + "view/activity-field.html"
+			}
 		}
 	}
 

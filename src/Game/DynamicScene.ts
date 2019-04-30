@@ -210,7 +210,7 @@ class dynList_item extends eui.ItemRenderer {
 	private onComplete() {
 		this.dyn_toother.visible = false;
 		this.currentState = "day"
-		this.user_icon.texture = RES.getRes("gamelogo");
+		this.user_icon.texture = RES.getRes("noicon_png");
 	}
 
 	// 当数据改变时，更新视图
@@ -232,7 +232,7 @@ class dynList_item extends eui.ItemRenderer {
 			if (this.data.mainUserIcon) {
 				var err = HttpRequest.imageloader(Config.picurl + this.data.userIcon, this.user_icon, this.data.mainUser);
 				if (err && err == 1) {
-					this.user_icon.texture = RES.getRes("gamelogo")
+					this.user_icon.texture = RES.getRes("noicon_png")
 				}
 			} else {
 				let params = {
@@ -246,7 +246,7 @@ class dynList_item extends eui.ItemRenderer {
 			if (this.data.userIcon) {
 				var err = HttpRequest.imageloader(Config.picurl + this.data.userIcon, this.user_icon, this.data.mainUser);
 				if (err && err == 1) {
-					this.user_icon.texture = RES.getRes("gamelogo")
+					this.user_icon.texture = RES.getRes("noicon_png")
 				}
 			} else {
 				this.user_icon.texture = RES.getRes("gamelogo")
@@ -308,19 +308,19 @@ class dynList_item extends eui.ItemRenderer {
 			this.dyn_toother.visible = false;
 			if (this.data.getType && this.data.getType != "") {
 				if (this.data.getType == 0) {									//道具
-					this.dyn_label.text = "我获得了" + this.data.num + "个" + this.getpropname(this.data);
+					this.dyn_label.text = "我" + this.getWayByTypecode(this.data.typeCode) + "获得了" + this.data.num + "个" + this.getpropname(this.data);
 				}
 				else if (this.data.getType == 1) {								//种子
-					this.dyn_label.text = "我获得了" + this.data.num + "个" + this.data.treeName + "种子";
+					this.dyn_label.text = "我" + this.getWayByTypecode(this.data.typeCode) + "获得了" + this.data.num + "个" + this.data.treeName + "种子";
 				}
 				else if (this.data.getType == 2) {								//鸭子
-					this.dyn_label.text = "我获得了" + this.data.num + "个领取鸭子次数";
+					this.dyn_label.text = "我" + this.getWayByTypecode(this.data.typeCode) + "获得了" + this.data.num + "个领取鸭子次数";
 				}
 				else if (this.data.getType == 3) {								//订单
-					this.dyn_label.text = "我获得了" + this.data.num + "个" + this.data.treeName + "订单";
-				}		
+					this.dyn_label.text = "我" + this.getWayByTypecode(this.data.typeCode) + "获得了" + this.data.num + "个" + this.data.treeName + "订单";
+				}
 				else if (this.data.getType == 4) {								//果实
-					this.dyn_label.text = "我获得了" + this.data.num + "个" + this.data.treeName + "果子";
+					this.dyn_label.text = "我" + this.getWayByTypecode(this.data.typeCode) + "获得了" + this.data.num + "个" + this.data.treeName + "果子";
 				}
 			}
 		}
@@ -382,7 +382,7 @@ class dynList_item extends eui.ItemRenderer {
 			this.dyn_toother.visible = false;
 			this.dyn_label.text = Help.getcharlength(this.data.mainUserName, 4) + "兑换了水果";
 		}
-		else if(this.data.type == 101){
+		else if (this.data.type == 101) {
 			let info = ""
 			if (this.data.mainUserName && this.data.mainUserName != "") {
 				this.dyn_toother.visible = true;
@@ -501,6 +501,46 @@ class dynList_item extends eui.ItemRenderer {
 		}
 		else if (dynList_State == 2) {
 			this.currentState = "nomore";
+		}
+	}
+
+
+	private getWayByTypecode(code) {
+		if (code == "water") {
+			return "通过帮浇水"
+		}
+		else if (code == "sign_in") {
+			return "通过签到"
+		}
+		else if (code == "system_give") {
+			return "通过惊喜礼包"
+		}
+		else if (code == "friend_take") {
+			return "通过帮摘果"
+		}
+		else if (code == "help_feed_duck") {
+			return "通过帮喂鸭子"
+		}
+		else if (code == "receive_tree") {
+			return "通过领取果树"
+		}
+		else if (code == "receive_duck") {
+			return "通过领取鸭子"
+		}
+		else if (code == "receive_task") {
+			return "通过领取任务"
+		}
+		else if (code == "answer") {
+			return "通过答题"
+		}
+		else if (code == "praise_exchange") {
+			return "通过点赞兑换"
+		}
+		else if (code == "order") {
+			return "通过商城下单"
+		}
+		else {
+			return ""
 		}
 	}
 }

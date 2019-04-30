@@ -127,9 +127,10 @@ class NewHelp {
 			this.removemask();
 			return;
 		}
-		if (SceneManager.sceneManager.getWarehouseScene().parent) {
-			SceneManager.sceneManager.getWarehouseScene().parent.removeChild(SceneManager.sceneManager.getWarehouseScene())
+		if (SceneManager.sceneManager.warehouseScene && SceneManager.sceneManager.warehouseScene.parent) {
+			SceneManager.sceneManager.warehouseScene.parent.removeChild(SceneManager.sceneManager.warehouseScene)
 			this.removemask();
+			Datamanager.getWarehousePropdata()
 			return;
 		}
 		if (SceneManager.sceneManager.getNewfriendScene().parent) {
@@ -141,7 +142,7 @@ class NewHelp {
 			this.removemask();
 			return;
 		}
-		if (SceneManager.sceneManager.duckdetailScene.parent) {
+		if (SceneManager.sceneManager.duckdetailScene && SceneManager.sceneManager.duckdetailScene.parent) {
 			SceneManager.sceneManager.duckdetailScene.parent.removeChild(SceneManager.sceneManager.duckdetailScene)
 			this.removemask();
 			return;
@@ -223,7 +224,7 @@ class NewHelp {
 		barragicon.verticalCenter = 0;
 		barragicon.width = 70;
 		barragicon.height = 70;
-		barragicon.texture = RES.getRes("gamelogo")
+		barragicon.texture = RES.getRes("noicon_png")
 		if (data.userIcon) {
 			let params = {
 				users: data.user
@@ -381,7 +382,7 @@ class NewHelp {
 			barragicon.verticalCenter = 0;
 			barragicon.width = 70;
 			barragicon.height = 70;
-			barragicon.texture = RES.getRes("gamelogo")
+			barragicon.texture = RES.getRes("noicon_png")
 			if (dataList[i].mainUserIcon) {
 				let params = {
 					users: dataList[i].mainUser
@@ -1259,11 +1260,11 @@ class NewHelp {
 		this.ducklanguageTimer.start();
 	}
 
-	public static stopducklanguage(){
+	public static stopducklanguage() {
 		this.ducklanguageTimer.stop();
 	}
 
-	public static startducklanguage(){
+	public static startducklanguage() {
 		this.ducklanguageTimer.start();
 	}
 
@@ -1274,12 +1275,16 @@ class NewHelp {
 		if (!data) {
 			return;
 		}
+		image.texture = RES.getRes("noicon_png");
 		data = data.data;
 		if (data && typeof data === "string") {
 			data = JSON.parse(data)
 		}
 		let imgUrl = Config.picurl + data[user];
-		HttpRequest.imageloader(imgUrl, image, user);
+		var err = HttpRequest.imageloader(imgUrl, image, user);
+		if (err && err == 1) {
+			image.texture = RES.getRes("noicon_png")
+		}
 	}
 
 	//-----------------------------------------------------------------------进度条-------------------------------------------------------------------------//
@@ -1877,6 +1882,28 @@ class NewHelp {
 
 
 
+	public static intofriend(userid) {
+		if (userid) {
+			let params = {
+				friendUser: userid
+			};
+			MyRequest._post("game/getFriendByUser", params, this, this.Req_intofriend.bind(this), null)
+		}
+	}
+
+
+	public static Req_intofriend(data) {
+		if (data.data) {
+			let frienddata = data.data.list[0];
+			Datamanager.savenowfrienddata(frienddata)
+			if (frienddata.trees[0]) {
+				NewHelp.getTreeInfoByid(frienddata.trees[0].id);
+			}
+			console.log(data, "单个好友数据")
+		}
+	}
+
+
 
 
 	//---------------------------------------------------------------------答题奖励-------------------------------------------------------------------------------//
@@ -2457,6 +2484,36 @@ class NewHelp {
 				NewHelp.closescene();
 			}
 				break
+			case 'add_friend': {		//添加好友
+				SceneManager.instance.getTaskScene().dispatchEventWith(MaskEvent.REMOVED_FROM_STAGE)   //使用manager获取场景并触发事件
+				this.tojump(true, "sharetexttree_png");
+
+				if (!SceneManager.instance.isMiniprogram) {//不是小程序的处理方式
+					let url = SceneManager.instance.weixinUtil.shareData.shareUrl
+					let addFriend = MyRequest.geturlstr("addFriend", url)
+					if (Help.getOwnData() && Number(Help.getOwnData().friendCanObtain) > 0) {
+						SceneManager.instance.weixinUtil.shareData.titles = "【果实熟了】快来、快来帮我摘水果。"
+						SceneManager.instance.weixinUtil.shareData.describes = "离免费收获一箱水果，只差最后一步啦！"
+					} else {
+						SceneManager.instance.weixinUtil.shareData.titles = "【果说说农场】邀请你一起种水果，亲手种，免费送到家"
+						SceneManager.instance.weixinUtil.shareData.describes = "种上一棵树，经营一座农场，开启舌尖上的旅行--果说说"
+					}
+					SceneManager.instance.weixinUtil._openShare();
+				} else {
+					let info
+					if (Help.getOwnData() && Number(Help.getOwnData().friendCanObtain) > 0) {
+						info = "【果实熟了】快来、快来帮我摘水果。"
+					} else {
+						info = "【说说农场】一起种水果，亲手种，免费送到家。"
+					}
+					let data = {
+						addFriend: true,
+						title: info
+					}
+					SceneManager.instance.weixinUtil.toPostMessageShare(0, data)
+				}
+			}
+				break
 		}
 	}
 
@@ -2714,7 +2771,7 @@ class NewHelp {
 	 */
 	public static checkDuckNowStatus(duckdata) {
 		if (duckdata) {										//是否有鸭子数据
-			if (!duckdata.needTake) {							//鸭子有蛋
+			if (!duckdata.needTake) {							//鸭子无蛋
 				if (!duckdata.hungerTime) {						//鸭子状态 饥饿				
 					NewHelp.addduckmovie(DuckMoiveType.hunger, duckdata.stageObj.stage, -1)
 					NewHelp.startducklanguage();
@@ -2739,7 +2796,7 @@ class NewHelp {
 					}
 				}
 			}
-			else {											//鸭子无蛋
+			else {											//鸭子有蛋
 				let now = new Date();
 				let hour = now.getHours();
 				if (hour > 19 || hour < 7) {										//睡觉状态
@@ -2922,7 +2979,7 @@ class NewHelp {
 
 	public static luckybagTween1() {
 		if (this.image && this.image.parent) {
-			let y = this.image.height + ((SceneManager.sceneManager._stage.height - this.image.height) / 2) - 200;
+			let y = this.image.height + ((1254 - this.image.height) / 2) - 100;
 			let x = -(this.image.height / 2);
 			this.image.y = y;
 			this.image.x = x;

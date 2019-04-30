@@ -240,7 +240,7 @@ class WeixinUtil {
             this.user_name = data.data.name;
             localStorage.setItem("isMember", data.data.isMember);//存放是否是会员的标志
             localStorage.setItem("friendSign", data.data.unionId)
-            this.isMember = data.data.isMember == "true" ? true : false;
+            this.isMember = (data.data.isMember == "true" ? true : false);
             if (needShare) {
                 //判断是否是在小程序web-view中，如果是，则不能使用默认的分享
                 if (SceneManager.instance.isMiniprogram) {
